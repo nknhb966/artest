@@ -27,7 +27,7 @@
   <body style="margin : 0px; overflow: hidden;">
     <!-- minimal loader shown until image descriptors are loaded -->
     <div class="arjs-loader">
-      <div>Loading, please wait1...</div>
+      <div>Loading, please wait...</div>
     </div>
   <a-scene
     vr-mode-ui="enabled: false;"
@@ -35,10 +35,6 @@
     embedded
     arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
   >
-
-
-
-    <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
       <a-nft
         type="nft"        
         url="./artest/nft/gomi_icon"
@@ -47,10 +43,9 @@
         smoothTolerance=".01"
         smoothThreshold="5"
       >
-      <a-box position="80 80 0" scale="70 70 70" color="tomato" wireframe="true" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000" ></a-box>
       <a-entity
         gltf-model="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"
-        scale="1 1 1"
+        scale="10 10 10"
         position="0 0 0"
       >
       </a-entity>
