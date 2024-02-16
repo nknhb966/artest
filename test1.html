@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TEST</title>
+    <title>TESTロケーションベースAR</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.0/aframe/build/aframe-ar.js"></script>
 </head>
@@ -14,14 +12,12 @@
         arjs="sourceType: webcam; debugUIEnabled: false;"
     >
         <a-camera gps-camera rotation-reader></a-camera>
-        
-        <a-entity id="target" gps-entity-place="latitude: 35.90341407997344; longitude: 136.16899513050274;">
-            <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0"></a-entity>
-        </a-entity>
-
         <a-assets>
             <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
         </a-assets>
+        <a-entity id="target" gps-entity-place="latitude: 35.90341407997344; longitude: 136.16899513050274;">
+            <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0"></a-entity>
+        </a-entity>
     </a-scene>
 </body>
 </html>
