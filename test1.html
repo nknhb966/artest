@@ -5,6 +5,15 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
+    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
+      <button onclick="moveModel('top')">↑</button>
+      <button onclick="moveModel('left')">←</button>
+      <button onclick="moveModel('right')">→</button>
+      <button onclick="moveModel('bottom')">↓</button>
+      <button onclick="moveModel('up')">Up</button>
+      <button onclick="moveModel('down')">Dwn</button>
+    </div>
+
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
@@ -18,5 +27,36 @@
             <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0"></a-entity>
         </a-entity>
     </a-scene>
+
+    <script>
+      document.querySelector("a-scene").renderer.gammaOutput=true;
+      
+      function moveModel(direction) {
+        var model = document.getElementById('model');
+        var currentPosition = model.getAttribute('position');
+        var step = 0.5;
+        
+        switch(direction) {
+          case 'left':
+            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'right':
+            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'bottom':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+            break;
+          case 'top':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+            break;
+          case 'down':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+            break;
+          case 'up':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+            break;
+        }
+      }
+    </script>
 </body>
 </html>
