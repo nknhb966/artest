@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>TEST1</title>
+    <title>TEST</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
@@ -28,9 +28,7 @@
         <a-assets>
             <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
         </a-assets>
-        <a-entity id="target" gps-entity-place="latitude: 35.92167219362545; longitude: 136.1851394320758;">
-            <a-entity id="model" gltf-model="#test" look-at="[gps-camera]" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-        </a-entity>
+        <a-entity id="model" gltf-model="#test" look-at="[gps-camera]" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"  gps-entity-place="latitude: 35.92167219362545; longitude: 136.1851394320758;"></a-entity>
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
 
