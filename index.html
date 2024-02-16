@@ -36,6 +36,10 @@
     arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
   >
 
+      <a-assets>
+        <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
+      </a-assets>
+
     <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
       <a-nft
         type="nft"        
@@ -45,7 +49,7 @@
         smoothTolerance=".01"
         smoothThreshold="5"
       >
-        <a-box position="80 80 0" scale="70 70 70" color="tomato" wireframe="true" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000" ></a-box>
+      <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
       </a-nft>
       <a-entity camera></a-entity>
     </a-scene>
