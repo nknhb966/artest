@@ -9,19 +9,30 @@
   #outerCircle {
     width: 300px;
     height: 300px;
-    background-color: lightblue;
+    background-color: rgba(173, 216, 230, 0.5); /* 半透明の青色 */
     border-radius: 50%;
     position: relative;
   }
   #innerCircle {
     width: 50px;
     height: 50px;
-    background-color: lightgreen;
+    background-color: rgba(144, 238, 144, 0.5); /* 半透明の緑色 */
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  #model {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100; /* モデルを前面に表示 */
   }
 </style>
 
@@ -44,6 +55,7 @@
 <script>
   var outerCircle = document.getElementById('outerCircle');
   var innerCircle = document.getElementById('innerCircle');
+  var model = document.getElementById('model');
   var step = 5;
 
   document.addEventListener('keydown', function(event) {
@@ -77,6 +89,11 @@
         }
         break;
     }
+    // モデルの位置を更新
+    var innerCenterX = innerCircleLeft + innerRect.width / 2;
+    var innerCenterY = innerCircleTop + innerRect.height / 2;
+    model.style.left = innerCenterX + 'px';
+    model.style.top = innerCenterY + 'px';
   });
 </script>
 
