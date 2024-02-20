@@ -14,6 +14,15 @@
         border-radius: 50%;
         cursor: pointer;
       }
+      .reset-button {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+        margin: 5px;
+        border: none;
+        background-color: #ffffff;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -21,6 +30,7 @@
     <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
       <button class="arrow-button" onmousedown="startMoving('top')" onmouseup="stopMoving()">↑</button><br>
       <button class="arrow-button" onmousedown="startMoving('left')" onmouseup="stopMoving()">←</button>
+      <button class="reset-button" onclick="resetPosition()">Reset</button>
       <button class="arrow-button" onmousedown="startMoving('right')" onmouseup="stopMoving()">→</button><br>
       <button class="arrow-button" onmousedown="startMoving('bottom')" onmouseup="stopMoving()">↓</button>
     </div>
@@ -36,6 +46,7 @@
     </a-scene>
 
     <script>
+      var initialPosition = {x: 0, y: 0, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
       var step = 0.5;
       var intervalId;
@@ -67,6 +78,12 @@
     
       function stopMoving() {
         clearInterval(intervalId);
+      }
+
+      function resetPosition() {
+        var model = document.getElementById('model');
+        model.setAttribute('position', initialPosition);
+        currentPosition = Object.assign({}, initialPosition); // Reset currentPosition to initialPosition
       }
     </script>
   </body>
