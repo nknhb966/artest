@@ -39,24 +39,33 @@
         text-align: center;
         z-index: 1000;
       }
+
+      /* 追加されたモバイルデバイス向けのスタイル */
+      @media only screen and (max-width: 768px) {
+        .button-container, .button-container-left {
+          bottom: unset;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
     </style>
   </head>
   <body>
 
     <div class="button-container">
-      <button class="arrow-button" onmousedown="startMoving('top')" onmouseup="stopMoving()">↑</button><br>
-      <button class="arrow-button" onmousedown="startMoving('left')" onmouseup="stopMoving()">←</button>
+      <button class="arrow-button" ontouchstart="startMoving('top')" ontouchend="stopMoving()">↑</button><br>
+      <button class="arrow-button" ontouchstart="startMoving('left')" ontouchend="stopMoving()">←</button>
       <button class="reset-button" onclick="resetPosition()">Reset</button>
-      <button class="arrow-button" onmousedown="startMoving('right')" onmouseup="stopMoving()">→</button><br>
-      <button class="arrow-button" onmousedown="startMoving('bottom')" onmouseup="stopMoving()">↓</button>
+      <button class="arrow-button" ontouchstart="startMoving('right')" ontouchend="stopMoving()">→</button><br>
+      <button class="arrow-button" ontouchstart="startMoving('bottom')" ontouchend="stopMoving()">↓</button>
     </div>
 
     <div class="button-container-left">
-      <button class="arrow-button" onmousedown="startMoving('up')" onmouseup="stopMoving()">↥</button><br>
-      <button class="arrow-button" onmousedown="startMoving('rotateLeft')" onmouseup="stopMoving()">↺</button>
+      <button class="arrow-button" ontouchstart="startMoving('up')" ontouchend="stopMoving()">↑</button><br>
+      <button class="arrow-button" ontouchstart="startMoving('rotateLeft')" ontouchend="stopMoving()">↺</button>
       <button class="reset-button" onclick="resetPosition()">Reset</button>
-      <button class="arrow-button" onmousedown="startMoving('rotateRight')" onmouseup="stopMoving()">↻</button><br>
-      <button class="arrow-button" onmousedown="startMoving('down')" onmouseup="stopMoving()">↧</button>
+      <button class="arrow-button" ontouchstart="startMoving('rotateRight')" ontouchend="stopMoving()">↻</button><br>
+      <button class="arrow-button" ontouchstart="startMoving('down')" ontouchend="stopMoving()">↓</button>
     </div>
 
     <a-scene embedded arjs vr-mode-ui="enabled: false">
@@ -72,7 +81,7 @@
     <script>
       var initialPosition = {x: 0, y: 0, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
-      var step = 0.2;
+      var step = 0.5;
       var intervalId;
     
       function moveModel(direction) {
@@ -97,10 +106,10 @@
             currentPosition.y -= step;
             break;
           case 'rotateLeft':
-            model.object3D.rotation.y -= Math.PI / 64;
+            model.object3D.rotation.y -= Math.PI / 8;
             break;
           case 'rotateRight':
-            model.object3D.rotation.y += Math.PI / 64;
+            model.object3D.rotation.y += Math.PI / 8;
             break;
         }
         model.setAttribute('position', currentPosition);
