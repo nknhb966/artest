@@ -68,7 +68,7 @@
       <button class="arrow-button" ontouchstart="startMoving('down')" ontouchend="stopMoving()">↓</button>
     </div>
 
-    <a-scene embedded arjs vr-mode-ui="enabled: false">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
       <a-assets>
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
       </a-assets>
