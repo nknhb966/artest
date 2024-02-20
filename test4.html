@@ -12,6 +12,13 @@
   </head>
   <body>
 
+    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
+      <button onmousedown="startMoving('top')" onmouseup="stopMoving()">↑</button>
+      <button onmousedown="startMoving('left')" onmouseup="stopMoving()">←</button>
+      <button onmousedown="startMoving('right')" onmouseup="stopMoving()">→</button>
+      <button onmousedown="startMoving('bottom')" onmouseup="stopMoving()">↓</button>
+    </div>
+
     <a-scene embedded arjs vr-mode-ui="enabled: false">
       <a-assets>
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
