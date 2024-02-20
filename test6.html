@@ -45,19 +45,19 @@
   <body>
 
     <div class="button-container">
-      <button class="arrow-button" onmousedown="startMoving('top')" ontouchstart="startMoving('top')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
-      <button class="arrow-button" onmousedown="startMoving('left')" ontouchstart="startMoving('left')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
-      <button class="reset-button" onclick="resetPosition()"></button>
-      <button class="arrow-button" onmousedown="startMoving('right')" ontouchstart="startMoving('right')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
-      <button class="arrow-button" onmousedown="startMoving('bottom')" ontouchstart="startMoving('bottom')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
+      <button class="arrow-button" onmousedown="startMoving('top')" ontouchstart="startMoving('top')" onmouseup="stopMoving()" ontouchend="stopMoving()">↑</button><br>
+      <button class="arrow-button" onmousedown="startMoving('left')" ontouchstart="startMoving('left')" onmouseup="stopMoving()" ontouchend="stopMoving()">←</button>
+      <button class="reset-button" onclick="resetPosition()">・</button>
+      <button class="arrow-button" onmousedown="startMoving('right')" ontouchstart="startMoving('right')" onmouseup="stopMoving()" ontouchend="stopMoving()">→</button><br>
+      <button class="arrow-button" onmousedown="startMoving('bottom')" ontouchstart="startMoving('bottom')" onmouseup="stopMoving()" ontouchend="stopMoving()">↓</button>
     </div>
 
     <div class="button-container-left">
-      <button class="arrow-button" onmousedown="startMoving('up')" ontouchstart="startMoving('up')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
-      <button class="arrow-button" onmousedown="startMoving('rotateLeft')" ontouchstart="startMoving('rotateLeft')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
-      <button class="reset-button" onclick="reloadPage()"></button>
-      <button class="arrow-button" onmousedown="startMoving('rotateRight')" ontouchstart="startMoving('rotateRight')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
-      <button class="arrow-button" onmousedown="startMoving('down')" ontouchstart="startMoving('down')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
+      <button class="arrow-button" onmousedown="startMoving('up')" ontouchstart="startMoving('up')" onmouseup="stopMoving()" ontouchend="stopMoving()">↥</button><br>
+      <button class="arrow-button" onmousedown="startMoving('rotateLeft')" ontouchstart="startMoving('rotateLeft')" onmouseup="stopMoving()" ontouchend="stopMoving()">↶</button>
+      <button class="reset-button" onclick="reloadPage()">🔄</button>
+      <button class="arrow-button" onmousedown="startMoving('rotateRight')" ontouchstart="startMoving('rotateRight')" onmouseup="stopMoving()" ontouchend="stopMoving()">↷</button><br>
+      <button class="arrow-button" onmousedown="startMoving('down')" ontouchstart="startMoving('down')" onmouseup="stopMoving()" ontouchend="stopMoving()">↧</button>
     </div>
 
     <a-scene embedded arjs vr-mode-ui="enabled: false">
