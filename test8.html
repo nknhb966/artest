@@ -155,11 +155,11 @@
         joystickBall.style.top = `calc(50% + ${touchY}px)`;
         const model = document.getElementById("model");
         if (joystickBall === joystickLeftBall) {
-          model.object3D.position.y += touchY * 0.01; // y方向移動
-          model.object3D.rotation.y += touchX * 0.01; // y軸での左右の回転
+          model.object3D.position.y += touchY * 0.003; // y方向移動
+          model.object3D.rotation.y += touchX * 0.001; // y軸での左右の回転
         } else {
-          model.object3D.position.z += touchX * 0.01; // x方向移動
-          model.object3D.position.x += touchY * 0.01; // z方向移動
+          model.object3D.position.x += touchX * 0.003; // x方向移動
+          model.object3D.position.z += touchY * 0.003; // z方向移動
         }
       };
 
