@@ -26,6 +26,14 @@
       .button-container {
         position: absolute;
         bottom: 20px;
+        right: 20%;
+        transform: translateX(50%);
+        text-align: center;
+        z-index: 1000;
+      }
+      .button-container-left {
+        position: absolute;
+        bottom: 20px;
         left: 20%;
         transform: translateX(-50%);
         text-align: center;
@@ -36,6 +44,14 @@
   <body>
 
     <div class="button-container">
+      <button class="arrow-button" onmousedown="startMoving('top')" onmouseup="stopMoving()">↑</button><br>
+      <button class="arrow-button" onmousedown="startMoving('left')" onmouseup="stopMoving()">←</button>
+      <button class="reset-button" onclick="resetPosition()">Reset</button>
+      <button class="arrow-button" onmousedown="startMoving('right')" onmouseup="stopMoving()">→</button><br>
+      <button class="arrow-button" onmousedown="startMoving('bottom')" onmouseup="stopMoving()">↓</button>
+    </div>
+
+    <div class="button-container-left">
       <button class="arrow-button" onmousedown="startMoving('up')" onmouseup="stopMoving()">↑</button><br>
       <button class="arrow-button" onmousedown="startMoving('rotateLeft')" onmouseup="stopMoving()">↺</button>
       <button class="reset-button" onclick="resetPosition()">Reset</button>
