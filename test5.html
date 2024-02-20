@@ -23,11 +23,19 @@
         background-color: #ffffff;
         cursor: pointer;
       }
+      .button-container {
+        position: absolute;
+        top: 20px;
+        right: 20%;
+        transform: translateX(50%);
+        text-align: center;
+        z-index: 1000;
+      }
     </style>
   </head>
   <body>
 
-    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
+    <div class="button-container">
       <button class="arrow-button" onmousedown="startMoving('top')" onmouseup="stopMoving()">↑</button><br>
       <button class="arrow-button" onmousedown="startMoving('left')" onmouseup="stopMoving()">←</button>
       <button class="reset-button" onclick="resetPosition()">Reset</button>
