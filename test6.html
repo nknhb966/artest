@@ -44,19 +44,19 @@
   <body>
 
     <div class="button-container">
-      <button class="arrow-button" ontouchstart="startMoving('top')" ontouchend="stopMoving()">↑</button><br>
-      <button class="arrow-button" ontouchstart="startMoving('left')" ontouchend="stopMoving()">←</button>
-      <button class="reset-button" ontouchend="resetPosition()">Reset</button>
-      <button class="arrow-button" ontouchstart="startMoving('right')" ontouchend="stopMoving()">→</button><br>
-      <button class="arrow-button" ontouchstart="startMoving('bottom')" ontouchend="stopMoving()">↓</button>
+      <button class="arrow-button" onmousedown="startMoving('top')" ontouchstart="startMoving('top')" onmouseup="stopMoving()" ontouchend="stopMoving()">↑</button><br>
+      <button class="arrow-button" onmousedown="startMoving('left')" ontouchstart="startMoving('left')" onmouseup="stopMoving()" ontouchend="stopMoving()">←</button>
+      <button class="reset-button" onclick="resetPosition()">Reset</button>
+      <button class="arrow-button" onmousedown="startMoving('right')" ontouchstart="startMoving('right')" onmouseup="stopMoving()" ontouchend="stopMoving()">→</button><br>
+      <button class="arrow-button" onmousedown="startMoving('bottom')" ontouchstart="startMoving('bottom')" onmouseup="stopMoving()" ontouchend="stopMoving()">↓</button>
     </div>
 
     <div class="button-container-left">
-      <button class="arrow-button" ontouchstart="startMoving('up')" ontouchend="stopMoving()">↑</button><br>
-      <button class="arrow-button" ontouchstart="startMoving('rotateLeft')" ontouchend="stopMoving()">↺</button>
-      <button class="reset-button" ontouchend="resetPosition()">Reset</button>
-      <button class="arrow-button" ontouchstart="startMoving('rotateRight')" ontouchend="stopMoving()">↻</button><br>
-      <button class="arrow-button" ontouchstart="startMoving('down')" ontouchend="stopMoving()">↓</button>
+      <button class="arrow-button" onmousedown="startMoving('up')" ontouchstart="startMoving('up')" onmouseup="stopMoving()" ontouchend="stopMoving()">↑</button><br>
+      <button class="arrow-button" onmousedown="startMoving('rotateLeft')" ontouchstart="startMoving('rotateLeft')" onmouseup="stopMoving()" ontouchend="stopMoving()">↺</button>
+      <button class="reset-button" onclick="resetPosition()">Reset</button>
+      <button class="arrow-button" onmousedown="startMoving('rotateRight')" ontouchstart="startMoving('rotateRight')" onmouseup="stopMoving()" ontouchend="stopMoving()">↻</button><br>
+      <button class="arrow-button" onmousedown="startMoving('down')" ontouchstart="startMoving('down')" onmouseup="stopMoving()" ontouchend="stopMoving()">↓</button>
     </div>
 
     <a-scene embedded arjs vr-mode-ui="enabled: false">
@@ -72,7 +72,7 @@
     <script>
       var initialPosition = {x: 0, y: 0, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
-      var step = 0.5;
+      var step = 0.2;
       var intervalId;
     
       function moveModel(direction) {
@@ -97,10 +97,10 @@
             currentPosition.y -= step;
             break;
           case 'rotateLeft':
-            model.object3D.rotation.y -= Math.PI / 8;
+            model.object3D.rotation.y -= Math.PI / 64;
             break;
           case 'rotateRight':
-            model.object3D.rotation.y += Math.PI / 8;
+            model.object3D.rotation.y += Math.PI / 64;
             break;
         }
         model.setAttribute('position', currentPosition);
