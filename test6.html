@@ -72,11 +72,20 @@
 
     <script>
       var initialPosition = {x: 0, y: 0, z: 0};
-      var initialRotation = {x: 0, y: Math.PI / 4, z: 0};
+      var initialRotation = {x: 0, y: 22.5, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
       var step = 0.2;
       var intervalId;
-    
+
+      AFRAME.registerComponent('model-rotation', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('loaded', function () {
+            el.object3D.rotation.y = Math.PI / 4;
+          });
+        }
+      });
+
       function moveModel(direction) {
         var model = document.getElementById('model');
         switch(direction) {
