@@ -65,11 +65,9 @@
       let joystickCenterX;
       let joystickCenterY;
       let joystickLimitNumber = 35;
-      let isDragging = false;
 
       const init = () => {
         setupJoystick();
-        animateModel();
       };
 
       const setupJoystick = () => {
@@ -95,7 +93,6 @@
         }
 
         joystickBall.classList.add("active");
-        isDragging = true;
       };
 
       const dragMove = (event) => {
@@ -125,6 +122,11 @@
 
         joystickBall.style.left = `calc(50% + ${touchX}px)`;
         joystickBall.style.top = `calc(50% + ${touchY}px)`;
+
+        // 3Dモデルの移動
+        const model = document.getElementById("model");
+        model.object3D.position.x += touchX * 0.01; // 左右移動
+        model.object3D.position.z += touchY * 0.01; // 上下移動
       };
 
       const dragEnd = () => {
@@ -133,23 +135,6 @@
         joystickBall.style.left = "50%";
 
         document.onmousemove = null;
-        isDragging = false;
-      };
-
-      const animateModel = () => {
-        const model = document.getElementById("model");
-
-        function moveModel() {
-          if (isDragging) {
-            requestAnimationFrame(moveModel);
-            const touchX = parseInt(joystickBall.style.left) - joystickCenterX;
-            const touchY = parseInt(joystickBall.style.top) - joystickCenterY;
-            model.object3D.position.x += touchX * 0.001;
-            model.object3D.position.z += touchY * 0.001;
-          }
-        }
-
-        moveModel();
       };
 
       init();
