@@ -47,15 +47,15 @@
     <div class="button-container">
       <button class="arrow-button" onmousedown="startMoving('top')" ontouchstart="startMoving('top')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
       <button class="arrow-button" onmousedown="startMoving('left')" ontouchstart="startMoving('left')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
-      <button class="reset-button" onclick="resetPosition()">・</button>
+      <button class="reset-button" onclick="resetPosition()"></button>
       <button class="arrow-button" onmousedown="startMoving('right')" ontouchstart="startMoving('right')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
       <button class="arrow-button" onmousedown="startMoving('bottom')" ontouchstart="startMoving('bottom')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
     </div>
 
     <div class="button-container-left">
-      <button class="arrow-button" onmousedown="startMoving('up')" ontouchstart="startMoving('up')" onmouseup="stopMoving()" ontouchend="stopMoving()">↥</button><br>
+      <button class="arrow-button" onmousedown="startMoving('up')" ontouchstart="startMoving('up')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
       <button class="arrow-button" onmousedown="startMoving('rotateLeft')" ontouchstart="startMoving('rotateLeft')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
-      <button class="reset-button" onclick="reloadPage()">🔄</button>
+      <button class="reset-button" onclick="reloadPage()"></button>
       <button class="arrow-button" onmousedown="startMoving('rotateRight')" ontouchstart="startMoving('rotateRight')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button><br>
       <button class="arrow-button" onmousedown="startMoving('down')" ontouchstart="startMoving('down')" onmouseup="stopMoving()" ontouchend="stopMoving()"></button>
     </div>
@@ -65,7 +65,7 @@
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
       </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
-        <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
+        <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 -Math.PI/8 0"></a-entity>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
@@ -120,8 +120,8 @@
       function resetPosition() {
         var model = document.getElementById('model');
         model.setAttribute('position', initialPosition);
-        model.object3D.rotation.set(0, 0, 0); // Reset rotation
-        currentPosition = Object.assign({}, initialPosition); // Reset currentPosition to initialPosition
+        model.object3D.rotation.set(0, 0, 0);
+        currentPosition = Object.assign({}, initialPosition);
       }
 
       function reloadPage() {
