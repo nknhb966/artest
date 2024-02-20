@@ -121,7 +121,7 @@
       function resetPosition() {
         var model = document.getElementById('model');
         model.setAttribute('position', initialPosition);
-        model.object3D.rotation.set(0, Math.PI / 8, 0);
+        model.setAttribute('rotation', initialRotation);
         currentPosition = Object.assign({}, initialPosition);
       }
 
