@@ -9,21 +9,25 @@
         margin: 0;
         overflow: hidden;
       }
-      #joystick {
+      .joystick {
         position: fixed;
         bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
         z-index: 10;
       }
-      #joystick-frame {
+      .joystick-left {
+        left: 20%; /* 左側の位置を20%に設定 */
+      }
+      .joystick-right {
+        right: 20%; /* 右側の位置を20%に設定 */
+      }
+      .joystick-frame {
         width: 80px;
         height: 80px;
         border-radius: 50%;
         border: 2px white solid;
         position: relative;
       }
-      #joystick-ball {
+      .joystick-ball {
         width: 40px;
         height: 40px;
         background: white;
@@ -45,7 +49,7 @@
       <a-assets>
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
       </a-assets>
-      <a-entity id="model" gps-entity-place="latitude: 35.92166194302762; longitude: 136.18509064977655;">
+      <a-entity id="model" gps-entity-place="latitude: 35.921673519415656; longitude: 136.1852468827077;">
         <a-entity
           gltf-model="#test"
           scale="1 1 1"
@@ -54,52 +58,68 @@
         ></a-entity>
       </a-entity>
       <a-camera gps-camera rotation-reader></a-camera>
-      <div id="joystick" class="joystick">
-        <div id="joystick-frame" class="joystick-frame">
-          <div id="joystick-ball" class="joystick-ball"></div>
+      <div id="joystick-left" class="joystick joystick-left">
+        <div class="joystick-frame">
+          <div class="joystick-ball"></div>
+        </div>
+      </div>
+      <div id="joystick-right" class="joystick joystick-right">
+        <div class="joystick-frame">
+          <div class="joystick-ball"></div>
         </div>
       </div>
     </a-scene>
     <script>
-      let joystickBall;
-      let joystickCenterX;
-      let joystickCenterY;
+      let joystickLeftBall, joystickRightBall;
+      let joystickLeftCenterX, joystickLeftCenterY;
+      let joystickRightCenterX, joystickRightCenterY;
       let joystickLimitNumber = 35;
 
       const init = () => {
-        setupJoystick();
+        setupJoysticks();
       };
 
-      const setupJoystick = () => {
-        joystickBall = document.getElementById("joystick-ball");
-        joystickCenterX =
-          joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
-        joystickCenterY =
-          joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
+      const setupJoysticks = () => {
+        joystickLeftBall = document.querySelector("#joystick-left .joystick-ball");
+        joystickRightBall = document.querySelector("#joystick-right .joystick-ball");
+        joystickLeftCenterX = joystickLeftBall.getBoundingClientRect().left + joystickLeftBall.clientWidth / 2;
+        joystickLeftCenterY = joystickLeftBall.getBoundingClientRect().top + joystickLeftBall.clientHeight / 2;
+        joystickRightCenterX = joystickRightBall.getBoundingClientRect().left + joystickRightBall.clientWidth / 2;
+        joystickRightCenterY = joystickRightBall.getBoundingClientRect().top + joystickRightBall.clientHeight / 2;
 
-        joystickBall.addEventListener("touchstart", dragStart);
-        joystickBall.addEventListener("touchmove", dragMove);
-        joystickBall.addEventListener("touchend", dragEnd);
+        joystickLeftBall.addEventListener("touchstart", dragStartLeft);
+        joystickLeftBall.addEventListener("touchmove", dragMoveLeft);
+        joystickLeftBall.addEventListener("touchend", dragEnd);
+        joystickRightBall.addEventListener("touchstart", dragStartRight);
+        joystickRightBall.addEventListener("touchmove", dragMoveRight);
+        joystickRightBall.addEventListener("touchend", dragEnd);
 
-        joystickBall.onmousedown = dragStart;
+        joystickLeftBall.onmousedown = dragStartLeft;
+        joystickRightBall.onmousedown = dragStartRight;
         document.onmouseup = dragEnd;
       };
 
-      const dragStart = (event) => {
+      const dragStartLeft = (event) => {
         event.preventDefault();
         if (event.type === "mousedown") {
-          document.onmousemove = dragMove;
+          document.onmousemove = dragMoveLeft;
           document.onmouseup = dragEnd;
         }
-
-        joystickBall.classList.add("active");
+        joystickLeftBall.classList.add("active");
       };
 
-      const dragMove = (event) => {
+      const dragStartRight = (event) => {
         event.preventDefault();
+        if (event.type === "mousedown") {
+          document.onmousemove = dragMoveRight;
+          document.onmouseup = dragEnd;
+        }
+        joystickRightBall.classList.add("active");
+      };
 
+      const dragMoveLeft = (event) => {
+        event.preventDefault();
         let clientX, clientY;
-
         if (event.type === "touchmove") {
           clientX = event.touches[0].clientX;
           clientY = event.touches[0].clientY;
@@ -107,43 +127,69 @@
           clientX = event.clientX;
           clientY = event.clientY;
         }
-
-        let touchX = clientX - joystickCenterX;
-        let touchY = clientY - joystickCenterY;
-
-        if (Math.abs(touchX) > Math.abs(touchY)) {
-          touchY = 0;
-        } else {
-          touchX = 0;
+        if (event.target.parentElement.id === "joystick-left") {
+          let touchX = clientX - joystickLeftCenterX;
+          let touchY = clientY - joystickLeftCenterY;
+          if (Math.abs(touchX) > Math.abs(touchY)) {
+            touchY = 0;
+          } else {
+            touchX = 0;
+          }
+          touchX = Math.max(-joystickLimitNumber, Math.min(joystickLimitNumber, touchX));
+          touchY = Math.max(-joystickLimitNumber, Math.min(joystickLimitNumber, touchY));
+          joystickLeftBall.style.left = `calc(50% + ${touchX}px)`;
+          joystickLeftBall.style.top = `calc(50% + ${touchY}px)`;
+          const model = document.getElementById("model");
+          model.object3D.position.y += touchY * 0.01; // y方向移動
+          model.object3D.rotation.y += touchX * 0.01; // y軸での左右の回転
         }
+      };
 
-        touchX = Math.max(-joystickLimitNumber, Math.min(joystickLimitNumber, touchX));
-        touchY = Math.max(-joystickLimitNumber, Math.min(joystickLimitNumber, touchY));
-
-        joystickBall.style.left = `calc(50% + ${touchX}px)`;
-        joystickBall.style.top = `calc(50% + ${touchY}px)`;
-
-        // 3Dモデルの移動
-        const model = document.getElementById("model");
-        model.object3D.position.x += touchX * 0.01; // 左右移動
-        model.object3D.position.z += touchY * 0.01; // 上下移動
+      const dragMoveRight = (event) => {
+        event.preventDefault();
+        let clientX, clientY;
+        if (event.type === "touchmove") {
+          clientX = event.touches[0].clientX;
+          clientY = event.touches[0].clientY;
+        } else {
+          clientX = event.clientX;
+          clientY = event.clientY;
+        }
+        if (event.target.parentElement.id === "joystick-right") {
+          let touchX = clientX - joystickRightCenterX;
+          let touchY = clientY - joystickRightCenterY;
+          if (Math.abs(touchX) > Math.abs(touchY)) {
+            touchY = 0;
+          } else {
+            touchX = 0;
+          }
+          touchX = Math.max(-joystickLimitNumber, Math.min(joystickLimitNumber, touchX));
+          touchY = Math.max(-joystickLimitNumber, Math.min(joystickLimitNumber, touchY));
+          joystickRightBall.style.left = `calc(50% + ${touchX}px)`;
+          joystickRightBall.style.top = `calc(50% + ${touchY}px)`;
+          const model = document.getElementById("model");
+          model.object3D.position.z += touchX * 0.01; // x方向移動
+          model.object3D.position.x += touchY * 0.01; // z方向移動
+        }
       };
 
       const dragEnd = () => {
-        joystickBall.classList.remove("active");
-        joystickBall.style.top = "50%";
-        joystickBall.style.left = "50%";
-
+        joystickLeftBall.classList.remove("active");
+        joystickRightBall.classList.remove("active");
+        joystickLeftBall.style.top = "50%";
+        joystickLeftBall.style.left = "50%";
+        joystickRightBall.style.top = "50%";
+        joystickRightBall.style.left = "50%";
         document.onmousemove = null;
       };
 
       init();
 
       window.addEventListener("resize", () => {
-        joystickCenterX =
-          joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
-        joystickCenterY =
-          joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
+        joystickLeftCenterX = joystickLeftBall.getBoundingClientRect().left + joystickLeftBall.clientWidth / 2;
+        joystickLeftCenterY = joystickLeftBall.getBoundingClientRect().top + joystickLeftBall.clientHeight / 2;
+        joystickRightCenterX = joystickRightBall.getBoundingClientRect().left + joystickRightBall.clientWidth / 2;
+        joystickRightCenterY = joystickRightBall.getBoundingClientRect().top + joystickRightBall.clientHeight / 2;
       });
     </script>
   </body>
