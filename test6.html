@@ -72,6 +72,7 @@
 
     <script>
       var initialPosition = {x: 0, y: 0, z: 0};
+      var initialRotation = {x: 0, y: Math.PI / 8, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
       var step = 0.2;
       var intervalId;
@@ -127,6 +128,11 @@
       function reloadPage() {
         location.reload();
       }
+
+      window.addEventListener('DOMContentLoaded', function() {
+        var model = document.getElementById('model');
+        model.setAttribute('rotation', initialRotation);
+      });      
     </script>
   </body>
 </html>
