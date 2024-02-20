@@ -65,14 +65,14 @@
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
       </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
-        <a-entity id="model" gltf-model="#test"></a-entity>
+        <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 {{ Math.PI / 4 }} 0"></a-entity>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
 
     <script>
       var initialPosition = {x: 0, y: 0, z: 0};
-      var initialRotation = {x: 0, y: Math.PI * 40, z: 0};
+      var initialRotation = {x: 0, y: Math.PI / 4, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
       var step = 0.2;
       var intervalId;
