@@ -72,7 +72,7 @@
     <script>
       var initialPosition = {x: 0, y: 0, z: 0};
       var currentPosition = {x: 0, y: 0, z: 0};
-      var step = 0.5;
+      var step = 0.2;
       var intervalId;
     
       function moveModel(direction) {
@@ -97,10 +97,10 @@
             currentPosition.y -= step;
             break;
           case 'rotateLeft':
-            model.object3D.rotation.y -= Math.PI / 8;
+            model.object3D.rotation.y -= Math.PI / 64;
             break;
           case 'rotateRight':
-            model.object3D.rotation.y += Math.PI / 8;
+            model.object3D.rotation.y += Math.PI / 64;
             break;
         }
         model.setAttribute('position', currentPosition);
