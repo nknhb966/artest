@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>マーカーベースTest3</title>
+  <title>マーカーベースTest4</title>
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   <style>
@@ -24,44 +24,48 @@
       height: 200px;
       position: relative;
     }
-    .joystick-arrow {
-      position: absolute;
+    .joystick-up,
+    .joystick-down,
+    .joystick-left,
+    .joystick-right {
       width: 50px;
       height: 50px;
       background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
-      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
-    .joystick-arrow.up {
+    .joystick-up {
+      bottom: auto;
       top: 0;
       left: 50%;
       transform: translateX(-50%);
     }
-    .joystick-arrow.down {
+    .joystick-down {
+      top: auto;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
     }
-    .joystick-arrow.left {
+    .joystick-left {
       top: 50%;
       left: 0;
       transform: translateY(-50%);
     }
-    .joystick-arrow.right {
+    .joystick-right {
       top: 50%;
       right: 0;
       transform: translateY(-50%);
     }
     .joystick-ball {
-      width: 100px;
-      height: 100px;
+      width: 50px;
+      height: 50px;
       background-color: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.5);
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: calc(50% - 25px);
+      left: calc(50% - 25px);
     }
   </style>
 </head>
@@ -77,18 +81,20 @@
 
     <div id="joystick-left" class="joystick joystick-left">
       <div class="joystick-frame">
-        <div class="joystick-arrow up"></div>
-        <div class="joystick-arrow down"></div>
-        <div class="joystick-arrow left"></div>
-        <div class="joystick-arrow right"></div>
+        <div class="joystick-up"></div>
+        <div class="joystick-down"></div>
+        <div class="joystick-left"></div>
+        <div class="joystick-right"></div>
+        <div class="joystick-ball"></div>
       </div>
     </div>
     <div id="joystick-right" class="joystick joystick-right">
       <div class="joystick-frame">
-        <div class="joystick-arrow up"></div>
-        <div class="joystick-arrow down"></div>
-        <div class="joystick-arrow left"></div>
-        <div class="joystick-arrow right"></div>
+        <div class="joystick-up"></div>
+        <div class="joystick-down"></div>
+        <div class="joystick-left"></div>
+        <div class="joystick-right"></div>
+        <div class="joystick-ball"></div>
       </div>
     </div>
   </a-scene>
