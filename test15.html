@@ -72,10 +72,10 @@
     const setupJoysticks = () => {
       joystickBallLeft = document.getElementById("joystick-ball-left");
       joystickBallRight = document.getElementById("joystick-ball-right");
-      joystickLeftCenterX = joystickLeftBall.getBoundingClientRect().left + joystickLeftBall.clientWidth / 2;
-      joystickLeftCenterY = joystickLeftBall.getBoundingClientRect().top + joystickLeftBall.clientHeight / 2;
-      joystickRightCenterX = joystickRightBall.getBoundingClientRect().left + joystickRightBall.clientWidth / 2;
-      joystickRightCenterY = joystickRightBall.getBoundingClientRect().top + joystickRightBall.clientHeight / 2;
+      joystickCenterXLeft = joystickBallLeft.getBoundingClientRect().left + joystickBallLeft.clientWidth / 2;
+      joystickCenterYLeft = joystickBallLeft.getBoundingClientRect().top + joystickBallLeft.clientHeight / 2;
+      joystickCenterXRight = joystickBallRight.getBoundingClientRect().left + joystickBallRight.clientWidth / 2;
+      joystickCenterYXRight = joystickBallRight.getBoundingClientRect().top + joystickBallRight.clientHeight / 2;
 
       joystickBallLeft.addEventListener("mousedown", dragStart);
       joystickBallLeft.addEventListener("touchstart", dragStart);
