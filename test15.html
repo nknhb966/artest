@@ -146,11 +146,6 @@
       }
       let offsetX = touchX - joystickCenterXRight;
       let offsetY = touchY - joystickCenterYRight;
-      if (Math.sqrt(offsetX * offsetX + offsetY * offsetY) > joystickLimitNumber) {
-        let angle = Math.atan2(offsetY, offsetX);
-        offsetX = Math.cos(angle) * joystickLimitNumber;
-        offsetY = Math.sin(angle) * joystickLimitNumber;
-      }
       joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
       joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
       const model = document.getElementById("model");
