@@ -74,7 +74,7 @@
       let joystickLeftCenterX, joystickLeftCenterY;
       let joystickRightCenterX, joystickRightCenterY;
       let joystickLimitNumber = 50;
-      let joystickThreshold = 5;
+      let joystickThreshold = 15;
 
       const init = () => {
         setupJoysticks();
@@ -161,11 +161,11 @@
         joystickBall.style.top = `calc(50% + ${touchY}px)`;
         const model = document.getElementById("model");
         if (joystickBall === joystickLeftBall) {
-          model.object3D.position.y += touchY * 0.01;
-          model.object3D.rotation.y += touchX * 0.01;
+          model.object3D.position.y += touchY * 0.003;
+          model.object3D.rotation.y += touchX * 0.003;
         } else {
-          model.object3D.position.x += touchX * 0.01;
-          model.object3D.position.z += touchY * 0.01;
+          model.object3D.position.x += touchX * 0.003;
+          model.object3D.position.z += touchY * 0.003;
         }
       };
 
