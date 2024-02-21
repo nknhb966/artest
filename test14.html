@@ -63,7 +63,7 @@
   <script>
     let joystickBall;
     let joystickCenterX, joystickCenterY;
-    let joystickLimitNumber = 45;
+    let joystickLimitNumber = 35;
 
     const init = () => {
       setupJoystick();
@@ -83,15 +83,13 @@
       const pageX = event.touches[0].pageX;
       const pageY = event.touches[0].pageY;
 
-      let touchX =
-        Math.abs(pageX - joystickCenterX) < joystickLimitNumber
+      let touchX = Math.abs(pageX - joystickCenterX) < joystickLimitNumber
           ? pageX - joystickCenterX
           : pageX - joystickCenterX > 0
           ? joystickLimitNumber
           : -joystickLimitNumber;
 
-      let touchY =
-        Math.abs(pageY - joystickCenterY) < joystickLimitNumber
+      let touchY = Math.abs(pageY - joystickCenterY) < joystickLimitNumber
           ? pageY - joystickCenterY
           : pageY - joystickCenterY > 0
           ? joystickLimitNumber
