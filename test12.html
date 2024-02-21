@@ -172,10 +172,10 @@
       const model = document.getElementById("model");
       if (axis1 === "y") {
         model.object3D.rotation[axis1] += offsetX * 0.0003;
-        model.object3D.position[axis2] += offsetY * 0.003;
+        model.object3D.position[axis2] += offsetY * 0.003*100;
       } else {
-        model.object3D.position[axis1] += offsetX * 0.001;
-        model.object3D.position[axis2] += offsetY * 0.001;
+        model.object3D.position[axis1] += offsetX * 0.001*100;
+        model.object3D.position[axis2] += offsetY * 0.001*100;
       }
     };
 
