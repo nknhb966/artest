@@ -20,15 +20,15 @@
       right: 10%;
     }
     .joystick-frame {
-      width: 200px;
-      height: 200px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.5);
       position: relative;
     }
     .joystick-ball {
-      width: 90px;
-      height: 90px;
+      width: 60px;
+      height: 60px;
       background-color: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.5);
@@ -50,7 +50,7 @@
     <a-entity camera></a-entity>
 
     <div id="joystick-left" class="joystick joystick-left">
-      <div id="joystick-frame" class="joystick-frame">
+      <div class="joystick-frame">
         <div id="joystick-ball" class="joystick-ball"></div>
       </div>
     </div>
@@ -63,7 +63,7 @@
   <script>
     let joystickBall;
     let joystickCenterX, joystickCenterY;
-    let joystickLimitNumber = 53;
+    let joystickLimitNumber = 35;
 
     const init = () => {
       setupJoystick();
