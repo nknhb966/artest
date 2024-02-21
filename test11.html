@@ -156,7 +156,8 @@
       model.object3D.position[axis1] += offsetY * 0.005; // y方向移動 or x方向移動
       model.object3D.position[axis2] += offsetX * 0.005; // z方向移動 or y軸での左右の回転
       if (axis2 === "y") {
-        model.object3D.rotation.y += offsetX * 0.001; // y軸での左右の回転
+        model.object3D.position[axis2] += offsetX * 0;
+        model.object3D.rotation[axis2] += offsetX * 0.001; // y軸での左右の回転
       }
     };
 
