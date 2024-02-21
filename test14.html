@@ -13,6 +13,12 @@
       bottom: 10%;
       z-index: 10;
     }
+    .joystick-left {
+      left: 10%;
+    }
+    .joystick-right {
+      right: 10%;
+    }
     .joystick-frame {
       width: 200px;
       height: 200px;
@@ -43,7 +49,12 @@
     </a-marker>
     <a-entity camera></a-entity>
 
-    <div id="joystick" class="joystick">
+    <div id="joystick-left" class="joystick joystick-left">
+      <div class="joystick-frame">
+        <div class="joystick-ball"></div>
+      </div>
+    </div>
+    <div id="joystick-right" class="joystick joystick-right">
       <div class="joystick-frame">
         <div id="joystick-ball" class="joystick-ball"></div>
       </div>
@@ -51,9 +62,8 @@
   </a-scene>
   <script>
     let joystickBall;
-    let joystickCenterX;
-    let joystickCenterY;
-    let joystickLimitNumber = 35;
+    let joystickCenterX, joystickCenterY;
+    let joystickLimitNumber = 45;
 
     const init = () => {
       setupJoystick();
@@ -61,10 +71,8 @@
 
     const setupJoystick = () => {
       joystickBall = document.getElementById("joystick-ball");
-      joystickCenterX =
-        joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
-      joystickCenterY =
-        joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
+      joystickCenterX = joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
+      joystickCenterY = joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
       joystickBall.addEventListener("touchmove", dragMove);
       joystickBall.addEventListener("touchend", dragLeave);
     };
@@ -91,10 +99,9 @@
 
       joystickBall.style.left = `calc(50% + ${touchX}px)`;
       joystickBall.style.top = `calc(50% + ${touchY}px)`;
-
       const model = document.getElementById("model");
-      model.object3D.rotation.y += touchX * 0.0003;
-      model.object3D.position.z += touchY * 0.003;
+      model.object3D.position.x += touchX * 0.001;
+      model.object3D.position.z -= touchY * 0.001;
     };
 
     const dragLeave = () => {
@@ -105,10 +112,8 @@
     init();
 
     window.addEventListener("resize", () => {
-      joystickCenterX =
-        joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
-      joystickCenterY =
-        joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
+      joystickCenterX = joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
+      joystickCenterY = joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
     });
   </script>
 </body>
