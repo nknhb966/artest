@@ -14,7 +14,6 @@
       z-index: 10;
     }
     .joystick-left {
-      left: 10%;
     }
     .joystick-right {
       right: 10%;
@@ -79,22 +78,14 @@
 
     const dragMove = (event) => {
       event.preventDefault();
-
       const pageX = event.touches[0].pageX;
       const pageY = event.touches[0].pageY;
-
       let touchX = Math.abs(pageX - joystickCenterX) < joystickLimitNumber
-          ? pageX - joystickCenterX
-          : pageX - joystickCenterX > 0
-          ? joystickLimitNumber
-          : -joystickLimitNumber;
-
+          ? pageX - joystickCenterX : pageX - joystickCenterX > 0
+          ? joystickLimitNumber : -joystickLimitNumber;
       let touchY = Math.abs(pageY - joystickCenterY) < joystickLimitNumber
-          ? pageY - joystickCenterY
-          : pageY - joystickCenterY > 0
-          ? joystickLimitNumber
-          : -joystickLimitNumber;
-
+          ? pageY - joystickCenterY : pageY - joystickCenterY > 0
+          ? joystickLimitNumber : -joystickLimitNumber;
       joystickBall.style.left = `calc(50% + ${touchX}px)`;
       joystickBall.style.top = `calc(50% + ${touchY}px)`;
       const model = document.getElementById("model");
