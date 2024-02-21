@@ -20,22 +20,75 @@
       right: 10%;
     }
     .joystick-frame-left {
-      width: 200px;
-      height: 200px;
+      width: 210px;
+      height: 210px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0);
       position: relative;
+    }
+    .joystick-arrow-left {
+      width: 210px;
+      height: 210px;
+      position: absolute;
+      top: calc(50% - 105px);
+      left: calc(50% - 105px);
+      background-color: rgba(255, 255, 255, 0);
+    }
+    .joystick-arrow-left::before,
+    .joystick-arrow-left::after {
+      content: '';
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0);
+    }
+    .joystick-arrow-left::before {
+      width: 70px;
+      height: 210px;
+      top: 0;
+      left: calc(50% - 37px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+    .joystick-arrow-left::after {
+      width: 210px;
+      height: 70px;
+      top: calc(50% - 37px);
+      left: 0;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+    .joystick-text {
+      position: absolute;
+      color: white;
+      font-size: 14px;
+    }
+    .joystick-text-up {
+      top: 20px;
+      left: calc(50% - 8px);
+    }
+    .joystick-text-down {
+      bottom: 20px;
+      left: calc(50% - 20px);
+    }
+    .joystick-text-left {
+      top: calc(50% - 10px);
+      left: 10px;
+    }
+    .joystick-text-right {
+      top: calc(50% - 10px);
+      right: 10px;
     }
     .joystick-frame-right {
-      width: 200px;
-      height: 200px;
+      width: 210px;
+      height: 210px;
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.5);
       position: relative;
     }
+    .joystick-text-center {
+      top: calc(50% - 10px);
+      right: calc(50% - 18px);
+    }
     .joystick-ball {
-      width: 100px;
-      height: 100px;
+      width: 105px;
+      height: 105px;
       background-color: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.5);
@@ -58,11 +111,18 @@
 
     <div id="joystick-left" class="joystick joystick-left">
       <div class="joystick-frame-left">
+        <div id="joystick-arrow-left" class="joystick-arrow-left">
+          <div class="joystick-text joystick-text-up">Up</div>
+          <div class="joystick-text joystick-text-down">Down</div>
+          <div class="joystick-text joystick-text-left">L-Rot</div>
+          <div class="joystick-text joystick-text-right">R-Rot</div>
+        </div>
         <div id="joystick-ball-left" class="joystick-ball"></div>
       </div>
     </div>
     <div id="joystick-right" class="joystick joystick-right">
       <div class="joystick-frame-right">
+        <div class="joystick-text joystick-text-center">Move</div>
         <div id="joystick-ball-right" class="joystick-ball"></div>
       </div>
     </div>
