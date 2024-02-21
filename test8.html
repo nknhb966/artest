@@ -11,7 +11,7 @@
       }
       .joystick {
         position: fixed;
-        bottom: 30px;
+        bottom: 30%;
         z-index: 10;
       }
       .joystick-left {
@@ -21,8 +21,8 @@
         right: 15%;
       }
       .joystick-frame {
-        width: 120px;
-        height: 120px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
         border: 2px white solid;
         position: relative;
@@ -73,7 +73,7 @@
       let joystickLeftBall, joystickRightBall;
       let joystickLeftCenterX, joystickLeftCenterY;
       let joystickRightCenterX, joystickRightCenterY;
-      let joystickLimitNumber = 50;
+      let joystickLimitNumber = 40;
       let joystickThreshold = 20;
 
       const init = () => {
@@ -162,7 +162,7 @@
         const model = document.getElementById("model");
         if (joystickBall === joystickLeftBall) {
           model.object3D.position.y += touchY * 0.001;
-          model.object3D.rotation.y += touchX * 0.0002;
+          model.object3D.rotation.y += touchX * 0.0005;
         } else {
           model.object3D.position.x += touchX * 0.001;
           model.object3D.position.z += touchY * 0.001;
