@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>マーカーベースTest4</title>
+  <title>マーカーベースTest3</title>
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   <style>
@@ -71,50 +71,61 @@
 
     const setupJoystick = () => {
       joystickBall = document.getElementById("joystick-ball");
-      joystickCenterX = joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
-      joystickCenterY = joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
-      joystickBall.addEventListener("touchmove", dragMove);
-      joystickBall.addEventListener("touchend", dragLeave);
+      joystickBall.addEventListener("mousedown", dragStart);
+      joystickBall.addEventListener("touchstart", dragStart);
+      document.addEventListener("mousemove", dragMove);
+      document.addEventListener("touchmove", dragMove);
+      document.addEventListener("mouseup", dragEnd);
+      document.addEventListener("touchend", dragEnd);
+      updateJoystickCenter();
+    };
+
+    const dragStart = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      joystickBall.classList.add("active");
     };
 
     const dragMove = (event) => {
       event.preventDefault();
-
-      const pageX = event.touches[0].pageX;
-      const pageY = event.touches[0].pageY;
-
-      let touchX =
-        Math.abs(pageX - joystickCenterX) < joystickLimitNumber
-          ? pageX - joystickCenterX
-          : pageX - joystickCenterX > 0
-          ? joystickLimitNumber
-          : -joystickLimitNumber;
-
-      let touchY =
-        Math.abs(pageY - joystickCenterY) < joystickLimitNumber
-          ? pageY - joystickCenterY
-          : pageY - joystickCenterY > 0
-          ? joystickLimitNumber
-          : -joystickLimitNumber;
-
-      joystickBall.style.left = `calc(50% + ${touchX}px)`;
-      joystickBall.style.top = `calc(50% + ${touchY}px)`;
+      if (!joystickBall.classList.contains("active")) return;
+      let touchX, touchY;
+      if (event.type === "touchmove") {
+        touchX = event.touches[0].clientX;
+        touchY = event.touches[0].clientY;
+      } else {
+        touchX = event.clientX;
+        touchY = event.clientY;
+      }
+      let offsetX = touchX - joystickCenterX;
+      let offsetY = touchY - joystickCenterY;
+      if (Math.sqrt(offsetX * offsetX + offsetY * offsetY) > joystickLimitNumber) {
+        let angle = Math.atan2(offsetY, offsetX);
+        offsetX = Math.cos(angle) * joystickLimitNumber;
+        offsetY = Math.sin(angle) * joystickLimitNumber;
+      }
+      joystickBall.style.left = `calc(50% + ${offsetX}px)`;
+      joystickBall.style.top = `calc(50% + ${offsetY}px)`;
       const model = document.getElementById("model");
-      model.object3D.position.x += touchX * 0.001;
-      model.object3D.position.z -= touchY * 0.001;
+      model.object3D.position.x += offsetX * 0.001;
+      model.object3D.position.z -= offsetY * 0.001;
     };
 
-    const dragLeave = () => {
-      joystickBall.style.top = "50%";
+    const dragEnd = () => {
+      joystickBall.classList.remove("active");
       joystickBall.style.left = "50%";
+      joystickBall.style.top = "50%";
+    };
+
+    const updateJoystickCenter = () => {
+      const rect = joystickBall.getBoundingClientRect();
+      joystickCenterX = rect.left + rect.width / 2;
+      joystickCenterY = rect.top + rect.height / 2;
     };
 
     init();
 
-    window.addEventListener("resize", () => {
-      joystickCenterX = joystickBall.getBoundingClientRect().left + joystickBall.clientWidth / 2;
-      joystickCenterY = joystickBall.getBoundingClientRect().top + joystickBall.clientHeight / 2;
-    });
+    window.addEventListener("resize", updateJoystickCenter);
   </script>
 </body>
 </html>
