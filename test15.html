@@ -202,8 +202,8 @@
       joystickBallLeft.style.left = `calc(50% + ${offsetX}px)`;
       joystickBallLeft.style.top = `calc(50% + ${offsetY}px)`;
       const model = document.getElementById("model");
-      model.object3D.rotation.y += offsetX * 0.0003;
-      model.object3D.position.y -= offsetY * 0.003;
+      model.object3D.rotation.y -= offsetX * 0.0003;
+      model.object3D.position.y += offsetY * 0.003;
     };
 
     const dragEnd = () => {
