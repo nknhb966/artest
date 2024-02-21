@@ -19,7 +19,14 @@
     .joystick-right {
       right: 10%;
     }
-    .joystick-frame {
+    .joystick-frame-left {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0);
+      position: relative;
+    }
+    .joystick-frame-right {
       width: 200px;
       height: 200px;
       border-radius: 50%;
@@ -50,10 +57,12 @@
     <a-entity camera></a-entity>
 
     <div id="joystick-left" class="joystick joystick-left">
-      <div id="joystick-ball-left" class="joystick-ball"></div>
+      <div class="joystick-frame-left">
+        <div id="joystick-ball-left" class="joystick-ball"></div>
+      </div>
     </div>
     <div id="joystick-right" class="joystick joystick-right">
-      <div class="joystick-frame">
+      <div class="joystick-frame-right">
         <div id="joystick-ball-right" class="joystick-ball"></div>
       </div>
     </div>
