@@ -11,14 +11,14 @@
       }
       .joystick {
         position: fixed;
-        bottom: 30%;
+        bottom: 10%;
         z-index: 10;
       }
       .joystick-left {
-        left: 15%;
+        left: 10%;
       }
       .joystick-right {
-        right: 15%;
+        right: 10%;
       }
       .joystick-frame {
         width: 200px;
@@ -73,8 +73,8 @@
       let joystickLeftBall, joystickRightBall;
       let joystickLeftCenterX, joystickLeftCenterY;
       let joystickRightCenterX, joystickRightCenterY;
-      let joystickLimitNumber = 40;
-      let joystickThreshold = 20;
+      let joystickLimitNumber = 100;
+      let joystickThreshold = 40;
 
       const init = () => {
         setupJoysticks();
@@ -161,11 +161,11 @@
         joystickBall.style.top = `calc(50% + ${touchY}px)`;
         const model = document.getElementById("model");
         if (joystickBall === joystickLeftBall) {
-          model.object3D.position.y += touchY * 0.001;
-          model.object3D.rotation.y += touchX * 0.0005;
+          model.object3D.position.y += touchY * 0.0005;
+          model.object3D.rotation.y += touchX * 0.00025;
         } else {
-          model.object3D.position.x += touchX * 0.001;
-          model.object3D.position.z += touchY * 0.001;
+          model.object3D.position.x += touchX * 0.0005;
+          model.object3D.position.z += touchY * 0.0005;
         }
       };
 
