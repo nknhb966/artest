@@ -162,6 +162,16 @@
       </a-scene>
     </div>
 
+    <!-- プルダウンメニューの追加 -->
+    <div id="locationSelect">
+      <select id="locationDropdown">
+        <option value="35.905732769065835, 136.16673321050047">本興寺発掘跡地</option>
+        <option value="35.90334555210129, 136.16925240028425">越前市役所芝生広場</option>
+        <option value="35.956305181662465, 136.1842505019495">鯖江市役所駐車場</option>
+        <option value="geolocation">現在地</option>
+      </select>
+    </div>
+
     <script>
       let joystickBallLeft, joystickBallRight;
       let joystickCenterXLeft, joystickCenterYLeft, joystickCenterXRight, joystickCenterYRight;
@@ -169,6 +179,7 @@
   
       const init = () => {
         setupJoysticks();
+        setupLocationSelect(); // プルダウンメニューのセットアップ
       };
   
       const setupJoysticks = () => {
@@ -178,6 +189,51 @@
         joystickCenterYLeft = joystickBallLeft.getBoundingClientRect().top + joystickBallLeft.clientHeight / 2;
         joystickCenterXRight = joystickBallRight.getBoundingClientRect().left + joystickBallRight.clientWidth / 2;
         joystickCenterYXRight = joystickBallRight.getBoundingClientRect().top + joystickBallRight.clientHeight / 2;
+  
+        joystickBallLeft.addEventListener("mousedown", dragStart);
+        joystickBallLeft.addEventListener("touchstart", dragStart);
+        document.addEventListener("mousemove", dragMove);
+        document.addEventListener("touchmove", dragMove);
+        document.addEventListener("mouseup", dragEnd);
+        document.addEventListener("touchend", dragEnd);
+        
+        joystickBallRight.addEventListener("mousedown", dragStartRight);
+        joystickBallRight.addEventListener("touchstart", dragStartRight);
+        document.addEventListener("mousemove", dragMoveRight);
+        document.addEventListener("touchmove", dragMoveRight);
+        document.addEventListener("mouseup", dragEndRight);
+        document.addEventListener("touchend", dragEndRight);
+  
+        updateJoystickCenters();
+      };
+  
+      const setupLocationSelect = () => {
+        const locationDropdown = document.getElementById("locationDropdown");
+        locationDropdown.addEventListener("change", handleLocationChange);
+      };
+  
+      const handleLocationChange = () => {
+        const locationDropdown = document.getElementById("locationDropdown");
+        const selectedValue = locationDropdown.value;
+        const [latitude, longitude] = selectedValue.split(",");
+        const model = document.getElementById("model");
+        if (selectedValue === "geolocation") {
+          // 現在地の取得
+          navigator.geolocation.getCurrentPosition(position => {
+            model.setAttribute("gps-entity-place", `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`);
+          });
+        } else {
+          model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+        }
+      };
+  
+      const setupJoysticks = () => {
+        joystickBallLeft = document.getElementById("joystick-ball-left");
+        joystickBallRight = document.getElementById("joystick-ball-right");
+        joystickCenterXLeft = joystickBallLeft.getBoundingClientRect().left + joystickBallLeft.clientWidth / 2;
+        joystickCenterYLeft = joystickBallLeft.getBoundingClientRect().top + joystickBallLeft.clientHeight / 2;
+        joystickCenterXRight = joystickBallRight.getBoundingClientRect().left + joystickBallRight.clientWidth / 2;
+        joystickCenterYRight = joystickBallRight.getBoundingClientRect().top + joystickBallRight.clientHeight / 2;
   
         joystickBallLeft.addEventListener("mousedown", dragStart);
         joystickBallLeft.addEventListener("touchstart", dragStart);
