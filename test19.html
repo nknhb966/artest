@@ -124,6 +124,12 @@
   <body>
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
+      <select id="locations">
+        <option value="35.905732769065835,136.16673321050047">本興寺発掘跡地</option>
+        <option value="35.90334555210129,136.16925240028425">越前市役所芝生広場</option>
+        <option value="35.956305181662465,136.1842505019495">鯖江市役所駐車場</option>
+        <option id="currentLocation" value="">現在地</option>
+      </select>
       <a-scene
         vr-mode-ui="enabled: false"
         embedded
@@ -132,7 +138,7 @@
         <a-assets>
           <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
         </a-assets>
-        <a-entity id="model" gps-entity-place="latitude: 35.903352638218934; longitude: 136.16929453776257;">
+        <a-entity id="model" gps-entity-place>
           <a-entity
             gltf-model="#test"
             scale="1 1 1"
@@ -159,14 +165,6 @@
             <div id="joystick-ball-right" class="joystick-ball"></div>
           </div>
         </div>
-        <div id="locationSelect">
-          <select id="locationDropdown">
-            <option value="35.905732769065835, 136.16673321050047">本興寺発掘跡地</option>
-            <option value="35.90334555210129, 136.16925240028425">越前市役所芝生広場</option>
-            <option value="35.956305181662465, 136.1842505019495">鯖江市役所駐車場</option>
-            <option value="geolocation">現在地</option>
-          </select>
-        </div>
       </a-scene>
     </div>
 
@@ -177,7 +175,7 @@
   
       const init = () => {
         setupJoysticks();
-        setupLocationSelect();
+        setupLocationDropdown();
       };
   
       const setupJoysticks = () => {
@@ -205,48 +203,26 @@
         updateJoystickCenters();
       };
   
-      const setupLocationSelect = () => {
-        const locationDropdown = document.getElementById("locationDropdown");
-        locationDropdown.addEventListener("change", handleLocationChange);
-      };
-  
-      const handleLocationChange = () => {
-        const locationDropdown = document.getElementById("locationDropdown");
-        const selectedValue = locationDropdown.value;
-        const [latitude, longitude] = selectedValue.split(",");
-        const model = document.getElementById("model");
-        if (selectedValue === "geolocation") {
+      const setupLocationDropdown = () => {
+        const locationDropdown = document.getElementById("locations");
+        locationDropdown.addEventListener("change", () => {
+          const selectedLocation = locationDropdown.value.split(",");
+          const latitude = parseFloat(selectedLocation[0]);
+          const longitude = parseFloat(selectedLocation[1]);
+          const model = document.getElementById("model");
+          model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+        });
+
+        if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(position => {
-            model.setAttribute("gps-entity-place", `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`);
+            const currentLocationOption = document.getElementById("currentLocation");
+            currentLocationOption.value = `${position.coords.latitude},${position.coords.longitude}`;
+            currentLocationOption.textContent = "現在地 (" + position.coords.latitude + ", " + position.coords.longitude + ")";
           });
         } else {
-          model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+          const currentLocationOption = document.getElementById("currentLocation");
+          currentLocationOption.disabled = true;
         }
-      };
-  
-      const setupJoysticks = () => {
-        joystickBallLeft = document.getElementById("joystick-ball-left");
-        joystickBallRight = document.getElementById("joystick-ball-right");
-        joystickCenterXLeft = joystickBallLeft.getBoundingClientRect().left + joystickBallLeft.clientWidth / 2;
-        joystickCenterYLeft = joystickBallLeft.getBoundingClientRect().top + joystickBallLeft.clientHeight / 2;
-        joystickCenterXRight = joystickBallRight.getBoundingClientRect().left + joystickBallRight.clientWidth / 2;
-        joystickCenterYRight = joystickBallRight.getBoundingClientRect().top + joystickBallRight.clientHeight / 2;
-  
-        joystickBallLeft.addEventListener("mousedown", dragStart);
-        joystickBallLeft.addEventListener("touchstart", dragStart);
-        document.addEventListener("mousemove", dragMove);
-        document.addEventListener("touchmove", dragMove);
-        document.addEventListener("mouseup", dragEnd);
-        document.addEventListener("touchend", dragEnd);
-        
-        joystickBallRight.addEventListener("mousedown", dragStartRight);
-        joystickBallRight.addEventListener("touchstart", dragStartRight);
-        document.addEventListener("mousemove", dragMoveRight);
-        document.addEventListener("touchmove", dragMoveRight);
-        document.addEventListener("mouseup", dragEndRight);
-        document.addEventListener("touchend", dragEndRight);
-  
-        updateJoystickCenters();
       };
   
       const dragStart = (event) => {
