@@ -5,27 +5,26 @@
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  #rotateMessage {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* 半透明の黒背景 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    z-index: 9999;
-  }
-
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #rotateMessage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 9999;
+    }
     .joystick {
       position: fixed;
       bottom: 10%;
@@ -146,6 +145,7 @@
     </div>
   </a-scene>
   </div>
+
   <script>
     let joystickBallLeft, joystickBallRight;
     let joystickCenterXLeft, joystickCenterYLeft, joystickCenterXRight, joystickCenterYRight;
@@ -289,19 +289,15 @@
 
     init();
 
+    window.addEventListener("resize", updateJoystickCenters);
   </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   $(window).on('load orientationchange resize', function(){
     if (Math.abs(window.orientation) === 90) {
-      // 横向きになったときの処理
-      $('#rotateMessage').remove(); // メッセージを非表示にする
-      window.addEventListener("resize", updateJoystickCenters);
+      $('#rotateMessage').remove();
     } else {
-      // 縦向きになったときの処理
       if (!$('#rotateMessage').length) {
-        $('body').append('<div id="rotateMessage">Rotate Your Phone</div>'); // メッセージを追加
-        window.addEventListener("resize", updateJoystickCenters);
       }
     }
   });
