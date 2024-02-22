@@ -126,6 +126,7 @@
       }
     </style>
   </head>
+
   <body>
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
@@ -135,14 +136,24 @@
         <option value="35.956305181662465,136.1842505019495">鯖江市役所駐車場</option>
         <option id="currentLocation" value="">現在地</option>
       </select>
-      <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <a-scene
+        vr-mode-ui="enabled: false"
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false;"
+      >
         <a-assets>
           <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
         </a-assets>
         <a-entity id="model" gps-entity-place="latitude: 35.903352638218934; longitude: 136.16929453776257;">
-          <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
+          <a-entity
+            gltf-model="#test"
+            scale="1 1 1"
+            position="0 -0.5 0"
+            rotation="0 0 0"
+          ></a-entity>
         </a-entity>
         <a-camera gps-camera rotation-reader></a-camera>
+
         <div id="joystick-left" class="joystick joystick-left">
           <div class="joystick-frame-left">
             <div id="joystick-arrow-left" class="joystick-arrow-left">
@@ -162,6 +173,7 @@
         </div>
       </a-scene>
     </div>
+
     <script>
       let joystickBallLeft, joystickBallRight;
       let joystickCenterXLeft, joystickCenterYLeft, joystickCenterXRight, joystickCenterYRight;
@@ -186,7 +198,7 @@
         document.addEventListener("touchmove", dragMove);
         document.addEventListener("mouseup", dragEnd);
         document.addEventListener("touchend", dragEnd);
-  
+        
         joystickBallRight.addEventListener("mousedown", dragStartRight);
         joystickBallRight.addEventListener("touchstart", dragStartRight);
         document.addEventListener("mousemove", dragMoveRight);
@@ -205,32 +217,20 @@
           const longitude = parseFloat(selectedLocation[1]);
           const model = document.getElementById("model");
           model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
-          // 位置を変更した後、モデルの位置を更新する
-          updateModelPosition(latitude, longitude);
         });
-  
-        // 現在地を取得してオプションに追加
+
+        // Get current location if available
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(position => {
             const currentLocationOption = document.getElementById("currentLocation");
             currentLocationOption.value = `${position.coords.latitude},${position.coords.longitude}`;
             currentLocationOption.textContent = "現在地 (" + position.coords.latitude + ", " + position.coords.longitude + ")";
-            const model = document.getElementById("model");
-            model.setAttribute("gps-entity-place", `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`);
-            // 現在地の位置を取得した後、モデルの位置を更新する
-            updateModelPosition(position.coords.latitude, position.coords.longitude);
           });
         } else {
-          // ジオロケーションがサポートされていない場合は、オプションを無効にする
+          // Geolocation is not supported
           const currentLocationOption = document.getElementById("currentLocation");
           currentLocationOption.disabled = true;
         }
-      };
-  
-      const updateModelPosition = (latitude, longitude) => {
-        // モデルの位置を更新する
-        const model = document.getElementById("model");
-        model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
       };
   
       const dragStart = (event) => {
@@ -252,7 +252,7 @@
         }
         let offsetX = touchX - joystickCenterXLeft;
         let offsetY = touchY - joystickCenterYLeft;
-  
+        
         offsetX =
           Math.abs(offsetX) < joystickLimitNumber
             ? offsetX
@@ -265,7 +265,7 @@
             : offsetY > 0
             ? joystickLimitNumber
             : -joystickLimitNumber;
-  
+      
         if (Math.abs(offsetX) > Math.abs(offsetY)) {
           offsetY = 0;
         } else {
@@ -303,7 +303,7 @@
         }
         let offsetX = touchX - joystickCenterXRight;
         let offsetY = touchY - joystickCenterYRight;
-  
+      
         offsetX =
           Math.abs(offsetX) < joystickLimitNumber
             ? offsetX
@@ -316,7 +316,7 @@
             : offsetY > 0
             ? joystickLimitNumber
             : -joystickLimitNumber;
-  
+      
         joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
         joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
         const model = document.getElementById("model");
@@ -334,7 +334,7 @@
         const rectLeft = joystickBallLeft.getBoundingClientRect();
         joystickCenterXLeft = rectLeft.left + rectLeft.width / 2;
         joystickCenterYLeft = rectLeft.top + rectLeft.height / 2;
-  
+        
         const rectRight = joystickBallRight.getBoundingClientRect();
         joystickCenterXRight = rectRight.left + rectRight.width / 2;
         joystickCenterYRight = rectRight.top + rectRight.height / 2;
