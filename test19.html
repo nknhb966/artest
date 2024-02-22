@@ -218,8 +218,9 @@
           const model = document.getElementById("model");
           model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
         });
-
-      const dragStart = (event) => {
+      };
+  
+        const dragStart = (event) => {
         event.preventDefault();
         event.stopPropagation();
         joystickBallLeft.classList.add("active");
