@@ -348,7 +348,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (Math.abs(window.orientation) === 90) {
+        if @media screen and (max-width: 767px) and (Math.abs(window.orientation) === 90) {
           $('#rotateMessage').hide();
           $('#contentWrapper').show();
         } else {
