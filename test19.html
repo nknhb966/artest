@@ -130,7 +130,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
       <select id="locations">
-        <option value="35.905732769065835,136.16673321050047">１本興寺発掘跡地</option>
+        <option value="35.905732769065835,136.16673321050047">本興寺発掘跡地</option>
         <option value="35.90334555210129,136.16925240028425">越前市役所芝生広場</option>
         <option value="35.956305181662465,136.1842505019495">鯖江市役所駐車場</option>
         <option id="currentLocation" value="">現在地</option>
@@ -205,9 +205,11 @@
           const longitude = parseFloat(selectedLocation[1]);
           const model = document.getElementById("model");
           model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+          // 位置を変更した後、モデルの位置を更新する
+          updateModelPosition(latitude, longitude);
         });
   
-        // Get current location if available
+        // 現在地を取得してオプションに追加
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(position => {
             const currentLocationOption = document.getElementById("currentLocation");
@@ -215,12 +217,20 @@
             currentLocationOption.textContent = "現在地 (" + position.coords.latitude + ", " + position.coords.longitude + ")";
             const model = document.getElementById("model");
             model.setAttribute("gps-entity-place", `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`);
+            // 現在地の位置を取得した後、モデルの位置を更新する
+            updateModelPosition(position.coords.latitude, position.coords.longitude);
           });
         } else {
-          // Geolocation is not supported
+          // ジオロケーションがサポートされていない場合は、オプションを無効にする
           const currentLocationOption = document.getElementById("currentLocation");
           currentLocationOption.disabled = true;
         }
+      };
+  
+      const updateModelPosition = (latitude, longitude) => {
+        // モデルの位置を更新する
+        const model = document.getElementById("model");
+        model.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
       };
   
       const dragStart = (event) => {
@@ -334,6 +344,7 @@
   
       window.addEventListener("resize", updateJoystickCenters);
     </script>
+  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(window).on('load orientationchange resize', function(){
