@@ -177,7 +177,7 @@
   
       const init = () => {
         setupJoysticks();
-        setupLocationSelect(); // プルダウンメニューのセットアップ
+        setupLocationSelect();
       };
   
       const setupJoysticks = () => {
@@ -216,7 +216,6 @@
         const [latitude, longitude] = selectedValue.split(",");
         const model = document.getElementById("model");
         if (selectedValue === "geolocation") {
-          // 現在地の取得
           navigator.geolocation.getCurrentPosition(position => {
             model.setAttribute("gps-entity-place", `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`);
           });
