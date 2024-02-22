@@ -29,9 +29,9 @@
       #contentWrapper {
         display: none;
       }
-      #locations {
-        top: calc(50% - 10px);
-        right: 10px;
+      .locations {
+        position: fixed;
+        bottom: 10%;
         z-index: 10000;
       }
       .joystick {
@@ -130,7 +130,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
       <select id="locations">
-        <option value="35.905732769065835,136.16673321050047">本興寺発掘跡地</option>
+        <option value="35.905732769065835,136.16673321050047">1本興寺発掘跡地</option>
         <option value="35.90334555210129,136.16925240028425">越前市役所芝生広場</option>
         <option value="35.956305181662465,136.1842505019495">鯖江市役所駐車場</option>
         <option id="currentLocation" value="">現在地</option>
