@@ -301,13 +301,11 @@
 <script>
   $(window).on('load orientationchange resize', function(){
     if (Math.abs(window.orientation) === 90) {
-      // 横向きになったときの処理
-      $('#rotateMessage').show(); // メッセージを表示
-      $('#contentWrapper').show(); // コンテンツを表示
+      $('#rotateMessage').hide();
+      $('#contentWrapper').show();
     } else {
-      // 縦向きになったときの処理
-      $('#rotateMessage').hide(); // メッセージを非表示
-      $('#contentWrapper').hide(); // コンテンツを非表示
+      $('#rotateMessage').show();
+      $('#contentWrapper').hide();
     }
   });
 </script>
