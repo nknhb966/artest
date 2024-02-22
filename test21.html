@@ -133,9 +133,6 @@
         embedded
         arjs="sourceType: webcam; debugUIEnabled: false;"
       >
-        <a-assets>
-          <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
-        </a-assets>
 
         <select id="locationDropdown">
           <option value="35.905732769065835,136.16673321050047">本興寺発掘跡地</option>
@@ -156,6 +153,7 @@ document.addEventListener('DOMContentLoaded', e => {
     ele.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
   ele.setAttribute('position', '0 0 0');
   document.querySelector('a-scene').appendChild(ele);
+console.log(ele);
 })
     </script>
   </body>
