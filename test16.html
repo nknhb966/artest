@@ -26,6 +26,9 @@
       font-weight: bold;
       z-index: 9999;
     }
+    #contentWrapper {
+      display: none;
+    }
     .joystick {
       position: fixed;
       bottom: 10%;
@@ -118,6 +121,8 @@
   </style>
 </head>
 <body>
+  <div id="rotateMessage">Rotate Your Phone</div>
+  <div id="contentWrapper">
   <a-scene embedded arjs vr-mode-ui="enabled: false">
     <a-assets>
       <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
@@ -145,6 +150,7 @@
       </div>
     </div>
   </a-scene>
+  </div>
 
   <script>
     let joystickBallLeft, joystickBallRight;
@@ -295,11 +301,13 @@
 <script>
   $(window).on('load orientationchange resize', function(){
     if (Math.abs(window.orientation) === 90) {
-      $('#rotateMessage').remove();
+      // 横向きになったときの処理
+      $('#rotateMessage').show(); // メッセージを表示
+      $('#contentWrapper').show(); // コンテンツを表示
     } else {
-      if (!$('#rotateMessage').length) {
-        $('body').append('<div id="rotateMessage">Rotate Your Phone</div>');
-      }
+      // 縦向きになったときの処理
+      $('#rotateMessage').hide(); // メッセージを非表示
+      $('#contentWrapper').hide(); // コンテンツを非表示
     }
   });
 </script>
