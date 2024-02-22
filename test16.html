@@ -124,33 +124,33 @@
   <body>
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
-    <a-scene embedded arjs vr-mode-ui="enabled: false">
-      <a-assets>
-        <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
-      </a-assets>
-      <a-marker type="pattern" url="pattern-marker.patt">
-        <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 20 0"></a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
-  
-      <div id="joystick-left" class="joystick joystick-left">
-        <div class="joystick-frame-left">
-          <div id="joystick-arrow-left" class="joystick-arrow-left">
-            <div class="joystick-text joystick-text-up">Up</div>
-            <div class="joystick-text joystick-text-down">Down</div>
-            <div class="joystick-text joystick-text-left">L-Rot</div>
-            <div class="joystick-text joystick-text-right">R-Rot</div>
+      <a-scene embedded arjs vr-mode-ui="enabled: false">
+        <a-assets>
+          <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
+        </a-assets>
+        <a-marker type="pattern" url="pattern-marker.patt">
+          <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 20 0"></a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    
+        <div id="joystick-left" class="joystick joystick-left">
+          <div class="joystick-frame-left">
+            <div id="joystick-arrow-left" class="joystick-arrow-left">
+              <div class="joystick-text joystick-text-up">Up</div>
+              <div class="joystick-text joystick-text-down">Down</div>
+              <div class="joystick-text joystick-text-left">L-Rot</div>
+              <div class="joystick-text joystick-text-right">R-Rot</div>
+            </div>
+            <div id="joystick-ball-left" class="joystick-ball"></div>
           </div>
-          <div id="joystick-ball-left" class="joystick-ball"></div>
         </div>
-      </div>
-      <div id="joystick-right" class="joystick joystick-right">
-        <div class="joystick-frame-right">
-          <div class="joystick-text joystick-text-center">Move</div>
-          <div id="joystick-ball-right" class="joystick-ball"></div>
+        <div id="joystick-right" class="joystick joystick-right">
+          <div class="joystick-frame-right">
+            <div class="joystick-text joystick-text-center">Move</div>
+            <div id="joystick-ball-right" class="joystick-ball"></div>
+          </div>
         </div>
-      </div>
-    </a-scene>
+      </a-scene>
     </div>
   
     <script>
