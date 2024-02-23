@@ -133,9 +133,16 @@
         <a-assets>
           <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
         </a-assets>
-        <a-entity id="model" gps-entity-place="latitude: 35.903352638218934; longitude: 136.16929453776257;">
+        <a-entity id="model1" gps-entity-place="latitude: 35.92173075683617; longitude: 136.18508219232714;">
+          <a-entity gltf-model="#test" scale="1 1 1" position="0 -2.5 0" rotation="0 0 0"></a-entity>
+        </a-entity>
+        <a-entity id="model2" gps-entity-place="latitude: 35.92173075683617; longitude: 136.18508219232714;">
+          <a-entity gltf-model="#test" scale="1 1 1" position="0 -1.5 0" rotation="0 0 0"></a-entity>
+        </a-entity>
+        <a-entity id="model3" gps-entity-place="latitude: 35.92173075683617; longitude: 136.18508219232714;">
           <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
         </a-entity>
+        <a-entity id="model0" gps-entity-place=""></a-entity>
         <a-camera gps-camera rotation-reader></a-camera>
 
         <div id="joystick-left" class="joystick joystick-left">
@@ -165,6 +172,7 @@
   
       const init = () => {
         setupJoysticks();
+        addNowModel();
       };
   
       const setupJoysticks = () => {
@@ -232,9 +240,11 @@
         }
         joystickBallLeft.style.left = `calc(50% + ${offsetX}px)`;
         joystickBallLeft.style.top = `calc(50% + ${offsetY}px)`;
-        const model = document.getElementById("model");
-        model.object3D.rotation.y -= offsetX * 0.0003;
-        model.object3D.position.y += offsetY * 0.003;
+        for (let i = 0; i < 4; i++) {
+            const model = document.getElementById(`model${i}`);
+            model.object3D.rotation.y -= offsetX * 0.0003;
+            model.object3D.position.y += offsetY * 0.003;
+        }
       };
   
       const dragEnd = () => {
@@ -278,9 +288,11 @@
       
         joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
         joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
-        const model = document.getElementById("model");
-        model.object3D.position.x += offsetX * 0.001;
-        model.object3D.position.z -= offsetY * 0.001;
+        for (let i = 0; i < 4; i++) {
+            const model = document.getElementById(`model${i}`);
+            model.object3D.position.x += offsetX * 0.001;
+            model.object3D.position.z -= offsetY * 0.001;
+        }
       };
   
       const dragEndRight = () => {
@@ -298,50 +310,33 @@
         joystickCenterXRight = rectRight.left + rectRight.width / 2;
         joystickCenterYRight = rectRight.top + rectRight.height / 2;
       };
-  
-// 現在の位置情報を取得する関数
-function getCurrentLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                // ユーザーの現在の緯度と経度を取得
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                
-                // 取得した位置情報を使って3Dモデルを追加
-                addModelToCurrentLocation(latitude, longitude);
-            },
-            function(error) {
-                console.error('位置情報の取得に失敗しました:', error);
-            }
-        );
-    } else {
-        console.error('ジオロケーションAPIはサポートされていません。');
-    }
-}
 
-// 現在の位置に3Dモデルを追加する関数
-function addModelToCurrentLocation(latitude, longitude) {
-    // a-scene内のモデル追加の部分を取得
-    const aScene = document.querySelector('a-scene');
+      function getCurrentLocation() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                  function(position) {
+                      const latitude = position.coords.latitude;
+                      const longitude = position.coords.longitude;
+                      addModelToCurrentLocation(latitude, longitude);
+                  },
+                  function(error) {
+                      console.error('位置情報の取得に失敗しました:', error);
+                  }
+              );
+          } else {
+              console.error('ジオロケーションAPIはサポートされていません。');
+          }
+      }
 
-    // a-entity要素を作成して、位置情報を設定
-    const modelEntity = document.createElement('a-entity');
-    modelEntity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-
-    // 既存のモデルと同じ3Dモデルを追加
-    const existingModel = document.getElementById('model');
-    const clonedModel = existingModel.cloneNode(true); // trueを渡すことで子要素も含めて複製
-    modelEntity.appendChild(clonedModel);
-
-    // a-sceneに追加
-    aScene.appendChild(modelEntity);
-}
-
-// アプリが立ち上がった時に現在の位置情報を取得して3Dモデルを追加
-window.addEventListener('load', function() {
-    getCurrentLocation();
-});
+      const addNowModel = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const model0 = document.getElementById("model0");
+          model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+          model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+        });
+      };
 
       init();
   
