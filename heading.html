@@ -1,63 +1,25 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>方角と方位の取得</title>
+<title>方位角の取得</title>
 </head>
 <body>
-
-<p id="heading">方位: 読み込み中...</p>
-<p id="direction">方角: 読み込み中...</p>
+<p id="heading"></p>
+<p id="error"></p>
 
 <script>
-// 方位と方角を表示する要素
-var headingDisplay = document.getElementById("heading");
-var directionDisplay = document.getElementById("direction");
+window.addEventListener('deviceorientation', handleOrientation, true);
 
-// 方位と方角を取得する関数
-function getDirection() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var heading = null;
-      if (position.coords.heading) {
-        heading = position.coords.heading;
-      } else if (position.coords.heading === 0) {
-        // heading === 0 は、正確な方向が不明な場合を示します。
-        headingDisplay.innerHTML = "方位: 不明1";
-        directionDisplay.innerHTML = "方角: 不明1";
-        return;
-      } else {
-        // 方位が提供されていない場合のエラーメッセージ
-        headingDisplay.innerHTML = "方位: 不明2";
-        directionDisplay.innerHTML = "方角: 不明2";
-        return;
-      }
-
-      // 方位と方角を表示する
-      headingDisplay.innerHTML = "方位: " + heading + " 度";
-      
-      // 方位を度数から方角に変換する
-      var directions = ["北", "北東", "東", "南東", "南", "南西", "西", "北西"];
-      var index = Math.round(heading / 45);
-      if (index < 0) {
-        index += 8;
-      }
-      var direction = directions[index % 8];
-
-      // 方角を表示する
-      directionDisplay.innerHTML = "方角: " + direction;
-    });
+function handleOrientation(event) {
+  if (event.alpha !== null && !isNaN(event.alpha)) {
+    var heading = event.alpha; // 方位角（0〜360度）
+    document.getElementById('heading').innerText = '方位角: ' + heading.toFixed(2) + ' 度';
   } else {
-    // ブラウザが位置情報をサポートしていない場合のエラーメッセージ
-    headingDisplay.innerHTML = "方位: 位置情報が利用できません。";
-    directionDisplay.innerHTML = "方角: 位置情報が利用できません。";
+    document.getElementById('error').innerText = '方位角を取得できません。デバイスがサポートされていないか、許可が拒否されています。';
   }
 }
-
-// 方位と方角を取得する
-getDirection();
 </script>
-
 </body>
 </html>
