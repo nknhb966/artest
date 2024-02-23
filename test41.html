@@ -390,6 +390,12 @@ const addNowModel = () => {
     model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
     model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
 
+    // チェックボックスが既に存在する場合は削除
+    const existingCheckbox = document.getElementById('checkbox0');
+    if (existingCheckbox) {
+      existingCheckbox.parentNode.removeChild(existingCheckbox);
+    }
+
     // チェックボックスを追加
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
@@ -404,7 +410,7 @@ const addNowModel = () => {
     label.textContent = '現在地';
     checkboxContainer.appendChild(label);
 
-    // 現在地を更新するボタンを追加
+    // 更新ボタンを追加
     const updateButton = document.createElement('button');
     updateButton.textContent = '更新';
     updateButton.addEventListener('click', () => {
