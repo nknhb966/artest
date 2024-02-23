@@ -24,13 +24,13 @@ function getDirection() {
         heading = position.coords.heading;
       } else if (position.coords.heading === 0) {
         // heading === 0 は、正確な方向が不明な場合を示します。
-        headingDisplay.innerHTML = "方位: 不明";
-        directionDisplay.innerHTML = "方角: 不明";
+        headingDisplay.innerHTML = "方位: 不明1";
+        directionDisplay.innerHTML = "方角: 不明1";
         return;
       } else {
         // 方位が提供されていない場合のエラーメッセージ
-        headingDisplay.innerHTML = "方位: 不明";
-        directionDisplay.innerHTML = "方角: 不明";
+        headingDisplay.innerHTML = "方位: 不明2";
+        directionDisplay.innerHTML = "方角: 不明2";
         return;
       }
 
