@@ -266,7 +266,7 @@
                 const model0 = document.createElement("a-entity");
                 model0.setAttribute("id", "model0");
                 model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
-                model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+                model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
                 document.querySelector('a-scene').appendChild(model0);
             };
 
@@ -376,8 +376,8 @@
         for (let i = 0; i < locations.length + 1; i++) {
             const model = document.getElementById(`model${i}`);
             if (model) {
-              model.object3D.rotation.y -= offsetX * 0.0001;
-              model.object3D.position.y += offsetY * 0.001;
+              model.object3D.rotation.y -= offsetX * 0.0002;
+              model.object3D.position.y += offsetY * 0.0003;
             }
         }
       };
@@ -426,14 +426,8 @@
         for (let i = 0; i < locations.length + 1; i++) {
             const model = document.getElementById(`model${i}`);
             if (model) {
-              if (Math.abs(window.orientation) === 0) {
-                model.object3D.position.z += offsetX * 0.0005;
-                model.object3D.position.x -= offsetY * 0.0005;                
-              } else {
-                model.object3D.position.x += offsetX * 0.0005;
-                model.object3D.position.z -= offsetY * 0.0005;
-              }
-
+              model.object3D.position.x -= offsetX * 0.001;
+              model.object3D.position.z -= offsetY * 0.001;
             }
         }
       };
