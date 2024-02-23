@@ -15,6 +15,8 @@ window.addEventListener('deviceorientation', handleOrientation, true);
 function handleOrientation(event) {
   if (event.alpha !== null && !isNaN(event.alpha)) {
     var heading = event.alpha; // 方位角（0〜360度）
+    // 90度を引いて補正
+    heading = (heading - 90 + 360) % 360; // ネガティブな角度を防ぐために360を加えてからモジュロ演算
     document.getElementById('heading').innerText = '方位角: ' + heading.toFixed(2) + ' 度';
   } else {
     document.getElementById('error').innerText = '方位角を取得できません。デバイスがサポートされていないか、許可が拒否されています。';
