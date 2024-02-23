@@ -171,7 +171,7 @@
             dropdown.setAttribute('id', 'locationDropdown');
             dropdownContainer.appendChild(dropdown);
 
-            // モデルを選択してください のオプションを追加
+            // モデルを配置する場所を選択 のオプションを追加
             const defaultOption = document.createElement('option');
             defaultOption.value = -2;
             defaultOption.text = 'モデルを配置する場所を選択';
@@ -246,6 +246,7 @@
 
             // 現在地のモデルを追加
             const addModelToCurrentLocation = (latitude, longitude) => {
+
                 // 現在地のモデルを削除
                 const currentModel = document.getElementById('model0');
                 if (currentModel) {
@@ -375,13 +376,11 @@
         for (let i = 0; i < locations.length + 1; i++) {
             const model = document.getElementById(`model${i}`);
             if (model) {
-              model.object3D.rotation.y -= offsetX * 0.0003;
-              model.object3D.position.y += offsetY * 0.003;
+              model.object3D.rotation.y -= offsetX * 0.0001;
+              model.object3D.position.y += offsetY * 0.001;
             }
         }
       };
-
-
 
       const dragEnd = () => {
         joystickBallLeft.classList.remove("active");
@@ -427,8 +426,14 @@
         for (let i = 0; i < locations.length + 1; i++) {
             const model = document.getElementById(`model${i}`);
             if (model) {
-              model.object3D.position.x += offsetX * 0.001;
-              model.object3D.position.z -= offsetY * 0.001;
+              if (Math.abs(window.orientation) === 0) {
+                model.object3D.position.z += offsetX * 0.0005;
+                model.object3D.position.x -= offsetY * 0.0005;                
+              } else {
+                model.object3D.position.x += offsetX * 0.0005;
+                model.object3D.position.z -= offsetY * 0.0005;
+              }
+
             }
         }
       };
