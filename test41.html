@@ -132,19 +132,25 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
       <div id="checkboxContainer"></div>
+
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-        <!-- 場所名、緯度、経度、URLのセットを定義 -->
+        <a-assets>
+            <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- モデルを追加するためのforループ -->
         <script>
+            // 場所名、緯度、経度のセットを定義
             const locations = [
                 { name: "場所名1", latitude: 35.92173075683617, longitude: 136.18508219232714, url: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
-                { name: "場所名2", latitude: 35.92173075683617, longitude: 136.18608219232714, url: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
-                { name: "場所名3", latitude: 35.92173075683617, longitude: 136.18708219232714, url: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
+                { name: "場所名2", latitude: 35.92173075683617, longitude: 136.18558219232714, url: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
+                { name: "場所名3", latitude: 35.92173075683617, longitude: 136.18608219232714, url: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
             ];
 
             // チェックボックスを配置するコンテナ
             const checkboxContainer = document.getElementById('checkboxContainer');
 
-            // 場所名、緯度、経度、URLのセットを元にモデルとチェックボックスを追加する
+            // 場所名、緯度、経度のセットを元にモデルとチェックボックスを追加する
             for (let i = 0; i < locations.length; i++) {
                 const location = locations[i];
                 const modelId = `model${i + 1}`;
@@ -154,8 +160,7 @@
                 const modelEntity = document.createElement('a-entity');
                 modelEntity.setAttribute('id', modelId);
                 modelEntity.setAttribute('gps-entity-place', `latitude: ${location.latitude}; longitude: ${location.longitude};`);
-                modelEntity.innerHTML = `<a-asset-item id="modelAsset${i + 1}" src="${location.url}"></a-asset-item>
-                                         <a-entity gltf-model="#modelAsset${i + 1}" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+                modelEntity.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
                 document.querySelector('a-scene').appendChild(modelEntity);
 
                 // チェックボックスを追加
@@ -190,7 +195,6 @@
                 });
             });
         </script>
-    </a-scene>
 
         <a-entity id="model0" gps-entity-place=""></a-entity>
         <a-camera gps-camera rotation-reader></a-camera>
@@ -378,15 +382,49 @@
           }
       }
 
-      const addNowModel = () => {
-        navigator.geolocation.getCurrentPosition(position => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          const model0 = document.getElementById("model0");
-          model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
-          model0.innerHTML = `<a-entity gltf-model="#modelAsset1" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
-        });
-      };
+const addNowModel = () => {
+  navigator.geolocation.getCurrentPosition(position => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const model0 = document.getElementById("model0");
+    model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+    model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+
+    // チェックボックスを追加
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('id', 'checkbox0');
+    checkbox.setAttribute('class', 'modelCheckbox');
+    checkbox.setAttribute('data-model', 'model0');
+    checkbox.setAttribute('checked', ''); // デフォルトでチェックされた状態にする
+    checkboxContainer.appendChild(checkbox);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', 'checkbox0');
+    label.textContent = '現在地';
+    checkboxContainer.appendChild(label);
+
+    // 現在地を更新するボタンを追加
+    const updateButton = document.createElement('button');
+    updateButton.textContent = '更新';
+    updateButton.addEventListener('click', () => {
+      addNowModel();
+    });
+    checkboxContainer.appendChild(updateButton);
+
+    checkboxContainer.appendChild(document.createElement('br'));
+
+    checkbox.addEventListener('change', function () {
+      const modelId = this.dataset.model;
+      const model = document.getElementById(modelId);
+      if (this.checked) {
+        model.setAttribute('visible', true);
+      } else {
+        model.setAttribute('visible', false);
+      }
+    });
+  });
+};
 
       init();
   
