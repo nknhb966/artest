@@ -6,32 +6,55 @@
     <title>Document</title>
 
     <script type="text/javascript">
+        // OS識別用
         let os;
 
+        // DOM構築完了イベントハンドラ登録
         window.addEventListener("DOMContentLoaded", init);
 
+        // 初期化
         function init() {
+            // 簡易的なOS判定
             os = detectOSSimply();
-            if (os === "iphone") {
+            if (os == "iphone") {
+                // safari用。DeviceOrientation APIの使用をユーザに許可して貰う
                 document.querySelector("#permit").addEventListener("click", permitDeviceOrientationForSafari);
-                window.addEventListener("deviceorientation", orientation, true);
-            } else if (os === "android") {
-                window.addEventListener("deviceorientationabsolute", orientation, true);
+
+                window.addEventListener(
+                    "deviceorientation",
+                    orientation,
+                    true
+                );
+            } else if (os == "android") {
+                window.addEventListener(
+                    "deviceorientationabsolute",
+                    orientation,
+                    true
+                );
             } else {
                 window.alert("PC未対応サンプル");
             }
         }
 
+        // ジャイロスコープと地磁気をセンサーから取得
         function orientation(event) {
+            let absolute = event.absolute;
+            let alpha = event.alpha;
+
             let degrees;
-            if (os === "iphone") {
+            if (os == "iphone") {
+                // webkitCompasssHeading値を採用
                 degrees = event.webkitCompassHeading;
             } else {
-                degrees = event.alpha;
+                // deviceorientationabsoluteイベントのalphaを補正
+                degrees = compassHeading(alpha);
             }
 
             let direction;
-            if ((degrees > 337.5 && degrees < 360) || (degrees > 0 && degrees < 22.5)) {
+            if (
+                (degrees > 337.5 && degrees < 360) ||
+                (degrees > 0 && degrees < 22.5)
+            ) {
                 direction = "北";
             } else if (degrees > 22.5 && degrees < 67.5) {
                 direction = "北東";
@@ -49,34 +72,76 @@
                 direction = "北西";
             }
 
-            document.querySelector("#direction").innerHTML = direction + " : " + degrees;
+            document.querySelector("#direction").innerHTML =
+                direction + " : " + degrees;
+            document.querySelector("#absolute").innerHTML = absolute;
+            document.querySelector("#alpha").innerHTML = alpha;
         }
 
-        function detectOSSimply() {
-            if (navigator.userAgent.match(/iPhone|iPod|iPad/i)) {
-                return "iphone";
-            } else if (navigator.userAgent.match(/Android/i)) {
-                return "android";
-            } else {
-                return "pc";
+        // 端末の傾き補正（Android用）
+        // https://www.w3.org/TR/orientation-event/
+        function compassHeading(alpha) {
+            var degtorad = Math.PI / 180; // Degree-to-Radian conversion
+
+            var _z = alpha ? alpha * degtorad : 0; // alpha value
+
+            var cZ = Math.cos(_z);
+            var sZ = Math.sin(_z);
+
+            // Calculate compass heading
+            var compassHeading = Math.atan(-sZ / cZ);
+
+            // Convert compass heading to use whole unit circle
+            if (cZ < 0) {
+                compassHeading += Math.PI;
+            } else if (-sZ < 0) {
+                compassHeading += 2 * Math.PI;
             }
+
+            return compassHeading * (180 / Math.PI); // Compass Heading (in degrees)
         }
 
+        // 簡易OS判定
+        function detectOSSimply() {
+            let ret;
+            if (
+                navigator.userAgent.indexOf("iPhone") > 0 ||
+                navigator.userAgent.indexOf("iPad") > 0 ||
+                navigator.userAgent.indexOf("iPod") > 0
+            ) {
+                // iPad OS13のsafariはデフォルト「Macintosh」なので別途要対応
+                ret = "iphone";
+            } else if (navigator.userAgent.indexOf("Android") > 0) {
+                ret = "android";
+            } else {
+                ret = "pc";
+            }
+
+            return ret;
+        }
+
+        // iPhone + Safariの場合はDeviceOrientation APIの使用許可をユーザに求める
         function permitDeviceOrientationForSafari() {
             DeviceOrientationEvent.requestPermission()
                 .then(response => {
                     if (response === "granted") {
-                        window.addEventListener("deviceorientation", orientation);
+                        window.addEventListener(
+                            "deviceorientation",
+                            detectDirection
+                        );
                     }
                 })
                 .catch(console.error);
         }
     </script>
 </head>
+
 <body>
     <ul>
-        <input type="button" id="permit" value="SafariでDeviceOrientationを許可"/>
+        <input type="button" id="permit" value="SafariでDeviceOrientationを許可" />
         <li>【方角】<span id="direction"></span></li>
+        <li>【absolute】<span id="absolute"></span></li>
+        <li>【alpha】<span id="alpha"></span></li>
     </ul>
 </body>
 </html>
