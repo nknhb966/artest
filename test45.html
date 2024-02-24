@@ -571,7 +571,7 @@ function handleOrientation(event) {
 
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (window.matchMedia("(max-width: 768px)").matches || orientation === 90) {
+        if (window.matchMedia("(max-width: 480px)").matches || orientation === 90) {
           $('#rotateMessage').show();
           $('#contentWrapper').hide();
         } else {
