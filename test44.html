@@ -30,6 +30,12 @@
       #contentWrapper {
         display: none;
       }
+      #compassHeadingDisplay {
+        position: fixed;
+        top: 50px;
+        left: 10px;
+        z-index: 99999;
+      }
       #dropdownContainer {
         position: fixed;
         top: 10px;
@@ -52,6 +58,15 @@
       #locationDropdown option {
         padding: 8px;
         font-size: 16px;
+      }
+      .reload-button {
+        position: fixed;
+        font-family: Arial, sans-serif;
+        padding: 8px;
+        font-size: 16px;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
       }
       .joystick {
         position: fixed;
@@ -150,7 +165,14 @@
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
     <button class="reload-button" onclick="location.reload()">Reload</button>
-
+    <div id="compassHeadingDisplay">
+    <ul>
+        <input type="button" id="permit" value="SafariでDeviceOrientationを許可" />
+        <li>【方角】<span id="direction"></span></li>
+        <li>【absolute】<span id="absolute"></span></li>
+        <li>【alpha】<span id="alpha"></span></li>
+    </ul>
+    </div>
 
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
@@ -396,6 +418,8 @@
         joystickBallRight.classList.add("active");
       };
   
+      let degrees = 0; // degreesの定義を共通の場所に移動
+
       const dragMoveRight = (event) => {
         event.preventDefault();
         if (!joystickBallRight.classList.contains("active")) return;
@@ -409,7 +433,8 @@
         }
         let offsetX = touchX - joystickCenterXRight;
         let offsetY = touchY - joystickCenterYRight;
-      
+
+        // 方位角に基づいて移動量を修正
         offsetX =
           Math.abs(offsetX) < joystickLimitNumber
             ? offsetX
@@ -422,18 +447,150 @@
             : offsetY > 0
             ? joystickLimitNumber
             : -joystickLimitNumber;
-      
+
+        // degreesの値に基づいて移動量を調整
+        const rad = (degrees + 90) * Math.PI / 180;
+        const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
+        const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
+
         joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
         joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
         for (let i = 0; i < locations.length + 1; i++) {
-            const model = document.getElementById(`model${i}`);
-            if (model) {
-              model.object3D.position.x -= offsetX * 0.001;
-              model.object3D.position.z -= offsetY * 0.001;
-            }
+          const model = document.getElementById(`model${i}`);
+          if (model) {
+            model.object3D.position.x -= newX * 0.001;
+            model.object3D.position.z -= newY * 0.001;
+          }
         }
       };
 
+      // OS識別用
+      let os;
+
+      // DOM構築完了イベントハンドラ登録
+      window.addEventListener("DOMContentLoaded", initOS);
+
+      // 初期化
+      function initOS() {
+          // 簡易的なOS判定
+          os = detectOSSimply();
+          if (os == "iphone") {
+              // safari用。DeviceOrientation APIの使用をユーザに許可して貰う
+              document.querySelector("#permit").addEventListener("click", permitDeviceOrientationForSafari);
+
+              window.addEventListener(
+                  "deviceorientation",
+                  orientation,
+                  true
+              );
+          } else if (os == "android") {
+              window.addEventListener(
+                  "deviceorientationabsolute",
+                  orientation,
+                  true
+              );
+          } else {
+              window.alert("PC未対応サンプル");
+          }
+      }
+
+      // ジャイロスコープと地磁気をセンサーから取得
+      function orientation(event) {
+          let absolute = event.absolute;
+          let alpha = event.alpha;
+
+          if (os == "iphone") {
+              // webkitCompasssHeading値を採用
+              degrees = event.webkitCompassHeading;
+          } else {
+              // deviceorientationabsoluteイベントのalphaを補正
+              degrees = compassHeading(alpha);
+          }
+
+          let direction;
+          if (
+              (degrees > 337.5 && degrees < 360) ||
+              (degrees > 0 && degrees < 22.5)
+          ) {
+              direction = "北";
+          } else if (degrees > 22.5 && degrees < 67.5) {
+              direction = "北東";
+          } else if (degrees > 67.5 && degrees < 112.5) {
+              direction = "東";
+          } else if (degrees > 112.5 && degrees < 157.5) {
+              direction = "東南";
+          } else if (degrees > 157.5 && degrees < 202.5) {
+              direction = "南";
+          } else if (degrees > 202.5 && degrees < 247.5) {
+              direction = "南西";
+          } else if (degrees > 247.5 && degrees < 292.5) {
+              direction = "西";
+          } else if (degrees > 292.5 && degrees < 337.5) {
+              direction = "北西";
+          }
+
+          document.querySelector("#direction").innerHTML =
+              direction + " : " + degrees;
+          document.querySelector("#absolute").innerHTML = absolute;
+          document.querySelector("#alpha").innerHTML = alpha;
+      }
+
+      // 端末の傾き補正（Android用）
+      // https://www.w3.org/TR/orientation-event/
+      function compassHeading(alpha) {
+          var degtorad = Math.PI / 180; // Degree-to-Radian conversion
+
+          var _z = alpha ? alpha * degtorad : 0; // alpha value
+
+          var cZ = Math.cos(_z);
+          var sZ = Math.sin(_z);
+
+          // Calculate compass heading
+          var compassHeading = Math.atan(-sZ / cZ);
+
+          // Convert compass heading to use whole unit circle
+          if (cZ < 0) {
+              compassHeading += Math.PI;
+          } else if (-sZ < 0) {
+              compassHeading += 2 * Math.PI;
+          }
+
+          return compassHeading * (180 / Math.PI); // Compass Heading (in degrees)
+      }
+
+      // 簡易OS判定
+      function detectOSSimply() {
+          let ret;
+          if (
+              navigator.userAgent.indexOf("iPhone") > 0 ||
+              navigator.userAgent.indexOf("iPad") > 0 ||
+              navigator.userAgent.indexOf("iPod") > 0
+          ) {
+              // iPad OS13のsafariはデフォルト「Macintosh」なので別途要対応
+              ret = "iphone";
+          } else if (navigator.userAgent.indexOf("Android") > 0) {
+              ret = "android";
+          } else {
+              ret = "pc";
+          }
+
+          return ret;
+      }
+
+      // iPhone + Safariの場合はDeviceOrientation APIの使用許可をユーザに求める
+      function permitDeviceOrientationForSafari() {
+          DeviceOrientationEvent.requestPermission()
+              .then(response => {
+                  if (response === "granted") {
+                      window.addEventListener(
+                          "deviceorientation",
+                          detectDirection
+                      );
+                  }
+              })
+              .catch(console.error);
+      }
+  
       const dragEndRight = () => {
         joystickBallRight.classList.remove("active");
         joystickBallRight.style.left = "50%";
