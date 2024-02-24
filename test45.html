@@ -451,7 +451,7 @@ function initOS() {
 
       let orientation = 0;
       if(window.orientation !== undefined) {
-          orientation = Math.abs(window.orientation) + 90;
+          orientation = Math.abs(window.orientation);
       }
       else {
           orientation = 0; // PCの場合は0を返す
