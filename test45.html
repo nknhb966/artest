@@ -415,6 +415,35 @@
   
       let degrees = 0; // degreesの定義を共通の場所に移動
 
+let orientation = 0;
+if(window.orientation !== undefined) {
+    orientation = Math.abs(window.orientation);
+}
+else {
+    orientation = 0; // PCの場合は0を返す
+}
+
+
+      // OS識別用
+      let os;
+
+      // DOM構築完了イベントハンドラ登録
+      window.addEventListener("DOMContentLoaded", initOS);
+
+      // 初期化
+      function initOS() {
+          // 簡易的なOS判定
+          os = detectOSSimply();
+          if (os == "iphone") {
+              // safari用。DeviceOrientation APIの使用をユーザに許可して貰う
+              document.querySelector("#permit").addEventListener("click", permitDeviceOrientationForSafari);
+
+              window.addEventListener("deviceorientation", handleOrientation, true);
+          } else {
+              window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+          }
+      }
+
       const dragMoveRight = (event) => {
         event.preventDefault();
         if (!joystickBallRight.classList.contains("active")) return;
@@ -444,7 +473,7 @@
             : -joystickLimitNumber;
 
         // degreesの値に基づいて移動量を調整
-        const rad = (degrees + 90) * Math.PI / 180;
+        const rad = (degrees + orientation) * Math.PI / 180;
         const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
         const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
 
@@ -458,8 +487,6 @@
           }
         }
       };
-
-window.addEventListener('deviceorientationabsolute', handleOrientation);
 
 function handleOrientation(event) {
       let alpha = event.alpha;
@@ -492,6 +519,35 @@ function handleOrientation(event) {
 
       }
 
+      // 簡易OS判定
+      function detectOSSimply() {
+          let ret;
+          if (
+              navigator.userAgent.indexOf("iPhone") > 0 ||
+              navigator.userAgent.indexOf("iPad") > 0 ||
+              navigator.userAgent.indexOf("iPod") > 0
+          ) {
+              ret = "iphone";
+          } else {
+              ret = "android pc";
+          }
+          return ret;
+      }
+
+      // iPhone + Safariの場合はDeviceOrientation APIの使用許可をユーザに求める
+      function permitDeviceOrientationForSafari() {
+          DeviceOrientationEvent.requestPermission()
+              .then(response => {
+                  if (response === "granted") {
+                      window.addEventListener(
+                          "deviceorientation",
+                          detectDirection
+                      );
+                  }
+              })
+              .catch(console.error);
+      }
+
       const dragEndRight = () => {
         joystickBallRight.classList.remove("active");
         joystickBallRight.style.left = "50%";
@@ -515,9 +571,9 @@ function handleOrientation(event) {
 
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
-          $('#rotateMessage').hide();
-          $('#contentWrapper').show();
+        if (window.matchMedia("(max-width: 768px)").matches || orientation === 90) {
+          $('#rotateMessage').show();
+          $('#contentWrapper').hide();
         } else {
           $('#rotateMessage').hide();
           $('#contentWrapper').show();
