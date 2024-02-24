@@ -425,24 +425,25 @@ const dragMoveRight = (event) => {
   let offsetX = touchX - joystickCenterXRight;
   let offsetY = touchY - joystickCenterYRight;
 
-  // スマートフォンの方位角を取得
-  const compassHeading = window.DeviceOrientationEvent && event.webkitCompassHeading;
+  // デバイスの方位角を取得
+  const compassHeading = getCompassHeading();
 
   // 方位角に基づいて移動量を修正
-  const angle = compassHeading ? compassHeading * (Math.PI / 180) : 0;
-  const rotatedX = offsetX * Math.cos(angle) - offsetY * Math.sin(angle);
-  const rotatedY = offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
+  const angleInRadians = compassHeading * (Math.PI / 180);
+  const tempX = offsetX;
+  offsetX = offsetX * Math.cos(angleInRadians) - offsetY * Math.sin(angleInRadians);
+  offsetY = tempX * Math.sin(angleInRadians) + offsetY * Math.cos(angleInRadians);
 
   offsetX =
-    Math.abs(rotatedX) < joystickLimitNumber
-      ? rotatedX
-      : rotatedX > 0
+    Math.abs(offsetX) < joystickLimitNumber
+      ? offsetX
+      : offsetX > 0
       ? joystickLimitNumber
       : -joystickLimitNumber;
   offsetY =
-    Math.abs(rotatedY) < joystickLimitNumber
-      ? rotatedY
-      : rotatedY > 0
+    Math.abs(offsetY) < joystickLimitNumber
+      ? offsetY
+      : offsetY > 0
       ? joystickLimitNumber
       : -joystickLimitNumber;
 
@@ -457,28 +458,80 @@ const dragMoveRight = (event) => {
   }
 };
 
-function compassHeading(alpha) {
-    // Degree-to-Radian conversion
-    var degtorad = Math.PI / 180;
+        // OS識別用
+        let os;
 
-    // Convert alpha value to radians
-    var _z = alpha ? alpha * degtorad : 0;
+        // DOM構築完了イベントハンドラ登録
+        window.addEventListener("DOMContentLoaded", initos);
 
-    // Calculate compass heading
-    var compassHeading = Math.atan2(-Math.sin(_z), Math.cos(_z));
+        // 初期化
+        function initos() {
+            // 簡易的なOS判定
+            os = detectOSSimply();
+            if (os == "iphone") {
+                // safari用。DeviceOrientation APIの使用をユーザに許可して貰う
+                document.querySelector("#permit").addEventListener("click", permitDeviceOrientationForSafari);
 
-    // Convert compass heading to use whole unit circle
-    compassHeading = compassHeading < 0 ? compassHeading + 2 * Math.PI : compassHeading;
+                window.addEventListener(
+                    "deviceorientation",
+                    orientation,
+                    true
+                );
+            } else if (os == "android") {
+                window.addEventListener(
+                    "deviceorientationabsolute",
+                    orientation,
+                    true
+                );
+            } else {
+                window.alert("PC未対応サンプル");
+            }
+        }
 
-    // Convert compass heading to degrees and adjust to make north 0 degrees
-    compassHeading = compassHeading * (180 / Math.PI);
+// デバイスの方位角を取得する関数
+const getCompassHeading = () => {
+  let compassHeading = 0;
+  if (os === "iphone") {
+    compassHeading = parseFloat(document.querySelector("#direction").innerHTML.split(":")[1].trim());
+  } else {
+    compassHeading = parseFloat(document.querySelector("#direction").innerHTML.split(":")[1].trim());
+  }
+  return compassHeading;
+};
 
-    // Ensure compass heading is within 0 to 360 degrees
-    compassHeading = (compassHeading + 360) % 360;
 
-    return compassHeading; // Compass Heading (in degrees)
-}
+        // 簡易OS判定
+        function detectOSSimply() {
+            let ret;
+            if (
+                navigator.userAgent.indexOf("iPhone") > 0 ||
+                navigator.userAgent.indexOf("iPad") > 0 ||
+                navigator.userAgent.indexOf("iPod") > 0
+            ) {
+                // iPad OS13のsafariはデフォルト「Macintosh」なので別途要対応
+                ret = "iphone";
+            } else if (navigator.userAgent.indexOf("Android") > 0) {
+                ret = "android";
+            } else {
+                ret = "pc";
+            }
 
+            return ret;
+        }
+
+        // iPhone + Safariの場合はDeviceOrientation APIの使用許可をユーザに求める
+        function permitDeviceOrientationForSafari() {
+            DeviceOrientationEvent.requestPermission()
+                .then(response => {
+                    if (response === "granted") {
+                        window.addEventListener(
+                            "deviceorientation",
+                            detectDirection
+                        );
+                    }
+                })
+                .catch(console.error);
+        }
   
       const dragEndRight = () => {
         joystickBallRight.classList.remove("active");
