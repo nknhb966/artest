@@ -30,6 +30,12 @@
       #contentWrapper {
         display: none;
       }
+      #compassHeadingDisplay {
+        position: fixed;
+        top: 50px;
+        left: 10px;
+        z-index: 99999;
+      }
       #dropdownContainer {
         position: fixed;
         top: 10px;
@@ -149,6 +155,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
+    <div id="compassHeadingDisplay">方位角: <span id="compassHeadingValue">-</span></div>
 
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
@@ -461,7 +468,21 @@ const dragMoveRight = (event) => {
   
       window.addEventListener("resize", updateJoystickCenters);
     </script>
-  
+
+  <script>
+    // JavaScript code
+    window.addEventListener('deviceorientation', function(event) {
+      var compassHeadingDisplay = document.getElementById('compassHeadingValue');
+      if (event.webkitCompassHeading) {
+        // For iOS devices
+        compassHeadingDisplay.textContent = event.webkitCompassHeading.toFixed(2);
+      } else if (event.alpha !== null) {
+        // For Android and other devices
+        compassHeadingDisplay.textContent = event.alpha.toFixed(2);
+      }
+    });
+  </script>
+
     <script>
       $(window).on('load orientationchange resize', function(){
         if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
