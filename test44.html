@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>ロケーションベースTest6</title>
+    <title>ロケーションベースTest7</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
@@ -446,6 +446,28 @@ const dragMoveRight = (event) => {
     }
   }
 };
+
+function compassHeading(alpha) {
+    // Degree-to-Radian conversion
+    var degtorad = Math.PI / 180;
+
+    // Convert alpha value to radians
+    var _z = alpha ? alpha * degtorad : 0;
+
+    // Calculate compass heading
+    var compassHeading = Math.atan2(Math.sin(_z), Math.cos(_z));
+
+    // Convert compass heading to use whole unit circle
+    compassHeading = compassHeading < 0 ? compassHeading + 2 * Math.PI : compassHeading;
+
+    // Convert compass heading to degrees and adjust to make north 0 degrees
+    compassHeading = compassHeading * (180 / Math.PI) - 90;
+
+    // Ensure compass heading is within 0 to 360 degrees
+    compassHeading = (compassHeading + 360) % 360;
+
+    return compassHeading; // Compass Heading (in degrees)
+}
 
   
       const dragEndRight = () => {
