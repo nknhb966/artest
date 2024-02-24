@@ -459,7 +459,13 @@
         }
       };
 
+window.addEventListener('deviceorientationabsolute', handleOrientation);
+
+function handleOrientation(event) {
+      let alpha = event.alpha;
       degrees = compassHeading(alpha);
+}
+
 
       // 端末の傾き補正（Android用）
       // https://www.w3.org/TR/orientation-event/
