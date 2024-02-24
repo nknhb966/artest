@@ -465,13 +465,13 @@ function compassHeading(alpha) {
     var _z = alpha ? alpha * degtorad : 0;
 
     // Calculate compass heading
-    var compassHeading = Math.atan2(Math.sin(_z), Math.cos(_z));
+    var compassHeading = Math.atan2(-Math.sin(_z), Math.cos(_z));
 
     // Convert compass heading to use whole unit circle
     compassHeading = compassHeading < 0 ? compassHeading + 2 * Math.PI : compassHeading;
 
     // Convert compass heading to degrees and adjust to make north 0 degrees
-    compassHeading = compassHeading * (180 / Math.PI) - 90;
+    compassHeading = compassHeading * (180 / Math.PI);
 
     // Ensure compass heading is within 0 to 360 degrees
     compassHeading = (compassHeading + 360) % 360;
