@@ -451,11 +451,12 @@ function initOS() {
 
       let orientation = 0;
       if(window.orientation !== undefined) {
-          orientation = Math.abs(window.orientation) + 90;
+          orientation = Math.abs(window.orientation);
       }
       else {
           orientation = 0; // PCの場合は0を返す
       }
+      console.log(orientation);
 
       const dragMoveRight = (event) => {
         event.preventDefault();
@@ -584,12 +585,12 @@ function handleOrientation(event) {
 
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (Math.abs(window.orientation) === 90) {
-          $('#rotateMessage').show();
-          $('#contentWrapper').hide();
-        } else {
+        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
           $('#rotateMessage').hide();
           $('#contentWrapper').show();
+        } else {
+          $('#rotateMessage').show();
+          $('#contentWrapper').hide();
         }
       });
     </script>
