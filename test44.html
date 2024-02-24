@@ -449,7 +449,7 @@ const dragMoveRight = (event) => {
       : -joystickLimitNumber;
 
   // degreesの値に基づいて移動量を調整
-  const rad = (degrees - 90) * Math.PI / 180;
+  const rad = (degrees + 90) * Math.PI / 180;
   const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
   const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
 
@@ -505,7 +505,7 @@ const dragMoveRight = (event) => {
               degrees = event.webkitCompassHeading;
           } else {
               // deviceorientationabsoluteイベントのalphaを補正
-              degrees = compassHeading(alpha) - 90;
+              degrees = compassHeading(alpha);
           }
 
           let direction;
