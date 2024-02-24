@@ -505,7 +505,7 @@ const dragMoveRight = (event) => {
               degrees = event.webkitCompassHeading;
           } else {
               // deviceorientationabsoluteイベントのalphaを補正
-              degrees = compassHeading(alpha);
+              degrees = compassHeading(alpha) - 90;
           }
 
           let direction;
