@@ -453,8 +453,8 @@ const dragMoveRight = (event) => {
   const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
   const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
 
-  joystickBallRight.style.left = `calc(50% + ${newX}px)`;
-  joystickBallRight.style.top = `calc(50% + ${newY}px)`;
+  joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
+  joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
   for (let i = 0; i < locations.length + 1; i++) {
     const model = document.getElementById(`model${i}`);
     if (model) {
