@@ -59,6 +59,12 @@
         padding: 8px;
         font-size: 16px;
       }
+      #permit {
+        position: fixed;
+        top: 30px;
+        right: 10px;
+        z-index: 99999;
+      }
       .reload-button {
         position: fixed;
         font-family: Arial, sans-serif;
@@ -417,7 +423,7 @@
 
 let orientation = 0;
 if(window.orientation !== undefined) {
-    orientation = Math.abs(window.orientation);
+    orientation = Math.abs(window.orientation) + 90;
 }
 else {
     orientation = 0; // PCの場合は0を返す
@@ -430,19 +436,26 @@ else {
       // DOM構築完了イベントハンドラ登録
       window.addEventListener("DOMContentLoaded", initOS);
 
-      // 初期化
-      function initOS() {
-          // 簡易的なOS判定
-          os = detectOSSimply();
-          if (os == "iphone") {
-              // safari用。DeviceOrientation APIの使用をユーザに許可して貰う
-              document.querySelector("#permit").addEventListener("click", permitDeviceOrientationForSafari);
+// 初期化
+function initOS() {
+    // 簡易的なOS判定
+    os = detectOSSimply();
+    if (os == "iphone") {
+        // Safariの場合のみ、ボタンを表示
+        if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+            var permitButton = document.createElement("input");
+            permitButton.setAttribute("type", "button");
+            permitButton.setAttribute("id", "permit");
+            permitButton.setAttribute("value", "SafariでDeviceOrientationを許可");
+            document.body.appendChild(permitButton);
+            permitButton.addEventListener("click", permitDeviceOrientationForSafari);
+        }
 
-              window.addEventListener("deviceorientation", handleOrientation, true);
-          } else {
-              window.addEventListener('deviceorientationabsolute', handleOrientation, true);
-          }
-      }
+        window.addEventListener("deviceorientation", handleOrientation, true);
+    } else {
+        window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+    }
+}
 
       const dragMoveRight = (event) => {
         event.preventDefault();
@@ -571,7 +584,7 @@ function handleOrientation(event) {
 
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (window.matchMedia("(max-width: 480px)").matches || orientation === 90) {
+        if (window.matchMedia("(max-width: 480px)").matches || orientation === 180) {
           $('#rotateMessage').show();
           $('#contentWrapper').hide();
         } else {
