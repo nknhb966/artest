@@ -504,7 +504,7 @@
         else {
             orientation = 0; // PCの場合は0を返す
         }
-        document.querySelector("#direction").innerHTML = orientation + " : " + os + " : " + degrees;
+        document.querySelector("#direction").innerHTML = orientation + " :1 " + os + " : " + degrees;
       }
 
       function compassHeading(alpha) {
@@ -525,15 +525,19 @@
           return compassHeading * (180 / Math.PI);
       }
 
-      function detectOSSimply() {
-          let ret;
-          if (/(iPad|iPhone|iPod)/.test(navigator.platform)) {
-              ret = "iphone";
-          } else {
-              ret = "android pc";
-          }
-          return ret;
-      }
+function detectOSSimply() {
+    let ret;
+    if (
+        /(iPad|iPhone|iPod)/.test(navigator.platform) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    ) {
+        ret = "iphone";
+    } else {
+        ret = "android pc";
+    }
+    return ret;
+}
+
 
       function permitDeviceOrientationForSafari() {
           DeviceOrientationEvent.requestPermission()
