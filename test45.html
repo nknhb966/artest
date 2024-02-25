@@ -585,7 +585,7 @@
 
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
+        if (Math.abs(window.orientation) === 90) {
           $('#rotateMessage').hide();
           $('#contentWrapper').show();
         } else {
