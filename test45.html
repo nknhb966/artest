@@ -542,20 +542,24 @@ function detectOSSimply() {
 }
 
 
-      function permitDeviceOrientationForSafari() {
-          DeviceOrientationEvent.requestPermission()
-              .then(response => {
-                  if (response === "granted") {
-                      window.addEventListener(
-                          "deviceorientation",
-                          detectDirection
-                      );
-                      document.getElementById("direction").innerHTML = "成功";
-                  }
-              })
-              .catch(console.error);
-          document.getElementById("direction").innerHTML = "失敗";
-      }
+function permitDeviceOrientationForSafari() {
+    DeviceOrientationEvent.requestPermission()
+        .then(response => {
+            if (response === "granted") {
+                window.addEventListener(
+                    "deviceorientation",
+                    detectDirection
+                );
+                // 成功した場合に"#direction"要素に「成功」と表示させる
+                document.getElementById("direction").innerHTML = "成功";
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            // 失敗した場合に"#direction"要素に「失敗」と表示させる
+            document.getElementById("direction").innerHTML = "失敗";
+        });
+}
 
       const dragEndRight = () => {
         joystickBallRight.classList.remove("active");
