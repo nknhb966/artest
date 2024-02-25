@@ -437,17 +437,11 @@
       function initOS() {
           os = detectOSSimply();
           if (os == "iphone") {
-              var permitButton = document.createElement("input");
-              permitButton.setAttribute("type", "button");
-              permitButton.setAttribute("id", "permit");
-              permitButton.setAttribute("value", "端末の向きを取得");
-              document.body.appendChild(permitButton);
-              permitButton.addEventListener("click", permitDeviceOrientationForSafari);
+              permitDeviceOrientationForSafari();
           }
       }
   
-      let degrees = 0; // degreesの定義を共通の場所に移動
-
+      let degrees = 0;
       let orientation = 0;
 
       function handleOrientation(event) {
@@ -463,7 +457,7 @@
         else {
             orientation = 0; // PCの場合は0を返す
         }
-        document.querySelector("#direction").innerHTML = orientation + " :2 " + os + " : " + degrees;
+        document.querySelector("#direction").innerHTML = orientation + " : " + os + " : " + degrees;
       }
 
       function compassHeading(alpha) {
@@ -484,38 +478,37 @@
           return compassHeading * (180 / Math.PI);
       }
 
-function detectOSSimply() {
-    let ret;
-    if (
-        /(iPad|iPhone|iPod)/.test(navigator.platform) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-    ) {
-        ret = "iphone";
-    } else {
-        ret = "android pc";
-    }
-    return ret;
-}
+      function detectOSSimply() {
+          let ret;
+          if (
+              /(iPad|iPhone|iPod)/.test(navigator.platform) ||
+              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+          ) {
+              ret = "iphone";
+          } else {
+              ret = "android pc";
+          }
+          return ret;
+      }
 
-
-function permitDeviceOrientationForSafari() {
-    DeviceOrientationEvent.requestPermission()
-        .then(response => {
-            if (response === "granted") {
-                window.addEventListener(
-                    "deviceorientation",
-                    detectDirection
-                );
-                // 成功した場合に"#direction"要素に「成功」と表示させる
-                document.getElementById("direction").innerHTML = "成功";
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            // 失敗した場合に"#direction"要素に「失敗」と表示させる
-            document.getElementById("direction").innerHTML = "失敗";
-        });
-}
+      function permitDeviceOrientationForSafari() {
+          DeviceOrientationEvent.requestPermission()
+              .then(response => {
+                  if (response === "granted") {
+                      window.addEventListener(
+                          "deviceorientation",
+                          detectDirection
+                      );
+                      // 成功した場合に"#direction"要素に「成功」と表示させる
+                      document.getElementById("direction").innerHTML = "成功";
+                  }
+              })
+              .catch(error => {
+                  console.error(error);
+                  // 失敗した場合に"#direction"要素に「失敗」と表示させる
+                  document.getElementById("direction").innerHTML = "失敗";
+              });
+      }
 
       const dragMoveRight = (event) => {
         event.preventDefault();
