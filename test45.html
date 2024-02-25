@@ -422,8 +422,12 @@
       // OS識別用
       let os;
 
-      // DOM構築完了イベントハンドラ登録
-      window.addEventListener("DOMContentLoaded", initOS);
+// イベントリスナーを定義
+window.addEventListener("deviceorientation", handleOrientation, true);
+window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+
+// DOM構築完了イベントハンドラ登録
+window.addEventListener("DOMContentLoaded", initOS);
 
 // 初期化
 function initOS() {
@@ -439,13 +443,8 @@ function initOS() {
             document.body.appendChild(permitButton);
             permitButton.addEventListener("click", permitDeviceOrientationForSafari);
         }
-
-        window.addEventListener("deviceorientation", handleOrientation, true);
-    } else {
-        window.addEventListener('deviceorientationabsolute', handleOrientation, true);
     }
 }
-
   
       let degrees = 0; // degreesの定義を共通の場所に移動
 
