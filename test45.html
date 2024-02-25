@@ -422,29 +422,25 @@
       // OS識別用
       let os;
 
-// イベントリスナーを定義
-window.addEventListener("deviceorientation", handleOrientation, true);
-window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+      // イベントリスナーを定義
+      window.addEventListener("deviceorientation", handleOrientation, true);
+      window.addEventListener('deviceorientationabsolute', handleOrientation, true);
 
-// DOM構築完了イベントハンドラ登録
-window.addEventListener("DOMContentLoaded", initOS);
+      // DOM構築完了イベントハンドラ登録
+      window.addEventListener("DOMContentLoaded", initOS);
 
-// 初期化
-function initOS() {
-    // 簡易的なOS判定
-    os = detectOSSimply();
-    if (os == "iphone") {
-        // Safariの場合のみ、ボタンを表示
-        if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-            var permitButton = document.createElement("input");
-            permitButton.setAttribute("type", "button");
-            permitButton.setAttribute("id", "permit");
-            permitButton.setAttribute("value", "SafariでDeviceOrientationを許可");
-            document.body.appendChild(permitButton);
-            permitButton.addEventListener("click", permitDeviceOrientationForSafari);
-        }
-    }
-}
+      // 初期化
+      function initOS() {
+          os = detectOSSimply();
+          if (os == "iphone") {
+              var permitButton = document.createElement("input");
+              permitButton.setAttribute("type", "button");
+              permitButton.setAttribute("id", "permit");
+              permitButton.setAttribute("value", "SafariでDeviceOrientationを許可");
+              document.body.appendChild(permitButton);
+              permitButton.addEventListener("click", permitDeviceOrientationForSafari);
+          }
+      }
   
       let degrees = 0; // degreesの定義を共通の場所に移動
 
@@ -500,38 +496,33 @@ function initOS() {
         }
       };
 
-function handleOrientation(event) {
-      let alpha = event.alpha;
-      degrees = compassHeading(alpha);
-}
+      function handleOrientation(event) {
+        let alpha = event.alpha;
+        if(os == "iphone") {
+          degrees = event.webkitCompassHeading;
+        }else{
+          degrees = compassHeading(alpha);
+        }
+      }
 
-
-      // 端末の傾き補正（Android用）
-      // https://www.w3.org/TR/orientation-event/
       function compassHeading(alpha) {
-          var degtorad = Math.PI / 180; // Degree-to-Radian conversion
+          var degtorad = Math.PI / 180;
 
-          var _z = alpha ? alpha * degtorad : 0; // alpha value
+          var _z = alpha ? alpha * degtorad : 0;
 
           var cZ = Math.cos(_z);
           var sZ = Math.sin(_z);
 
-          // Calculate compass heading
           var compassHeading = Math.atan(-sZ / cZ);
 
-          // Convert compass heading to use whole unit circle
           if (cZ < 0) {
               compassHeading += Math.PI;
           } else if (-sZ < 0) {
               compassHeading += 2 * Math.PI;
           }
-
-          return compassHeading * (180 / Math.PI); // Compass Heading (in degrees)
-          document.querySelector("#direction").innerHTML = degrees;
-
+          return compassHeading * (180 / Math.PI);
       }
 
-      // 簡易OS判定
       function detectOSSimply() {
           let ret;
           if (
@@ -546,7 +537,6 @@ function handleOrientation(event) {
           return ret;
       }
 
-      // iPhone + Safariの場合はDeviceOrientation APIの使用許可をユーザに求める
       function permitDeviceOrientationForSafari() {
           DeviceOrientationEvent.requestPermission()
               .then(response => {
