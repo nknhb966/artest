@@ -527,10 +527,7 @@
 
       function detectOSSimply() {
           let ret;
-          if (
-              navigator.userAgent.indexOf("iPhone") > 0 ||
-              (navigator.userAgent.indexOf("iPad") > 0  || navigator.userAgent.indexOf("macintosh") > -1 && "ontouchend" in document)
-          ) {
+          if (/(iPad|iPhone|iPod)/.test(navigator.platform)) {
               ret = "iphone";
           } else {
               ret = "android pc";
