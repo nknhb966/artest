@@ -456,7 +456,7 @@
         else {
             orientation = 0;
         }
-        document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + degrees;
+        document.querySelector("#direction").innerHTML = "【確認用】：" + os + " : " + orientation + " : " + degrees;
       }
 
       function compassHeading(alpha) {
@@ -523,7 +523,7 @@
           if (os === "iphone") {
               let temp = offsetX;
               offsetX = +offsetY;
-              offsetY = temp;
+              offsetY = -temp;
           }
 
           // 方位角に基づいて移動量を修正
