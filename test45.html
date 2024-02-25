@@ -450,51 +450,6 @@
 
       let orientation = 0;
 
-
-      const dragMoveRight = (event) => {
-        event.preventDefault();
-        if (!joystickBallRight.classList.contains("active")) return;
-        let touchX, touchY;
-        if (event.type === "touchmove") {
-          touchX = event.touches[0].clientX;
-          touchY = event.touches[0].clientY;
-        } else {
-          touchX = event.clientX;
-          touchY = event.clientY;
-        }
-        let offsetX = touchX - joystickCenterXRight;
-        let offsetY = touchY - joystickCenterYRight;
-
-        // 方位角に基づいて移動量を修正
-        offsetX =
-          Math.abs(offsetX) < joystickLimitNumber
-            ? offsetX
-            : offsetX > 0
-            ? joystickLimitNumber
-            : -joystickLimitNumber;
-        offsetY =
-          Math.abs(offsetY) < joystickLimitNumber
-            ? offsetY
-            : offsetY > 0
-            ? joystickLimitNumber
-            : -joystickLimitNumber;
-
-        // degreesの値に基づいて移動量を調整
-        const rad = (degrees + orientation) * Math.PI / 180;
-        const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
-        const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
-
-        joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
-        joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
-        for (let i = 0; i < locations.length + 1; i++) {
-          const model = document.getElementById(`model${i}`);
-          if (model) {
-            model.object3D.position.x -= newX * 0.001;
-            model.object3D.position.z -= newY * 0.001;
-          }
-        }
-      };
-
       function handleOrientation(event) {
         let alpha = event.alpha;
         if(os == "iphone") {
@@ -561,6 +516,50 @@ function permitDeviceOrientationForSafari() {
             document.getElementById("direction").innerHTML = "失敗";
         });
 }
+
+      const dragMoveRight = (event) => {
+        event.preventDefault();
+        if (!joystickBallRight.classList.contains("active")) return;
+        let touchX, touchY;
+        if (event.type === "touchmove") {
+          touchX = event.touches[0].clientX;
+          touchY = event.touches[0].clientY;
+        } else {
+          touchX = event.clientX;
+          touchY = event.clientY;
+        }
+        let offsetX = touchX - joystickCenterXRight;
+        let offsetY = touchY - joystickCenterYRight;
+
+        // 方位角に基づいて移動量を修正
+        offsetX =
+          Math.abs(offsetX) < joystickLimitNumber
+            ? offsetX
+            : offsetX > 0
+            ? joystickLimitNumber
+            : -joystickLimitNumber;
+        offsetY =
+          Math.abs(offsetY) < joystickLimitNumber
+            ? offsetY
+            : offsetY > 0
+            ? joystickLimitNumber
+            : -joystickLimitNumber;
+
+        // degreesの値に基づいて移動量を調整
+        const rad = (degrees + orientation) * Math.PI / 180;
+        const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
+        const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
+
+        joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
+        joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
+        for (let i = 0; i < locations.length + 1; i++) {
+          const model = document.getElementById(`model${i}`);
+          if (model) {
+            model.object3D.position.x -= newX * 0.001;
+            model.object3D.position.z -= newY * 0.001;
+          }
+        }
+      };
 
       const dragEndRight = () => {
         joystickBallRight.classList.remove("active");
