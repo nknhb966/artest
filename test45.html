@@ -507,7 +507,7 @@
         else {
             orientation = 0; // PCの場合は0を返す
         }
-        document.querySelector("#direction").innerHTML = orientation + " :1 " + os + " : " + degrees;
+        document.querySelector("#direction").innerHTML = orientation + " :2 " + os + " : " + degrees;
       }
 
       function compassHeading(alpha) {
@@ -554,6 +554,7 @@ function detectOSSimply() {
                   }
               })
               .catch(console.error);
+          document.getElementById("direction").innerHTML = "失敗";
       }
 
       const dragEndRight = () => {
