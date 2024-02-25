@@ -519,6 +519,13 @@
           let offsetX = touchX - joystickCenterXRight;
           let offsetY = touchY - joystickCenterYRight;
 
+          // iPhoneの場合、-90度回転
+          if (os === "iphone") {
+              let temp = offsetX;
+              offsetX = +offsetY;
+              offsetY = -temp;
+          }
+
           // 方位角に基づいて移動量を修正
           offsetX =
               Math.abs(offsetX) < joystickLimitNumber
@@ -538,9 +545,14 @@
           const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
           const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
 
-          joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
-          joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
-
+          // iPhoneの場合、-90度回転
+          if (os === "iphone") {
+            joystickBallRight.style.left = `calc(50% - ${offsetY}px)`;
+            joystickBallRight.style.top = `calc(50% + ${offsetX}px)`;
+          } else {
+            joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
+            joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
+          }
           for (let i = 0; i < locations.length + 1; i++) {
               const model = document.getElementById(`model${i}`);
               if (model) {
