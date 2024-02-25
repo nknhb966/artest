@@ -60,15 +60,6 @@
         padding: 8px;
         font-size: 16px;
       }
-      #permit {
-        position: fixed;
-        font-family: Arial, sans-serif;
-        padding: 8px;
-        font-size: 16px;
-        top: 50px;
-        right: 10px;
-        z-index: 99999;
-      }
       .reload-button {
         position: fixed;
         font-family: Arial, sans-serif;
@@ -455,9 +446,9 @@
             orientation = window.orientation;
         }
         else {
-            orientation = 0; // PCの場合は0を返す
+            orientation = 0;
         }
-        document.querySelector("#direction").innerHTML = orientation + " : " + os + " : " + degrees;
+        document.querySelector("#direction").innerHTML = os + " : " + orientation + " : " + degrees;
       }
 
       function compassHeading(alpha) {
@@ -499,14 +490,10 @@
                           "deviceorientation",
                           detectDirection
                       );
-                      // 成功した場合に"#direction"要素に「成功」と表示させる
-                      document.getElementById("direction").innerHTML = "成功";
                   }
               })
               .catch(error => {
                   console.error(error);
-                  // 失敗した場合に"#direction"要素に「失敗」と表示させる
-                  document.getElementById("direction").innerHTML = "失敗";
               });
       }
 
