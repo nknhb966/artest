@@ -504,7 +504,7 @@
         else {
             orientation = 0; // PCの場合は0を返す
         }
-        document.querySelector("#direction").innerHTML = orientation + " : " + degrees;
+        document.querySelector("#direction").innerHTML = orientation + " : " + os + " : " + degrees;
       }
 
       function compassHeading(alpha) {
