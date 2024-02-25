@@ -424,7 +424,7 @@
 
       // イベントリスナーを定義
       window.addEventListener("deviceorientation", handleOrientation, true);
-      window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+      window.addEventListener("deviceorientationabsolute", handleOrientation, true);
 
       // DOM構築完了イベントハンドラ登録
       window.addEventListener("DOMContentLoaded", initOS);
@@ -529,8 +529,7 @@
           let ret;
           if (
               navigator.userAgent.indexOf("iPhone") > 0 ||
-              navigator.userAgent.indexOf("iPad") > 0 ||
-              navigator.userAgent.indexOf("iPod") > 0
+              (navigator.userAgent.indexOf("iPad") > 0  || navigator.userAgent.indexOf("macintosh") > -1 && "ontouchend" in document;)
           ) {
               ret = "iphone";
           } else {
