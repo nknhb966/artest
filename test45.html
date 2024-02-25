@@ -61,7 +61,10 @@
       }
       #permit {
         position: fixed;
-        top: 30px;
+        font-family: Arial, sans-serif;
+        padding: 8px;
+        font-size: 16px;
+        top: 50px;
         right: 10px;
         z-index: 99999;
       }
@@ -436,7 +439,7 @@
               var permitButton = document.createElement("input");
               permitButton.setAttribute("type", "button");
               permitButton.setAttribute("id", "permit");
-              permitButton.setAttribute("value", "SafariでDeviceOrientationを許可");
+              permitButton.setAttribute("value", "端末の向きを取得");
               document.body.appendChild(permitButton);
               permitButton.addEventListener("click", permitDeviceOrientationForSafari);
           }
@@ -504,7 +507,7 @@
         else {
             orientation = 0; // PCの場合は0を返す
         }
-        document.querySelector("#direction").innerHTML = orientation + " :1 " + os + " : " + degrees;
+        document.querySelector("#direction").innerHTML = orientation + " : " + os + " : " + degrees;
       }
 
       function compassHeading(alpha) {
@@ -547,6 +550,7 @@ function detectOSSimply() {
                           "deviceorientation",
                           detectDirection
                       );
+                      document.querySelector("#direction").innerHTML = orientation + " :1 " + os + " :2 " + degrees;
                   }
               })
               .catch(console.error);
