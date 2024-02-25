@@ -444,6 +444,9 @@
   
       let degrees = 0; // degreesの定義を共通の場所に移動
 
+      let orientation = 0;
+
+
       const dragMoveRight = (event) => {
         event.preventDefault();
         if (!joystickBallRight.classList.contains("active")) return;
@@ -473,12 +476,7 @@
             : -joystickLimitNumber;
 
         // degreesの値に基づいて移動量を調整
-        if(window.orientation !== undefined) {
-          let rad = (degrees + window.orientation) * Math.PI / 180;
-        }
-        else {
-          let rad = degrees * Math.PI / 180;
-        }
+        const rad = (degrees + orientation) * Math.PI / 180;
         const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
         const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
 
@@ -500,7 +498,13 @@
         }else{
           degrees = compassHeading(alpha);
         }
-          document.querySelector("#direction").innerHTML = window.orientation + " : " + degrees;
+        if(window.orientation !== undefined) {
+            orientation = window.orientation;
+        }
+        else {
+            orientation = 0; // PCの場合は0を返す
+        }
+        document.querySelector("#direction").innerHTML = orientation + " : " + degrees;
       }
 
       function compassHeading(alpha) {
