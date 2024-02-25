@@ -503,6 +503,7 @@
         }else{
           degrees = compassHeading(alpha);
         }
+          document.querySelector("#direction").innerHTML = orientation + " : " + degrees;
       }
 
       function compassHeading(alpha) {
