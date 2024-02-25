@@ -550,7 +550,7 @@ function detectOSSimply() {
                           "deviceorientation",
                           detectDirection
                       );
-                      document.querySelector("#direction").innerHTML = orientation + " :1 " + os + " :2 " + degrees;
+                      document.getElementById("direction").innerHTML = "成功";
                   }
               })
               .catch(console.error);
