@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>3D Box Interaction</title>
 <style>
     body { margin: 0; overflow: hidden; }
@@ -93,9 +93,9 @@ function onTouchMove(event) {
         var deltaY = touchY - touchStartY;
 
         // Move left/right
-        box.position.x += deltaX * 1;
+        box.position.x += deltaX * 0.1;
         // Move up/down
-        box.position.y -= deltaY * 1;
+        box.position.y -= deltaY * 0.1;
 
         touchStartX = touchX;
         touchStartY = touchY;
