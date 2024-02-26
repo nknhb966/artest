@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<button id="reloadButton" onclick="location.reload();">Reload1</button>
+<button id="reloadButton" onclick="location.reload();">Reload</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -102,12 +102,12 @@ function onTouchMove(event) {
 
         // Calculate distance between camera and box
         var distance = camera.position.distanceTo(box.position);
-        var multiplier = Math.pow(distance / 300, 1.5);
+        var multiplier = Math.pow(distance / 300, 1);
 
         // Move left/right
-        box.position.x += deltaX * multiplier * 0.3;
+        box.position.x += deltaX * multiplier * 0.5;
         // Move up/down
-        box.position.y -= deltaY * multiplier * 0.3;
+        box.position.y -= deltaY * multiplier * 0.5;
 
         touchStartX = touchX;
         touchStartY = touchY;
