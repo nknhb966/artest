@@ -1,70 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Model Interaction</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.1.8/aframe/build/aframe-ar.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Model Movement</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.1.2/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-    >
-        <a-assets>
-            <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
-        </a-assets>
-        <a-entity
-          id="model"
-          gltf-model="#test"
-          scale="1 1 1"
-          position="0 0 0"
-          rotation="0 0 0"
-          gps-entity-place="latitude: 35.92166230651592; longitude: 136.1850867435918;"
-          draggable
-          pinchable
-        >
-        </a-entity>
-        <a-camera gps-camera rotation-reader></a-camera>
-    </a-scene>
-    
-    <script>
-        AFRAME.registerComponent('draggable', {
-            init: function () {
-                this.el.addEventListener('dragstart', this.onDragStart.bind(this));
-            },
-            onDragStart: function (event) {
-                var initialPosition = this.el.object3D.position.clone();
-                var pointerStart = new THREE.Vector3().copy(event.detail.intersection.point);
-                var offset = new THREE.Vector3().subVectors(initialPosition, pointerStart);
-
-                var self = this;
-
-                function onDragMove(event) {
-                    var pointer = new THREE.Vector3().copy(event.detail.intersection.point);
-                    self.el.object3D.position.copy(pointer.add(offset));
-                }
-
-                function onDragEnd() {
-                    self.el.sceneEl.removeEventListener('dragmove', onDragMove);
-                    self.el.sceneEl.removeEventListener('dragend', onDragEnd);
-                }
-
-                this.el.sceneEl.addEventListener('dragmove', onDragMove);
-                this.el.sceneEl.addEventListener('dragend', onDragEnd);
-            }
-        });
-
-        AFRAME.registerComponent('pinchable', {
-            init: function () {
-                this.el.addEventListener('pinchstart', this.onPinchStart.bind(this));
-            },
-            onPinchStart: function (event) {
-                console.log("Pinch start");
-            }
-        });
-    </script>
+  <a-scene embedded arjs vr-mode-ui="enabled: false">
+    <a-assets>
+      <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
+    </a-assets>
+    <a-marker type="pattern" url="pattern-marker.patt">
+      <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0" pinch-zoom rotate-orbit></a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
 </body>
 </html>
