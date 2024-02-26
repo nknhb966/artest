@@ -122,9 +122,9 @@ function onTouchMove(event) {
 
         // Pinch
         if (currentDistance > initialDistance) {
-            box.position.z += 5 * (currentDistance / initialDistance); // Move the box away from the camera
+            box.position.z += 10; // Move the box away from the camera
         } else if (currentDistance < initialDistance) {
-            box.position.z -= 5 * (initialDistance / currentDistance); // Move the box closer to the camera
+            box.position.z -= 10; // Move the box closer to the camera
         }
 
         // Rotate
