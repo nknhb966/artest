@@ -102,11 +102,12 @@ function onTouchMove(event) {
 
         // Calculate distance between camera and box
         var distance = camera.position.distanceTo(box.position);
+        var multiplier = Math.pow(200 / distance, 2);
 
         // Move left/right
-        box.position.x += deltaX * (200 / distance);
+        box.position.x += deltaX * multiplier;
         // Move up/down
-        box.position.y -= deltaY * (200 / distance);
+        box.position.y -= deltaY * multiplier;
 
         touchStartX = touchX;
         touchStartY = touchY;
