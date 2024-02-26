@@ -19,6 +19,8 @@ var box;
 
 var initialDistance = 0;
 var initialAngle = 0;
+var touchStartX = 0;
+var touchStartY = 0;
 
 init();
 animate();
@@ -57,7 +59,11 @@ function animate() {
 }
 
 function onTouchStart(event) {
-    if (event.touches.length == 2) {
+    if (event.touches.length == 1) {
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+    }
+    else if (event.touches.length == 2) {
         var touch1 = event.touches[0];
         var touch2 = event.touches[1];
         initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
@@ -66,7 +72,22 @@ function onTouchStart(event) {
 }
 
 function onTouchMove(event) {
-    if (event.touches.length == 2) {
+    if (event.touches.length == 1) {
+        var touchX = event.touches[0].clientX;
+        var touchY = event.touches[0].clientY;
+
+        var deltaX = touchX - touchStartX;
+        var deltaY = touchY - touchStartY;
+
+        // Move left/right
+        box.position.x += deltaX * 0.1;
+        // Move up/down
+        box.position.y -= deltaY * 0.1;
+
+        touchStartX = touchX;
+        touchStartY = touchY;
+    }
+    else if (event.touches.length == 2) {
         var touch1 = event.touches[0];
         var touch2 = event.touches[1];
         var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
