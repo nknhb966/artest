@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<button id="reloadButton" onclick="location.reload();">Reload</button>
+<button id="reloadButton" onclick="location.reload();">Reload1</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -105,9 +105,9 @@ function onTouchMove(event) {
         var multiplier = Math.pow(distance / 300, 1.5);
 
         // Move left/right
-        box.position.x += deltaX * multiplier * 0.1;
+        box.position.x += deltaX * multiplier * 0.3;
         // Move up/down
-        box.position.y -= deltaY * multiplier * 0.1;
+        box.position.y -= deltaY * multiplier * 0.3;
 
         touchStartX = touchX;
         touchStartY = touchY;
