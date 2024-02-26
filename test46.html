@@ -25,15 +25,15 @@
         // Check if window.orientation property is supported (for older devices)
         if (window.orientation !== undefined) {
             if (window.orientation === 0 || window.orientation === 180) {
-                orientationText.innerText = "Portrait";
+                orientationText.innerText = "Portrait1";
             } else {
-                orientationText.innerText = "Landscape";
+                orientationText.innerText = "Landscape1";
             }
         } else { // If window.orientation is not supported, use screen width vs height
             if (window.innerWidth > window.innerHeight) {
-                orientationText.innerText = "Landscape";
+                orientationText.innerText = "Landscape2";
             } else {
-                orientationText.innerText = "Portrait";
+                orientationText.innerText = "Portrait2";
             }
         }
 
