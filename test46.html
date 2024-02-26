@@ -80,9 +80,9 @@ function onTouchMove(event) {
         var deltaY = touchY - touchStartY;
 
         // Move left/right
-        box.position.x += deltaX * 0.1;
+        box.position.x += deltaX * 1;
         // Move up/down
-        box.position.y -= deltaY * 0.1;
+        box.position.y -= deltaY * 1;
 
         touchStartX = touchX;
         touchStartY = touchY;
