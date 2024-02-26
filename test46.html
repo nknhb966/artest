@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3D Box Interaction</title>
 <style>
-    body { margin: 0; }
+    body { margin: 0; overflow: hidden; }
     canvas { display: block; }
     #reloadButton {
         position: absolute;
@@ -55,7 +55,7 @@ function init() {
 
     // Touch events
     renderer.domElement.addEventListener('touchstart', onTouchStart, false);
-    renderer.domElement.addEventListener('touchmove', onTouchMove, false);
+    renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
 }
 
 function onWindowResize() {
@@ -93,9 +93,9 @@ function onTouchMove(event) {
         var deltaY = touchY - touchStartY;
 
         // Move left/right
-        box.position.x += deltaX * 0.1;
+        box.position.x += deltaX * 1;
         // Move up/down
-        box.position.y -= deltaY * 0.1;
+        box.position.y -= deltaY * 1;
 
         touchStartX = touchX;
         touchStartY = touchY;
@@ -108,9 +108,9 @@ function onTouchMove(event) {
 
         // Pinch
         if (currentDistance > initialDistance) {
-            box.position.z += 10; // Move the box away from the camera
-        } else if (currentDistance < initialDistance) {
             box.position.z -= 10; // Move the box closer to the camera
+        } else if (currentDistance < initialDistance) {
+            box.position.z += 10; // Move the box away from the camera
         }
 
         // Rotate
