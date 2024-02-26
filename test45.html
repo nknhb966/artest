@@ -456,7 +456,7 @@
         else {
             orientation = 0;
         }
-        document.querySelector("#direction").innerHTML = "【確認用】:" + os + " : " + orientation + " : " + degrees + " : " + (degrees + orientation);
+        document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + int(degrees) + " : " + int(degrees + orientation);
       }
 
       function compassHeading(alpha) {
@@ -534,7 +534,12 @@
                   : -joystickLimitNumber;
 
           // degreesの値に基づいて移動量を調整
-          const rad = (degrees) * Math.PI / 180;
+          let rad = 0;
+          if(os == "iphone") {
+            rad = degrees * Math.PI / 180;
+          }else{
+            rad = (degrees + orientation) * Math.PI / 180;
+          }        
           const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
           const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
 
