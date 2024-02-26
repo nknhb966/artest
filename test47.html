@@ -8,9 +8,22 @@
         width: 3em;
         height:3em;
       }
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #reloadButton {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 10px;
+        background-color: #ccc;
+        border: none;
+        cursor: pointer;
+    }
+
     </style>
   </head>
   <body style="margin: 0; overflow: hidden">
+    <button id="reloadButton" onclick="location.reload();">Reload</button>
     <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
       <button onclick="moveModel('top')">↑</button>
       <button onclick="moveModel('left')">←</button>
@@ -31,8 +44,32 @@
     </a-scene>
     
     <script>
-      document.querySelector("a-scene").renderer.gammaOutput=true;
-      
+var target = document.getElementById('model');
+var initialDistance = 0;
+
+target.addEventListener('touchstart', function(event) {
+    if (event.touches.length == 2) {
+        var touch1 = event.touches[0];
+        var touch2 = event.touches[1];
+        initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+    }
+});
+
+target.addEventListener('touchmove', function(event) {
+    if (event.touches.length == 2) {
+        var touch1 = event.touches[0];
+        var touch2 = event.touches[1];
+        var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+
+        if (currentDistance > initialDistance) {
+            console.log('Pinch Out (Zoom In)');
+        } else if (currentDistance < initialDistance) {
+            console.log('Pinch In (Zoom Out)');
+        }
+    }
+});
+
+
       function moveModel(direction) {
         var model = document.getElementById('model');
         var currentPosition = model.getAttribute('position');
