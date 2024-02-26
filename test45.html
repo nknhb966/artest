@@ -484,11 +484,11 @@
               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
           ) {
               ret = "iphone";
+          } else if (navigator.userAgent.indexOf("Android") > 0) {
+              ret = "android";
           } else {
-              ret = "android pc";
+              ret = "pc";
           }
-          return ret;
-      }
 
       function permitDeviceOrientationForSafari() {
           DeviceOrientationEvent.requestPermission()
