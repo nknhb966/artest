@@ -93,9 +93,9 @@ function onTouchMove(event) {
         var deltaY = touchY - touchStartY;
 
         // Move left/right
-        box.position.x += deltaX * 1;
+        box.position.x += deltaX * 0.1;
         // Move up/down
-        box.position.y -= deltaY * 1;
+        box.position.y -= deltaY * 0.1;
 
         touchStartX = touchX;
         touchStartY = touchY;
@@ -108,9 +108,9 @@ function onTouchMove(event) {
 
         // Pinch
         if (currentDistance > initialDistance) {
-            box.scale.multiplyScalar(1.01);
+            box.position.z += 10; // Move the box away from the camera
         } else if (currentDistance < initialDistance) {
-            box.scale.multiplyScalar(0.99);
+            box.position.z -= 10; // Move the box closer to the camera
         }
 
         // Rotate
