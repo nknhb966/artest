@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<button id="reloadButton" onclick="location.reload();">Reload</button>
+<button id="reloadButton" onclick="location.reload();">Reload1</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -104,9 +104,9 @@ function onTouchMove(event) {
         var distance = camera.position.distanceTo(box.position);
 
         // Move left/right
-        box.position.x += deltaX * (400 / distance);
+        box.position.x += deltaX * (200 / distance);
         // Move up/down
-        box.position.y -= deltaY * (400 / distance);
+        box.position.y -= deltaY * (200 / distance);
 
         touchStartX = touchX;
         touchStartY = touchY;
@@ -117,11 +117,14 @@ function onTouchMove(event) {
         var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
         var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
 
+        // Prevent pinch zoom
+        event.preventDefault();
+
         // Pinch
         if (currentDistance > initialDistance) {
-            box.position.z += 10; // Move the box away from the camera
+            box.position.z += 5; // Move the box away from the camera
         } else if (currentDistance < initialDistance) {
-            box.position.z -= 10; // Move the box closer to the camera
+            box.position.z -= 5; // Move the box closer to the camera
         }
 
         // Rotate
