@@ -4,10 +4,7 @@
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
-      button {
-        width: 3em;
-        height:3em;
-      }
+
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
     #reloadButton {
@@ -25,14 +22,7 @@
   </head>
   <body style="margin: 0; overflow: hidden">
     <button id="reloadButton" onclick="location.reload();">1Reload</button>
-    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
-      <button onclick="moveModel('top')">↑</button>
-      <button onclick="moveModel('left')">←</button>
-      <button onclick="moveModel('right')">→</button>
-      <button onclick="moveModel('bottom')">↓</button>
-      <button onclick="moveModel('up')">Up</button>
-      <button onclick="moveModel('down')">Dwn</button>
-    </div>
+
     
     <a-scene embedded arjs vr-mode-ui="enabled: false">
       <a-assets>
@@ -54,9 +44,7 @@ model.addEventListener('touchstart', function(event) {
         var touch1 = event.touches[0];
         var touch2 = event.touches[1];
         initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-        console.log("aaa");
     }
-        console.log("bbb");
 });
 
 model.addEventListener('touchmove', function(event) {
@@ -69,39 +57,11 @@ model.addEventListener('touchmove', function(event) {
             console.log('Pinch Out (Zoom In)');
         } else if (currentDistance < initialDistance) {
             console.log('Pinch In (Zoom Out)');
-        } else {
-          console.log("error");
         }
     }
 });
 
 
-      function moveModel(direction) {
-        var model = document.getElementById('model');
-        var currentPosition = model.getAttribute('position');
-        var step = 0.5;
-        
-        switch(direction) {
-          case 'left':
-            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
-            break;
-          case 'right':
-            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
-            break;
-          case 'bottom':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
-            break;
-          case 'top':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
-            break;
-          case 'down':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
-            break;
-          case 'up':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
-            break;
-        }
-      }
     </script>
   </body>
 </html>
