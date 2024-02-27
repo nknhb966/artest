@@ -165,7 +165,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -371,7 +371,7 @@ var touchStartY = 0;
 }
 
 function onTouchMove(event) {
-        var model = document.getElementById('model0');
+        var model0 = document.getElementById('model0');
 
     if (event.touches.length == 1) {
         event.preventDefault(); // Prevent default behavior (e.g., page scroll)
@@ -388,9 +388,9 @@ function onTouchMove(event) {
         var multiplier = Math.pow(distance / 300, 1);
 
         // Move left/right
-        model.object3D.position.x += deltaX * multiplier * 0.5;
+        model0.object3D.position.x += deltaX * multiplier * 0.5;
         // Move up/down
-        model.object3D.position.y -= deltaY * multiplier * 0.5;
+        model0.object3D.position.y -= deltaY * multiplier * 0.5;
 
         touchStartX = touchX;
         touchStartY = touchY;
@@ -406,14 +406,14 @@ function onTouchMove(event) {
 
         // Pinch
         if (currentDistance > initialDistance) {
-            model.object3D.position.z += 10; // Move the box away from the camera
+            model0.object3D.position.z += 10; // Move the box away from the camera
         } else if (currentDistance < initialDistance) {
-            model.object3D.position.z -= 10; // Move the box closer to the camera
+            model0.object3D.position.z -= 10; // Move the box closer to the camera
         }
 
         // Rotate
         var angleChange = currentAngle - initialAngle;
-        model.object3D.rotation.y += angleChange * Math.PI / 180;
+        model0.object3D.rotation.y += angleChange * Math.PI / 180;
 
         initialDistance = currentDistance;
         initialAngle = currentAngle;
