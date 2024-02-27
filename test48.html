@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -218,6 +218,12 @@
           currentLongitude = position.coords.longitude;
       });
 
+      //      for (let i = 0; i < locations.length + 1; i++) {
+      //          var model = document.getElementById(`model${i}`);
+      //      }
+      let model0 = document.getElementById('model0');
+
+
       var initialDistance = 0;
       var initialAngle = 0;
       var touchStartX = 0;
@@ -251,11 +257,6 @@
       }
 
       function onTouchMove(event) {
-      //      for (let i = 0; i < locations.length + 1; i++) {
-      //          var model = document.getElementById(`model${i}`);
-      //      }
-      var model0 = document.getElementById('model0');
-
           if (event.touches.length == 1) {
               event.preventDefault(); // Prevent default behavior (e.g., page scroll)
               
