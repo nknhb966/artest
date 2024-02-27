@@ -44,30 +44,6 @@
     </a-scene>
     
     <script>
-var target = document.getElementById('model');
-var initialDistance = 0;
-
-target.addEventListener('touchstart', function(event) {
-    if (event.touches.length == 2) {
-        var touch1 = event.touches[0];
-        var touch2 = event.touches[1];
-        initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-    }
-});
-
-target.addEventListener('touchmove', function(event) {
-    if (event.touches.length == 2) {
-        var touch1 = event.touches[0];
-        var touch2 = event.touches[1];
-        var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-
-        if (currentDistance > initialDistance) {
-            console.log('Pinch Out (Zoom In)');
-        } else if (currentDistance < initialDistance) {
-            console.log('Pinch In (Zoom Out)');
-        }
-    }
-});
 
 
       function moveModel(direction) {
