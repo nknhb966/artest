@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -251,58 +251,66 @@
           }
       }
 
+      const pinchThreshold = 50;
+
       function onTouchMove(event) {
           for (let i = 0; i < locations.length + 1; i++) {
               var model = document.getElementById(`model${i}`);
 
-          if (event.touches.length == 1) {
-              event.preventDefault();
-              
-              var touchX = event.touches[0].clientX;
-              var touchY = event.touches[0].clientY;
+              if (event.touches.length == 1) {
+                  event.preventDefault();
+                  
+                  var touchX = event.touches[0].clientX;
+                  var touchY = event.touches[0].clientY;
 
-              var deltaX = touchX - touchStartX;
-              var deltaY = touchY - touchStartY;
+                  var deltaX = touchX - touchStartX;
+                  var deltaY = touchY - touchStartY;
 
-      //        var distance = camera.position.distanceTo(box.position);
-              var distance = 400;
-              var multiplier = Math.pow(distance / 300, 1);
+          //        var distance = camera.position.distanceTo(box.position);
+                  var distance = 400;
+                  var multiplier = Math.pow(distance / 300, 1);
 
-              let rad = 0;
-              if(os == "iphone") {
-                rad = degrees * Math.PI / 180;
-              }else{
-                rad = (degrees + orientation) * Math.PI / 180;
-              }        
-              const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
-              const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+                  let rad = 0;
+                  if(os == "iphone") {
+                    rad = degrees * Math.PI / 180;
+                  }else{
+                    rad = (degrees + orientation) * Math.PI / 180;
+                  }        
+                  const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
+                  const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-              model.object3D.position.x += newX * multiplier * 0.005;
-              model.object3D.position.z += newY * multiplier * 0.005;
+                  model.object3D.position.x += newX * multiplier * 0.005;
+                  model.object3D.position.z += newY * multiplier * 0.005;
 
-              touchStartX = touchX;
-              touchStartY = touchY;
-          }
-          else if (event.touches.length == 2) {
-              var touch1 = event.touches[0];
-              var touch2 = event.touches[1];
-              var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-              var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
-
-              event.preventDefault();
-
-              if (currentDistance > initialDistance) {
-                  model.object3D.position.y += 0.3;
-              } else if (currentDistance < initialDistance) {
-                  model.object3D.position.y -= 0.3;
+                  touchStartX = touchX;
+                  touchStartY = touchY;
               }
+              else if (event.touches.length == 2) {
+                  var touch1 = event.touches[0];
+                  var touch2 = event.touches[1];
+                  var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                  var distanceDiff = currentDistance - initialDistance;
+                  var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
 
-              var angleChange = currentAngle - initialAngle;
-              model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+                  event.preventDefault();
 
-              initialDistance = currentDistance;
-              initialAngle = currentAngle;
-          }
+                  // 差分が閾値を超えた場合にのみ処理を実行
+                  if (Math.abs(distanceDiff) >= pinchThreshold) {
+                      if (distanceDiff > 0) {
+                          // ピンチイン
+                          model.object3D.position.y += 0.3;
+                      } else {
+                          // ピンチアウト
+                          model.object3D.position.y -= 0.3;
+                      }
+                      // 初期距離を更新
+                      initialDistance = currentDistance;
+                  }
+
+                  var angleChange = currentAngle - initialAngle;
+                  model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+                  initialAngle = currentAngle;
+              }
           }
       }
 
