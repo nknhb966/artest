@@ -1,26 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pinch In/Out Detection</title>
-<style>
-    #target {
-        width: 200px;
-        height: 200px;
-        background-color: lightblue;
+<html>
+  <head>
+    <title>TEST2</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <style>
+      button {
+        width: 3em;
+        height:3em;
+      }
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #reloadButton {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        padding: 10px;
+        background-color: #ccc;
+        border: none;
+        cursor: pointer;
+        z-index: 999;
     }
-</style>
-</head>
-<body>
 
-<div id="target">Pinch me!</div>
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+    <button id="reloadButton" onclick="location.reload();">Reload1</button>
+    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
+      <button onclick="moveModel('top')">↑</button>
+      <button onclick="moveModel('left')">←</button>
+      <button onclick="moveModel('right')">→</button>
+      <button onclick="moveModel('bottom')">↓</button>
+      <button onclick="moveModel('up')">Up</button>
+      <button onclick="moveModel('down')">Dwn</button>
+    </div>
+    
+    <a-scene embedded arjs vr-mode-ui="enabled: false">
+      <a-assets>
+        <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
+      </a-assets>
+      <a-marker type="pattern" url="pattern-marker.patt">
+        <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+    
+    <script>
 
-<script>
-var target = document.getElementById('target');
+var model = document.getElementById('model');
 var initialDistance = 0;
 
-target.addEventListener('touchstart', function(event) {
+model.addEventListener('touchstart', function(event) {
     if (event.touches.length == 2) {
         var touch1 = event.touches[0];
         var touch2 = event.touches[1];
@@ -28,7 +57,7 @@ target.addEventListener('touchstart', function(event) {
     }
 });
 
-target.addEventListener('touchmove', function(event) {
+model.addEventListener('touchmove', function(event) {
     if (event.touches.length == 2) {
         var touch1 = event.touches[0];
         var touch2 = event.touches[1];
@@ -41,7 +70,34 @@ target.addEventListener('touchmove', function(event) {
         }
     }
 });
-</script>
 
-</body>
+
+      function moveModel(direction) {
+        var model = document.getElementById('model');
+        var currentPosition = model.getAttribute('position');
+        var step = 0.5;
+        
+        switch(direction) {
+          case 'left':
+            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'right':
+            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'bottom':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+            break;
+          case 'top':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+            break;
+          case 'down':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+            break;
+          case 'up':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+            break;
+        }
+      }
+    </script>
+  </body>
 </html>
