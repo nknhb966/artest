@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">aReload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -294,22 +294,16 @@
 
                   event.preventDefault();
 
-                  // 差分が閾値を超えた場合にのみ処理を実行
-                  if (Math.abs(distanceDiff) >= pinchThreshold) {
-                      // ピンチジェスチャーの変化量を求める
-                      var pinchDelta = distanceDiff * 0.005; // ピンチジェスチャーの変化量に応じて適切な係数を選択してください
-
-                      // モデルの拡大縮小処理
-                      model.object3D.scale.x += pinchDelta;
-                      model.object3D.scale.y += pinchDelta;
-                      model.object3D.scale.z += pinchDelta;
-
-                      // 初期距離を更新
-                      initialDistance = currentDistance;
+                  if (currentDistance - pinchThreshold > initialDistance) {
+                      model.object3D.position.y += 0.3;
+                  } else if (currentDistance + pinchThreshold < initialDistance) {
+                      model.object3D.position.y -= 0.3;
                   }
 
                   var angleChange = currentAngle - initialAngle;
                   model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+
+                  initialDistance = currentDistance;
                   initialAngle = currentAngle;
               }
           }
