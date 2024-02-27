@@ -27,7 +27,7 @@
       </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
         <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
-        <a-entity id="arrow" gltf-model="#arrow-asset" position="0 2.5 0" scale="1 1 1" rotation="0 0 180"  animation="property: position; to: 0 1.5 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow" gltf-model="#arrow-asset" position="0 0.5 0" scale="2 2 2" rotation="0 0 180"  animation="property: position; to: 0 -0.5 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
         <!-- forループを使用して球体を配置 -->
         <script>
           for (var i = 0; i < 8; i++) {
@@ -51,32 +51,54 @@
       document.querySelector("a-scene").renderer.gammaOutput=true;
 
       function moveModel(direction) {
-        var marker = document.querySelector('a-marker');
+        var model = document.getElementById('model');
+        var currentPosition = model.getAttribute('position');
         var step = 0.5;
 
-        var entities = marker.querySelectorAll('a-entity');
-        for (var i = 0; i < entities.length; i++) {
-          var entityPosition = entities[i].getAttribute('position');
+        var spheres = document.querySelectorAll('a-sphere');
+        for (var i = 0; i < spheres.length; i++) {
+          var spherePosition = spheres[i].getAttribute('position');
           switch(direction) {
             case 'left':
-              entities[i].setAttribute('position', {x: parseFloat(entityPosition.x) - step, y: entityPosition.y, z: entityPosition.z});
+              spheres[i].setAttribute('position', {x: parseFloat(spherePosition.x) - step, y: spherePosition.y, z: spherePosition.z});
               break;
             case 'right':
-              entities[i].setAttribute('position', {x: parseFloat(entityPosition.x) + step, y: entityPosition.y, z: entityPosition.z});
+              spheres[i].setAttribute('position', {x: parseFloat(spherePosition.x) + step, y: spherePosition.y, z: spherePosition.z});
               break;
             case 'bottom':
-              entities[i].setAttribute('position', {x: entityPosition.x, y: entityPosition.y, z: parseFloat(entityPosition.z) + step});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: spherePosition.y, z: parseFloat(spherePosition.z) + step});
               break;
             case 'top':
-              entities[i].setAttribute('position', {x: entityPosition.x, y: entityPosition.y, z: parseFloat(entityPosition.z) - step});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: spherePosition.y, z: parseFloat(spherePosition.z) - step});
               break;
             case 'down':
-              entities[i].setAttribute('position', {x: entityPosition.x, y: parseFloat(entityPosition.y) + step, z: entityPosition.z});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: parseFloat(spherePosition.y) + step, z: spherePosition.z});
               break;
             case 'up':
-              entities[i].setAttribute('position', {x: entityPosition.x, y: parseFloat(entityPosition.y) - step, z: entityPosition.z});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: parseFloat(spherePosition.y) - step, z: spherePosition.z});
               break;
           }
+        }
+
+        switch(direction) {
+          case 'left':
+            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'right':
+            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'bottom':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+            break;
+          case 'top':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+            break;
+          case 'down':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+            break;
+          case 'up':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+            break;
         }
       }
     </script>
