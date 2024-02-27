@@ -6,7 +6,7 @@
     <style>
       button {
         width: 3em;
-        height:3em;
+        height: 3em;
       }
     </style>
   </head>
@@ -18,29 +18,28 @@
       <button onclick="moveModel('bottom')">↓</button>
       <button onclick="moveModel('up')">Up</button>
       <button onclick="moveModel('down')">Dwn</button>
-      <button onclick="addSphere()">Add Sphere</button> <!-- 追加 -->
     </div>
-    
+
     <a-scene embedded arjs vr-mode-ui="enabled: false">
       <a-assets>
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
-        <a-asset-item id="sphere" src="sphere.glb" scale="0.5 0.5 0.5"></a-asset-item> <!-- 追加 -->
       </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
         <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
-        <a-entity id="sphere" gltf-model="#sphere" position="1 0.5 0"></a-entity> <!-- 追加 -->
+        <!-- 一般的な球体モデルの追加 -->
+        <a-sphere radius="0.2" color="red" position="0 0.5 0"></a-sphere>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
-    
+
     <script>
       document.querySelector("a-scene").renderer.gammaOutput=true;
-      
+
       function moveModel(direction) {
         var model = document.getElementById('model');
         var currentPosition = model.getAttribute('position');
         var step = 0.5;
-        
+
         switch(direction) {
           case 'left':
             model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
@@ -61,14 +60,6 @@
             model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
             break;
         }
-      }
-      
-      function addSphere() {
-        var scene = document.querySelector('a-scene');
-        var sphere = document.createElement('a-entity');
-        sphere.setAttribute('gltf-model', '#sphere');
-        sphere.setAttribute('position', '1 0.5 0');
-        scene.appendChild(sphere);
       }
     </script>
   </body>
