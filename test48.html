@@ -165,7 +165,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -371,10 +371,11 @@ var touchStartY = 0;
 }
 
 function onTouchMove(event) {
-      for (let i = 0; i < locations.length + 1; i++) {
-          var model = document.getElementById(`model${i}`);
-      }
+//      for (let i = 0; i < locations.length + 1; i++) {
+//          var model = document.getElementById(`model${i}`);
+//      }
 
+var model0 = document.getElementById('model0');
     if (event.touches.length == 1) {
         event.preventDefault(); // Prevent default behavior (e.g., page scroll)
         
@@ -401,9 +402,9 @@ function onTouchMove(event) {
           const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
         // Move left/right
-        model.object3D.position.x -= newX * multiplier * 0.005;
+        model0.object3D.position.x -= newX * multiplier * 0.005;
         // Move up/down
-        model.object3D.position.z -= newY * multiplier * 0.005;
+        model0.object3D.position.z -= newY * multiplier * 0.005;
 
         touchStartX = touchX;
         touchStartY = touchY;
@@ -419,14 +420,14 @@ function onTouchMove(event) {
 
         // Pinch
         if (currentDistance > initialDistance) {
-            model.object3D.position.y += 0.1;
+            model0.object3D.position.y += 0.1;
         } else if (currentDistance < initialDistance) {
-            model.object3D.position.y -= 0.1;
+            model0.object3D.position.y -= 0.1;
         }
 
         // Rotate
         var angleChange = currentAngle - initialAngle;
-        model.object3D.rotation.y += angleChange * Math.PI / 180 * 1;
+        model0.object3D.rotation.y += angleChange * Math.PI / 180 * 1;
 
         initialDistance = currentDistance;
         initialAngle = currentAngle;
