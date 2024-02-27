@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -252,6 +252,7 @@
       }
 
       const pinchThreshold = 50;
+      let pinchInProgress = false;
 
       function onTouchMove(event) {
           for (let i = 0; i < locations.length + 1; i++) {
@@ -294,8 +295,15 @@
 
                   event.preventDefault();
 
-                  // 差分が閾値を超えた場合にのみ処理を実行
+                  // ピンチジェスチャーが閾値を超えた場合の処理
                   if (Math.abs(distanceDiff) >= pinchThreshold) {
+                      if (!pinchInProgress) {
+                          // ピンチジェスチャーが開始したことを記録
+                          pinchInProgress = true;
+                          // 省略
+                      }
+
+                      // 閾値を超えた場合の処理を実行
                       if (distanceDiff > 0) {
                           // ピンチイン
                           model.object3D.position.y += 0.3;
@@ -303,13 +311,16 @@
                           // ピンチアウト
                           model.object3D.position.y -= 0.3;
                       }
+
                       // 初期距離を更新
                       initialDistance = currentDistance;
                   }
-
                   var angleChange = currentAngle - initialAngle;
                   model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
                   initialAngle = currentAngle;
+              } else {
+                  // ピンチジェスチャーが終了した場合
+                  pinchInProgress = false;
               }
           }
       }
