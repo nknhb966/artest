@@ -12,7 +12,7 @@
   </head>
   <body style="margin: 0; overflow: hidden">
     <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
-      <button onclick="moveModel('top')">↑1</button>
+      <button onclick="moveModel('top')">↑</button>
       <button onclick="moveModel('left')">←</button>
       <button onclick="moveModel('right')">→</button>
       <button onclick="moveModel('bottom')">↓</button>
@@ -34,15 +34,11 @@
             var z = Math.cos(angle) * 0.3;
             var color = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080'][i];
 
-            var sphereEntity = document.createElement('a-entity');
-            sphereEntity.setAttribute('position', x + ' 0.5 ' + z);
             var sphere = document.createElement('a-sphere');
             sphere.setAttribute('radius', '0.1');
             sphere.setAttribute('color', color);
-            // アニメーションを追加
-            sphereEntity.setAttribute('animation', 'property: position; to: ' + x + ' 0.3 ' + z + '; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate');
-            sphereEntity.appendChild(sphere);
-            document.querySelector('a-marker').appendChild(sphereEntity);
+            sphere.setAttribute('position', x + ' 2.5 ' + z);
+            document.querySelector('a-marker').appendChild(sphere);
           }
         </script>
       </a-marker>
@@ -59,25 +55,25 @@
 
         var spheres = document.querySelectorAll('a-sphere');
         for (var i = 0; i < spheres.length; i++) {
-          var spherePosition = spheres[i].parentNode.getAttribute('position');
+          var spherePosition = spheres[i].getAttribute('position');
           switch(direction) {
             case 'left':
-              spheres[i].parentNode.setAttribute('position', {x: parseFloat(spherePosition.x) - step, y: spherePosition.y, z: spherePosition.z});
+              spheres[i].setAttribute('position', {x: parseFloat(spherePosition.x) - step, y: spherePosition.y, z: spherePosition.z});
               break;
             case 'right':
-              spheres[i].parentNode.setAttribute('position', {x: parseFloat(spherePosition.x) + step, y: spherePosition.y, z: spherePosition.z});
+              spheres[i].setAttribute('position', {x: parseFloat(spherePosition.x) + step, y: spherePosition.y, z: spherePosition.z});
               break;
             case 'bottom':
-              spheres[i].parentNode.setAttribute('position', {x: spherePosition.x, y: spherePosition.y, z: parseFloat(spherePosition.z) + step});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: spherePosition.y, z: parseFloat(spherePosition.z) + step});
               break;
             case 'top':
-              spheres[i].parentNode.setAttribute('position', {x: spherePosition.x, y: spherePosition.y, z: parseFloat(spherePosition.z) - step});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: spherePosition.y, z: parseFloat(spherePosition.z) - step});
               break;
             case 'down':
-              spheres[i].parentNode.setAttribute('position', {x: spherePosition.x, y: parseFloat(spherePosition.y) + step, z: spherePosition.z});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: parseFloat(spherePosition.y) + step, z: spherePosition.z});
               break;
             case 'up':
-              spheres[i].parentNode.setAttribute('position', {x: spherePosition.x, y: parseFloat(spherePosition.y) - step, z: spherePosition.z});
+              spheres[i].setAttribute('position', {x: spherePosition.x, y: parseFloat(spherePosition.y) - step, z: spherePosition.z});
               break;
           }
         }
