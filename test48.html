@@ -252,9 +252,8 @@
       }
 
       function onTouchMove(event) {
-            for (let i = 0; i < locations.length + 1; i++) {
-                var model0 = document.getElementById(`model${i}`);
-            }
+          for (let i = 0; i < locations.length + 1; i++) {
+              var model = document.getElementById(`model${i}`);
 //          var model0 = document.getElementById('model0');
 
           if (event.touches.length == 1) {
@@ -283,9 +282,9 @@
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
               // Move left/right
-              model0.object3D.position.x += newX * multiplier * 0.005;
+              model.object3D.position.x += newX * multiplier * 0.005;
               // Move up/down
-              model0.object3D.position.z += newY * multiplier * 0.005;
+              model.object3D.position.z += newY * multiplier * 0.005;
 
               touchStartX = touchX;
               touchStartY = touchY;
@@ -301,17 +300,18 @@
 
               // Pinch
               if (currentDistance > initialDistance) {
-                  model0.object3D.position.y += 0.3;
+                  model.object3D.position.y += 0.3;
               } else if (currentDistance < initialDistance) {
-                  model0.object3D.position.y -= 0.3;
+                  model.object3D.position.y -= 0.3;
               }
 
               // Rotate
               var angleChange = currentAngle - initialAngle;
-              model0.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+              model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
 
               initialDistance = currentDistance;
               initialAngle = currentAngle;
+          }
           }
       }
 
