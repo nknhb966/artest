@@ -26,15 +26,21 @@
       </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
         <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
-        <!-- 8つの球体モデルの追加 -->
-        <a-sphere radius="0.1" color="red" position="0.3 0.5 0"></a-sphere>
-        <a-sphere radius="0.1" color="blue" position="-0.3 0.5 0"></a-sphere>
-        <a-sphere radius="0.1" color="green" position="0 0.5 0.3"></a-sphere>
-        <a-sphere radius="0.1" color="yellow" position="0 0.5 -0.3"></a-sphere>
-        <a-sphere radius="0.1" color="orange" position="0.3 0.5 0.3"></a-sphere>
-        <a-sphere radius="0.1" color="purple" position="0.3 0.5 -0.3"></a-sphere>
-        <a-sphere radius="0.1" color="cyan" position="-0.3 0.5 0.3"></a-sphere>
-        <a-sphere radius="0.1" color="magenta" position="-0.3 0.5 -0.3"></a-sphere>
+        <!-- forループを使用して球体を配置 -->
+        <script>
+          for (var i = 0; i < 8; i++) {
+            var angle = (Math.PI / 4) * i;
+            var x = Math.sin(angle) * 0.3;
+            var z = Math.cos(angle) * 0.3;
+            var color = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080'][i];
+
+            var sphere = document.createElement('a-sphere');
+            sphere.setAttribute('radius', '0.1');
+            sphere.setAttribute('color', color);
+            sphere.setAttribute('position', x + ' 0.5 ' + z);
+            document.querySelector('a-marker').appendChild(sphere);
+          }
+        </script>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
