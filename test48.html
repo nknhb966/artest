@@ -1,7 +1,7 @@
 <html>
   <head>
-    <title>ロケーションベースTest7</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ロケーションベースTest7</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -69,95 +69,6 @@
         right: 10px;
         z-index: 1000;
       }
-      .joystick {
-        position: fixed;
-        bottom: 10%;
-        z-index: 10;
-      }
-      .joystick-left {
-        left: 10%;
-      }
-      .joystick-right {
-        right: 10%;
-      }
-      .joystick-frame-left {
-        width: 210px;
-        height: 210px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0);
-        position: relative;
-      }
-      .joystick-arrow-left {
-        width: 210px;
-        height: 210px;
-        position: absolute;
-        top: calc(50% - 105px);
-        left: calc(50% - 105px);
-        background-color: rgba(255, 255, 255, 0);
-      }
-      .joystick-arrow-left::before,
-      .joystick-arrow-left::after {
-        content: '';
-        position: absolute;
-        background-color: rgba(255, 255, 255, 0);
-      }
-      .joystick-arrow-left::before {
-        width: 70px;
-        height: 210px;
-        top: 0;
-        left: calc(50% - 37px);
-        border: 2px solid rgba(255, 255, 255, 0.5);
-      }
-      .joystick-arrow-left::after {
-        width: 210px;
-        height: 70px;
-        top: calc(50% - 37px);
-        left: 0;
-        border: 2px solid rgba(255, 255, 255, 0.5);
-      }
-      .joystick-text {
-        position: absolute;
-        color: white;
-        font-size: 14px;
-      }
-      .joystick-text-up {
-        top: 20px;
-        left: calc(50% - 8px);
-      }
-      .joystick-text-down {
-        bottom: 20px;
-        left: calc(50% - 20px);
-      }
-      .joystick-text-left {
-        top: calc(50% - 10px);
-        left: 10px;
-      }
-      .joystick-text-right {
-        top: calc(50% - 10px);
-        right: 10px;
-      }
-      .joystick-frame-right {
-        width: 210px;
-        height: 210px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        position: relative;
-      }
-      .joystick-text-center {
-        top: calc(50% - 10px);
-        right: calc(50% - 18px);
-      }
-      .joystick-ball {
-        width: 105px;
-        height: 105px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
     </style>
   </head>
 
@@ -174,350 +85,234 @@
         <a-assets>
             <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
         </a-assets>
-
-        <script>
-            // 場所名、緯度、経度のセットを定義
-            const locations = [
-                { name: "本興寺発掘跡地", latitude: 35.905732769065835, longitude: 136.16673321050047},
-                { name: "越前市役所芝生広場", latitude: 35.90334555210129, longitude: 136.16925240028425},
-                { name: "鯖江市役所駐車場", latitude: 35.956305181662465, longitude: 136.1842505019495},
-            ];
-
-            // ドロップダウンリストを配置するコンテナ
-            const dropdownContainer = document.getElementById('dropdownContainer');
-
-            // ドロップダウンリストを生成
-            const dropdown = document.createElement('select');
-            dropdown.setAttribute('id', 'locationDropdown');
-            dropdownContainer.appendChild(dropdown);
-
-            // モデルを配置する場所を選択 のオプションを追加
-            const defaultOption = document.createElement('option');
-            defaultOption.value = -2;
-            defaultOption.text = 'モデルを配置する場所を選択';
-            dropdown.appendChild(defaultOption);
-
-            // 他の場所のオプションを追加
-            locations.forEach((location, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.text = location.name;
-                dropdown.appendChild(option);
-            });
-
-            // 現在地のオプションを追加
-            const currentLocationOption = document.createElement('option');
-            currentLocationOption.value = -1;
-            currentLocationOption.text = '現在地';
-            dropdown.appendChild(currentLocationOption);
-
-
-            // 現在の位置情報を保持する変数
-            let currentLatitude = null;
-            let currentLongitude = null;
-
-            // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
-            dropdown.addEventListener('change', function () {
-                const selectedIndex = parseInt(this.value);
-
-                // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
-                if (selectedIndex === -1) {
-                    if (currentLatitude !== null && currentLongitude !== null) {
-                        addModelToCurrentLocation(currentLatitude, currentLongitude);
-                    } else {
-                        // 現在の位置情報がまだ取得されていない場合は、再度取得する
-                        navigator.geolocation.getCurrentPosition(position => {
-                            currentLatitude = position.coords.latitude;
-                            currentLongitude = position.coords.longitude;
-                            addModelToCurrentLocation(currentLatitude, currentLongitude);
-                        });
-                    }
-                } else {
-
-                    // 現在地のモデルを削除
-                    const currentModel = document.getElementById('model0');
-                    if (currentModel) {
-                        currentModel.parentNode.removeChild(currentModel);
-                    }
-
-                    // 選択されたモデル以外を削除
-                    for (let i = 0; i < locations.length; i++) {
-                        const modelId = `model${i + 1}`;
-                        if (i !== selectedIndex) {
-                            const model = document.getElementById(modelId);
-                            if (model) {
-                                model.parentNode.removeChild(model);
-                            }
-                        }
-                    }
-
-                    // 選択されたモデルを追加
-                    if (selectedIndex >= 0) {
-                        const selectedLocation = locations[selectedIndex];
-                        const selectedModelId = `model${selectedIndex + 1}`;
-                        const modelEntity = document.createElement('a-entity');
-                        modelEntity.setAttribute('id', selectedModelId);
-                        modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
-                        if (os === "iphone") {
-                            modelEntity.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
-                        } else {
-                            modelEntity.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
-                        }
-                        document.querySelector('a-scene').appendChild(modelEntity);
-                    }
-                }
-            });
-
-            // 現在地のモデルを追加
-            const addModelToCurrentLocation = (latitude, longitude) => {
-
-                // 現在地のモデルを削除
-                const currentModel = document.getElementById('model0');
-                if (currentModel) {
-                    currentModel.parentNode.removeChild(currentModel);
-                }
-
-                // 他のモデルをすべて削除
-                for (let i = 0; i < locations.length; i++) {
-                    const modelId = `model${i + 1}`;
-                    const model = document.getElementById(modelId);
-                    if (model) {
-                        model.parentNode.removeChild(model);
-                    }
-                }
-
-                // 現在地のモデルを追加
-                const model0 = document.createElement("a-entity");
-                model0.setAttribute("id", "model0");
-                model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
-                if (os === "iphone") {
-                    model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
-                } else {
-                    model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
-                }
-                document.querySelector('a-scene').appendChild(model0);
-            };
-
-            // リアルタイムで現在の位置情報を取得し、更新する
-            navigator.geolocation.watchPosition(position => {
-                currentLatitude = position.coords.latitude;
-                currentLongitude = position.coords.longitude;
-            });
-
-
-
-var initialDistance = 0;
-var initialAngle = 0;
-var touchStartX = 0;
-var touchStartY = 0;
-
-        </script>
-
         <a-camera gps-camera rotation-reader></a-camera>
-
-        <div id="joystick-left" class="joystick joystick-left">
-          <div class="joystick-frame-left">
-            <div id="joystick-arrow-left" class="joystick-arrow-left">
-              <div class="joystick-text joystick-text-up">Up</div>
-              <div class="joystick-text joystick-text-down">Down</div>
-              <div class="joystick-text joystick-text-left">L-Rot</div>
-              <div class="joystick-text joystick-text-right">R-Rot</div>
-            </div>
-            <div id="joystick-ball-left" class="joystick-ball"></div>
-          </div>
-        </div>
-        <div id="joystick-right" class="joystick joystick-right">
-          <div class="joystick-frame-right">
-            <div class="joystick-text joystick-text-center">Move</div>
-            <div id="joystick-ball-right" class="joystick-ball"></div>
-          </div>
-        </div>
       </a-scene>
     </div>
 
     <script>
-      let joystickBallLeft, joystickBallRight;
-      let joystickCenterXLeft, joystickCenterYLeft, joystickCenterXRight, joystickCenterYRight;
-      let joystickLimitNumber = 45;
+      // 場所名、緯度、経度のセットを定義
+      const locations = [
+          { name: "本興寺発掘跡地", latitude: 35.905732769065835, longitude: 136.16673321050047},
+          { name: "越前市役所芝生広場", latitude: 35.90334555210129, longitude: 136.16925240028425},
+          { name: "鯖江市役所駐車場", latitude: 35.956305181662465, longitude: 136.1842505019495},
+      ];
+
+      // ドロップダウンリストを配置するコンテナ
+      const dropdownContainer = document.getElementById('dropdownContainer');
+
+      // ドロップダウンリストを生成
+      const dropdown = document.createElement('select');
+      dropdown.setAttribute('id', 'locationDropdown');
+      dropdownContainer.appendChild(dropdown);
+
+      // モデルを配置する場所を選択 のオプションを追加
+      const defaultOption = document.createElement('option');
+      defaultOption.value = -2;
+      defaultOption.text = 'モデルを配置する場所を選択';
+      dropdown.appendChild(defaultOption);
+
+      // 他の場所のオプションを追加
+      locations.forEach((location, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.text = location.name;
+          dropdown.appendChild(option);
+      });
+
+      // 現在地のオプションを追加
+      const currentLocationOption = document.createElement('option');
+      currentLocationOption.value = -1;
+      currentLocationOption.text = '現在地';
+      dropdown.appendChild(currentLocationOption);
+
+
+      // 現在の位置情報を保持する変数
+      let currentLatitude = null;
+      let currentLongitude = null;
+
+      // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
+      dropdown.addEventListener('change', function () {
+          const selectedIndex = parseInt(this.value);
+
+          // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
+          if (selectedIndex === -1) {
+              if (currentLatitude !== null && currentLongitude !== null) {
+                  addModelToCurrentLocation(currentLatitude, currentLongitude);
+              } else {
+                  // 現在の位置情報がまだ取得されていない場合は、再度取得する
+                  navigator.geolocation.getCurrentPosition(position => {
+                      currentLatitude = position.coords.latitude;
+                      currentLongitude = position.coords.longitude;
+                      addModelToCurrentLocation(currentLatitude, currentLongitude);
+                  });
+              }
+          } else {
+
+              // 現在地のモデルを削除
+              const currentModel = document.getElementById('model0');
+              if (currentModel) {
+                  currentModel.parentNode.removeChild(currentModel);
+              }
+
+              // 選択されたモデル以外を削除
+              for (let i = 0; i < locations.length; i++) {
+                  const modelId = `model${i + 1}`;
+                  if (i !== selectedIndex) {
+                      const model = document.getElementById(modelId);
+                      if (model) {
+                          model.parentNode.removeChild(model);
+                      }
+                  }
+              }
+
+              // 選択されたモデルを追加
+              if (selectedIndex >= 0) {
+                  const selectedLocation = locations[selectedIndex];
+                  const selectedModelId = `model${selectedIndex + 1}`;
+                  const modelEntity = document.createElement('a-entity');
+                  modelEntity.setAttribute('id', selectedModelId);
+                  modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
+                  if (os === "iphone") {
+                      modelEntity.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+                  } else {
+                      modelEntity.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
+                  }
+                  document.querySelector('a-scene').appendChild(modelEntity);
+              }
+          }
+      });
+
+      // 現在地のモデルを追加
+      const addModelToCurrentLocation = (latitude, longitude) => {
+
+          // 現在地のモデルを削除
+          const currentModel = document.getElementById('model0');
+          if (currentModel) {
+              currentModel.parentNode.removeChild(currentModel);
+          }
+
+          // 他のモデルをすべて削除
+          for (let i = 0; i < locations.length; i++) {
+              const modelId = `model${i + 1}`;
+              const model = document.getElementById(modelId);
+              if (model) {
+                  model.parentNode.removeChild(model);
+              }
+          }
+
+          // 現在地のモデルを追加
+          const model0 = document.createElement("a-entity");
+          model0.setAttribute("id", "model0");
+          model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+          if (os === "iphone") {
+              model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+          } else {
+              model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
+          }
+          document.querySelector('a-scene').appendChild(model0);
+      };
+
+      // リアルタイムで現在の位置情報を取得し、更新する
+      navigator.geolocation.watchPosition(position => {
+          currentLatitude = position.coords.latitude;
+          currentLongitude = position.coords.longitude;
+      });
+
+      var initialDistance = 0;
+      var initialAngle = 0;
+      var touchStartX = 0;
+      var touchStartY = 0;
   
       const init = () => {
-        setupJoysticks();
-    // Touch events
-    var lastTouchEnd = 0;
-    document.addEventListener('touchstart', onTouchStart, false);
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-    document.addEventListener('touchend', function (event) {
-        var now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, false);
-      };
- 
-
-
- function onTouchStart(event) {
-    if (event.touches.length == 1) {
-        touchStartX = event.touches[0].clientX;
-        touchStartY = event.touches[0].clientY;
-    }
-    else if (event.touches.length == 2) {
-        var touch1 = event.touches[0];
-        var touch2 = event.touches[1];
-        initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-        initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
-    }
-}
-
-function onTouchMove(event) {
-//      for (let i = 0; i < locations.length + 1; i++) {
-//          var model = document.getElementById(`model${i}`);
-//      }
-var model0 = document.getElementById('model0');
-
-    if (event.touches.length == 1) {
-        event.preventDefault(); // Prevent default behavior (e.g., page scroll)
-        
-        var touchX = event.touches[0].clientX;
-        var touchY = event.touches[0].clientY;
-
-        var deltaX = touchX - touchStartX;
-        var deltaY = touchY - touchStartY;
-
-        // Calculate distance between camera and box
-//        var distance = camera.position.distanceTo(box.position);
-        var distance = 400;
-        var multiplier = Math.pow(distance / 300, 1);
-
-
-          // degreesの値に基づいて移動量を調整
-          let rad = 0;
-          if(os == "iphone") {
-            rad = degrees * Math.PI / 180;
-          }else{
-            rad = (degrees + orientation) * Math.PI / 180;
-          }        
-          const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
-          const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
-
-        // Move left/right
-        model0.object3D.position.x += newX * multiplier * 0.005;
-        // Move up/down
-        model0.object3D.position.z += newY * multiplier * 0.005;
-
-        touchStartX = touchX;
-        touchStartY = touchY;
-    }
-    else if (event.touches.length == 2) {
-        var touch1 = event.touches[0];
-        var touch2 = event.touches[1];
-        var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-        var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
-
-        // Prevent pinch zoom
-        event.preventDefault();
-
-        // Pinch
-        if (currentDistance > initialDistance) {
-            model0.object3D.position.y += 0.3;
-        } else if (currentDistance < initialDistance) {
-            model0.object3D.position.y -= 0.3;
-        }
-
-        // Rotate
-        var angleChange = currentAngle - initialAngle;
-        model0.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
-
-        initialDistance = currentDistance;
-        initialAngle = currentAngle;
-    }
-} 
-      const setupJoysticks = () => {
-        joystickBallLeft = document.getElementById("joystick-ball-left");
-        joystickBallRight = document.getElementById("joystick-ball-right");
-        joystickCenterXLeft = joystickBallLeft.getBoundingClientRect().left + joystickBallLeft.clientWidth / 2;
-        joystickCenterYLeft = joystickBallLeft.getBoundingClientRect().top + joystickBallLeft.clientHeight / 2;
-        joystickCenterXRight = joystickBallRight.getBoundingClientRect().left + joystickBallRight.clientWidth / 2;
-        joystickCenterYXRight = joystickBallRight.getBoundingClientRect().top + joystickBallRight.clientHeight / 2;
-  
-        joystickBallLeft.addEventListener("mousedown", dragStart);
-        joystickBallLeft.addEventListener("touchstart", dragStart);
-        document.addEventListener("mousemove", dragMove);
-        document.addEventListener("touchmove", dragMove);
-        document.addEventListener("mouseup", dragEnd);
-        document.addEventListener("touchend", dragEnd);
-        
-        joystickBallRight.addEventListener("mousedown", dragStartRight);
-        joystickBallRight.addEventListener("touchstart", dragStartRight);
-        document.addEventListener("mousemove", dragMoveRight);
-        document.addEventListener("touchmove", dragMoveRight);
-        document.addEventListener("mouseup", dragEndRight);
-        document.addEventListener("touchend", dragEndRight);
-  
-        updateJoystickCenters();
-      };
-  
-      const dragStart = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        joystickBallLeft.classList.add("active");
-      };
-  
-      const dragMove = (event) => {
-        event.preventDefault();
-        if (!joystickBallLeft.classList.contains("active")) return;
-        let touchX, touchY;
-        if (event.type === "touchmove") {
-          touchX = event.touches[0].clientX;
-          touchY = event.touches[0].clientY;
-        } else {
-          touchX = event.clientX;
-          touchY = event.clientY;
-        }
-        let offsetX = touchX - joystickCenterXLeft;
-        let offsetY = touchY - joystickCenterYLeft;
-        
-        offsetX =
-          Math.abs(offsetX) < joystickLimitNumber
-            ? offsetX
-            : offsetX > 0
-            ? joystickLimitNumber
-            : -joystickLimitNumber;
-        offsetY =
-          Math.abs(offsetY) < joystickLimitNumber
-            ? offsetY
-            : offsetY > 0
-            ? joystickLimitNumber
-            : -joystickLimitNumber;
-      
-        if (Math.abs(offsetX) > Math.abs(offsetY)) {
-          offsetY = 0;
-        } else {
-          offsetX = 0;
-        }
-        joystickBallLeft.style.left = `calc(50% + ${offsetX}px)`;
-        joystickBallLeft.style.top = `calc(50% + ${offsetY}px)`;
-        for (let i = 0; i < locations.length + 1; i++) {
-            const model = document.getElementById(`model${i}`);
-            if (model) {
-              model.object3D.rotation.y -= offsetX * 0.0002;
-              model.object3D.position.y += offsetY * 0.001;
+        // Touch events
+        var lastTouchEnd = 0;
+        document.addEventListener('touchstart', onTouchStart, false);
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
             }
-        }
+            lastTouchEnd = now;
+        }, false);
       };
 
-      const dragEnd = () => {
-        joystickBallLeft.classList.remove("active");
-        joystickBallLeft.style.left = "50%";
-        joystickBallLeft.style.top = "50%";
-      };
-  
-      const dragStartRight = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        joystickBallRight.classList.add("active");
-      };
+      function onTouchStart(event) {
+          if (event.touches.length == 1) {
+              touchStartX = event.touches[0].clientX;
+              touchStartY = event.touches[0].clientY;
+          }
+          else if (event.touches.length == 2) {
+              var touch1 = event.touches[0];
+              var touch2 = event.touches[1];
+              initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+              initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+          }
+      }
+
+      function onTouchMove(event) {
+      //      for (let i = 0; i < locations.length + 1; i++) {
+      //          var model = document.getElementById(`model${i}`);
+      //      }
+      var model0 = document.getElementById('model0');
+
+          if (event.touches.length == 1) {
+              event.preventDefault(); // Prevent default behavior (e.g., page scroll)
+              
+              var touchX = event.touches[0].clientX;
+              var touchY = event.touches[0].clientY;
+
+              var deltaX = touchX - touchStartX;
+              var deltaY = touchY - touchStartY;
+
+              // Calculate distance between camera and box
+      //        var distance = camera.position.distanceTo(box.position);
+              var distance = 400;
+              var multiplier = Math.pow(distance / 300, 1);
+
+
+                // degreesの値に基づいて移動量を調整
+                let rad = 0;
+                if(os == "iphone") {
+                  rad = degrees * Math.PI / 180;
+                }else{
+                  rad = (degrees + orientation) * Math.PI / 180;
+                }        
+                const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
+                const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+
+              // Move left/right
+              model0.object3D.position.x += newX * multiplier * 0.005;
+              // Move up/down
+              model0.object3D.position.z += newY * multiplier * 0.005;
+
+              touchStartX = touchX;
+              touchStartY = touchY;
+          }
+          else if (event.touches.length == 2) {
+              var touch1 = event.touches[0];
+              var touch2 = event.touches[1];
+              var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+              var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+
+              // Prevent pinch zoom
+              event.preventDefault();
+
+              // Pinch
+              if (currentDistance > initialDistance) {
+                  model0.object3D.position.y += 0.3;
+              } else if (currentDistance < initialDistance) {
+                  model0.object3D.position.y -= 0.3;
+              }
+
+              // Rotate
+              var angleChange = currentAngle - initialAngle;
+              model0.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+
+              initialDistance = currentDistance;
+              initialAngle = currentAngle;
+          }
+      } 
 
       // OS識別用
       let os;
@@ -604,72 +399,6 @@ var model0 = document.getElementById('model0');
               });
       }
 
-      const dragMoveRight = (event) => {
-          event.preventDefault();
-          if (!joystickBallRight.classList.contains("active")) return;
-          let touchX, touchY;
-          if (event.type === "touchmove") {
-              touchX = event.touches[0].clientX;
-              touchY = event.touches[0].clientY;
-          } else {
-              touchX = event.clientX;
-              touchY = event.clientY;
-          }
-          let offsetX = touchX - joystickCenterXRight;
-          let offsetY = touchY - joystickCenterYRight;
-
-          // 方位角に基づいて移動量を修正
-          offsetX =
-              Math.abs(offsetX) < joystickLimitNumber
-                  ? offsetX
-                  : offsetX > 0
-                  ? joystickLimitNumber
-                  : -joystickLimitNumber;
-          offsetY =
-              Math.abs(offsetY) < joystickLimitNumber
-                  ? offsetY
-                  : offsetY > 0
-                  ? joystickLimitNumber
-                  : -joystickLimitNumber;
-
-          // degreesの値に基づいて移動量を調整
-          let rad = 0;
-          if(os == "iphone") {
-            rad = degrees * Math.PI / 180;
-          }else{
-            rad = (degrees + orientation) * Math.PI / 180;
-          }        
-          const newX = offsetX * Math.cos(rad) - offsetY * Math.sin(rad);
-          const newY = offsetX * Math.sin(rad) + offsetY * Math.cos(rad);
-
-          joystickBallRight.style.left = `calc(50% + ${offsetX}px)`;
-          joystickBallRight.style.top = `calc(50% + ${offsetY}px)`;
-
-          for (let i = 0; i < locations.length + 1; i++) {
-              const model = document.getElementById(`model${i}`);
-              if (model) {
-                  model.object3D.position.x -= newX * 0.001;
-                  model.object3D.position.z -= newY * 0.001;
-              }
-          }
-      };
-
-      const dragEndRight = () => {
-        joystickBallRight.classList.remove("active");
-        joystickBallRight.style.left = "50%";
-        joystickBallRight.style.top = "50%";
-      };
-  
-      const updateJoystickCenters = () => {
-        const rectLeft = joystickBallLeft.getBoundingClientRect();
-        joystickCenterXLeft = rectLeft.left + rectLeft.width / 2;
-        joystickCenterYLeft = rectLeft.top + rectLeft.height / 2;
-        
-        const rectRight = joystickBallRight.getBoundingClientRect();
-        joystickCenterXRight = rectRight.left + rectRight.width / 2;
-        joystickCenterYRight = rectRight.top + rectRight.height / 2;
-      };
-
       init();
   
       window.addEventListener("resize", updateJoystickCenters);
@@ -688,4 +417,3 @@ var model0 = document.getElementById('model0');
     </script>
   </body>
 </html>
-
