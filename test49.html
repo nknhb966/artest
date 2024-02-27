@@ -23,7 +23,9 @@
     <a-scene embedded arjs vr-mode-ui="enabled: false">
       <a-assets>
         <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
+        <a-asset-item id="arrow-asset" src="./arrow.glb"></a-asset-item>
       </a-assets>
+      <a-entity id="arrow" gltf-model="#arrow-asset" position="0 15 10" scale="2 2 2" rotation="0 0 180"  animation="property: position; to: 0 14 10; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
       <a-marker type="pattern" url="pattern-marker.patt">
         <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
         <!-- forループを使用して球体を配置 -->
