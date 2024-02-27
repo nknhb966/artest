@@ -38,6 +38,8 @@
             sphere.setAttribute('radius', '0.1');
             sphere.setAttribute('color', color);
             sphere.setAttribute('position', x + ' 2.5 ' + z);
+            // アニメーションを追加
+            sphere.setAttribute('animation', 'property: position; to: ' + x + ' 0.3 ' + z + '; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate');
             document.querySelector('a-marker').appendChild(sphere);
           }
         </script>
