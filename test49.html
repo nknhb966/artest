@@ -26,8 +26,15 @@
       </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
         <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
-        <!-- 一般的な球体モデルの追加 -->
-        <a-sphere radius="0.2" color="red" position="0 0.5 0"></a-sphere>
+        <!-- 8つの球体モデルの追加 -->
+        <a-sphere radius="0.1" color="red" position="0.3 0.5 0"></a-sphere>
+        <a-sphere radius="0.1" color="blue" position="-0.3 0.5 0"></a-sphere>
+        <a-sphere radius="0.1" color="green" position="0 0.5 0.3"></a-sphere>
+        <a-sphere radius="0.1" color="yellow" position="0 0.5 -0.3"></a-sphere>
+        <a-sphere radius="0.1" color="orange" position="0.3 0.5 0.3"></a-sphere>
+        <a-sphere radius="0.1" color="purple" position="0.3 0.5 -0.3"></a-sphere>
+        <a-sphere radius="0.1" color="cyan" position="-0.3 0.5 0.3"></a-sphere>
+        <a-sphere radius="0.1" color="magenta" position="-0.3 0.5 -0.3"></a-sphere>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
