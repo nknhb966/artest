@@ -165,7 +165,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -311,8 +311,6 @@ var initialAngle = 0;
 var touchStartX = 0;
 var touchStartY = 0;
 
-      var model = document.getElementById('model0');
-
         </script>
 
         <a-camera gps-camera rotation-reader></a-camera>
@@ -373,6 +371,8 @@ var touchStartY = 0;
 }
 
 function onTouchMove(event) {
+        var model = document.getElementById('model0');
+
     if (event.touches.length == 1) {
         event.preventDefault(); // Prevent default behavior (e.g., page scroll)
         
