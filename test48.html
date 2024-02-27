@@ -266,10 +266,6 @@
                   var deltaX = touchX - touchStartX;
                   var deltaY = touchY - touchStartY;
 
-          //        var distance = camera.position.distanceTo(box.position);
-                  var distance = 400;
-                  var multiplier = Math.pow(distance / 300, 1);
-
                   let rad = 0;
                   if(os == "iphone") {
                     rad = degrees * Math.PI / 180;
@@ -279,8 +275,8 @@
                   const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                   const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-                  model.object3D.position.x += newX * multiplier * 0.005;
-                  model.object3D.position.z += newY * multiplier * 0.005;
+                  model.object3D.position.x += newX * 0.005;
+                  model.object3D.position.z += newY * 0.005;
 
                   touchStartX = touchX;
                   touchStartY = touchY;
@@ -396,7 +392,6 @@
 
       init();
   
-      window.addEventListener("resize", updateJoystickCenters);
     </script>
 
     <script>
