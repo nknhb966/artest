@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -254,10 +254,9 @@
       function onTouchMove(event) {
           for (let i = 0; i < locations.length + 1; i++) {
               var model = document.getElementById(`model${i}`);
-//          var model0 = document.getElementById('model0');
 
           if (event.touches.length == 1) {
-              event.preventDefault(); // Prevent default behavior (e.g., page scroll)
+              event.preventDefault();
               
               var touchX = event.touches[0].clientX;
               var touchY = event.touches[0].clientY;
@@ -265,25 +264,20 @@
               var deltaX = touchX - touchStartX;
               var deltaY = touchY - touchStartY;
 
-              // Calculate distance between camera and box
       //        var distance = camera.position.distanceTo(box.position);
               var distance = 400;
               var multiplier = Math.pow(distance / 300, 1);
 
+              let rad = 0;
+              if(os == "iphone") {
+                rad = degrees * Math.PI / 180;
+              }else{
+                rad = (degrees + orientation) * Math.PI / 180;
+              }        
+              const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
+              const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-                // degreesの値に基づいて移動量を調整
-                let rad = 0;
-                if(os == "iphone") {
-                  rad = degrees * Math.PI / 180;
-                }else{
-                  rad = (degrees + orientation) * Math.PI / 180;
-                }        
-                const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
-                const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
-
-              // Move left/right
               model.object3D.position.x += newX * multiplier * 0.005;
-              // Move up/down
               model.object3D.position.z += newY * multiplier * 0.005;
 
               touchStartX = touchX;
@@ -295,17 +289,14 @@
               var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
               var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
 
-              // Prevent pinch zoom
               event.preventDefault();
 
-              // Pinch
               if (currentDistance > initialDistance) {
                   model.object3D.position.y += 0.3;
               } else if (currentDistance < initialDistance) {
                   model.object3D.position.y -= 0.3;
               }
 
-              // Rotate
               var angleChange = currentAngle - initialAngle;
               model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
 
