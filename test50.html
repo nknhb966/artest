@@ -416,10 +416,9 @@
   const closeBtn = document.getElementsByClassName('close')[0];
 
   // 矢印をクリックしたときにモーダルを表示する関数を定義します
-  arrow.addEventListener('click', function() {
+arrow.onclick = () => {
     modal.style.display = 'block';
-  });
-
+};
   // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
   closeBtn.addEventListener('click', function() {
     modal.style.display = 'none';
