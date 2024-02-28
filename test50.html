@@ -43,6 +43,23 @@
         left: 10px;
         z-index: 99999;
       }
+      #locationDropdown {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 16px;
+        width: 100%;
+        max-width: 300px;
+        cursor: pointer;
+      }
+      #locationDropdown option {
+        padding: 8px;
+        font-size: 16px;
+      }
       .reload-button {
         position: fixed;
         font-family: Arial, sans-serif;
@@ -64,17 +81,147 @@
         <span id="direction"></span>
     </div>
 
-    <a-scene embedded arjs vr-mode-ui="enabled: false">
-      <a-assets>
-        <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" scale="1 1 1"></a-asset-item>
-      </a-assets>
-        <a-entity id="model" gltf-model="#test" position="0 0 0" rotation="0 0 0"></a-entity>
-      <a-entity camera></a-entity>
-    </a-scene>
-
+    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-assets>
+            <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+            <a-asset-item id="arrow-asset" src="./arrow.glb"></a-asset-item>
+        </a-assets>
+        <a-camera gps-camera rotation-reader></a-camera>
+      </a-scene>
     </div>
 
     <script>
+      // 場所名、緯度、経度のセットを定義
+      const locations = [
+          { name: "本興寺発掘跡地", latitude: 35.905732769065835, longitude: 136.16673321050047},
+          { name: "越前市役所芝生広場", latitude: 35.90334555210129, longitude: 136.16925240028425},
+          { name: "鯖江市役所駐車場", latitude: 35.956305181662465, longitude: 136.1842505019495},
+      ];
+
+      // ドロップダウンリストを配置するコンテナ
+      const dropdownContainer = document.getElementById('dropdownContainer');
+
+      // ドロップダウンリストを生成
+      const dropdown = document.createElement('select');
+      dropdown.setAttribute('id', 'locationDropdown');
+      dropdownContainer.appendChild(dropdown);
+
+      // モデルを配置する場所を選択 のオプションを追加
+      const defaultOption = document.createElement('option');
+      defaultOption.value = -2;
+      defaultOption.text = 'モデルを配置する場所を選択';
+      dropdown.appendChild(defaultOption);
+
+      // 他の場所のオプションを追加
+      locations.forEach((location, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.text = location.name;
+          dropdown.appendChild(option);
+      });
+
+      // 現在地のオプションを追加
+      const currentLocationOption = document.createElement('option');
+      currentLocationOption.value = -1;
+      currentLocationOption.text = '現在地';
+      dropdown.appendChild(currentLocationOption);
+
+
+      // 現在の位置情報を保持する変数
+      let currentLatitude = null;
+      let currentLongitude = null;
+
+      // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
+      dropdown.addEventListener('change', function () {
+          const selectedIndex = parseInt(this.value);
+
+          // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
+          if (selectedIndex === -1) {
+              if (currentLatitude !== null && currentLongitude !== null) {
+                  addModelToCurrentLocation(currentLatitude, currentLongitude);
+              } else {
+                  // 現在の位置情報がまだ取得されていない場合は、再度取得する
+                  navigator.geolocation.getCurrentPosition(position => {
+                      currentLatitude = position.coords.latitude;
+                      currentLongitude = position.coords.longitude;
+                      addModelToCurrentLocation(currentLatitude, currentLongitude);
+                  });
+              }
+          } else {
+
+              // 現在地のモデルを削除
+              const currentModel = document.getElementById('model0');
+              if (currentModel) {
+                  currentModel.parentNode.removeChild(currentModel);
+              }
+
+              // 選択されたモデル以外を削除
+              for (let i = 0; i < locations.length; i++) {
+                  const modelId = `model${i + 1}`;
+                  if (i !== selectedIndex) {
+                      const model = document.getElementById(modelId);
+                      if (model) {
+                          model.parentNode.removeChild(model);
+                      }
+                  }
+              }
+
+              // 選択されたモデルを追加
+              if (selectedIndex >= 0) {
+                  const selectedLocation = locations[selectedIndex];
+                  const selectedModelId = `model${selectedIndex + 1}`;
+                  const modelEntity = document.createElement('a-entity');
+                  modelEntity.setAttribute('id', selectedModelId);
+                  modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
+                  if (os === "iphone") {
+                      modelEntity.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+                  } else {
+modelEntity.innerHTML = `
+  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
+  <a-entity id="arrow" gltf-model="#arrow-asset" position="0 0.5 0" scale="2 2 2" rotation="0 0 180" animation="property: position; to: 0 -0.5 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+`;
+                  }
+                  document.querySelector('a-scene').appendChild(modelEntity);
+              }
+          }
+      });
+
+      // 現在地のモデルを追加
+      const addModelToCurrentLocation = (latitude, longitude) => {
+
+          // 現在地のモデルを削除
+          const currentModel = document.getElementById('model0');
+          if (currentModel) {
+              currentModel.parentNode.removeChild(currentModel);
+          }
+
+          // 他のモデルをすべて削除
+          for (let i = 0; i < locations.length; i++) {
+              const modelId = `model${i + 1}`;
+              const model = document.getElementById(modelId);
+              if (model) {
+                  model.parentNode.removeChild(model);
+              }
+          }
+
+          // 現在地のモデルを追加
+          const model0 = document.createElement("a-entity");
+          model0.setAttribute("id", "model0");
+          model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
+          if (os === "iphone") {
+              model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>`;
+          } else {
+              model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
+          }
+          document.querySelector('a-scene').appendChild(model0);
+      };
+
+      // リアルタイムで現在の位置情報を取得し、更新する
+      navigator.geolocation.watchPosition(position => {
+          currentLatitude = position.coords.latitude;
+          currentLongitude = position.coords.longitude;
+      });
+
       // ピンチ操作の初期値を設定
       var initialDistance = 0;
       var initialAngle = 0;
@@ -111,7 +258,8 @@
       const pinchThreshold = 10;
 
       function onTouchMove(event) {
-              var model = document.getElementById(`model`);
+          for (let i = 0; i < locations.length + 1; i++) {
+              var model = document.getElementById(`model${i}`);
 
               if (event.touches.length == 1) {
                   event.preventDefault();
@@ -159,6 +307,7 @@
                   initialAngle = currentAngle;
               }
           }
+      }
 
       // OS識別用
       let os;
