@@ -225,11 +225,12 @@
 `;
           }
           document.querySelector('a-scene').appendChild(model0);
+
       // 矢印要素を取得
-      const arrow = document.getElementById('arrow');
+//      const arrow = document.getElementById('arrow');
 
       // 矢印をクリックしたときにモーダルを表示する
-      arrow.addEventListener('click', function() {
+      model0.addEventListener('click', function() {
         modal.style.display = 'block';
       });
 
