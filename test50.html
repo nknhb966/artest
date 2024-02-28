@@ -69,6 +69,39 @@
         right: 10px;
         z-index: 1000;
       }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
     </style>
   </head>
 
@@ -76,16 +109,16 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>モーダルのコンテンツをここに追加します。</p>
-  </div>
-</div>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>モーダルのコンテンツをここに追加します。</p>
+      </div>
+    </div>
 
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
@@ -93,7 +126,8 @@
             <a-asset-item id="arrow-asset" src="./arrow.glb"></a-asset-item>
         </a-assets>
         <a-camera gps-camera rotation-reader></a-camera>
-      </a-scene>
+        <a-entity cursor="rayOrigin: mouse"></a-entity>
+    </a-scene>
     </div>
 
     <script>
@@ -188,12 +222,13 @@
                   }
                   document.querySelector('a-scene').appendChild(modelEntity);
               }
+
+
           }
       });
 
       // 現在地のモデルを追加
       const addModelToCurrentLocation = (latitude, longitude) => {
-
           // 現在地のモデルを削除
           const currentModel = document.getElementById('model0');
           if (currentModel) {
@@ -215,28 +250,26 @@
           model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
           if (os === "iphone") {
               model0.innerHTML = `
-  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-  <a-entity id="arrow" gltf-model="#arrow-asset" position="0 2.5 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 2.25 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-`;
+                  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
+                  <a-entity id="arrow" gltf-model="#arrow-asset" position="0 2.5 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 2.25 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+              `;
           } else {
               model0.innerHTML = `
-  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
-  <a-entity id="arrow" gltf-model="#arrow-asset" position="0 2.5 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 2.25 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 2.5 5" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 2.25 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-`;
+                  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
+                  <a-entity id="arrow" gltf-model="#arrow-asset" position="0 2.5 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 2.25 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 2.5 5" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 2.25 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+              `;
           }
           document.querySelector('a-scene').appendChild(model0);
 
-      // 矢印要素を取得
-//      const arrow = document.getElementById('arrow');
-
-      // 矢印をクリックしたときにモーダルを表示する
-      model0.addEventListener('click', function(event) {
-    if (event.target.id === "arrow") {
-        modal.style.display = 'block';
-    }
-      });
-
+          // モデルが生成された後にクリックイベントのリスナーを追加
+          model0.addEventListener('loaded', function () {
+              document.addEventListener('click', function(event) {
+                  if (event.target && event.target.id === 'arrow') {
+                      document.getElementById("modal").style.display = "block";
+                  }
+              });
+          });
       };
 
       // リアルタイムで現在の位置情報を取得し、更新する
@@ -419,23 +452,23 @@
 
       init();
 
-  // モーダルの要素を取得します
-  const modal = document.getElementById('modal');
+      // モーダルの要素を取得します
+      const modal = document.getElementById('modal');
 
-  // 閉じるボタンの要素を取得します
-  const closeBtn = document.getElementsByClassName('close')[0];
+      // 閉じるボタンの要素を取得します
+      const closeBtn = document.getElementsByClassName('close')[0];
 
-  // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-  });
+      // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
 
-  // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
-  window.addEventListener('click', function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  });
+      // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
+      window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
 
     </script>
 
