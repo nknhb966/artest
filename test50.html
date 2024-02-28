@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -235,6 +235,10 @@
       var initialAngle = 0;
       var touchStartX = 0;
       var touchStartY = 0;
+
+      let arrow = document.getElementById('arrow');
+      let modal = document.getElementById('modal');
+      let closeBtn = document.getElementsByClassName('close')[0];
   
       const init = () => {
         // Touch events
@@ -248,6 +252,25 @@
             }
             lastTouchEnd = now;
         }, false);
+
+      console.log(arrow); // arrow要素が正しく取得されているか確認
+      console.log(modal); // modal要素が正しく取得されているか確認
+      console.log(closeBtn); // closeBtn要素が正しく取得されているか確認
+
+      arrow.addEventListener('click', function() {
+        modal.style.display = 'block';
+      });
+
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
       };
 
       function onTouchStart(event) {
@@ -417,32 +440,5 @@
         }
       });
     </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // JavaScriptコードをここに移動する
-      const arrow = document.getElementById('arrow');
-      const modal = document.getElementById('modal');
-      const closeBtn = document.getElementsByClassName('close')[0];
-
-      console.log(arrow); // arrow要素が正しく取得されているか確認
-      console.log(modal); // modal要素が正しく取得されているか確認
-      console.log(closeBtn); // closeBtn要素が正しく取得されているか確認
-
-      arrow.addEventListener('click', function() {
-        modal.style.display = 'block';
-      });
-
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-
-      window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
-        }
-      });
-    });
-  </script>
   </body>
 </html>
