@@ -76,10 +76,16 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>モーダルのコンテンツをここに追加します。</p>
+  </div>
+</div>
 
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
@@ -397,6 +403,9 @@
       }
 
       init();
+    </script>
+
+<script>
   // 矢印の要素を取得します
   const arrow = document.getElementById('arrow');
 
@@ -416,8 +425,13 @@
     modal.style.display = 'none';
   });
 
-  
-    </script>
+  // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
+  window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
 
     <script>
       $(window).on('load orientationchange resize', function(){
