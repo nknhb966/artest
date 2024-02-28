@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -418,6 +418,7 @@
   // 矢印をクリックしたときにモーダルを表示する関数を定義します
   arrow.addEventListener('click', function() {
     console.log("click!");
+    document.querySelector("#direction").innerHTML = "【確認用】";
     modal.style.display = 'block';
   });
 
