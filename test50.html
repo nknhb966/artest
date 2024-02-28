@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -91,25 +91,6 @@
     </div>
 
     <script>
-  // 矢印の要素を取得します
-  const arrow = document.getElementById('arrow');
-
-  // モーダルの要素を取得します
-  const modal = document.getElementById('modal');
-
-  // 閉じるボタンの要素を取得します
-  const closeBtn = document.getElementsByClassName('close')[0];
-
-  // 矢印をクリックしたときにモーダルを表示する関数を定義します
-  arrow.addEventListener('click', function() {
-    modal.style.display = 'block';
-  });
-
-  // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-  });
-
 
       
       // 場所名、緯度、経度のセットを定義
@@ -416,6 +397,25 @@
       }
 
       init();
+  // 矢印の要素を取得します
+  const arrow = document.getElementById('arrow');
+
+  // モーダルの要素を取得します
+  const modal = document.getElementById('modal');
+
+  // 閉じるボタンの要素を取得します
+  const closeBtn = document.getElementsByClassName('close')[0];
+
+  // 矢印をクリックしたときにモーダルを表示する関数を定義します
+  arrow.addEventListener('click', function() {
+    modal.style.display = 'block';
+  });
+
+  // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
   
     </script>
 
