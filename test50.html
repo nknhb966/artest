@@ -109,7 +109,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">aReload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -223,7 +223,7 @@
                   } else {
                       modelEntity.innerHTML = `
                           <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-                          <a-entity id="arrow" gltf-model="#arrow-asset" position="1 1.75 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow" gltf-model="#arrow-asset" position="1 1.75 0" scale="2 2 2" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
                           <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 1.75 5" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 1.6 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
                       `;
                   }
