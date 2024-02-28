@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -239,25 +239,12 @@
       let arrow = document.getElementById('arrow');
       let modal = document.getElementById('modal');
       let closeBtn = document.getElementsByClassName('close')[0];
-  
-      const init = () => {
-        // Touch events
-        var lastTouchEnd = 0;
-        document.addEventListener('touchstart', onTouchStart, { passive: false });
-        document.addEventListener('touchmove', onTouchMove, { passive: false });
-        document.addEventListener('touchend', function (event) {
-            var now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
 
-      console.log(arrow); // arrow要素が正しく取得されているか確認
+      console.log(document.getElementById('arrow')); // arrow要素が正しく取得されているか確認
       console.log(modal); // modal要素が正しく取得されているか確認
       console.log(closeBtn); // closeBtn要素が正しく取得されているか確認
 
-      arrow.addEventListener('click', function() {
+      document.getElementById('arrow').addEventListener('click', function() {
         modal.style.display = 'block';
       });
 
@@ -270,6 +257,19 @@
           modal.style.display = 'none';
         }
       });
+
+      const init = () => {
+        // Touch events
+        var lastTouchEnd = 0;
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
       };
 
       function onTouchStart(event) {
