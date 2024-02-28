@@ -113,10 +113,12 @@
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
-    <div id="modal" class="modal">
+    <div id="modal1" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>モーダルのコンテンツをここに追加します。</p>
+        <p>溝（国府関連施設の区画溝の可能性がある）</p><br>
+        <div>このデータは掘り下げ前なので分かりずらいですが、最終的にはこのような溝になります。</div>
+        <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00113_kokufuhakkutsu.png" alt="00113_kokufuhakkutsu" />
       </div>
     </div>
 
@@ -262,14 +264,14 @@
           } else {
               model0.innerHTML = `
                   <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
-                  <a-entity id="arrow" gltf-model="#arrow-asset" position="1 1.75 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow1" gltf-model="#arrow-asset" position="1 1.75 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
                   <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 1.75 5" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 1.6 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
               `;
           }
           document.querySelector('a-scene').appendChild(model0);
 
-          arrow.onclick = () => {
-              document.getElementById("modal").style.display = "block";
+          arrow1.onclick = () => {
+              document.getElementById("modal1").style.display = "block";
           };
       };
 
@@ -454,20 +456,20 @@
       init();
 
       // モーダルの要素を取得します
-      const modal = document.getElementById('modal');
+      const modal1 = document.getElementById('modal1');
 
       // 閉じるボタンの要素を取得します
       const closeBtn = document.getElementsByClassName('close')[0];
 
       // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
       closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
+        modal1.style.display = 'none';
       });
 
       // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
       window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
+        if (event.target == modal1) {
+          modal1.style.display = 'none';
         }
       });
 
