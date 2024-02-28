@@ -109,7 +109,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -120,7 +120,7 @@
       </div>
     </div>
 
-    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-scene renderer="colorManagement: true" vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
             <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
             <a-asset-item id="arrow-asset" src="./arrow.glb"></a-asset-item>
