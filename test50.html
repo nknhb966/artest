@@ -109,7 +109,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -120,7 +120,7 @@
       </div>
     </div>
 
-    <a-scene renderer="colorManagement: false" vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-scene renderer="colorManagement: true" vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
             <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
             <a-asset-item id="arrow-asset" src="./arrow.glb"></a-asset-item>
@@ -262,14 +262,13 @@
           document.querySelector('a-scene').appendChild(model0);
 
           // モデルが生成された後にクリックイベントのリスナーを追加
-//          model0.addEventListener('loaded', function () {
-              document.getElementById('arrow').addEventListener('click', function(event) {
-//                  if (event.target && event.target.id === 'arrow') {
-//                  if (event.target.id === 'arrow') {
+          model0.addEventListener('loaded', function () {
+              document.addEventListener('click', function(event) {
+                  if (event.target && event.target.id === 'arrow') {
                       document.getElementById("modal").style.display = "block";
-//                  }
+                  }
               });
-//          });
+          });
       };
 
       // リアルタイムで現在の位置情報を取得し、更新する
