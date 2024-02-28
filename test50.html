@@ -405,6 +405,19 @@
       init();
     </script>
 
+
+    <script>
+      $(window).on('load orientationchange resize', function(){
+        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
+          $('#rotateMessage').hide();
+          $('#contentWrapper').show();
+        } else {
+          $('#rotateMessage').show();
+          $('#contentWrapper').hide();
+        }
+      });
+    </script>
+
 <script>
   // 矢印の要素を取得します
   const arrow = document.getElementById('arrow');
@@ -435,16 +448,5 @@
   });
 </script>
 
-    <script>
-      $(window).on('load orientationchange resize', function(){
-        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
-          $('#rotateMessage').hide();
-          $('#contentWrapper').show();
-        } else {
-          $('#rotateMessage').show();
-          $('#contentWrapper').hide();
-        }
-      });
-    </script>
   </body>
 </html>
