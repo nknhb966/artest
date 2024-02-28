@@ -76,16 +76,10 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">1Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>モーダルのコンテンツをここに追加します。</p>
-  </div>
-</div>
 
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
@@ -403,30 +397,7 @@
       }
 
       init();
-      let arrow = document.getElementById('arrow');
-      let modal = document.getElementById('modal');
-      let closeBtn = document.getElementsByClassName('close')[0];
-
-      console.log(document.getElementById('arrow')); // arrow要素が正しく取得されているか確認
-      console.log(modal); // modal要素が正しく取得されているか確認
-      console.log(closeBtn); // closeBtn要素が正しく取得されているか確認
-
-      document.getElementById('arrow').addEventListener('click', function() {
-        modal.style.display = 'block';
-      });
-
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-
-      window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
-        }
-      });
-
     </script>
-
 
     <script>
       $(window).on('load orientationchange resize', function(){
