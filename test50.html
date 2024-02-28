@@ -419,34 +419,26 @@
     </script>
 
 <script>
-  // 矢印の要素を取得します
-  const arrow = document.getElementById('arrow');
+  document.addEventListener('DOMContentLoaded', function() {
+    // JavaScriptコードをここに移動する
+    const arrow = document.getElementById('arrow');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementsByClassName('close')[0];
 
-  // モーダルの要素を取得します
-  const modal = document.getElementById('modal');
+    arrow.addEventListener('click', function() {
+      modal.style.display = 'block';
+    });
 
-  // 閉じるボタンの要素を取得します
-  const closeBtn = document.getElementsByClassName('close')[0];
-
-  // 矢印をクリックしたときにモーダルを表示する関数を定義します
-  arrow.addEventListener('click', function() {
-    console.log("click!");
-    document.querySelector("#direction").innerHTML = "【確認用】";
-    modal.style.display = 'block';
-  });
-
-  // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-  });
-
-  // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
-  window.addEventListener('click', function(event) {
-    if (event.target == modal) {
+    closeBtn.addEventListener('click', function() {
       modal.style.display = 'none';
-    }
+    });
+
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    });
   });
 </script>
-
   </body>
 </html>
