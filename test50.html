@@ -219,6 +219,14 @@
 `;
           }
           document.querySelector('a-scene').appendChild(model0);
+      // 矢印要素を取得
+      const arrow = document.getElementById('arrow');
+
+      // 矢印をクリックしたときにモーダルを表示する
+      arrow.addEventListener('click', function() {
+        modal.style.display = 'block';
+      });
+
       };
 
       // リアルタイムで現在の位置情報を取得し、更新する
