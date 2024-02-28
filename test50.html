@@ -76,7 +76,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">1Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -418,27 +418,31 @@
       });
     </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // JavaScriptコードをここに移動する
-    const arrow = document.getElementById('arrow');
-    const modal = document.getElementById('modal');
-    const closeBtn = document.getElementsByClassName('close')[0];
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // JavaScriptコードをここに移動する
+      const arrow = document.getElementById('arrow');
+      const modal = document.getElementById('modal');
+      const closeBtn = document.getElementsByClassName('close')[0];
 
-    arrow.addEventListener('click', function() {
-      modal.style.display = 'block';
-    });
+      console.log(arrow); // arrow要素が正しく取得されているか確認
+      console.log(modal); // modal要素が正しく取得されているか確認
+      console.log(closeBtn); // closeBtn要素が正しく取得されているか確認
 
-    closeBtn.addEventListener('click', function() {
-      modal.style.display = 'none';
-    });
+      arrow.addEventListener('click', function() {
+        modal.style.display = 'block';
+      });
 
-    window.addEventListener('click', function(event) {
-      if (event.target == modal) {
+      closeBtn.addEventListener('click', function() {
         modal.style.display = 'none';
-      }
+      });
+
+      window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
     });
-  });
-</script>
+  </script>
   </body>
 </html>
