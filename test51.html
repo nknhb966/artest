@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>モーダルで画像とテキストをスライドさせる</title>
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.slider {
+  position: relative;
+}
+
+.slide {
+  display: none;
+  max-width: 100%;
+  height: auto;
+}
+
+.caption {
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<button id="openModal">モーダルを開く</button>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="slider">
+      <img class="slide" src="image1.jpg" alt="Image 1">
+      <img class="slide" src="image2.jpg" alt="Image 2">
+      <!-- 他の画像も追加可能 -->
+    </div>
+    <div class="caption">
+      <p>テキスト 1</p>
+      <p>テキスト 2</p>
+      <!-- 他のテキストも追加可能 -->
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('openModal').onclick = function() {
+  document.getElementById('myModal').style.display = "block";
+}
+
+document.getElementsByClassName('close')[0].onclick = function() {
+  document.getElementById('myModal').style.display = "none";
+}
+
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var slides = document.getElementsByClassName("slide");
+  var captions = document.getElementsByClassName("caption");
+  for (var i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    captions[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {
+    slideIndex = 1
+  }
+  slides[slideIndex - 1].style.display = "block";
+  captions[slideIndex - 1].style.display = "block";
+  setTimeout(showSlides, 2000); // 画像を切り替える時間を設定 (ms)
+}
+</script>
+
+</body>
+</html>
