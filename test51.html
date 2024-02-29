@@ -162,6 +162,27 @@
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].className += " active";
   }
+
+var touchstartX = 0;
+var touchendX = 0;
+
+document.addEventListener('touchstart', function(event) {
+    touchstartX = event.changedTouches[0].screenX;
+}, false);
+
+document.addEventListener('touchend', function(event) {
+    touchendX = event.changedTouches[0].screenX;
+    handleGesture();
+}, false);
+
+function handleGesture() {
+    if (touchendX < touchstartX) {
+        plusSlides(1); // 右にスワイプされた場合、次のスライドに移動
+    }
+    if (touchendX > touchstartX) {
+        plusSlides(-1); // 左にスワイプされた場合、前のスライドに移動
+    }
+}
 </script>
 
 </body>
