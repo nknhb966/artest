@@ -116,7 +116,7 @@
     <div id="modal1" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>溝（国府関連施設の区画溝の可能性がある）</p><br>
+        <p>溝（国府関連施設の区画溝の可能性がある）</p>
         <div>このデータは掘り下げ前なので分かりずらいですが、最終的にはこのような溝になります。</div>
         <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00113_kokufuhakkutsu.png" alt="00113_kokufuhakkutsu" />
       </div>
@@ -477,13 +477,13 @@
 
     <script>
       $(window).on('load orientationchange resize', function(){
-        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
+//        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
           $('#rotateMessage').hide();
           $('#contentWrapper').show();
-        } else {
-          $('#rotateMessage').show();
-          $('#contentWrapper').hide();
-        }
+//        } else {
+//          $('#rotateMessage').show();
+//          $('#contentWrapper').hide();
+//        }
       });
     </script>
   </body>
