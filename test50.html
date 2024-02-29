@@ -80,18 +80,22 @@
         overflow: auto;
         background-color: rgba(0,0,0,0.4);
       }
-      .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        overflow-y: auto;
-      }
-      .modal-content img {
-        max-width: 100%;
-        height: auto;
-      }
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 480px; /* モーダルの最大幅を480pxに設定 */
+    max-height: 80vh; /* モーダルの最大高さを画面の高さの80%に設定 */
+    overflow-y: auto; /* 縦スクロールを有効にする */
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+}
+
       .close {
         color: #aaa;
         float: right;
