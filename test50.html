@@ -138,6 +138,25 @@
     </div>
 
     <script>
+  // モーダルが表示されているかどうかを追跡するためのフラグ
+  let isModalOpen = false;
+
+  // モーダルの表示状態を更新する関数
+  function toggleModal() {
+      isModalOpen = !isModalOpen;
+  }
+
+  // モーダルを表示する関数
+  function showModal() {
+      // モーダルの表示処理
+      toggleModal(); // モーダルの表示状態を更新
+  }
+
+  // モーダルを閉じる関数
+  function closeModal() {
+      // モーダルの非表示処理
+      toggleModal(); // モーダルの表示状態を更新
+  }
 
       
       // 場所名、緯度、経度のセットを定義
@@ -323,7 +342,10 @@
       const pinchThreshold = 10;
 
       function onTouchMove(event) {
-          for (let i = 0; i < locations.length + 1; i++) {
+      if (isModalOpen) {
+          return; // モーダルが表示されている場合は何もしない
+      }
+        for (let i = 0; i < locations.length + 1; i++) {
               var model = document.getElementById(`model${i}`);
 
               if (event.touches.length == 1) {
