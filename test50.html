@@ -114,7 +114,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">aReload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -273,10 +273,21 @@
           }
           document.querySelector('a-scene').appendChild(model0);
 
-          arrow1.onclick = () => {
-              document.getElementById("modal1").style.display = "block";
-              showModal();
-          };
+//          arrow1.onclick = () => {
+//              document.getElementById("modal1").style.display = "block";
+//              showModal();
+//          };
+// arrow1要素を適切に取得する
+const arrow1 = document.getElementById('arrow1');
+
+// arrow1が存在する場合、クリック時にモーダルを表示する処理を追加する
+if (arrow1) {
+    arrow1.onclick = () => {
+        document.getElementById("modal1").style.display = "block";
+        showModal();
+    };
+}
+
       };
 
       // リアルタイムで現在の位置情報を取得し、更新する
