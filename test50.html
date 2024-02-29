@@ -115,7 +115,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload1</button>
+    <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -342,9 +342,7 @@
       const pinchThreshold = 10;
 
       function onTouchMove(event) {
-      if (isModalOpen) {
-          return; // モーダルが表示されている場合は何もしない
-      }
+    if (!isModalOpen) {
         for (let i = 0; i < locations.length + 1; i++) {
               var model = document.getElementById(`model${i}`);
 
@@ -394,6 +392,7 @@
                   initialAngle = currentAngle;
               }
           }
+      }
       }
 
       // OS識別用
