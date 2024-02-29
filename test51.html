@@ -21,15 +21,17 @@
   /* モーダルの中身のスタイル */
   .modal-content {
     position: absolute;
-    top: 100px; /* 画面のTopから100pxの位置に配置 */
+    top: 50px; /* 画面のTopから50pxの位置に配置 */
+    bottom: 50px; /* 画面のBottomから50pxの位置に配置 */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: 80%;
     max-width: 780px; /* コンテンツ部分の最大幅を780pxに設定 */
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 0;
+    overflow-y: auto; /* コンテンツの縦スクロールを可能にする */
   }
 
   /* スライドのスタイル */
@@ -53,6 +55,7 @@
     padding: 5px 10px; /* ボタンの余白を調整 */
     background-color: rgba(255,255,255,0.5); /* ボタンの透過率を0.5に設定 */
     border: none; /* ボタンの枠線を削除 */
+    transform: translateY(-50%);
   }
 
   .prev {
@@ -102,11 +105,11 @@
     <!-- スライド -->
     <div class="slide">
       <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00112_kokufuhakkutsu.png" alt="Image 1">
-      <p>Image 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 Text</p>
+      <p>Image 1 Text</p>
     </div>
     <div class="slide">
-      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00113_kokufuhakkutsu.png" alt="Image 2">
-      <p>Image 2 Text</p>
+      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00114_kokufuhakkutsu.png" alt="Image 2">
+      <p>Image 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 Text</p>
     </div>
     <div class="slide">
       <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00114_kokufuhakkutsu.png" alt="Image 3">
