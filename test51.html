@@ -29,7 +29,7 @@
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    border-radius: 8px;
+    border-radius: 0;
   }
 
   /* スライドのスタイル */
@@ -46,15 +46,13 @@
   /* ボタンのスタイル */
   .prev, .next {
     color: black;
-    font-size: 36px;
+    font-size: 24px; /* ボタンのサイズを調整 */
     cursor: pointer;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    padding: 10px;
-    background-color: rgba(255,255,255,0.5);
-    text-decoration: none;
-    border-radius: 50%;
+    padding: 5px 10px; /* ボタンの余白を調整 */
+    background-color: rgba(255,255,255,0.5); /* ボタンの透過率を0.5に設定 */
+    border: none; /* ボタンの枠線を削除 */
   }
 
   .prev {
@@ -104,7 +102,7 @@
     <!-- スライド -->
     <div class="slide">
       <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00112_kokufuhakkutsu.png" alt="Image 1">
-      <p>Image 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 Text</p>
+      <p>Image 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 Text</p>
     </div>
     <div class="slide">
       <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00113_kokufuhakkutsu.png" alt="Image 2">
@@ -115,8 +113,8 @@
       <p>Image 3 Text</p>
     </div>
     <!-- 任意のスライドを追加 -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="next" onclick="plusSlides(1)">&#10095;</button>
     <!-- ドット -->
     <div style="text-align:center">
       <span class="dot" onclick="currentSlide(1)"></span>
