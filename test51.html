@@ -50,6 +50,7 @@
     top: 50%;
     padding: 5px 10px;
     background-color: rgba(255,255,255,0.5);
+    border: none;
     transform: translateY(-50%);
   }
 
@@ -171,11 +172,11 @@
   }, false);
 
   function handleGesture() {
-      if (touchendX < touchstartX - 50) { // 50ピクセル以上左にスワイプした場合
-          plusSlides(1); // 右にスワイプされた場合、次のスライドに移動
+      if (touchendX < touchstartX - 100) {
+          plusSlides(1);
       }
-      if (touchendX > touchstartX + 50) { // 50ピクセル以上右にスワイプした場合
-          plusSlides(-1); // 左にスワイプされた場合、前のスライドに移動
+      if (touchendX > touchstartX + 100) {
+          plusSlides(-1);
       }
   }
 </script>
