@@ -37,6 +37,7 @@
   /* スライドのスタイル */
   .slide {
     display: none;
+    text-align: center; /* 画像とテキストの中央寄せ */
   }
 
   /* 画像のスタイル */
@@ -109,21 +110,21 @@
     </div>
     <div class="slide">
       <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00114_kokufuhakkutsu.png" alt="Image 2">
-      <p>Image 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 Text</p>
+      <p>Image 2 Text</p>
     </div>
     <div class="slide">
       <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00114_kokufuhakkutsu.png" alt="Image 3">
       <p>Image 3 Text</p>
     </div>
-    <!-- 任意のスライドを追加 -->
-    <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-    <button class="next" onclick="plusSlides(1)">&#10095;</button>
     <!-- ドット -->
     <div style="text-align:center">
       <span class="dot" onclick="currentSlide(1)"></span>
       <span class="dot" onclick="currentSlide(2)"></span>
       <span class="dot" onclick="currentSlide(3)"></span>
     </div>
+    <!-- 任意のスライドを追加 -->
+    <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="next" onclick="plusSlides(1)">&#10095;</button>
   </div>
 </div>
 
@@ -163,26 +164,26 @@
     dots[slideIndex-1].className += " active";
   }
 
-var touchstartX = 0;
-var touchendX = 0;
+  var touchstartX = 0;
+  var touchendX = 0;
 
-document.addEventListener('touchstart', function(event) {
-    touchstartX = event.changedTouches[0].screenX;
-}, false);
+  document.addEventListener('touchstart', function(event) {
+      touchstartX = event.changedTouches[0].screenX;
+  }, false);
 
-document.addEventListener('touchend', function(event) {
-    touchendX = event.changedTouches[0].screenX;
-    handleGesture();
-}, false);
+  document.addEventListener('touchend', function(event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+  }, false);
 
-function handleGesture() {
-    if (touchendX < touchstartX) {
-        plusSlides(1); // 右にスワイプされた場合、次のスライドに移動
-    }
-    if (touchendX > touchstartX) {
-        plusSlides(-1); // 左にスワイプされた場合、前のスライドに移動
-    }
-}
+  function handleGesture() {
+      if (touchendX < touchstartX - 50) { // 50ピクセル以上左にスワイプした場合
+          plusSlides(1); // 右にスワイプされた場合、次のスライドに移動
+      }
+      if (touchendX > touchstartX + 50) { // 50ピクセル以上右にスワイプした場合
+          plusSlides(-1); // 左にスワイプされた場合、前のスライドに移動
+      }
+  }
 </script>
 
 </body>
