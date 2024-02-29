@@ -115,7 +115,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">aReload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -138,27 +138,6 @@
     </div>
 
     <script>
-  // モーダルが表示されているかどうかを追跡するためのフラグ
-  let isModalOpen = false;
-
-  // モーダルの表示状態を更新する関数
-  function toggleModal() {
-      isModalOpen = !isModalOpen;
-  }
-
-  // モーダルを表示する関数
-  function showModal() {
-      // モーダルの表示処理
-      toggleModal(); // モーダルの表示状態を更新
-  }
-
-  // モーダルを閉じる関数
-  function closeModal() {
-      // モーダルの非表示処理
-      toggleModal(); // モーダルの表示状態を更新
-  }
-
-      
       // 場所名、緯度、経度のセットを定義
       const locations = [
           { name: "本興寺発掘跡地", latitude: 35.905732769065835, longitude: 136.16673321050047},
@@ -305,6 +284,26 @@
           currentLatitude = position.coords.latitude;
           currentLongitude = position.coords.longitude;
       });
+
+  // モーダルが表示されているかどうかを追跡するためのフラグ
+  let isModalOpen = false;
+
+  // モーダルの表示状態を更新する関数
+  function toggleModal() {
+      isModalOpen = !isModalOpen;
+  }
+
+  // モーダルを表示する関数
+  function showModal() {
+      // モーダルの表示処理
+      toggleModal(); // モーダルの表示状態を更新
+  }
+
+  // モーダルを閉じる関数
+  function closeModal() {
+      // モーダルの非表示処理
+      toggleModal(); // モーダルの表示状態を更新
+  }
 
       // ピンチ操作の初期値を設定
       var initialDistance = 0;
