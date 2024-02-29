@@ -76,6 +76,21 @@
     right: 10px;
     cursor: pointer;
   }
+
+  /* スライドのドットのスタイル */
+  .dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .active {
+    background-color: #717171;
+  }
 </style>
 </head>
 <body>
@@ -104,6 +119,12 @@
     <!-- 任意のスライドを追加 -->
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <!-- ドット -->
+    <div style="text-align:center">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
   </div>
 </div>
 
@@ -130,12 +151,17 @@
   function showSlides(n) {
     var i;
     var slides = document.getElementsByClassName("slide");
+    var dots = document.getElementsByClassName("dot");
     if (n > slides.length) {slideIndex = 1}
     if (n < 1) {slideIndex = slides.length}
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
     slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
   }
 </script>
 
