@@ -114,7 +114,7 @@
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">aReload</button>
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -275,6 +275,7 @@
 
           arrow1.onclick = () => {
               document.getElementById("modal1").style.display = "block";
+              showModal();
           };
       };
 
@@ -284,25 +285,8 @@
           currentLongitude = position.coords.longitude;
       });
 
-  // モーダルが表示されているかどうかを追跡するためのフラグ
-  let isModalOpen = false;
-
-  // モーダルの表示状態を更新する関数
-  function toggleModal() {
-      isModalOpen = !isModalOpen;
-  }
-
-  // モーダルを表示する関数
-  function showModal() {
-      // モーダルの表示処理
-      toggleModal(); // モーダルの表示状態を更新
-  }
-
-  // モーダルを閉じる関数
-  function closeModal() {
-      // モーダルの非表示処理
-      toggleModal(); // モーダルの表示状態を更新
-  }
+// モーダルが表示されているかどうかを追跡するフラグ
+let isModalVisible = false;
 
       // ピンチ操作の初期値を設定
       var initialDistance = 0;
@@ -340,7 +324,10 @@
       const pinchThreshold = 10;
 
       function onTouchMove(event) {
-    if (!isModalOpen) {
+    // モーダルが表示されている間はデフォルトの動作を許可する
+    if (isModalVisible) {
+        return;
+    }
         for (let i = 0; i < locations.length + 1; i++) {
               var model = document.getElementById(`model${i}`);
 
@@ -391,8 +378,18 @@
               }
           }
       }
-      }
+// モーダルを表示する関数
+function showModal() {
+    isModalVisible = true;
+    // モーダルを表示する処理
+}
 
+// モーダルを非表示にする関数
+function hideModal() {
+    isModalVisible = false;
+    // モーダルを非表示にする処理
+}
+      
       // OS識別用
       let os;
 
@@ -489,12 +486,14 @@
       // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
       closeBtn.addEventListener('click', function() {
         modal1.style.display = 'none';
+        hideModal();
       });
 
       // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
       window.addEventListener('click', function(event) {
         if (event.target == modal1) {
           modal1.style.display = 'none';
+          hideModal();
         }
       });
 
