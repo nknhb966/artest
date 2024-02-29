@@ -95,7 +95,9 @@
     max-width: 100%;
     height: auto;
 }
-
+.modal-open {
+    overflow: hidden;
+}
 
       .close {
         color: #aaa;
@@ -480,6 +482,10 @@
         }
       });
 
+// モーダルを閉じたときに背景のモデルを元の位置に戻す
+function closeModal() {
+    document.body.classList.remove('modal-open');
+}
     </script>
 
     <script>
