@@ -89,7 +89,7 @@
 </style>
 </head>
 <body>
-
+<div>1</div>
 <!-- ボタンを配置するためのコンテナ -->
 <div id="buttonContainer">
 </div>
@@ -131,10 +131,16 @@
     showSlides(slideIndex = n);
   }
 
-  function showSlides(n) {
+function showSlides(n) {
     var i;
     var slides = document.getElementsByClassName("slide");
     var dots = document.getElementsByClassName("dot");
+    
+    if (slides.length === 0 || dots.length === 0) {
+        console.error("No slides or dots found.");
+        return;
+    }
+    
     if (n > slides.length) {slideIndex = 1}
     if (n < 1) {slideIndex = slides.length}
     for (i = 0; i < slides.length; i++) {
@@ -145,7 +151,7 @@
     }
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].className += " active";
-  }
+}
 
   var touchstartX = 0;
   var touchendX = 0;
