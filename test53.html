@@ -194,10 +194,20 @@
     showSlides(n, modalIndex);
   }
 
-  // スライドショーの前後に移動する関数
-  function plusSlides(n, modalIndex) {
-    showSlides(slideIndex += n, modalIndex);
+// スライドショーの前後に移動する関数
+function plusSlides(n, modalIndex) {
+  const modal = document.querySelectorAll('.modal')[modalIndex - 1];
+  const slides = modal ? modal.getElementsByClassName("slide") : [];
+  if (slides.length === 0) return; // スライドがない場合は処理しない
+
+  slideIndex += n;
+  if (slideIndex > slides.length) {
+    slideIndex = 1; // 最後まで到達した場合、最初のスライドに戻る
+  } else if (slideIndex < 1) {
+    slideIndex = slides.length; // 最初まで戻った場合、最後のスライドに移動する
   }
+  showSlides(slideIndex, modalIndex);
+}
 
   // 初期化関数
   async function initialize() {
