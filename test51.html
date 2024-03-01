@@ -90,8 +90,9 @@
 </head>
 <body>
 
-<!-- トリガーボタン -->
-<button onclick="openModal()">Open Modal</button>
+<!-- ボタンを配置するためのコンテナ -->
+<div id="buttonContainer">
+</div>
 
 <!-- モーダル -->
 <div id="myModal" class="modal" onclick="closeModal()">
@@ -99,23 +100,10 @@
     <!-- 閉じるボタン -->
     <span class="close" onclick="closeModal()">&times;</span>
     <!-- スライド -->
-    <div class="slide">
-      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00112_kokufuhakkutsu.png" alt="Image 1">
-      <p>Image 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 Text</p>
-    </div>
-    <div class="slide">
-      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00113_kokufuhakkutsu.png" alt="Image 2">
-      <p>Image 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 Text</p>
-    </div>
-    <div class="slide">
-      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00114_kokufuhakkutsu.png" alt="Image 3">
-      <p>Image 3 Text</p>
-    </div>
+    <!-- スライドの追加はJavaScriptで行う -->
     <!-- ドット -->
     <div style="text-align:center">
-      <span class="dot" onclick="currentSlide(1)"></span>
-      <span class="dot" onclick="currentSlide(2)"></span>
-      <span class="dot" onclick="currentSlide(3)"></span>
+      <!-- ドットの追加はJavaScriptで行う -->
     </div>
     <!-- 任意のスライドを追加 -->
     <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
@@ -179,6 +167,89 @@
           plusSlides(-1);
       }
   }
+
+  // ボタンとモーダルの動的生成
+  var buttonContainer = document.getElementById("buttonContainer");
+  var modalContent = document.querySelector(".modal-content");
+  var dotContainer = document.querySelector(".modal-content > div");
+
+  // CSVファイルからデータを読み込む
+  fetch('./csv/contents.csv')
+    .then(response => response.text())
+    .then(data => {
+      var rows = data.trim().split('\n');
+      for (var i = 1; i < rows.length; i++) {
+        var columns = rows[i].split(',');
+        var title = columns[1];
+        var mainImage = columns[2];
+        var image1 = columns[3];
+        var description1 = columns[4];
+        var image2 = columns[5];
+        var description2 = columns[6];
+        var image3 = columns[7];
+        var description3 = columns[8];
+
+        if (mainImage) {
+          var slide = document.createElement("div");
+          slide.className = "slide";
+          var image = document.createElement("img");
+          image.src = mainImage;
+          image.alt = title;
+          slide.appendChild(image);
+          modalContent.appendChild(slide);
+
+          var dot = document.createElement("span");
+          dot.className = "dot";
+          dot.onclick = function(index) {
+            return function() {
+              currentSlide(index);
+            };
+          }(i);
+          dotContainer.appendChild(dot);
+        }
+
+        if (image1) {
+          var slide = document.createElement("div");
+          slide.className = "slide";
+          var image = document.createElement("img");
+          image.src = image1;
+          image.alt = title;
+          var text = document.createElement("p");
+          text.textContent = description1;
+          slide.appendChild(image);
+          slide.appendChild(text);
+          modalContent.appendChild(slide);
+        }
+
+        if (image2) {
+          var slide = document.createElement("div");
+          slide.className = "slide";
+          var image = document.createElement("img");
+          image.src = image2;
+          image.alt = title;
+          var text = document.createElement("p");
+          text.textContent = description2;
+          slide.appendChild(image);
+          slide.appendChild(text);
+          modalContent.appendChild(slide);
+        }
+
+        if (image3) {
+          var slide = document.createElement("div");
+          slide.className = "slide";
+          var image = document.createElement("img");
+          image.src = image3;
+          image.alt = title;
+          var text = document.createElement("p");
+          text.textContent = description3;
+          slide.appendChild(image);
+          slide.appendChild(text);
+          modalContent.appendChild(slide);
+        }
+      }
+      showSlides(slideIndex);
+    })
+    .catch(error => console.error('Error fetching CSV:', error));
 </script>
 
 </body>
