@@ -222,14 +222,42 @@
                   if (os === "iphone") {
                       modelEntity.innerHTML = `
                           <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-                          <a-entity id="arrow" gltf-model="#arrow-asset" position="1 1.75 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 1.75 5" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 1.6 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 1.0 1.7 -3.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow5" gltf-model="#arrow-asset" position="-1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: -1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow6" gltf-model="#arrow-asset" position="-4.0 1.8 5.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: -4.0 1.7 5.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow7" gltf-model="#arrow-asset" position="2.5 1.8 -6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 2.5 1.7 -6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow8" gltf-model="#arrow-asset" position="-2.0 1.8 6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: -2.0 1.7 6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
                       `;
                   } else {
                       modelEntity.innerHTML = `
                           <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
-                          <a-entity id="arrow" gltf-model="#arrow-asset" position="1 1.75 0" scale="0.1 0.1 0.1" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 1.75 5" scale="0.1 0.1 0.1" rotation="0 0 180" animation="property: position; to: 0 1.6 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 1.0 1.7 -3.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow5" gltf-model="#arrow-asset" position="-1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: -1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow6" gltf-model="#arrow-asset" position="-4.0 1.8 5.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: -4.0 1.7 5.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow7" gltf-model="#arrow-asset" position="2.5 1.8 -6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: 2.5 1.7 -6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                          <a-entity id="arrow8" gltf-model="#arrow-asset" position="-2.0 1.8 6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                                 animation="property: position; to: -2.0 1.7 6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
                       `;
                   }
                   document.querySelector('a-scene').appendChild(modelEntity);
@@ -261,8 +289,22 @@
           if (os === "iphone") {
               model0.innerHTML = `
                   <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-                  <a-entity id="arrow1" gltf-model="#arrow-asset" position="1 1.75 0" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 1 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow2" gltf-model="#arrow-asset" position="0 1.75 5" scale="0.25 0.25 0.25" rotation="0 0 180" animation="property: position; to: 0 1.6 5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: 1.0 1.7 -3.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow5" gltf-model="#arrow-asset" position="-1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: -1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow6" gltf-model="#arrow-asset" position="-4.0 1.8 5.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: -4.0 1.7 5.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow7" gltf-model="#arrow-asset" position="2.5 1.8 -6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: 2.5 1.7 -6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+                  <a-entity id="arrow8" gltf-model="#arrow-asset" position="-2.0 1.8 6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                                         animation="property: position; to: -2.0 1.7 6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
               `;
           } else {
               model0.innerHTML = `
