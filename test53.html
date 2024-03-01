@@ -109,16 +109,17 @@
     modal.innerHTML = `
       <div class="modal-content">
         <span class="close" onclick="closeModal(${id})">&times;</span>
-        ${title ? `<h2>${title}</h2>` : ''}
+        ${title ? `<p>${title}</p>` : ''}
         ${createSlides(images, descriptions)}
-        ${createSlideButtons(images.length, id)}
+        ${images.length > 1 ? createSlideButtons(images.length, id) : ''}
+        ${images.length > 1 ? createSlideNavigation(id) : ''}
       </div>
     `;
     modalContainer.appendChild(modal);
 
     // ボタンを作成し、モーダルを開く関数と紐付ける
     const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id}`;
+    openButton.textContent = `Open Modal ${id} <br>`;
     openButton.onclick = () => openModal(id);
     modalContainer.appendChild(openButton);
   }
@@ -144,6 +145,14 @@
       buttons += `<span class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></span>`;
     }
     return buttons;
+  }
+
+  // ナビゲーションボタンを作成する関数
+  function createSlideNavigation(id) {
+    return `
+      <button class="prev" onclick="plusSlides(-1, ${id})">&#10094;</button>
+      <button class="next" onclick="plusSlides(1, ${id})">&#10095;</button>
+    `;
   }
 
   // モーダルを開く関数
@@ -181,6 +190,11 @@
   // スライドを切り替える関数
   function currentSlide(n, modalIndex) {
     showSlides(n, modalIndex);
+  }
+
+  // スライドショーの前後に移動する関数
+  function plusSlides(n, modalIndex) {
+    showSlides(slideIndex += n, modalIndex);
   }
 
   // 初期化関数
