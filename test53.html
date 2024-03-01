@@ -92,7 +92,7 @@
 <body>
 
 <div id="modalContainer"></div>
-1
+
 <script>
   // CSVファイルからデータを読み込む関数
   async function fetchData() {
@@ -141,7 +141,7 @@
   function createSlideButtons(numSlides, modalIndex) {
     let buttons = '';
     for (let i = 0; i < numSlides; i++) {
-      buttons += `<button class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></button>`;
+      buttons += `<span class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></span>`;
     }
     return buttons;
   }
