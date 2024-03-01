@@ -94,6 +94,8 @@
 <div id="modalContainer"></div>
 
 <script>
+  let slideIndex = 1; // slideIndex を追加
+
   // CSVファイルからデータを読み込む関数
   async function fetchData() {
     const response = await fetch('./csv/contents.csv');
@@ -119,7 +121,7 @@
 
     // ボタンを作成し、モーダルを開く関数と紐付ける
     const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id} <br>`;
+    openButton.textContent = `Open Modal ${id}`;
     openButton.onclick = () => openModal(id);
     modalContainer.appendChild(openButton);
   }
