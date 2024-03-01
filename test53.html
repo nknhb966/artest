@@ -92,7 +92,6 @@
 <body>
 
 <div id="modalContainer"></div>
-<div>1</div>
 
 <script>
   // CSVファイルからデータを読み込む関数
@@ -110,7 +109,7 @@
     modal.innerHTML = `
       <div class="modal-content">
         <span class="close" onclick="closeModal(${id})">&times;</span>
-        ${title ? `<p>${title}</p>` : ''}
+        ${title ? `<h2>${title}</h2>` : ''}
         ${createSlides(images, descriptions)}
         ${createSlideButtons(images.length)}
       </div>
@@ -119,7 +118,7 @@
 
     // ボタンを作成し、モーダルを開く関数と紐付ける
     const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id} <br>`;
+    openButton.textContent = `Open Modal ${id}`;
     openButton.onclick = () => openModal(id);
     modalContainer.appendChild(openButton);
   }
@@ -151,6 +150,7 @@
   function openModal(id) {
     const modal = document.querySelectorAll('.modal')[id - 1];
     modal.style.display = 'block';
+    showSlides(1, id);
   }
 
   // モーダルを閉じる関数
@@ -160,31 +160,20 @@
   }
 
   // スライド操作関数
-  var slideIndex = 1;
-  showSlides(slideIndex);
-
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("slide");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
+  function showSlides(n, modalIndex) {
+    const modal = document.querySelectorAll('.modal')[modalIndex - 1];
+    const slides = modal.getElementsByClassName("slide");
+    const dots = modal.getElementsByClassName("dot");
+    if (n > slides.length) {n = 1}
+    if (n < 1) {n = slides.length}
+    for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
-    for (i = 0; i < dots.length; i++) {
+    for (let i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
     }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
+    slides[n - 1].style.display = "block";
+    dots[n - 1].className += " active";
   }
 
   // 初期化関数
