@@ -89,7 +89,7 @@
 </style>
 </head>
 <body>
-<div>1</div>
+
 <div id="modalContainer"></div>
 
 <script>
@@ -113,6 +113,12 @@
       </div>
     `;
     modalContainer.appendChild(modal);
+
+    // ボタンを作成し、モーダルを開く関数と紐付ける
+    const openButton = document.createElement('button');
+    openButton.textContent = `Open Modal ${id}`;
+    openButton.onclick = () => openModal(id);
+    modalContainer.appendChild(openButton);
   }
 
   // スライドを作成する関数
@@ -121,7 +127,7 @@
     for (let i = 0; i < images.length; i++) {
       slides += `
         <div class="slide">
-          <img src="./image/${images[i]}" alt="Slide ${i + 1}">
+          <img src="${images[i]}" alt="Slide ${i + 1}">
           ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
         </div>
       `;
