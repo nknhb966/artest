@@ -197,7 +197,7 @@ fetch('./csv/contents.csv')
             button.onclick = function (index) {
                 return function () {
                     openModal();
-                    currentSlide(index * 4 - 3); // スライドの開始位置を設定
+                    currentSlide((index - 1) * 4 + 1);
                 };
             }(i);
             buttonContainer.appendChild(button);
@@ -217,12 +217,12 @@ fetch('./csv/contents.csv')
             }
 
             var dotContainer = document.querySelector(".modal-content > div");
-            for (var l = 0; l < Math.min(images.length, 4); l++) { // 最大4つのドット
+            for (var l = 0; l < images.length; l++) {
                 var dot = document.createElement("span");
                 dot.className = "dot";
                 dot.onclick = function (index) {
                     return function () {
-                        currentSlide((i - 1) * 4 + index); // スライドのインデックスを設定
+                        currentSlide((i - 1) * 4 + index);
                     };
                 }(l + 1);
                 dotContainer.appendChild(dot);
@@ -232,7 +232,6 @@ fetch('./csv/contents.csv')
     .catch(error => {
         console.error('Error fetching CSV:', error);
     });
-
 </script>
 
 </body>
