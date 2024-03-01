@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modal Slideshow</title>
+<title>Modal Slideshow from CSV</title>
 <style>
   /* モーダルのスタイル */
   .modal {
@@ -14,8 +14,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto; /* 縦スクロールを可能にする */
-    background-color: rgba(0,0,0,0.5); /* 背景の透過率を0.5に設定 */
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5);
   }
   
   /* モーダルの中身のスタイル */
@@ -25,7 +25,7 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 780px; /* コンテンツ部分の最大幅を780pxに設定 */
+    max-width: 780px;
     overflow-y: auto;
   }
 
@@ -89,159 +89,72 @@
 </style>
 </head>
 <body>
-<div>7</div>
-<!-- ボタンを配置するためのコンテナ -->
-<div id="buttonContainer">
-</div>
-
-<!-- モーダル -->
-<div id="myModal" class="modal" onclick="closeModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <!-- 閉じるボタン -->
-    <span class="close" onclick="closeModal()">&times;</span>
-    <!-- スライド -->
-    <!-- スライドの追加はJavaScriptで行う -->
-    <!-- ドット -->
-    <div style="text-align:center">
-      <!-- ドットの追加はJavaScriptで行う -->
-    </div>
-    <!-- 任意のスライドを追加 -->
-    <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-    <button class="next" onclick="plusSlides(1)">&#10095;</button>
-  </div>
-</div>
+<div>1</div>
+<div id="modalContainer"></div>
 
 <script>
-  var slideIndex = 1;
-  showSlides(slideIndex);
-
-  function openModal() {
-    document.getElementById("myModal").style.display = "block";
+  // CSVファイルからデータを読み込む関数
+  async function fetchData() {
+    const response = await fetch('./csv/contents.csv');
+    const data = await response.text();
+    return data;
   }
 
-  function closeModal() {
-    document.getElementById("myModal").style.display = "none";
+  // モーダルを作成する関数
+  function createModal(id, title, images, descriptions) {
+    const modalContainer = document.getElementById('modalContainer');
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close" onclick="closeModal(${id})">&times;</span>
+        ${title ? `<h2>${title}</h2>` : ''}
+        ${createSlides(images, descriptions)}
+      </div>
+    `;
+    modalContainer.appendChild(modal);
   }
 
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("slide");
-    var dots = document.getElementsByClassName("dot");
-    
-    if (slides.length === 0 || dots.length === 0) {
-        console.error("No slides or dots found.");
-        return;
+  // スライドを作成する関数
+  function createSlides(images, descriptions) {
+    let slides = '';
+    for (let i = 0; i < images.length; i++) {
+      slides += `
+        <div class="slide">
+          <img src="./image/${images[i]}" alt="Slide ${i + 1}">
+          ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
+        </div>
+      `;
     }
-    
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
+    return slides;
   }
 
-  var touchstartX = 0;
-  var touchendX = 0;
-
-  document.addEventListener('touchstart', function(event) {
-      touchstartX = event.changedTouches[0].screenX;
-  }, false);
-
-  document.addEventListener('touchend', function(event) {
-      touchendX = event.changedTouches[0].screenX;
-      handleGesture();
-  }, false);
-
-  function handleGesture() {
-      if (touchendX < touchstartX - 75) {
-          plusSlides(1);
-      }
-      if (touchendX > touchstartX + 75) {
-          plusSlides(-1);
-      }
+  // モーダルを開く関数
+  function openModal(id) {
+    const modal = document.querySelectorAll('.modal')[id - 1];
+    modal.style.display = 'block';
   }
 
-  // CSV読み込みとスライドの生成
-fetch('./csv/contents.csv')
-    .then(response => response.text())
-    .then(data => {
-        var lines = data.split('\n');
-        var buttonContainer = document.getElementById("buttonContainer");
-        for (var i = 1; i < lines.length; i++) {
-            var cells = lines[i].split(',');
-            if (cells.length < 2) continue; // データが十分でない場合、次の行に進む
-            var id = cells[0];
-            var title = cells[1];
-            var images = [];
-            var descriptions = [];
-            for (var j = 2; j < cells.length; j += 2) {
-                if (cells[j] && cells[j + 1]) {
-                    images.push('./image/' + cells[j]); // 画像のパスを修正
-                    descriptions.push(cells[j + 1]);
-                }
-            }
-            var button = document.createElement("button");
-            button.textContent = "Open Modal " + id;
-            button.onclick = function (id, title, images, descriptions) {
-                return function () {
-                    openModal();
-                    displaySlides(id, title, images, descriptions);
-                };
-            }(id, title, images, descriptions);
-            buttonContainer.appendChild(button);
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching CSV:', error);
+  // モーダルを閉じる関数
+  function closeModal(id) {
+    const modal = document.querySelectorAll('.modal')[id - 1];
+    modal.style.display = 'none';
+  }
+
+  // 初期化関数
+  async function initialize() {
+    const csvData = await fetchData();
+    const rows = csvData.split('\n').slice(1); // ヘッダーを除外
+
+    rows.forEach(row => {
+      const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row.split(',');
+      const images = [image1, image2, image3, image4].filter(Boolean); // 空の画像をフィルタリング
+      const descriptions = [description1, description2, description3, description4].filter(Boolean); // 空の説明文をフィルタリング
+      createModal(id, title, images, descriptions);
     });
+  }
 
-function displaySlides(id, title, images, descriptions) {
-    var modalContent = document.querySelector(".modal-content");
-    modalContent.innerHTML = ""; // モーダル内のコンテンツをクリア
-
-    for (var k = 0; k < images.length; k++) {
-        var slide = document.createElement("div");
-        slide.className = "slide";
-        var image = document.createElement("img");
-        image.src = images[k];
-        image.alt = title + " Image " + (k + 1);
-        var text = document.createElement("p");
-        text.textContent = descriptions[k];
-        slide.appendChild(image);
-        slide.appendChild(text);
-        modalContent.appendChild(slide);
-    }
-
-    var dotContainer = document.querySelector(".modal-content > div");
-    dotContainer.innerHTML = ""; // ドットコンテナをクリア
-
-    for (var l = 0; l < images.length; l++) {
-        var dot = document.createElement("span");
-        dot.className = "dot";
-        dot.onclick = function (index) {
-            return function () {
-                currentSlide(index + 1);
-            };
-        }(l);
-        dotContainer.appendChild(dot);
-    }
-
-    currentSlide(1); // 最初のスライドを表示
-}
-
+  initialize();
 </script>
 
 </body>
