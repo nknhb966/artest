@@ -188,7 +188,7 @@ fetch('./csv/contents.csv')
             var descriptions = [];
             for (var j = 2; j < cells.length; j += 2) {
                 if (cells[j] && cells[j + 1]) {
-                    images.push('./images/' + cells[j]); // 画像のパスを修正
+                    images.push('./image/' + cells[j]); // 画像のパスを修正
                     descriptions.push(cells[j + 1]);
                 }
             }
