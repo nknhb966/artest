@@ -195,12 +195,12 @@ fetch('./csv/contents.csv')
             }
             var button = document.createElement("button");
             button.textContent = "Open Modal " + id;
-            button.onclick = function (id, images, descriptions) {
+            button.onclick = function (id, title, images, descriptions) {
                 return function () {
                     openModal();
                     displaySlides(id, title, images, descriptions);
                 };
-            }(id, images, descriptions);
+            }(id, title, images, descriptions);
             buttonContainer.appendChild(button);
         }
     })
@@ -241,6 +241,7 @@ function displaySlides(id, title, images, descriptions) {
 
     currentSlide(1); // 最初のスライドを表示
 }
+
 </script>
 
 </body>
