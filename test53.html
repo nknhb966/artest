@@ -127,7 +127,7 @@
 
     // ボタンを作成し、モーダルを開く関数と紐付ける
     const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id} <br>`;
+    openButton.textContent = `Open Modal ${id}`;
     openButton.onclick = () => openModal(id);
     modalContainer.appendChild(openButton);
 
@@ -157,8 +157,9 @@
   function createSlideButtons(numSlides, modalIndex) {
     let buttons = '';
     for (let i = 0; i < numSlides; i++) {
-      buttons += `<dic class="dot-container"><span class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></span></div>`;
+      buttons += `<span class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></span>`;
     }
+    buttons = `<dic class="dot-container">` + buttons + `</div>`;
     return buttons;
   }
 
