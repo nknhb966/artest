@@ -194,36 +194,44 @@ fetch('./csv/contents.csv')
             }
             var button = document.createElement("button");
             button.textContent = "Open Modal " + id;
-            button.onclick = function (id, images, descriptions) {
+            button.onclick = function (index) {
                 return function () {
                     openModal();
-                    populateModal(id, images, descriptions);
+                    currentSlide((index - 1) * 4 + 1);
                 };
-            }(id, images, descriptions);
+            }(i);
             buttonContainer.appendChild(button);
+
+            var modalContent = document.querySelector(".modal-content");
+            for (var k = 0; k < images.length; k++) {
+                var slide = document.createElement("div");
+                slide.className = "slide";
+                var image = document.createElement("img");
+                image.src = images[k];
+                image.alt = title + " Image " + (k + 1);
+                var text = document.createElement("p");
+                text.textContent = descriptions[k];
+                slide.appendChild(image);
+                slide.appendChild(text);
+                modalContent.appendChild(slide);
+            }
+
+            var dotContainer = document.querySelector(".modal-content > div");
+            for (var l = 0; l < images.length; l++) {
+                var dot = document.createElement("span");
+                dot.className = "dot";
+                dot.onclick = function (index) {
+                    return function () {
+                        currentSlide((i - 1) * 4 + index);
+                    };
+                }(l + 1);
+                dotContainer.appendChild(dot);
+            }
         }
     })
     .catch(error => {
         console.error('Error fetching CSV:', error);
     });
-
-function populateModal(id, images, descriptions) {
-    var modalContent = document.querySelector(".modal-content");
-    modalContent.innerHTML = ""; // モーダル内のコンテンツをクリア
-    for (var i = 0; i < images.length; i++) {
-        var slide = document.createElement("div");
-        slide.className = "slide";
-        var image = document.createElement("img");
-        image.src = images[i];
-        image.alt = "Image " + (i + 1);
-        var text = document.createElement("p");
-        text.textContent = descriptions[i] || ""; // テキストがない場合のデフォルト値
-        slide.appendChild(image);
-        slide.appendChild(text);
-        modalContent.appendChild(slide);
-    }
-    showSlides(1); // 最初のスライドを表示
-}
 
 </script>
 
