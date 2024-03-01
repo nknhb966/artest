@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modal Slideshow from CSV</title>
+<title>Modal Slideshow</title>
 <style>
   /* モーダルのスタイル */
   .modal {
@@ -14,8 +14,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto;
-    background-color: rgba(0,0,0,0.5);
+    overflow-y: auto; /* 縦スクロールを可能にする */
+    background-color: rgba(0,0,0,0.5); /* 背景の透過率を0.5に設定 */
   }
   
   /* モーダルの中身のスタイル */
@@ -25,21 +25,20 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 780px;
+    max-width: 780px; /* コンテンツ部分の最大幅を780pxに設定 */
     overflow-y: auto;
   }
 
   /* スライドのスタイル */
   .slide {
+    display: none;
     text-align: center;
-    margin-bottom: 20px;
   }
 
   /* 画像のスタイル */
   .slide img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    margin-bottom: 10px;
   }
 
   /* ボタンのスタイル */
@@ -91,87 +90,95 @@
 </head>
 <body>
 
-<div id="modalContainer"></div>
+<!-- トリガーボタン -->
+<button onclick="openModal()">Open Modal</button>
+
+<!-- モーダル -->
+<div id="myModal" class="modal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <!-- 閉じるボタン -->
+    <span class="close" onclick="closeModal()">&times;</span>
+    <!-- スライド -->
+    <div class="slide">
+      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00112_kokufuhakkutsu.png" alt="Image 1">
+      <p>Image 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 TextImage 1 Text</p>
+    </div>
+    <div class="slide">
+      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00113_kokufuhakkutsu.png" alt="Image 2">
+      <p>Image 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 TextImage 2 Text</p>
+    </div>
+    <div class="slide">
+      <img src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00114_kokufuhakkutsu.png" alt="Image 3">
+      <p>Image 3 Text</p>
+    </div>
+    <!-- ドット -->
+    <div style="text-align:center">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+    <!-- 任意のスライドを追加 -->
+    <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="next" onclick="plusSlides(1)">&#10095;</button>
+  </div>
+</div>
 
 <script>
-  // CSVファイルからデータを読み込む関数
-  async function fetchData() {
-    const response = await fetch('./csv/contents.csv');
-    const data = await response.text();
-    return data;
+  var slideIndex = 1;
+  showSlides(slideIndex);
+
+  function openModal() {
+    document.getElementById("myModal").style.display = "block";
   }
 
-  // モーダルを作成する関数
-  function createModal(id, title, images, descriptions) {
-    const modalContainer = document.getElementById('modalContainer');
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <span class="close" onclick="closeModal(${id})">&times;</span>
-        ${title ? `<h2>${title}</h2>` : ''}
-        ${createSlides(images, descriptions)}
-        ${createSlideButtons(images.length)}
-      </div>
-    `;
-    modalContainer.appendChild(modal);
-
-    // ボタンを作成し、モーダルを開く関数と紐付ける
-    const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id}`;
-    openButton.onclick = () => openModal(id);
-    modalContainer.appendChild(openButton);
+  function closeModal() {
+    document.getElementById("myModal").style.display = "none";
   }
 
-  // スライドを作成する関数
-  function createSlides(images, descriptions) {
-    let slides = '';
-    for (let i = 0; i < images.length; i++) {
-      slides += `
-        <div class="slide">
-          <img src="./image/${images[i]}" alt="Slide ${i + 1}">
-          ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
-        </div>
-      `;
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("slide");
+    var dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
     }
-    return slides;
-  }
-
-  // スライドボタンを作成する関数
-  function createSlideButtons(numSlides) {
-    let buttons = '';
-    for (let i = 0; i < numSlides; i++) {
-      buttons += `<button class="dot" onclick="currentSlide(${i + 1})"></button>`;
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
     }
-    return buttons;
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
   }
 
-  // モーダルを開く関数
-  function openModal(id) {
-    const modal = document.querySelectorAll('.modal')[id - 1];
-    modal.style.display = 'block';
+  var touchstartX = 0;
+  var touchendX = 0;
+
+  document.addEventListener('touchstart', function(event) {
+      touchstartX = event.changedTouches[0].screenX;
+  }, false);
+
+  document.addEventListener('touchend', function(event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+  }, false);
+
+  function handleGesture() {
+      if (touchendX < touchstartX - 75) {
+          plusSlides(1);
+      }
+      if (touchendX > touchstartX + 75) {
+          plusSlides(-1);
+      }
   }
-
-  // モーダルを閉じる関数
-  function closeModal(id) {
-    const modal = document.querySelectorAll('.modal')[id - 1];
-    modal.style.display = 'none';
-  }
-
-  // 初期化関数
-  async function initialize() {
-    const csvData = await fetchData();
-    const rows = csvData.split('\n').slice(1); // ヘッダーを除外
-
-    rows.forEach(row => {
-      const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row.split(',');
-      const images = [image1, image2, image3, image4].filter(Boolean); // 空の画像をフィルタリング
-      const descriptions = [description1, description2, description3, description4].filter(Boolean); // 空の説明文をフィルタリング
-      createModal(id, title, images, descriptions);
-    });
-  }
-
-  initialize();
 </script>
 
 </body>
