@@ -89,7 +89,7 @@
 </style>
 </head>
 <body>
-<div>2</div>
+<div>3</div>
 <!-- ボタンを配置するためのコンテナ -->
 <div id="buttonContainer">
 </div>
@@ -197,15 +197,15 @@ fetch('./csv/contents.csv')
             button.onclick = function (index) {
                 return function () {
                     openModal();
-                    currentSlide(index);
+                    currentSlide((index - 1) * 4 + 1);
                 };
             }(i);
             buttonContainer.appendChild(button);
 
             var modalContent = document.querySelector(".modal-content");
-            var slide = document.createElement("div");
-            slide.className = "slide";
             for (var k = 0; k < images.length; k++) {
+                var slide = document.createElement("div");
+                slide.className = "slide";
                 var image = document.createElement("img");
                 image.src = images[k];
                 image.alt = title + " Image " + (k + 1);
@@ -213,18 +213,20 @@ fetch('./csv/contents.csv')
                 text.textContent = descriptions[k];
                 slide.appendChild(image);
                 slide.appendChild(text);
+                modalContent.appendChild(slide);
             }
-            modalContent.appendChild(slide);
 
             var dotContainer = document.querySelector(".modal-content > div");
-            var dot = document.createElement("span");
-            dot.className = "dot";
-            dot.onclick = function (index) {
-                return function () {
-                    currentSlide(index);
-                };
-            }(i);
-            dotContainer.appendChild(dot);
+            for (var l = 0; l < images.length; l++) {
+                var dot = document.createElement("span");
+                dot.className = "dot";
+                dot.onclick = function (index) {
+                    return function () {
+                        currentSlide((i - 1) * 4 + index);
+                    };
+                }(l + 1);
+                dotContainer.appendChild(dot);
+            }
         }
     })
     .catch(error => {
