@@ -14,8 +14,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto; /* 縦スクロールを可能にする */
-    background-color: rgba(0,0,0,0.5); /* 背景の透過率を0.5に設定 */
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5);
   }
   
   /* モーダルの中身のスタイル */
@@ -25,20 +25,21 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 780px; /* コンテンツ部分の最大幅を780pxに設定 */
+    max-width: 780px;
     overflow-y: auto;
   }
 
   /* スライドのスタイル */
   .slide {
-    display: none;
     text-align: center;
+    margin-bottom: 20px;
   }
 
   /* 画像のスタイル */
   .slide img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
+    margin-bottom: 10px;
   }
 
   /* ボタンのスタイル */
@@ -117,7 +118,7 @@
 
     // ボタンを作成し、モーダルを開く関数と紐付ける
     const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id}`;
+    openButton.textContent = `Open Modal ${id} <br>`;
     openButton.onclick = () => openModal(id);
     modalContainer.appendChild(openButton);
   }
@@ -157,6 +158,7 @@
     modal.style.display = 'none';
   }
 
+  // スライド操作関数
   var slideIndex = 1;
   showSlides(slideIndex);
 
