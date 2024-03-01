@@ -92,7 +92,7 @@
 <body>
 
 <div id="modalContainer"></div>
-
+1
 <script>
   // CSVファイルからデータを読み込む関数
   async function fetchData() {
@@ -111,7 +111,7 @@
         <span class="close" onclick="closeModal(${id})">&times;</span>
         ${title ? `<h2>${title}</h2>` : ''}
         ${createSlides(images, descriptions)}
-        ${createSlideButtons(images.length)}
+        ${createSlideButtons(images.length, id)}
       </div>
     `;
     modalContainer.appendChild(modal);
@@ -138,10 +138,10 @@
   }
 
   // スライドボタンを作成する関数
-  function createSlideButtons(numSlides) {
+  function createSlideButtons(numSlides, modalIndex) {
     let buttons = '';
     for (let i = 0; i < numSlides; i++) {
-      buttons += `<button class="dot" onclick="currentSlide(${i + 1})"></button>`;
+      buttons += `<button class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></button>`;
     }
     return buttons;
   }
@@ -162,8 +162,8 @@
   // スライド操作関数
   function showSlides(n, modalIndex) {
     const modal = document.querySelectorAll('.modal')[modalIndex - 1];
-    const slides = modal.getElementsByClassName("slide");
-    const dots = modal.getElementsByClassName("dot");
+    const slides = modal ? modal.getElementsByClassName("slide") : [];
+    const dots = modal ? modal.getElementsByClassName("dot") : [];
     if (n > slides.length) {n = 1}
     if (n < 1) {n = slides.length}
     for (let i = 0; i < slides.length; i++) {
@@ -172,8 +172,15 @@
     for (let i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
     }
-    slides[n - 1].style.display = "block";
-    dots[n - 1].className += " active";
+    if (slides[n - 1]) {
+      slides[n - 1].style.display = "block";
+      dots[n - 1].className += " active";
+    }
+  }
+
+  // スライドを切り替える関数
+  function currentSlide(n, modalIndex) {
+    showSlides(n, modalIndex);
   }
 
   // 初期化関数
