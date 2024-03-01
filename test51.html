@@ -89,7 +89,7 @@
 </style>
 </head>
 <body>
-<div>6</div>
+<div>7</div>
 <!-- ボタンを配置するためのコンテナ -->
 <div id="buttonContainer">
 </div>
@@ -115,7 +115,7 @@
   var slideIndex = 1;
   showSlides(slideIndex);
 
-  function openModal(id) {
+function openModal(id) {
     var modal = document.getElementById("myModal");
     var modalContent = modal.querySelector(".modal-content");
     var dotContainer = modalContent.querySelector("div");
@@ -164,7 +164,7 @@
                 dotContainer.appendChild(dot);
             }
             
-            // 最初のスライドを表示
+            // スライドとドットが生成された後に、スライドを表示
             showSlides(1);
         })
         .catch(error => {
@@ -173,7 +173,7 @@
 
     // モーダルを表示
     modal.style.display = "block";
-  }
+}
 
   function closeModal() {
     document.getElementById("myModal").style.display = "none";
