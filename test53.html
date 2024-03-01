@@ -17,7 +17,7 @@
     overflow-y: auto;
     background-color: rgba(0,0,0,0.5);
   }
-  
+
   /* モーダルの中身のスタイル */
   .modal-content {
     background-color: #fefefe;
@@ -27,6 +27,7 @@
     width: 80%;
     max-width: 780px;
     overflow-y: auto;
+    position: relative; /* 追加 */
   }
 
   /* スライドのスタイル */
@@ -74,6 +75,10 @@
   }
 
   /* スライドのドットのスタイル */
+  .dot-container {
+    text-align: center; /* ドットを中央に配置 */
+  }
+
   .dot {
     height: 15px;
     width: 15px;
@@ -82,6 +87,7 @@
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.3s ease;
+    cursor: pointer;
   }
 
   .active {
@@ -94,7 +100,7 @@
 <div id="modalContainer"></div>
 1
 <script>
-  let slideIndex = 1; // slideIndex を追加
+  let slideIndex = 1;
 
   // CSVファイルからデータを読み込む関数
   async function fetchData() {
@@ -121,9 +127,16 @@
 
     // ボタンを作成し、モーダルを開く関数と紐付ける
     const openButton = document.createElement('button');
-    openButton.textContent = `Open Modal ${id}`;
+    openButton.textContent = `Open Modal ${id} <br>`;
     openButton.onclick = () => openModal(id);
     modalContainer.appendChild(openButton);
+
+    // モーダルの背景をクリックしたらモーダルを閉じる
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeModal(id);
+      }
+    });
   }
 
   // スライドを作成する関数
@@ -152,8 +165,10 @@
   // ナビゲーションボタンを作成する関数
   function createSlideNavigation(id) {
     return `
-      <button class="prev" onclick="plusSlides(-1, ${id})">&#10094;</button>
-      <button class="next" onclick="plusSlides(1, ${id})">&#10095;</button>
+      <div class="dot-container">
+        <button class="prev" onclick="plusSlides(-1, ${id})">&#10094;</button>
+        <button class="next" onclick="plusSlides(1, ${id})">&#10095;</button>
+      </div>
     `;
   }
 
@@ -175,8 +190,8 @@
     const modal = document.querySelectorAll('.modal')[modalIndex - 1];
     const slides = modal ? modal.getElementsByClassName("slide") : [];
     const dots = modal ? modal.getElementsByClassName("dot") : [];
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
+    if (n > slides.length) {n = 1}
+    if (n < 1) {n = slides.length}
     for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
@@ -194,20 +209,20 @@
     showSlides(n, modalIndex);
   }
 
-// スライドショーの前後に移動する関数
-function plusSlides(n, modalIndex) {
-  const modal = document.querySelectorAll('.modal')[modalIndex - 1];
-  const slides = modal ? modal.getElementsByClassName("slide") : [];
-  if (slides.length === 0) return; // スライドがない場合は処理しない
+  // スライドショーの前後に移動する関数
+  function plusSlides(n, modalIndex) {
+    const modal = document.querySelectorAll('.modal')[modalIndex - 1];
+    const slides = modal ? modal.getElementsByClassName("slide") : [];
+    if (slides.length === 0) return; // スライドがない場合は処理しない
 
-  slideIndex += n;
-  if (slideIndex > slides.length) {
-    slideIndex = 1; // 最後まで到達した場合、最初のスライドに戻る
-  } else if (slideIndex < 1) {
-    slideIndex = slides.length; // 最初まで戻った場合、最後のスライドに移動する
+    slideIndex += n;
+    if (slideIndex > slides.length) {
+      slideIndex = 1; // 最後まで到達した場合、最初のスライドに戻る
+    } else if (slideIndex < 1) {
+      slideIndex = slides.length; // 最初まで戻った場合、最後のスライドに移動する
+    }
+    showSlides(slideIndex, modalIndex);
   }
-  showSlides(slideIndex, modalIndex);
-}
 
   // 初期化関数
   async function initialize() {
