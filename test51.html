@@ -31,14 +31,15 @@
 
   /* スライドのスタイル */
   .slide {
-    display: none;
     text-align: center;
+    margin-bottom: 20px;
   }
 
   /* 画像のスタイル */
   .slide img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
+    margin-bottom: 10px;
   }
 
   /* ボタンのスタイル */
@@ -110,6 +111,7 @@
         <span class="close" onclick="closeModal(${id})">&times;</span>
         ${title ? `<h2>${title}</h2>` : ''}
         ${createSlides(images, descriptions)}
+        ${createSlideButtons(images.length)}
       </div>
     `;
     modalContainer.appendChild(modal);
@@ -127,12 +129,21 @@
     for (let i = 0; i < images.length; i++) {
       slides += `
         <div class="slide">
-          <img src="${images[i]}" alt="Slide ${i + 1}">
+          <img src="./images/${images[i]}" alt="Slide ${i + 1}">
           ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
         </div>
       `;
     }
     return slides;
+  }
+
+  // スライドボタンを作成する関数
+  function createSlideButtons(numSlides) {
+    let buttons = '';
+    for (let i = 0; i < numSlides; i++) {
+      buttons += `<button class="dot" onclick="currentSlide(${i + 1})"></button>`;
+    }
+    return buttons;
   }
 
   // モーダルを開く関数
