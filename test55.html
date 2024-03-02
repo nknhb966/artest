@@ -300,12 +300,12 @@ const targetPosition2 = `
           });
           // 矢印クリックでモーダルを表示
           const arrow2 = document.getElementById('arrow2');
-          if (arrow2) {
-              arrow2.onclick = () => {
+          arrow2.addEventListener('click', {
+              handleEvent() {
                   document.getElementById("modal2").style.display = "block";
                   showModal();
-              };
-          }
+              }
+          });
       });
 
       // リアルタイムで現在の位置情報を取得し、更新する
