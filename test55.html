@@ -116,7 +116,7 @@
       </div>
     </div>
 
-  <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false" renderer="antialias: true; alpha: true">
+  <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false">
         <a-assets>
             <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         </a-assets>
@@ -292,12 +292,12 @@ const targetPosition2 = `
 
           // 矢印クリックでモーダルを表示
           const arrow1 = document.getElementById('arrow1');
-          if (arrow1) {
-              arrow1.onclick = () => {
+          arrow1.addEventListener('click', {
+              handleEvent() {
                   document.getElementById("modal1").style.display = "block";
                   showModal();
-              };
-          }
+              }
+          });
           // 矢印クリックでモーダルを表示
           const arrow2 = document.getElementById('arrow2');
           if (arrow2) {
