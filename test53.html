@@ -27,7 +27,6 @@
     width: 80%;
     max-width: 780px;
     overflow-y: auto;
-    position: relative; /* 追加 */
   }
 
   /* スライドのスタイル */
@@ -37,10 +36,8 @@
 
   /* 画像のスタイル */
   .slide img {
-    text-align: center;
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    margin-bottom: 10px;
   }
 
   /* ボタンのスタイル */
@@ -74,11 +71,6 @@
     cursor: pointer;
   }
 
-  /* スライドのドットのスタイル */
-  .dot-container {
-    text-align: center; /* ドットを中央に配置 */
-  }
-
   .dot {
     height: 15px;
     width: 15px;
@@ -88,6 +80,7 @@
     display: inline-block;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    text-align: center;
   }
 
   .active {
@@ -100,11 +93,12 @@
 <div id="modalContainer"></div>
 
 <script>
-  let slideIndex = 1;
+  // CSVデータのURL
+  const csvURL = "https://nknhb966.github.io/artest/csv/contents.csv";
 
   // CSVファイルからデータを読み込む関数
   async function fetchData() {
-    const response = await fetch('./csv/contents.csv');
+    const response = await fetch(csvURL);
     const data = await response.text();
     return data;
   }
@@ -119,8 +113,8 @@
         <span class="close" onclick="closeModal(${id})">&times;</span>
         ${title ? `<p>${title}</p>` : ''}
         ${createSlides(images, descriptions)}
-        ${images.length > 1 ? createSlideButtons(images.length, id) : ''}
         ${images.length > 1 ? createSlideNavigation(id) : ''}
+        ${images.length > 1 ? createSlideButtons(images.length, id) : ''}
       </div>
     `;
     modalContainer.appendChild(modal);
@@ -145,7 +139,7 @@
     for (let i = 0; i < images.length; i++) {
       slides += `
         <div class="slide">
-          <img src="./image/${images[i]}" alt="Slide ${i + 1}">
+          <div style="text-align:center"><img src="./image/${images[i]}" alt="Slide ${i + 1}"></div>
           ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
         </div>
       `;
@@ -159,14 +153,14 @@
     for (let i = 0; i < numSlides; i++) {
       buttons += `<span class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></span>`;
     }
-    buttons = `<dic class="dot-container">` + buttons + `</div>`;
+    buttons = `<div style="text-align:center">` + buttons + `</div>`
     return buttons;
   }
 
   // ナビゲーションボタンを作成する関数
   function createSlideNavigation(id) {
     return `
-      <div class="dot-container">
+      <div>
         <button class="prev" onclick="plusSlides(-1, ${id})">&#10094;</button>
         <button class="next" onclick="plusSlides(1, ${id})">&#10095;</button>
       </div>
@@ -185,6 +179,9 @@
     const modal = document.querySelectorAll('.modal')[id - 1];
     modal.style.display = 'none';
   }
+
+  // スライドのインデックスを定義
+  let slideIndex = 1;
 
   // スライド操作関数
   function showSlides(n, modalIndex) {
@@ -225,17 +222,52 @@
     showSlides(slideIndex, modalIndex);
   }
 
+
   // 初期化関数
   async function initialize() {
     const csvData = await fetchData();
-    const rows = csvData.split('\n').slice(1); // ヘッダーを除外
+    const rows = parseCSV(csvData);;
 
     rows.forEach(row => {
-      const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row.split(',');
+      const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row;
       const images = [image1, image2, image3, image4].filter(Boolean); // 空の画像をフィルタリング
       const descriptions = [description1, description2, description3, description4].filter(Boolean); // 空の説明文をフィルタリング
       createModal(id, title, images, descriptions);
     });
+  }
+
+  // CSVデータをパースする関数
+  function parseCSV(csvData) {
+    const lines = csvData.split("\n");
+    const result = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const fields = lines[i].split(",");
+      const record = [];
+      let field = "";
+
+      for (let j = 0; j < fields.length; j++) {
+        field += fields[j].trim();
+
+        if (field.charAt(0) === '"' && field.charAt(field.length - 1) === '"') {
+          field = field.substr(1, field.length - 2);
+        }
+
+        if ((field.match(/"/g) || []).length % 2 === 0) {
+          record.push(field);
+          field = "";
+        } else {
+          field += ",";
+        }
+      }
+
+      if (fields.length === 1) {
+        break;
+      }
+      result.push(record);
+    }
+
+    return result;
   }
 
   initialize();

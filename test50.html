@@ -5,6 +5,8 @@
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/common.js"></script>
+
     <style>
       body {
         margin: 0;
@@ -12,23 +14,6 @@
         font-family: Arial, sans-serif;
         font-weight: bold;
         overflow: hidden;
-      }
-      #rotateMessage {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-size: 24px;
-        z-index: 999;
-      }
-      #contentWrapper {
-        display: none;
       }
       #compassHeadingDisplay {
         position: fixed;
@@ -69,50 +54,46 @@
         right: 10px;
         z-index: 10000;
       }
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 10001;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-  }
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 480px;
-    overflow-y: auto;
-}
-.modal-content img {
-    max-width: 100%;
-    height: auto;
-}
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+      }
+      .modal-content {
+          background-color: #fefefe;
+          margin: 50px auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%;
+          max-width: 480px;
+          overflow-y: auto;
+      }
+      .modal-content img {
+          max-width: 100%;
+          height: auto;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
     </style>
   </head>
 
   <body>
-    <div id="rotateMessage">Rotate Your Phone</div>
-    <div id="contentWrapper">
     <div id="dropdownContainer"></div>
     <button class="reload-button" onclick="location.reload()">Reload</button>
     <div id="compassHeadingDisplay">
@@ -127,21 +108,64 @@
       </div>
     </div>
 
-    <a-scene renderer="colorManagement: true" vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-scene renderer="colorManagement: false" vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
-            <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
-            <a-asset-item id="arrow-asset" src="./arrow.glb"></a-asset-item>
+            <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         </a-assets>
         <a-camera gps-camera rotation-reader><a-entity cursor="rayOrigin: mouse"></a-entity></a-camera>
     </a-scene>
     </div>
 
     <script>
-      // 場所名、緯度、経度のセットを定義
+
+// 現在地を選択した場合のモデル（URL）を指定
+const currentmodelURL = "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb";
+
+// モデルの場所を設定（iphone）
+const targetPosition1 = `
+        <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
+        <a-entity id="arrow1" gltf-model="#arrow-asset" position="2.0 1.8 -1.3" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 2.0 1.7 -1.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow2" gltf-model="#arrow-asset" position="4.3 1.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 4.3 1.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.2 1.8 -0.7" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: -0.2 1.7 -0.7; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.0 1.8 -1.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: -3.0 1.7 -1.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow5" gltf-model="#arrow-asset" position="1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow6" gltf-model="#arrow-asset" position="5.5 1.8 4.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 5.5 1.7 4.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow7" gltf-model="#arrow-asset" position="-6.5 1.8 -2.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: -6.5 1.7 -2.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow8" gltf-model="#arrow-asset" position="6.5 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 6.5 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>`
+
+// モデルの場所を設定（iphone以外）
+const targetPosition2 = `
+        <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
+        <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 1.0 1.7 -3.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow5" gltf-model="#arrow-asset" position="-1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: -1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow6" gltf-model="#arrow-asset" position="-4.0 1.8 5.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: -4.0 1.7 5.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow7" gltf-model="#arrow-asset" position="2.5 1.8 -6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: 2.5 1.7 -6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+        <a-entity id="arrow8" gltf-model="#arrow-asset" position="-2.0 1.8 6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                               animation="property: position; to: -2.0 1.7 6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>`
+
+      // 場所名、緯度、経度、URLのセットを定義
       const locations = [
-          { name: "本興寺発掘跡地", latitude: 35.905732769065835, longitude: 136.16673321050047},
-          { name: "越前市役所芝生広場", latitude: 35.90334555210129, longitude: 136.16925240028425},
-          { name: "鯖江市役所駐車場", latitude: 35.956305181662465, longitude: 136.1842505019495},
+          { name: "本興寺発掘跡地", latitude: 35.905732769065835, longitude: 136.16673321050047, modelURL: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
+          { name: "越前市役所芝生広場", latitude: 35.90334555210129, longitude: 136.16925240028425, modelURL: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
+          { name: "鯖江市役所駐車場", latitude: 35.956305181662465, longitude: 136.1842505019495, modelURL: "https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" },
       ];
 
       // ドロップダウンリストを配置するコンテナ
@@ -172,7 +196,6 @@
       currentLocationOption.text = '現在地';
       dropdown.appendChild(currentLocationOption);
 
-
       // 現在の位置情報を保持する変数
       let currentLatitude = null;
       let currentLongitude = null;
@@ -194,7 +217,6 @@
                   });
               }
           } else {
-
               // 現在地のモデルを削除
               const currentModel = document.getElementById('model0');
               if (currentModel) {
@@ -219,51 +241,77 @@
                   const modelEntity = document.createElement('a-entity');
                   modelEntity.setAttribute('id', selectedModelId);
                   modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
-                  if (os === "iphone") {
-                      modelEntity.innerHTML = `
-                          <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-                          <a-entity id="arrow1" gltf-model="#arrow-asset" position="2.0 1.8 -1.3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 2.0 1.7 -1.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow2" gltf-model="#arrow-asset" position="4.3 1.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 4.3 1.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.2 1.8 -0.7" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: -0.2 1.7 -0.7; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.0 1.8 -1.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: -3.0 1.7 -1.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow5" gltf-model="#arrow-asset" position="1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow6" gltf-model="#arrow-asset" position="5.5 1.8 4.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 5.5 1.7 4.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow7" gltf-model="#arrow-asset" position="-6.5 1.8 -2.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: -6.5 1.7 -2.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow8" gltf-model="#arrow-asset" position="6.5 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 6.5 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                      `;
+                  const modelAssetItem = document.createElement('a-asset-item');
+                  modelAssetItem.setAttribute('id', 'model-asset');
+                  if (selectedIndex === -1) { // 現在地の場合のモデルURLを設定
+                      modelAssetItem.setAttribute('src', currentmodelURL);
                   } else {
-                      modelEntity.innerHTML = `
-                          <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
-                          <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 1.0 1.7 -3.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow5" gltf-model="#arrow-asset" position="-1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: -1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow6" gltf-model="#arrow-asset" position="-4.0 1.8 5.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: -4.0 1.7 5.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow7" gltf-model="#arrow-asset" position="2.5 1.8 -6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: 2.5 1.7 -6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                          <a-entity id="arrow8" gltf-model="#arrow-asset" position="-2.0 1.8 6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                                 animation="property: position; to: -2.0 1.7 6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                      `;
+                      modelAssetItem.setAttribute('src', selectedLocation.modelURL);
                   }
+                  modelEntity.appendChild(modelAssetItem);
                   document.querySelector('a-scene').appendChild(modelEntity);
               }
           }
       });
+      // // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
+      // dropdownContainer.addEventListener('change', function () {
+      //     const dropdown = this.querySelector('#locationDropdown');
+      //     const selectedIndex = parseInt(dropdown.value);
+
+      //     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
+      //     if (selectedIndex === -1) {
+      //         if (currentLatitude !== null && currentLongitude !== null) {
+      //             addModelToCurrentLocation(currentLatitude, currentLongitude);
+      //         } else {
+      //             // 現在の位置情報がまだ取得されていない場合は、再度取得する
+      //             navigator.geolocation.getCurrentPosition(position => {
+      //                 currentLatitude = position.coords.latitude;
+      //                 currentLongitude = position.coords.longitude;
+      //                 addModelToCurrentLocation(currentLatitude, currentLongitude);
+      //             });
+      //         }
+      //     } else {
+      //         // 現在地のモデルを削除
+      //         const currentModel = document.getElementById('model0');
+      //         if (currentModel) {
+      //             currentModel.parentNode.removeChild(currentModel);
+      //         }
+
+      //         // 選択されたモデル以外を削除
+      //         for (let i = 0; i < locations.length; i++) {
+      //             const modelId = `model${i + 1}`;
+      //             if (i !== selectedIndex) {
+      //                 const model = document.getElementById(modelId);
+      //                 if (model) {
+      //                     model.parentNode.removeChild(model);
+      //                 }
+      //             }
+      //         }
+
+      //         // 選択されたモデルを追加
+      //         if (selectedIndex >= 0) {
+      //             const selectedLocation = locations[selectedIndex];
+      //             const selectedModelId = `model${selectedIndex + 1}`;
+      //             const modelEntity = document.createElement('a-entity');
+      //             modelEntity.setAttribute('id', selectedModelId);
+      //             modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
+      //             if (os === "iphone") {
+      //                 modelEntity.innerHTML = targetPosition1;
+      //             } else {
+      //                 modelEntity.innerHTML = targetPosition2;
+      //             }
+      //             const modelAssetItem = document.createElement('a-asset-item');
+      //             modelAssetItem.setAttribute('id', 'model-asset');
+      //             if (selectedIndex === -1) { // 現在地の場合のモデルURLを設定
+      //                 modelAssetItem.setAttribute('src', currentmodelURL);
+      //             } else {
+      //                 modelAssetItem.setAttribute('src', selectedLocation.modelURL);
+      //             }
+      //             modelEntity.appendChild(modelAssetItem);
+      //             document.querySelector('a-scene').appendChild(modelEntity);
+      //         }
+      //     }
+      // });
 
       // 現在地のモデルを追加
       const addModelToCurrentLocation = (latitude, longitude) => {
@@ -287,63 +335,24 @@
           model0.setAttribute("id", "model0");
           model0.setAttribute("gps-entity-place", `latitude: ${latitude}; longitude: ${longitude};`);
           if (os === "iphone") {
-              model0.innerHTML = `
-                  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
-                  <a-entity id="arrow1" gltf-model="#arrow-asset" position="2.0 1.8 -1.3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 2.0 1.7 -1.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow2" gltf-model="#arrow-asset" position="4.3 1.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 4.3 1.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.2 1.8 -0.7" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: -0.2 1.7 -0.7; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.0 1.8 -1.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: -3.0 1.7 -1.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow5" gltf-model="#arrow-asset" position="1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow6" gltf-model="#arrow-asset" position="5.5 1.8 4.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 5.5 1.7 4.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow7" gltf-model="#arrow-asset" position="-6.5 1.8 -2.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: -6.5 1.7 -2.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow8" gltf-model="#arrow-asset" position="6.5 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 6.5 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-              `;
+              model0.innerHTML = targetPosition1;
           } else {
-              model0.innerHTML = `
-                  <a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
-                  <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 1.0 1.7 -3.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow5" gltf-model="#arrow-asset" position="-1.5 1.8 1.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: -1.5 1.7 1.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow6" gltf-model="#arrow-asset" position="-4.0 1.8 5.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: -4.0 1.7 5.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow7" gltf-model="#arrow-asset" position="2.5 1.8 -6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: 2.5 1.7 -6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-                  <a-entity id="arrow8" gltf-model="#arrow-asset" position="-2.0 1.8 6.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                                         animation="property: position; to: -2.0 1.7 6.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-              `;
+              model0.innerHTML = targetPosition2;
           }
+
+          const modelAssetItem = document.createElement('a-asset-item');
+          modelAssetItem.setAttribute('id', 'model-asset');
+          modelAssetItem.setAttribute('src', currentmodelURL);
+          model0.appendChild(modelAssetItem);
           document.querySelector('a-scene').appendChild(model0);
 
-//          arrow1.onclick = () => {
-//              document.getElementById("modal1").style.display = "block";
-//              showModal();
-//          };
-// arrow1要素を適切に取得する
-const arrow1 = document.getElementById('arrow1');
-
-// arrow1が存在する場合、クリック時にモーダルを表示する処理を追加する
-if (arrow1) {
-    arrow1.onclick = () => {
-        document.getElementById("modal1").style.display = "block";
-        showModal();
-    };
-}
-
+          const arrow1 = document.getElementById('arrow1');
+          if (arrow1) {
+              arrow1.onclick = () => {
+                  document.getElementById("modal1").style.display = "block";
+                  showModal();
+              };
+          }
       };
 
       // リアルタイムで現在の位置情報を取得し、更新する
@@ -352,8 +361,8 @@ if (arrow1) {
           currentLongitude = position.coords.longitude;
       });
 
-// モーダルが表示されているかどうかを追跡するフラグ
-let isModalVisible = false;
+      // モーダルが表示されているかどうかを追跡するフラグ
+      let isModalVisible = false;
 
       // ピンチ操作の初期値を設定
       var initialDistance = 0;
@@ -391,13 +400,15 @@ let isModalVisible = false;
       const pinchThreshold = 10;
 
       function onTouchMove(event) {
-    // モーダルが表示されている間はデフォルトの動作を許可する
-    if (isModalVisible) {
-        return;
-    }
+        // モーダルが表示されている間はデフォルトの動作を許可する
+        if (isModalVisible) {
+            return;
+        }
+
         for (let i = 0; i < locations.length + 1; i++) {
               var model = document.getElementById(`model${i}`);
 
+              if (model !== null && model.object3D !== null) {
               if (event.touches.length == 1) {
                   event.preventDefault();
                   
@@ -443,19 +454,21 @@ let isModalVisible = false;
                   initialDistance = currentDistance;
                   initialAngle = currentAngle;
               }
+              }
           }
       }
-// モーダルを表示する関数
-function showModal() {
-    isModalVisible = true;
-    // モーダルを表示する処理
-}
 
-// モーダルを非表示にする関数
-function hideModal() {
-    isModalVisible = false;
-    // モーダルを非表示にする処理
-}
+      // モーダルを表示する関数
+      function showModal() {
+          isModalVisible = true;
+          // モーダルを表示する処理
+      }
+
+      // モーダルを非表示にする関数
+      function hideModal() {
+          isModalVisible = false;
+          // モーダルを非表示にする処理
+      }
       
       // OS識別用
       let os;
@@ -564,18 +577,6 @@ function hideModal() {
         }
       });
 
-    </script>
-
-    <script>
-      $(window).on('load orientationchange resize', function(){
-//        if (window.matchMedia("(min-width: 768px)").matches || Math.abs(window.orientation) === 90) {
-          $('#rotateMessage').hide();
-          $('#contentWrapper').show();
-//        } else {
-//          $('#rotateMessage').show();
-//          $('#contentWrapper').hide();
-//        }
-      });
     </script>
   </body>
 </html>
