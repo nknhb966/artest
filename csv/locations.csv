@@ -1,5 +1,5 @@
-﻿﻿name,latitude,longitude,modelURL
-本興寺発掘跡地,35.905732769065835,136.16673321050047,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb
-越前市役所芝生広場,35.90334555210129,136.16925240028425,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb
-鯖江市役所駐車場,35.956305181662465,136.1842505019495,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb
-現在地,,,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb
+﻿﻿name,latitude,longitude,modelURL,description,image,url
+本興寺発掘跡地,35.905732769065835,136.16673321050047,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb,ここに概要を書く,./image/10101_kokufuhakkutsu.png,https;//
+越前市役所芝生広場,35.90334555210129,136.16925240028425,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb,ここに概要を書く,./image/10101_kokufuhakkutsu.png,https;//
+鯖江市役所駐車場,35.956305181662465,136.1842505019495,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb,ここに概要を書く,./image/10101_kokufuhakkutsu.png,https;//
+現在地,,,https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb,ここに概要を書く,./image/10101_kokufuhakkutsu.png,https;//
