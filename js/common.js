@@ -116,6 +116,19 @@ let currentLatitude = null;
 let currentLongitude = null;
 let selectedLocation = {};
 
+// モーダルが表示されているかどうかを追跡するフラグ
+let isModalVisible = false;
+
+// モーダルを表示する関数
+function showModal() {
+    isModalVisible = true;
+}
+
+// モーダルを非表示にする関数
+function hideModal() {
+    isModalVisible = false;
+}
+
 // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
 dropdownContainer.addEventListener('change', function () {
     const dropdown = this.querySelector('#locationDropdown');
@@ -175,6 +188,7 @@ dropdownContainer.addEventListener('change', function () {
         document.getElementById('overviewDescription').innerText = selectedLocation.description;
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
+        showModal();
     });
 
     initializemodal();
@@ -182,6 +196,7 @@ dropdownContainer.addEventListener('change', function () {
 
 function closeModal2() {
     document.getElementById('modalContainer2').style.display = 'none';
+    hideModal();
 }
 
 // リアルタイムで現在の位置情報を取得し、更新する

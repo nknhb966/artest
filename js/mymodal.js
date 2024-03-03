@@ -8,21 +8,6 @@ async function fetchData() {
   return data;
 }
 
-// モーダルが表示されているかどうかを追跡するフラグ
-let isModalVisible = false;
-
-// モーダルを表示する関数
-function showModal() {
-    isModalVisible = true;
-    // モーダルを表示する処理
-}
-
-// モーダルを非表示にする関数
-function hideModal() {
-    isModalVisible = false;
-    // モーダルを非表示にする処理
-}
-
 // モーダルを作成する関数
 function createModal(id, title, images, descriptions) {
   const modalContainer = document.getElementById('modalContainer');
