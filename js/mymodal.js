@@ -72,6 +72,14 @@ function openModal(id) {
   modal.style.display = 'block';
   showModal();
   showSlides(1, id);
+    document.addEventListener('touchstart', function(event) {
+        touchstartX2 = event.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', function(event) {
+        touchendX2 = event.changedTouches[0].screenX;
+        handleGesture(id);
+    }, false);
 }
 
 // モーダルを閉じる関数
@@ -121,6 +129,20 @@ function plusSlides(n, modalIndex) {
     slideIndex = slides.length;
   }
   showSlides(slideIndex, modalIndex);
+}
+
+// タッチイベントの処理
+var touchstartX2 = 0;
+var touchendX2 = 0;
+
+
+function handleGesture(modalIndex) {
+    if (touchendX2 < touchstartX2 - 75) {
+        plusSlides(1, modalIndex);
+    }
+    if (touchendX2 > touchstartX2 + 75) {
+        plusSlides(-1, modalIndex);
+    }
 }
 
 // 初期化関数
