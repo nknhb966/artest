@@ -71,7 +71,6 @@ function openModal(id) {
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
   showModal();
-  showSlides(1, id);
     document.addEventListener('touchstart', function(event) {
         touchstartX2 = event.changedTouches[0].screenX;
     }, false);
@@ -80,6 +79,7 @@ function openModal(id) {
         touchendX2 = event.changedTouches[0].screenX;
         handleGesture(id);
     }, false);
+  showSlides(1, id);
 }
 
 // モーダルを閉じる関数
@@ -120,6 +120,8 @@ function currentSlide(n, modalIndex) {
 function plusSlides(n, modalIndex) {
   const modal = document.querySelectorAll('.modal')[modalIndex - 1];
   const slides = modal ? modal.getElementsByClassName("slide") : [];
+  console.log(modal);
+  console.log(slides);
   if (slides.length === 0) return;
 
   slideIndex += n;
