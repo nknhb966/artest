@@ -65,27 +65,49 @@ function createSlideNavigation(id) {
     </div>
   `;
 }
+  var touchstartX2 = 0;
+  var touchendX2 = 0;
+
+var touchStartHandler;
+var touchEndHandler;
 
 // モーダルを開く関数
 function openModal(id) {
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
+  console.log(modal);
   showModal();
-    document.addEventListener('touchstart', function(event) {
+  showSlides(1, id);
+
+    // モーダルを開いたときにイベントリスナーを追加する
+    document.addEventListener('touchstart', touchStartHandler = function(event) {
         touchstartX2 = event.changedTouches[0].screenX;
     }, false);
-
-    document.addEventListener('touchend', function(event) {
+    
+    document.addEventListener('touchend', touchEndHandler = function(event) {
         touchendX2 = event.changedTouches[0].screenX;
         handleGesture(id);
     }, false);
-  showSlides(1, id);
+
+  console.log(id);
 }
+
+  function handleGesture(modalIndex) {
+      if (touchendX2 < touchstartX2 - 75) {
+          plusSlides(1, modalIndex);
+      }
+      if (touchendX2 > touchstartX2 + 75) {
+          plusSlides(-1, modalIndex);
+      }
+  }
 
 // モーダルを閉じる関数
 function closeModal(id) {
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'none';
+    // モーダルを閉じたときにイベントリスナーを削除する
+    document.removeEventListener('touchstart', touchStartHandler, false);
+    document.removeEventListener('touchend', touchEndHandler, false);
   hideModal();
 }
 
@@ -120,31 +142,19 @@ function currentSlide(n, modalIndex) {
 function plusSlides(n, modalIndex) {
   const modal = document.querySelectorAll('.modal')[modalIndex - 1];
   const slides = modal ? modal.getElementsByClassName("slide") : [];
+  if (slides.length === 0) return;
   console.log(modal);
   console.log(slides);
-  if (slides.length === 0) return;
 
   slideIndex += n;
+  console.log(slideIndex);
+  console.log(modalIndex);
   if (slideIndex > slides.length) {
     slideIndex = 1;
   } else if (slideIndex < 1) {
     slideIndex = slides.length;
   }
   showSlides(slideIndex, modalIndex);
-}
-
-// タッチイベントの処理
-var touchstartX2 = 0;
-var touchendX2 = 0;
-
-
-function handleGesture(modalIndex) {
-    if (touchendX2 < touchstartX2 - 75) {
-        plusSlides(1, modalIndex);
-    }
-    if (touchendX2 > touchstartX2 + 75) {
-        plusSlides(-1, modalIndex);
-    }
 }
 
 // 初期化関数
