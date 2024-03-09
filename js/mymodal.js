@@ -78,6 +78,9 @@ function openModal(id) {
   modal.style.display = 'block';
   showModal();
 
+  slideIndex = 1;
+  showSlides(1, id);
+
   // モーダルを開いたときにイベントリスナーを追加する
   modal.addEventListener('touchstart', touchStartHandler = function(event) {
     touchstartX2 = event.touches[0].clientX;
@@ -92,10 +95,6 @@ function openModal(id) {
     touchstartX2 = 0;
     touchendX2 = 0;
   }, false);
-
-  slideIndex = 1;
-
-  showSlides(1, id);
 }
 
 function handleGesture(modalIndex) {
@@ -121,7 +120,7 @@ function closeModal(id) {
 }
 
 // スライドのインデックスを定義
-let slideIndex = 0;
+let slideIndex;
 
 // スライド操作関数
 function showSlides(n, modalIndex) {
