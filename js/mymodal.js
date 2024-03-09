@@ -72,8 +72,15 @@ var touchendX2 = 0;
 var touchStartHandler;
 var touchEndHandler;
 
+// モーダルの読み込み完了までのフラグ
+let modalLoaded = false;
+
 // モーダルを開く関数
 function openModal(id) {
+  // モーダルが読み込み完了していない場合は何もしない
+  if (!modalLoaded) {
+      return;
+  }
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
   showModal();
@@ -189,6 +196,9 @@ async function initializemodal() {
     const model = document.getElementById(`arrow${id}`);
     model.addEventListener('click', () => openModal(id));
   });
+
+  // モーダル読み込み完了のフラグを設定
+  modalLoaded = true;
 }
 
 // CSVデータをパースする関数
