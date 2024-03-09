@@ -120,8 +120,8 @@ function closeModal(id) {
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'none';
   // モーダルを閉じたときにイベントリスナーを削除する
-  document.removeEventListener('touchstart', touchStartHandler, false);
-  document.removeEventListener('touchend', touchEndHandler, false);
+  modal.removeEventListener('touchstart', touchStartHandler, false);
+  modal.removeEventListener('touchend', touchEndHandler, false);
   // モーダルを閉じたときにタッチ座標をクリアする
   touchstartX = 0;
   touchendX = 0;
