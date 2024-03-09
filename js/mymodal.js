@@ -77,12 +77,11 @@ function openModal(id) {
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
   showModal();
-  console.log("aaa");
 
-  // スライドインデックスを1にリセット
   slideIndex = 1;
+  showSlides(1, id);
 
-  // タッチイベントリスナーを追加
+  // モーダルを開いたときにイベントリスナーを追加する
   modal.addEventListener('touchstart', touchStartHandler = function(event) {
     touchstartX2 = event.touches[0].clientX;
   }, false);
