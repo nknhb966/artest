@@ -76,15 +76,15 @@ var touchEndHandler;
 let modalLoaded = false;
 
 // モーダルを開く関数
-function openModal(id) {
-  event.preventDefault();
+function openModal(id, event) {
+  event.preventDefault(); // デフォルトのリンクのクリック動作をキャンセル
 
   // モーダルが読み込み完了していない場合は何もしない
   if (!modalLoaded) {
       return;
   }
 
-  console.log("openmodal1");
+  console.log("openmodal2");
   // console.log(touchstartX touchendX touchstartX2 touchendX2);
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
@@ -103,11 +103,11 @@ function openModal(id) {
     if (touchstartX2 !== 0) {
       handleGesture(id);
     }
-  // タッチ座標をクリアする
-  touchstartX = 0;
-  touchendX = 0;
-  touchstartX2 = 0;
-  touchendX2 = 0;    
+    // タッチ座標をクリアする
+    touchstartX = 0;
+    touchendX = 0;
+    touchstartX2 = 0;
+    touchendX2 = 0;    
   }, false);
 }
 
