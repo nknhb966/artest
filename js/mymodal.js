@@ -191,7 +191,7 @@ async function initializemodal() {
   const csvData = await fetchData();
   const rows = parseCSVmodal(csvData);
 
-  console.log(csvData);
+  console.log("aaa");
   rows.forEach(row => {
     console.log(row);
     const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row;
