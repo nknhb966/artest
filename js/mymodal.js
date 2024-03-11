@@ -81,6 +81,13 @@ function openModal(id) {
   if (!modalLoaded) {
       return;
   }
+
+  // タッチ座標をクリアする
+  touchstartX = 0;
+  touchendX = 0;
+  touchstartX2 = 0;
+  touchendX2 = 0;
+
   console.log("openmodal");
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
@@ -99,11 +106,11 @@ function openModal(id) {
     if (touchstartX2 !== 0) {
       handleGesture(id);
     }
-    // タッチ座標をクリアする
-    touchstartX = 0;
-    touchendX = 0;
-    touchstartX2 = 0;
-    touchendX2 = 0;
+  // タッチ座標をクリアする
+  touchstartX = 0;
+  touchendX = 0;
+  touchstartX2 = 0;
+  touchendX2 = 0;
   }, false);
 }
 
