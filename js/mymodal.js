@@ -10,7 +10,6 @@ async function fetchData() {
 
 // モーダルを作成する関数
 function createModal(id, title, images, descriptions) {
-  console.log("createmodal");
   const modalContainer = document.getElementById('modalContainer');
   const modal = document.createElement('div');
   modal.className = 'modal';
