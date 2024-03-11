@@ -98,7 +98,7 @@ function openModal(id) {
 
   // モーダルを開いたときにイベントリスナーを追加する
   modal.addEventListener('touchstart', touchStartHandler = function(event) {
-    touchstartX2 = event.changedtouches[0].clientX;
+    touchstartX2 = event.touches[0].clientX;
   }, false);
 
   modal.addEventListener('touchend', touchEndHandler = function(event) {
