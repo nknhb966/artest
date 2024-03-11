@@ -12,6 +12,7 @@ async function fetchData() {
 function createModal(id, title, images, descriptions) {
   const modalContainer = document.getElementById('modalContainer');
   const modal = document.createElement('div');
+  console.log("createmodal");
   modal.className = 'modal';
   modal.innerHTML = `
     <div class="modal-content">
