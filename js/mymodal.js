@@ -101,8 +101,6 @@ function openModal(id) {
       handleGesture(id);
     }
     // タッチ座標をクリアする
-    touchstartX = 0;
-    touchendX = 0;
     touchstartX2 = 0;
     touchendX2 = 0;    
   }, false);
@@ -126,8 +124,6 @@ function closeModal(id) {
   modal.removeEventListener('touchstart', touchStartHandler, false);
   modal.removeEventListener('touchend', touchEndHandler, false);
   // モーダルを閉じたときにタッチ座標をクリアする
-  touchstartX = 0;
-  touchendX = 0;
   touchstartX2 = 0;
   touchendX2 = 0;
   hideModal();
