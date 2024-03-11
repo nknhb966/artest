@@ -185,15 +185,6 @@ function plusSlides(n, modalIndex) {
   showSlides(slideIndex, modalIndex);
 }
 
-// モデルをクリックしてモーダルを開くイベントリスナーの追加
-document.getElementById('modelContainer').addEventListener('click', (event) => {
-  const id = event.target.getAttribute('id');
-  if (id && id.startsWith('arrow')) {
-    const modalId = id.replace('arrow', '');
-    openModal(parseInt(modalId));
-  }
-});
-
 // 初期化関数
 async function initializemodal() {
   console.log("initializemodal2");
@@ -207,6 +198,9 @@ async function initializemodal() {
     const images = [image1, image2, image3, image4].filter(Boolean); // 空の画像をフィルタリング
     const descriptions = [description1, description2, description3, description4].filter(Boolean); // 空の説明文をフィルタリング
     createModal(id, title, images, descriptions);
+
+    const model = document.getElementById(`arrow${id}`);
+    model.addEventListener('click', () => openModal(id));
   });
   console.log("createmodal");
 
