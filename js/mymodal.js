@@ -94,20 +94,20 @@ function openModal(id) {
   slideIndex = 1;
   showSlides(1, id);
 
-  // // モーダルを開いたときにイベントリスナーを追加する
-  // modal.addEventListener('touchstart', touchStartHandler = function(event) {
-  //   touchstartX2 = event.touches[0].clientX;
-  // }, false);
+  // モーダルを開いたときにイベントリスナーを追加する
+  modal.addEventListener('touchstart', touchStartHandler = function(event) {
+    touchstartX2 = event.touches[0].clientX;
+  }, false);
 
-  // modal.addEventListener('touchend', touchEndHandler = function(event) {
-  //   touchendX2 = event.changedTouches[0].clientX;
-  //   if (touchstartX2 !== 0) {
-  //     handleGesture(id);
-  //   }
-  //   // タッチ座標をクリアする
-  //   touchstartX2 = 0;
-  //   touchendX2 = 0;    
-  // }, false);
+  modal.addEventListener('touchend', touchEndHandler = function(event) {
+    touchendX2 = event.changedTouches[0].clientX;
+    if (touchstartX2 !== 0) {
+      handleGesture(id);
+    }
+    // タッチ座標をクリアする
+    touchstartX2 = 0;
+    touchendX2 = 0;    
+  }, false);
   showModal();
 }
 
