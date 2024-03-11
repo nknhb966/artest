@@ -81,7 +81,10 @@ function openModal(id) {
   if (!modalLoaded) {
       return;
   }
-
+  // モーダルが既に開いている場合は処理を終了
+  if (document.querySelectorAll('.modal')[id - 1].style.display === 'block') {
+    return;
+  }
   console.log("openmodal2");
   console.log(touchstartX2);
   // console.log(touchstartX touchendX touchstartX2 touchendX2);
