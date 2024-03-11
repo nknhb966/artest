@@ -211,20 +211,25 @@ var initialAngle = 0;
 var touchStartX = 0;
 var touchStartY = 0;
 
+let isInitialized = false; // 初期化済みフラグ
+
 const init = () => {
+    if (!isInitialized) {
   fetchLocations();
   var lastTouchEnd = 0;
   document.addEventListener('touchstart', onTouchStart, { passive: false });
   document.addEventListener('touchmove', onTouchMove, { passive: false });
   document.addEventListener('touchend', function (event) {
     var now = (new Date()).getTime();
-    console.log("touchend1");
+    console.log("touchend10");
     if (now - lastTouchEnd <= 300) {
         event.preventDefault();
         console.log("touchend2");
     }
     lastTouchEnd = now;
   }, false);
+        isInitialized = true; // 初期化済みに設定
+    }
 };
 
 function onTouchStart(event) {
