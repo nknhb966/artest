@@ -202,7 +202,7 @@ async function initializemodal() {
     createModal(id, title, images, descriptions);
 
     const model = document.getElementById(`arrow${id}`);
-    model.addEventListener('click', () => openModal(id));
+    model.addEventListener('click', () => openModal(id, event));
   });
   console.log("createmodal");
 
