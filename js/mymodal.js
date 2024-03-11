@@ -75,16 +75,20 @@ var touchEndHandler;
 // モーダルの読み込み完了までのフラグ
 let modalLoaded = false;
 
+// モーダルが表示されているかどうかを追跡するフラグ
+let modalShown = false;
+
 // モーダルを開く関数
 function openModal(id) {
   // モーダルが読み込み完了していない場合は何もしない
   if (!modalLoaded) {
       return;
   }
-  // モーダルが既に開いている場合は処理を終了
-  if (document.querySelectorAll('.modal')[id - 1].style.display === 'block') {
-    return;
+  // モーダルが表示されている場合は、処理を終了する
+  if (modalShown) {
+      return;
   }
+
   console.log("openmodal2");
   // console.log(touchstartX);
   // console.log(touchstartX touchendX touchstartX2 touchendX2);
@@ -109,6 +113,12 @@ function openModal(id) {
     touchendX2 = 0;    
   }, false);
   showModal();
+  modalShown = true;
+
+  // 3秒後にフラグをリセットする
+  setTimeout(function() {
+      modalShown = false;
+  }, 3000);
 }
 
 function handleGesture(modalIndex) {
