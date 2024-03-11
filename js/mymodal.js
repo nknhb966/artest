@@ -86,7 +86,7 @@ function openModal(id) {
     return;
   }
   console.log("openmodal2");
-  console.log(touchstartX);
+  // console.log(touchstartX);
   // console.log(touchstartX touchendX touchstartX2 touchendX2);
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
