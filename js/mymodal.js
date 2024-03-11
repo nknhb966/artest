@@ -76,7 +76,7 @@ var touchEndHandler;
 let modalLoaded = false;
 
 // モーダルを開く関数
-function openModal(id) {
+function openModal(id, e) {
   // モーダルが読み込み完了していない場合は何もしない
   if (!modalLoaded) {
       return;
@@ -198,7 +198,9 @@ async function initializemodal() {
     createModal(id, title, images, descriptions);
 
     const model = document.getElementById(`arrow${id}`);
-    model.addEventListener('click', () => openModal(id));
+    model.addEventListener("click", {
+      handleEvent: () => this.onMenuButtonClick(id),
+    });
   });
   console.log("createmodal");
 
