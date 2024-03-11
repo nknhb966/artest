@@ -76,7 +76,7 @@ var touchEndHandler;
 let modalLoaded = false;
 
 // モーダルを開く関数
-async function openModal(id) {
+function openModal(id) {
   // モーダルが読み込み完了していない場合は何もしない
   if (!modalLoaded) {
       return;
@@ -86,7 +86,7 @@ async function openModal(id) {
   showModal();
 
   slideIndex = 1;
-  await showSlides(1, id);
+  showSlides(1, id);
 
   // モーダルを開いたときにイベントリスナーを追加する
   modal.addEventListener('touchstart', touchStartHandler = function(event) {
