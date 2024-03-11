@@ -82,7 +82,7 @@ function openModal(id) {
       return;
   }
 
-  console.log("openmodal");
+  console.log("openmodal1");
   // console.log(touchstartX touchendX touchstartX2 touchendX2);
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
@@ -187,7 +187,7 @@ function plusSlides(n, modalIndex) {
 
 // 初期化関数
 async function initializemodal() {
-  console.log("initializemodal");
+  console.log("initializemodal1");
   const csvData = await fetchData();
   const rows = parseCSVmodal(csvData);;
 
