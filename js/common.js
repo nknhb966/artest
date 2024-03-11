@@ -387,12 +387,4 @@ function permitDeviceOrientationForSafari() {
         });
 }
 
-let isInitialized = false; // 初期化済みフラグ
-
-console.log(isInitialized);
-
-// 初期化関数を初回のみ呼び出す
-if (!isInitialized) {
-    init();
-    isInitialized = true; // 初期化済みに設定
-}
+init();
