@@ -82,12 +82,6 @@ function openModal(id) {
       return;
   }
 
-  // タッチ座標をクリアする
-  touchstartX = 0;
-  touchendX = 0;
-  touchstartX2 = 0;
-  touchendX2 = 0;
-
   console.log("openmodal");
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
@@ -98,7 +92,7 @@ function openModal(id) {
 
   // モーダルを開いたときにイベントリスナーを追加する
   modal.addEventListener('touchstart', touchStartHandler = function(event) {
-    touchstartX2 = event.touches[0].clientX;
+    touchstartX2 = event.changedtouches[0].clientX;
   }, false);
 
   modal.addEventListener('touchend', touchEndHandler = function(event) {
