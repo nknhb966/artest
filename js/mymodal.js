@@ -81,6 +81,7 @@ function openModal(id) {
   if (!modalLoaded) {
       return;
   }
+  console.log("openmodal");
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
   showModal();
