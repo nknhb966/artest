@@ -10,7 +10,6 @@ async function fetchData() {
 
 // モーダルを作成する関数
 function createModal(id, title, images, descriptions) {
-  console.log("createmodal");
   const modalContainer = document.getElementById('modalContainer');
   const modal = document.createElement('div');
   modal.className = 'modal';
@@ -188,6 +187,7 @@ function plusSlides(n, modalIndex) {
 
 // 初期化関数
 async function initializemodal() {
+  console.log("initializemodal");
   const csvData = await fetchData();
   const rows = parseCSVmodal(csvData);;
 
