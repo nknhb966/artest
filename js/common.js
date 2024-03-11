@@ -208,7 +208,7 @@ navigator.geolocation.watchPosition(position => {
 // ピンチ操作の初期値を設定
 var initialDistance = 0;
 var initialAngle = 0;
-var touchStartX = 0;
+// var touchStartX = 0;
 var touchStartY = 0;
 
 let isInitialized = false; // 初期化済みフラグ
