@@ -66,7 +66,6 @@ function createSlideNavigation(id) {
   `;
 }
 
-var touchStartX = 0;
 var touchstartX2 = 0;
 var touchendX2 = 0;
 
@@ -84,7 +83,7 @@ function openModal(id) {
   }
 
   console.log("openmodal2");
-  console.log(touchstartX);
+  console.log(touchstartX2);
   // console.log(touchstartX touchendX touchstartX2 touchendX2);
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
