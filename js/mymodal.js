@@ -189,9 +189,11 @@ function plusSlides(n, modalIndex) {
 async function initializemodal() {
   console.log("initializemodal1");
   const csvData = await fetchData();
-  const rows = parseCSVmodal(csvData);;
+  const rows = parseCSVmodal(csvData);
 
+  console.log(rows);
   rows.forEach(row => {
+    condole.log(row);
     const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row;
     const images = [image1, image2, image3, image4].filter(Boolean); // 空の画像をフィルタリング
     const descriptions = [description1, description2, description3, description4].filter(Boolean); // 空の説明文をフィルタリング
