@@ -75,10 +75,17 @@ var touchEndHandler;
 // モーダルの読み込み完了までのフラグ
 let modalLoaded = false;
 
+// モーダルが表示されているかどうかを追跡するフラグ
+let modalShown = false;
+
 // モーダルを開く関数
-function openModal(id, e) {
+function openModal(id) {
   // モーダルが読み込み完了していない場合は何もしない
   if (!modalLoaded) {
+      return;
+  }
+  // モーダルが表示されている場合は、処理を終了する
+  if (modalShown) {
       return;
   }
 
@@ -89,6 +96,12 @@ function openModal(id, e) {
   modal.style.display = 'block';
 
   showModal();
+  modalShown = true;
+
+  // 3秒後にフラグをリセットする
+  setTimeout(function() {
+      modalShown = false;
+  }, 3000);
 
   slideIndex = 1;
   showSlides(1, id);
@@ -198,9 +211,7 @@ async function initializemodal() {
     createModal(id, title, images, descriptions);
 
     const model = document.getElementById(`arrow${id}`);
-    model.addEventListener("click", {
-      handleEvent: () => this.onMenuButtonClick(id),
-    });
+    model.addEventListener('click', () => openModal(id));
   });
   console.log("createmodal");
 
