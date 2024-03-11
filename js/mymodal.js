@@ -12,7 +12,6 @@ async function fetchData() {
 function createModal(id, title, images, descriptions) {
   const modalContainer = document.getElementById('modalContainer');
   const modal = document.createElement('div');
-  console.log("createmodal");
   modal.className = 'modal';
   modal.innerHTML = `
     <div class="modal-content">
@@ -201,6 +200,7 @@ async function initializemodal() {
     const model = document.getElementById(`arrow${id}`);
     model.addEventListener('click', () => openModal(id));
   });
+  console.log("createmodal");
 
   // モーダル読み込み完了のフラグを設定
   modalLoaded = true;
