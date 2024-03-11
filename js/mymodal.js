@@ -77,6 +77,8 @@ let modalLoaded = false;
 
 // モーダルを開く関数
 function openModal(id) {
+  event.preventDefault();
+
   // モーダルが読み込み完了していない場合は何もしない
   if (!modalLoaded) {
       return;
