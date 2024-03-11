@@ -83,7 +83,7 @@ function openModal(id) {
   }
 
   console.log("openmodal");
-  console.log(touchstartX touchendX touchstartX2 touchendX2);
+  // console.log(touchstartX touchendX touchstartX2 touchendX2);
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
   showModal();
@@ -105,10 +105,7 @@ function openModal(id) {
   touchstartX = 0;
   touchendX = 0;
   touchstartX2 = 0;
-  touchendX2 = 0;
-
-  console.log(touchstartX touchendX touchstartX2 touchendX2);
-    
+  touchendX2 = 0;    
   }, false);
 }
 
