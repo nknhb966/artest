@@ -95,6 +95,14 @@ function openModal(id) {
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
 
+  showModal();
+  modalShown = true;
+
+  // 3秒後にフラグをリセットする
+  setTimeout(function() {
+      modalShown = false;
+  }, 3000);
+
   slideIndex = 1;
   showSlides(1, id);
 
@@ -112,13 +120,6 @@ function openModal(id) {
     touchstartX2 = 0;
     touchendX2 = 0;    
   }, false);
-  showModal();
-  modalShown = true;
-
-  // 3秒後にフラグをリセットする
-  setTimeout(function() {
-      modalShown = false;
-  }, 5000);
 }
 
 function handleGesture(modalIndex) {
