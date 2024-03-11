@@ -101,7 +101,7 @@ function openModal(id) {
   // 3秒後にフラグをリセットする
   setTimeout(function() {
       modalShown = false;
-  }, 3000);
+  }, 2000);
 
   slideIndex = 1;
   showSlides(1, id);
