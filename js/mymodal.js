@@ -118,7 +118,7 @@ function openModal(id) {
   // 3秒後にフラグをリセットする
   setTimeout(function() {
       modalShown = false;
-  }, 3000);
+  }, 5000);
 }
 
 function handleGesture(modalIndex) {
