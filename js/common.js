@@ -196,10 +196,18 @@ dropdownContainer.addEventListener('change', function () {
     initializemodal();
 });
 
+// モーダルを閉じる
 function closeModal2() {
     document.getElementById('modalContainer2').style.display = 'none';
     hideModal();
 }
+
+// モーダルの背景をクリックしたらモーダルを閉じる
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    closeModal2();
+  }
+});
 
 // リアルタイムで現在の位置情報を取得し、更新する
 navigator.geolocation.watchPosition(position => {
