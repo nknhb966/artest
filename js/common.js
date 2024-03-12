@@ -255,27 +255,6 @@ function onTouchStart(event) {
     }
 }
 
-// 移動を制限する関数
-function limitMovement(touchX, touchY, touchStartX, touchStartY) {
-    // タッチの移動量を計算
-    var deltaX = touchX - touchStartX;
-    var deltaY = touchY - touchStartY;
-
-    // 移動角度を計算
-    var angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-
-    // 移動を制限
-    var step = 30; // 制限
-    var roundedAngle = Math.round(angle / step) * step;
-    var radians = roundedAngle * (Math.PI / 180);
-
-    // 制限された角度から移動量を再計算
-    var newX = Math.cos(radians) * Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    var newY = Math.sin(radians) * Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-    return { newX: newX, newY: newY };
-}
-
 const pinchThreshold = 10;
 
 function onTouchMove(event) {
@@ -288,18 +267,25 @@ function onTouchMove(event) {
         if (model !== null && model.object3D !== null) {
             if (event.touches.length == 1) {
                 event.preventDefault();
-
+                
                 var touchX = event.touches[0].clientX;
                 var touchY = event.touches[0].clientY;
-
-                // 移動量を12方向に制限
-                var limitedMovement = limitMovement(touchX, touchY, touchStartX, touchStartY);
-                var newX = limitedMovement.newX;
-                var newY = limitedMovement.newY;
-
+    
+                var deltaX = touchX - touchStartX;
+                var deltaY = touchY - touchStartY;
+    
+                let rad = 0;
+                if(os == "iphone") {
+                  rad = degrees * Math.PI / 180;
+                }else{
+                  rad = (degrees + orientation) * Math.PI / 180;
+                }        
+                const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
+                const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+    
                 model.object3D.position.x += newX * 0.01;
                 model.object3D.position.z += newY * 0.01;
-
+    
                 touchStartX = touchX;
                 touchStartY = touchY;
             }
