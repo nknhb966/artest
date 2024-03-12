@@ -275,7 +275,7 @@ function onTouchMove(event) {
                 var deltaY = touchY - touchStartY;
     
                 let rad = 0;
-                var step = 45;
+                var step = 1;
                 if(os == "iphone") {
                   rad = Math.round(degrees / step) * step * Math.PI / 180;
                 }else{
