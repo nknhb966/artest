@@ -217,19 +217,17 @@ let isInitialized = false; // 初期化済みフラグ
 
 const init = () => {
     if (!isInitialized) {
-  fetchLocations();
-  var lastTouchEnd = 0;
-  document.addEventListener('touchstart', onTouchStart, { passive: false });
-  document.addEventListener('touchmove', onTouchMove, { passive: false });
-  document.addEventListener('touchend', function (event) {
-    var now = (new Date()).getTime();
-    console.log("touchend10");
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-        console.log("touchend2");
-    }
-    lastTouchEnd = now;
-  }, false);
+        fetchLocations();
+        var lastTouchEnd = 0;
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+          lastTouchEnd = now;
+        }, false);
         isInitialized = true; // 初期化済みに設定
     }
 };
@@ -343,7 +341,6 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + Math.round(degrees) + " : " + Math.round(degrees + orientation);
 }
 
 function compassHeading(alpha) {
