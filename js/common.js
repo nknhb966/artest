@@ -202,12 +202,13 @@ function closeModal2() {
     hideModal();
 }
 
-// // モーダルの背景をクリックしたらモーダルを閉じる
-// modal.addEventListener('click', (event) => {
-//   if (event.target === modal) {
-//     closeModal2();
-//   }
-// });
+// モーダルの背景をクリックしたらモーダルを閉じる
+function closeModalBackground(event) {
+    var modal = document.getElementById('modalContainer2');
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
 
 // リアルタイムで現在の位置情報を取得し、更新する
 navigator.geolocation.watchPosition(position => {
