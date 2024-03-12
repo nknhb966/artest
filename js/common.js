@@ -106,7 +106,6 @@ function updateDropdown(locations) {
         } else {
             option.value = index;
         }
-        
         dropdown.appendChild(option);
     });
 }
@@ -192,7 +191,6 @@ dropdownContainer.addEventListener('change', function () {
         document.getElementById('overviewUrl').href = selectedLocation.url;
         showModal();
     });
-
     initializemodal();
 });
 
@@ -242,10 +240,9 @@ const init = () => {
 };
 
 function onTouchStart(event) {
-  if (isModalVisible) {
-      return;
-  }
-
+    if (isModalVisible) {
+        return;
+    }
     if (event.touches.length == 1) {
         touchStartX = event.touches[0].clientX;
         touchStartY = event.touches[0].clientY;
@@ -264,7 +261,6 @@ function onTouchMove(event) {
   if (isModalVisible) {
       return;
   }
-
   for (let i = 0; i < locationsSet.length + 1; i++) {
         var model = document.getElementById(`model${i}`);
 
@@ -354,12 +350,9 @@ function handleOrientation(event) {
 
 function compassHeading(alpha) {
     var degtorad = Math.PI / 180;
-
     var _z = alpha ? alpha * degtorad : 0;
-
     var cZ = Math.cos(_z);
     var sZ = Math.sin(_z);
-
     var compassHeading = Math.atan(-sZ / cZ);
 
     if (cZ < 0) {
