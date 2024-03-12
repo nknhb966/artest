@@ -4,13 +4,6 @@ body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
-#compassHeadingDisplay {
-  position: fixed;
-  top: 50px;
-  left: 10px;
-  z-index: 999;
-  color: white;
-}
 #dropdownContainer {
   position: fixed;
   top: 10px;
@@ -61,6 +54,7 @@ body {
 #overviewImage {
   width: 100%;
   height: auto;
+  padding: 8px;
 }
 
 #overviewUrl {
