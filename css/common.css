@@ -2,7 +2,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  font-weight: bold;
   overflow: hidden;
 }
 #compassHeadingDisplay {
@@ -53,6 +52,10 @@ body {
   top: 10px;
   right: 10px;
   z-index: 10000;
+}
+
+#overviewTitle {
+  font-weight: bold;  
 }
 
 #overviewImage {
