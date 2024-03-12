@@ -1,5 +1,5 @@
 // CSVデータのURL
-const csvURL = "https://nknhb966.github.io/artest/csv/contents.csv";
+const csvURL = "https://echizencity.github.io/opendata/kokufuhakkutsu/contents.csv";
 
 // CSVファイルからデータを読み込む関数
 async function fetchData() {
@@ -38,7 +38,7 @@ function createSlides(images, descriptions) {
   for (let i = 0; i < images.length; i++) {
     slides += `
       <div class="slide">
-        <div style="text-align:center"><img src="./image/${images[i]}" alt="Slide ${i + 1}"></div>
+        <div style="text-align:center"><img src="https://echizencity.github.io/opendata/kokufuhakkutsu/${images[i]}" alt="Slide ${i + 1}"></div>
         ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
       </div>
     `;
