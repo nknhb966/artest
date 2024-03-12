@@ -1,5 +1,5 @@
 // locations.csvのパス
-const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations.csv';
+const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
 
 // モデルの場所を設定（iphone）
 const targetPosition1 = `
