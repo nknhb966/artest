@@ -89,16 +89,13 @@ function openModal(id) {
       return;
   }
 
-  console.log("openmodal2");
-  // console.log(touchstartX);
-  // console.log(touchstartX touchendX touchstartX2 touchendX2);
   const modal = document.querySelectorAll('.modal')[id - 1];
   modal.style.display = 'block';
 
   showModal();
   modalShown = true;
 
-  // 3秒後にフラグをリセットする
+  // 一定時間後にフラグをリセットする
   setTimeout(function() {
       modalShown = false;
   }, 1500);
@@ -153,7 +150,7 @@ function showSlides(n, modalIndex) {
   const slides = modal ? modal.getElementsByClassName("slide") : [];
   const dots = modal ? modal.getElementsByClassName("dot") : [];
   
-  // 修正: スライドのインデックスを更新
+  // スライドのインデックスを更新
   slideIndex = n;
 
   // スライドのインデックスがスライドの範囲外にならないようにする
@@ -163,7 +160,7 @@ function showSlides(n, modalIndex) {
     slideIndex = slides.length;
   }
 
-  // 修正: スライドを表示するために正しいインデックスを使用する
+  // スライドを表示するために正しいインデックスを使用する
   for (let i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
   }
@@ -198,13 +195,10 @@ function plusSlides(n, modalIndex) {
 
 // 初期化関数
 async function initializemodal() {
-  console.log("initializemodal2");
   const csvData = await fetchData();
   const rows = parseCSVmodal(csvData);
 
-  console.log("aaa");
   rows.forEach(row => {
-    // console.log(row);
     const [id, title, image1, description1, image2, description2, image3, description3, image4, description4] = row;
     const images = [image1, image2, image3, image4].filter(Boolean); // 空の画像をフィルタリング
     const descriptions = [description1, description2, description3, description4].filter(Boolean); // 空の説明文をフィルタリング
@@ -213,7 +207,6 @@ async function initializemodal() {
     const model = document.getElementById(`arrow${id}`);
     model.addEventListener('click', () => openModal(id));
   });
-  console.log("createmodal");
 
   // モーダル読み込み完了のフラグを設定
   modalLoaded = true;
