@@ -185,6 +185,8 @@ dropdownContainer.addEventListener('change', function () {
 
     document.getElementById('overviewButton').addEventListener('click', function() {
         document.getElementById('modalContainer2').style.display = 'block';
+        document.getElementById('overviewTitle').innerText = selectedLocation.title;
+        document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
         document.getElementById('overviewDescription').innerText = selectedLocation.description;
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
