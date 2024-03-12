@@ -276,17 +276,17 @@ function onTouchMove(event) {
     
                 let rad = 0;
 
-                if(os == "iphone") {
-                  rad = degrees * Math.PI / 180;
-                }else{
-                  rad = (degrees + orientation) * Math.PI / 180;
-                }        
-                // var step = 45;
                 // if(os == "iphone") {
-                //   rad = Math.round(degrees / step) * step * Math.PI / 180;
+                //   rad = degrees * Math.PI / 180;
                 // }else{
-                //   rad = Math.round((degrees + orientation) / step) * step * Math.PI / 180;
+                //   rad = (degrees + orientation) * Math.PI / 180;
                 // }        
+                var step = 90;
+                if(os == "iphone") {
+                  rad = Math.round(degrees / step) * step * Math.PI / 180;
+                }else{
+                  rad = Math.round((degrees + orientation) / step) * step * Math.PI / 180;
+                }        
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
     
