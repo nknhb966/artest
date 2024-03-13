@@ -230,6 +230,7 @@ const init = () => {
         document.addEventListener('touchstart', onTouchStart, { passive: false });
         document.addEventListener('touchmove', onTouchMove, { passive: false });
         document.addEventListener('touchend', function (event) {
+            addCursor();
             var now = (new Date()).getTime();
             if (now - lastTouchEnd <= 300) {
                 event.preventDefault();
@@ -244,6 +245,7 @@ function onTouchStart(event) {
     if (isModalVisible) {
         return;
     }
+    removeCursor();
     if (event.touches.length == 1) {
         touchStartX = event.touches[0].clientX;
         touchStartY = event.touches[0].clientY;
