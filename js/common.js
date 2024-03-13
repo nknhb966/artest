@@ -191,6 +191,7 @@ dropdownContainer.addEventListener('change', function () {
         document.getElementById('overviewUrl').href = selectedLocation.url;
         showModal();
     });
+    addCursor();
     initializemodal();
 });
 
@@ -421,4 +422,3 @@ function permitDeviceOrientationForSafari() {
 }
 
 init();
-addCursor();
