@@ -3,7 +3,7 @@ const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.cs
 
 // モデルの場所を設定（iphone）
 const targetPosition1 = `
-  <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0" raycaster="ignoreRayIntersection: true"></a-entity>
+  <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
   <a-entity id="arrow1" gltf-model="#arrow-asset" position="2.0 1.8 -1.3" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: 2.0 1.7 -1.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow2" gltf-model="#arrow-asset" position="4.3 1.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
@@ -28,7 +28,7 @@ const targetPosition1 = `
 
 // モデルの場所を設定（iphone以外）
 const targetPosition2 = `
-  <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0" raycaster="ignoreRayIntersection: true"></a-entity>
+  <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>
   <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
