@@ -261,6 +261,13 @@ function onTouchMove(event) {
   if (isModalVisible) {
       return;
   }
+  // タッチイベントが発生している場合はcursorを削除
+  if (event.touches.length > 0) {
+      removeCursor();
+  } else {
+      // タッチイベントが発生していない場合はcursorを追加
+      addCursor();
+  }
   for (let i = 0; i < locationsSet.length + 1; i++) {
         var model = document.getElementById(`model${i}`);
 
@@ -320,6 +327,25 @@ function onTouchMove(event) {
         }
     }
 }
+
+
+function removeCursor() {
+    var cursor = document.querySelector('a-entity[cursor]');
+    if (cursor) {
+        cursor.parentNode.removeChild(cursor);
+    }
+}
+
+function addCursor() {
+    var existingCursor = document.querySelector('a-entity[cursor]');
+    if (!existingCursor) {
+        var scene = document.querySelector('a-scene');
+        var cursorEntity = document.createElement('a-entity');
+        cursorEntity.setAttribute('cursor', 'rayOrigin: mouse');
+        scene.appendChild(cursorEntity);
+    }
+}
+
 
 // OS識別
 let os;
