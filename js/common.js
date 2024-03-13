@@ -261,13 +261,7 @@ function onTouchMove(event) {
   if (isModalVisible) {
       return;
   }
-  // タッチイベントが発生している場合はcursorを削除
-  if (event.touches.length > 0) {
-      removeCursor();
-  } else {
-      // タッチイベントが発生していない場合はcursorを追加
-      addCursor();
-  }
+
   for (let i = 0; i < locationsSet.length + 1; i++) {
         var model = document.getElementById(`model${i}`);
 
@@ -427,3 +421,4 @@ function permitDeviceOrientationForSafari() {
 }
 
 init();
+addCursor();
