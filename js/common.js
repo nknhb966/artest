@@ -288,7 +288,7 @@ function onTouchMove(event) {
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-                if(newX * newX + newY * newY > 1) {
+                if(Math.sqrt(newX * newX + newY * newY) > 1) {
                   removeCursor();
                 }
 
@@ -300,7 +300,8 @@ function onTouchMove(event) {
             }
             else if (event.touches.length == 2) {
                 event.preventDefault();
-    
+                removeCursor();
+
                 var touch1 = event.touches[0];
                 var touch2 = event.touches[1];
                 var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
