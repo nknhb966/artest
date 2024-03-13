@@ -230,7 +230,7 @@ const init = () => {
         document.addEventListener('touchstart', onTouchStart, { passive: false });
         document.addEventListener('touchmove', onTouchMove, { passive: false });
         document.addEventListener('touchend', function (event) {
-            // addCursor();
+            addCursor();
             var now = (new Date()).getTime();
             if (now - lastTouchEnd <= 300) {
                 event.preventDefault();
