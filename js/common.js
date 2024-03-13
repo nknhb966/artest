@@ -284,12 +284,7 @@ function onTouchMove(event) {
                 }else{
                   rad = (degrees + orientation) * Math.PI / 180;
                 }        
-                // var step = 90;
-                // if(os == "iphone") {
-                //   rad = Math.round(degrees / step) * step * Math.PI / 180;
-                // }else{
-                //   rad = Math.round((degrees + orientation) / step) * step * Math.PI / 180;
-                // }        
+      
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
@@ -330,7 +325,6 @@ function onTouchMove(event) {
 
 
 function removeCursor() {
-  console.log("remove");
     var cursor = document.querySelector('a-entity[cursor]');
     if (cursor) {
         cursor.parentNode.removeChild(cursor);
@@ -338,15 +332,12 @@ function removeCursor() {
 }
 
 function addCursor() {
-    console.log("add1");
     var existingCursor = document.querySelector('a-entity[cursor]');
-    console.log(existingCursor);
     if (!existingCursor) {
         var scene = document.querySelector('a-scene');
         var cursorEntity = document.createElement('a-entity');
         cursorEntity.setAttribute('cursor', 'rayOrigin: mouse');
         scene.appendChild(cursorEntity);
-          console.log("add2");
     }
 }
 
@@ -431,5 +422,3 @@ function permitDeviceOrientationForSafari() {
 }
 
 init();
-
-console.log("aaa");
