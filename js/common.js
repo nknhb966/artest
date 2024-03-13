@@ -264,7 +264,7 @@ function onTouchMove(event) {
   for (let i = 0; i < locationsSet.length + 1; i++) {
         var model = document.getElementById(`model${i}`);
 
-        if (model !== null && model.object3D !== null) {
+        // if (model !== null && model.object3D !== null) {
             if (event.touches.length == 1) {
                 event.preventDefault();
                 
@@ -317,7 +317,7 @@ function onTouchMove(event) {
                 initialDistance = currentDistance;
                 initialAngle = currentAngle;
             }
-        }
+        // }
     }
 }
 
