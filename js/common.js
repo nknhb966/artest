@@ -263,7 +263,6 @@ function onTouchMove(event) {
   if (isModalVisible) {
       return;
   }
-  removeCursor();
 
   for (let i = 0; i < locationsSet.length + 1; i++) {
         var model = document.getElementById(`model${i}`);
@@ -293,8 +292,11 @@ function onTouchMove(event) {
                 // }        
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
-              console.log(newX);
-    
+
+                if(newX * newX + newY * newY > 1) {
+                  removeCursor();
+                }
+
                 model.object3D.position.x += newX * 0.005;
                 model.object3D.position.z += newY * 0.005;
     
