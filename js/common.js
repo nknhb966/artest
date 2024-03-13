@@ -288,7 +288,7 @@ function onTouchMove(event) {
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-                if(Math.sqrt(newX * newX + newY * newY) > 1) {
+                if(Math.sqrt(newX * newX + newY * newY) > 0.1) {
                   removeCursor();
                 }
 
