@@ -12,14 +12,15 @@
   <body>
     <div id="dropdownContainer"></div>
     <button class="reload-button" onclick="location.reload()">Reload</button>
-    <button id="overviewButton" class="overview-button">1概要</button>
-    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false" cursor="fuse: false; rayOrigin: mouse">
+    <button id="overviewButton" class="overview-button">概要</button>
+    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false">
         <a-assets>
             <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         </a-assets>
         <a-entity id="modelContainer">
           <a-camera gps-camera rotation-reader></a-camera>
 <!--           <a-entity cursor="rayOrigin: mouse"></a-entity> -->
+<a-entity raycaster="objects: [ar-raycaster]; far: 1000; showLine: true; direction: forward; origin: mouse;"></a-entity>
         </a-entity>
     </a-scene>
 
