@@ -293,6 +293,7 @@ function onTouchMove(event) {
                 // }        
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+              console.log(newX newY);
     
                 model.object3D.position.x += newX * 0.005;
                 model.object3D.position.z += newY * 0.005;
