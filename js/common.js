@@ -5,9 +5,9 @@ const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.cs
 const targetPosition1 = `
   <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0" gltf-model="raycastable: false"></a-entity>
   <a-entity id="arrow1" gltf-model="#arrow-asset" position="2.0 1.8 -1.3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 2.0 1.7 -1.3; dur: 500; easing: easeInSine; loop: true; dir: alternate" cursor="rayOrigin: mouse"></a-entity>
+                         animation="property: position; to: 2.0 1.7 -1.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow2" gltf-model="#arrow-asset" position="4.3 1.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 4.3 1.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate" cursor="rayOrigin: mouse"></a-entity>
+                         animation="property: position; to: 4.3 1.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.2 1.8 -0.7" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: -0.2 1.7 -0.7; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.0 1.8 -1.0" scale="0.25 0.25 0.25" rotation="0 0 180"
@@ -30,9 +30,9 @@ const targetPosition1 = `
 const targetPosition2 = `
   <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0" gltf-model="raycastable: false"></a-entity>
   <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.3 1.8 2.0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate" cursor="rayOrigin: mouse"></a-entity>
+                         animation="property: position; to: 1.3 1.7 2.0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow2" gltf-model="#arrow-asset" position="0.5 1.8 4.3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate" cursor="rayOrigin: mouse"></a-entity>
+                         animation="property: position; to: 0.5 1.7 4.3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow3" gltf-model="#arrow-asset" position="0.7 1.8 -0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: 0.7 1.7 -0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow4" gltf-model="#arrow-asset" position="1.0 1.8 -3.0" scale="0.25 0.25 0.25" rotation="0 0 180"
