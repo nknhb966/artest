@@ -327,6 +327,7 @@ function onTouchMove(event) {
 
 
 function removeCursor() {
+  console.log("remove");
     var cursor = document.querySelector('a-entity[cursor]');
     if (cursor) {
         cursor.parentNode.removeChild(cursor);
@@ -334,6 +335,7 @@ function removeCursor() {
 }
 
 function addCursor() {
+    console.log("add");
     var existingCursor = document.querySelector('a-entity[cursor]');
     console.log(existingCursor);
     if (!existingCursor) {
