@@ -263,7 +263,7 @@ function onTouchMove(event) {
   if (isModalVisible) {
       return;
   }
-  // removeCursor();
+  removeCursor();
 
   for (let i = 0; i < locationsSet.length + 1; i++) {
         var model = document.getElementById(`model${i}`);
