@@ -333,6 +333,7 @@ function removeCursor() {
 
 function addCursor() {
     var existingCursor = document.querySelector('a-entity[cursor]');
+    console.log(existingCursor);
     if (!existingCursor) {
         var scene = document.querySelector('a-scene');
         var cursorEntity = document.createElement('a-entity');
