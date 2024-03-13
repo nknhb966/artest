@@ -287,19 +287,8 @@
               model0.innerHTML = `<a-entity gltf-model="#test" scale="1 1 1" position="0 -0.5 0" rotation="0 -90 0"></a-entity>`;
           }
 
-          const modelAssetItem = document.createElement('a-asset-item');
-          modelAssetItem.setAttribute('id', 'model-asset');
-          modelAssetItem.setAttribute('src', currentmodelURL);
-          model0.appendChild(modelAssetItem);
           document.querySelector('a-scene').appendChild(model0);
 
-          const arrow1 = document.getElementById('arrow1');
-          if (arrow1) {
-              arrow1.onclick = () => {
-                  document.getElementById("modal1").style.display = "block";
-                  showModal();
-              };
-          }
       };
 
       // リアルタイムで現在の位置情報を取得し、更新する
@@ -504,25 +493,7 @@
 
       init();
 
-      // モーダルの要素を取得します
-      const modal1 = document.getElementById('modal1');
 
-      // 閉じるボタンの要素を取得します
-      const closeBtn = document.getElementsByClassName('close')[0];
-
-      // モーダルの閉じるボタンをクリックしたときにモーダルを非表示にする関数を定義します
-      closeBtn.addEventListener('click', function() {
-        modal1.style.display = 'none';
-        hideModal();
-      });
-
-      // モーダルの外側をクリックしたときにモーダルを非表示にする関数を定義します
-      window.addEventListener('click', function(event) {
-        if (event.target == modal1) {
-          modal1.style.display = 'none';
-          hideModal();
-        }
-      });
 
     </script>
   </body>
