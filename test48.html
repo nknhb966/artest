@@ -200,65 +200,6 @@
               }
           }
       });
-      // // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
-      // dropdownContainer.addEventListener('change', function () {
-      //     const dropdown = this.querySelector('#locationDropdown');
-      //     const selectedIndex = parseInt(dropdown.value);
-
-      //     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
-      //     if (selectedIndex === -1) {
-      //         if (currentLatitude !== null && currentLongitude !== null) {
-      //             addModelToCurrentLocation(currentLatitude, currentLongitude);
-      //         } else {
-      //             // 現在の位置情報がまだ取得されていない場合は、再度取得する
-      //             navigator.geolocation.getCurrentPosition(position => {
-      //                 currentLatitude = position.coords.latitude;
-      //                 currentLongitude = position.coords.longitude;
-      //                 addModelToCurrentLocation(currentLatitude, currentLongitude);
-      //             });
-      //         }
-      //     } else {
-      //         // 現在地のモデルを削除
-      //         const currentModel = document.getElementById('model0');
-      //         if (currentModel) {
-      //             currentModel.parentNode.removeChild(currentModel);
-      //         }
-
-      //         // 選択されたモデル以外を削除
-      //         for (let i = 0; i < locations.length; i++) {
-      //             const modelId = `model${i + 1}`;
-      //             if (i !== selectedIndex) {
-      //                 const model = document.getElementById(modelId);
-      //                 if (model) {
-      //                     model.parentNode.removeChild(model);
-      //                 }
-      //             }
-      //         }
-
-      //         // 選択されたモデルを追加
-      //         if (selectedIndex >= 0) {
-      //             const selectedLocation = locations[selectedIndex];
-      //             const selectedModelId = `model${selectedIndex + 1}`;
-      //             const modelEntity = document.createElement('a-entity');
-      //             modelEntity.setAttribute('id', selectedModelId);
-      //             modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
-      //             if (os === "iphone") {
-      //                 modelEntity.innerHTML = targetPosition1;
-      //             } else {
-      //                 modelEntity.innerHTML = targetPosition2;
-      //             }
-      //             const modelAssetItem = document.createElement('a-asset-item');
-      //             modelAssetItem.setAttribute('id', 'model-asset');
-      //             if (selectedIndex === -1) { // 現在地の場合のモデルURLを設定
-      //                 modelAssetItem.setAttribute('src', currentmodelURL);
-      //             } else {
-      //                 modelAssetItem.setAttribute('src', selectedLocation.modelURL);
-      //             }
-      //             modelEntity.appendChild(modelAssetItem);
-      //             document.querySelector('a-scene').appendChild(modelEntity);
-      //         }
-      //     }
-      // });
 
       // 現在地のモデルを追加
       const addModelToCurrentLocation = (latitude, longitude) => {
