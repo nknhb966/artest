@@ -335,7 +335,7 @@ function removeCursor() {
 }
 
 function addCursor() {
-    console.log("add");
+    console.log("add1");
     var existingCursor = document.querySelector('a-entity[cursor]');
     console.log(existingCursor);
     if (!existingCursor) {
@@ -343,6 +343,7 @@ function addCursor() {
         var cursorEntity = document.createElement('a-entity');
         cursorEntity.setAttribute('cursor', 'rayOrigin: mouse');
         scene.appendChild(cursorEntity);
+          console.log("add2");
     }
 }
 
