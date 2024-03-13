@@ -20,7 +20,8 @@
         <a-entity id="modelContainer">
         </a-entity>
           <a-camera gps-camera rotation-reader></a-camera>
-          <a-entity cursor="rayOrigin: mouse"></a-entity>
+<a-entity raycaster="objects: [id^=arrow]; far: 1000; showLine: true; direction: forward; origin: mouse;"></a-entity>
+      <!--           <a-entity cursor="rayOrigin: mouse"></a-entity> -->
 <!-- <a-entity raycaster="far: 1000; showLine: true; direction: forward; origin: mouse;"></a-entity> -->
     </a-scene>
 
