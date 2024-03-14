@@ -23,7 +23,6 @@
 <body>
 
 <model-viewer
-  id="mainModel"
   ar
   ar-modes="scene-viewer webxr quick-look"
   src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"
@@ -31,37 +30,21 @@
   camera-controls
   autoplay
   magic-leap unstable-webxr
+  style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;"
 >
 </model-viewer>
 
 <model-viewer
-  id="arrow"
+  ar
+  ar-modes="scene-viewer webxr quick-look"
   src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"
-  scale="0.01 0.01 0.01"
-  position="1 1 1"
-  rotation="0 0 0"
+  alt="Your Arrow Model"
+  camera-controls
+  autoplay
+  magic-leap unstable-webxr
+  style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
 >
 </model-viewer>
-  
-<script>
-  // mainModelとarrowのインスタンスを取得
-  const mainModel = document.getElementById('mainModel');
-  const arrow = document.getElementById('arrow');
 
-  // メインモデルのロードが完了したときのイベントリスナーを設定
-  mainModel.addEventListener('loaded', () => {
-    // メインモデルのロード完了後に、矢印の位置と回転を更新
-    arrow.setAttribute('animation-mixer', { loop: 'repeat' }); // アニメーションを繰り返し再生
-    arrow.setAttribute('animation-mixer', { clip: '*'}); // 全てのアニメーションを再生
-    arrow.object3D.position.copy(mainModel.object3D.position); // メインモデルと同じ位置に矢印を配置
-    arrow.object3D.rotation.copy(mainModel.object3D.rotation); // メインモデルと同じ回転を矢印に設定
-
-    // メインモデルのアニメーションに合わせて矢印も移動する
-    mainModel.addEventListener('animation-played', (event) => {
-      arrow.setAttribute('animation-mixer', { time: event.detail.time }); // メインモデルのアニメーションと同じ位置に矢印のアニメーションを設定
-    });
-  });
-</script>
-  
 </body>
 </html>
