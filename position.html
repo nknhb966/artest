@@ -3,50 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Distance Tracker</title>
+<title>スマートフォンの位置</title>
 </head>
 <body>
-<div id="distance"></div>
+<div id="positionInfo">
+  X: <span id="xPosition"></span> m<br>
+  Y: <span id="yPosition"></span> m<br>
+  Z: <span id="zPosition"></span> m<br>
+</div>
 
 <script>
-let startPosition = null;
-let totalDistance = 0;
+window.addEventListener('devicemotion', handleMotion);
 
-function calculateDistance(position) {
-  if (startPosition) {
-    const { latitude: lat1, longitude: lon1 } = startPosition.coords;
-    const { latitude: lat2, longitude: lon2 } = position.coords;
-    const distance = calculateDistanceBetweenPoints(lat1, lon1, lat2, lon2);
-    totalDistance += distance;
-    document.getElementById('distance').textContent = `Total Distance: ${totalDistance.toFixed(2)} meters`;
+var initialX = null;
+var initialY = null;
+
+function handleMotion(event) {
+  if (initialX === null && initialY === null) {
+    // 最初の位置を取得
+    initialX = event.accelerationIncludingGravity.x;
+    initialY = event.accelerationIncludingGravity.y;
   }
-  startPosition = position;
+
+  // 現在の位置を取得
+  var currentX = event.accelerationIncludingGravity.x;
+  var currentY = event.accelerationIncludingGravity.y;
+
+  // 最初の位置からの相対位置を計算
+  var deltaX = currentX - initialX;
+  var deltaY = currentY - initialY;
+
+  // X, Y座標を表示
+  document.getElementById("xPosition").textContent = deltaX.toFixed(2);
+  document.getElementById("yPosition").textContent = deltaY.toFixed(2);
 }
-
-function calculateDistanceBetweenPoints(lat1, lon1, lat2, lon2) {
-  const R = 6371e3; // Earth radius in meters
-  const φ1 = lat1 * Math.PI / 180;
-  const φ2 = lat2 * Math.PI / 180;
-  const Δφ = (lat2 - lat1) * Math.PI / 180;
-  const Δλ = (lon2 - lon1) * Math.PI / 180;
-
-  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-            Math.cos(φ1) * Math.cos(φ2) *
-            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return R * c;
-}
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(calculateDistance);
-  } else {
-    alert("Geolocation is not supported by this browser.");
-  }
-}
-
-getLocation();
 </script>
 </body>
 </html>
