@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AR Quick Look with Description</title>
+    <script type="text/javascript">
+        function handleTap() {
+            // タップされたら、メタデータから説明を取得して表示する
+            var arModel = document.querySelector('ar-model');
+            var description = arModel.getAttribute('description');
+            alert(description);
+        }
+    </script>
+</head>
+<body>
+    <!-- ARコンテンツの表示 -->
+    <ar-model src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00102_kokufuhakkutsu.usdz" onTap="handleTap()"></ar-model>
+</body>
+</html>
