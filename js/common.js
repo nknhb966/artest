@@ -153,6 +153,9 @@ dropdownContainer.addEventListener('change', function () {
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
 
+    const rotationValue1 = "0 90 0"; // Y軸周り回転させる場合（iphone）
+    const rotationValue2 = "0 20 0"; // Y軸周り回転させる場合（iphone以外）
+
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
     if (selectedIndex === -1) {
         selectedLocation = locationsSet[locationsSet.length - 1];
@@ -172,8 +175,10 @@ dropdownContainer.addEventListener('change', function () {
         modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
     }
     if (os === "iphone") {
+        modelEntity.setAttribute('rotation', rotationValue1);
         modelEntity.innerHTML = targetPosition1;
     } else {
+        modelEntity.setAttribute('rotation', rotationValue2);
         modelEntity.innerHTML = targetPosition2;
     }
     const modelAssetItem = document.createElement('a-asset-item');
