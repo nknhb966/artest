@@ -1,32 +1,8 @@
 // locations.csvのパス
 const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
 
-// モデルの場所を設定（iphone）
-const targetPosition1 = `
-  <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
-  <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow2" gltf-model="#arrow-asset" position="3.1 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 3.1 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.5 0.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -0.5 0.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.3 0.8 0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -3.3 0.7 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow5" gltf-model="#arrow-asset" position="2 0.8 1" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 2 0.7 1; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow6" gltf-model="#arrow-asset" position="6.5 0.8 1.8" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 6.5 0.7 1.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow7" gltf-model="#arrow-asset" position="-7 0.8 3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -7 0.7 3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow8" gltf-model="#arrow-asset" position="4.6 0.8 1.4" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 4.6 0.7 1.4; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow9" gltf-model="#arrow-asset" position="-7.2 0.8 0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 7.8 0.7 -0.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  `
-// モデルの場所を設定（iphone以外）
-const targetPosition2 = `
+// モデルの場所を設定
+const targetPosition = `
   <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
   <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
@@ -152,8 +128,7 @@ dropdownContainer.addEventListener('change', function () {
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
 
-    const rotationValue1 = "0 20 0 "  //"0 -90 0"; // Y軸周り回転させる場合（iphone）
-    const rotationValue2 = "0 20 0 "  //"0 50 0"; // Y軸周り回転させる場合（iphone以外）
+    const rotationValue1 = "0 20 0 "  // Y軸周り回転させる場合
 
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
     if (selectedIndex === -1) {
@@ -173,13 +148,8 @@ dropdownContainer.addEventListener('change', function () {
         selectedLocation = locationsSet[selectedIndex];
         modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
     }
-    if (os === "iphone") {
-        modelEntity.setAttribute('rotation', rotationValue1);
-        modelEntity.innerHTML = targetPosition1;
-    } else {
-        modelEntity.setAttribute('rotation', rotationValue2);
-        modelEntity.innerHTML = targetPosition2;
-    }
+    modelEntity.setAttribute('rotation', rotationValue1);
+    modelEntity.innerHTML = targetPosition;
     const modelAssetItem = document.createElement('a-asset-item');
     modelAssetItem.setAttribute('id', 'model-asset');
     modelAssetItem.setAttribute('src', selectedLocation.modelURL);
