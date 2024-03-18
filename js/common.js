@@ -128,7 +128,7 @@ dropdownContainer.addEventListener('change', function () {
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
 
-    const rotationValue = "0 70 0 "  // Y軸周り回転させる場合
+    const rotationValue = "0 -20 0 "  // Y軸周り回転させる場合
 
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
     if (selectedIndex === -1) {
@@ -254,10 +254,9 @@ function onTouchMove(event) {
                 let rad = 0;
 
                 if(os == "iphone") {
-                  rad = (degrees + orientation) * Math.PI / 180;
-                }else{
                   rad = degrees * Math.PI / 180;
-//                  rad = (degrees + orientation) * Math.PI / 180;
+                }else{
+                  rad = (degrees + orientation) * Math.PI / 180;
                 }        
       
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
