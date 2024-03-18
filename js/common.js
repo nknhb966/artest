@@ -128,7 +128,8 @@ dropdownContainer.addEventListener('change', function () {
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
 
-    const rotationValue1 = "0 -90 0" //"0 -20 0 "  // Y軸周り回転させる場合(iphone)
+    const orientation1 = -90 + orientation;
+    const rotationValue1 = "0 " + orientation1 + " 0"  // Y軸周り回転させる場合(iphone)
     const rotationValue2 = "0 -50 0 "  // Y軸周り回転させる場合(iphone以外)
 
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
