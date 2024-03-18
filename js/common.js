@@ -128,7 +128,7 @@ dropdownContainer.addEventListener('change', function () {
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
 
-    const rotationValue1 = "0 20 0 "  // Y軸周り回転させる場合
+    const rotationValue = "0 70 0 "  // Y軸周り回転させる場合
 
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
     if (selectedIndex === -1) {
@@ -148,7 +148,7 @@ dropdownContainer.addEventListener('change', function () {
         selectedLocation = locationsSet[selectedIndex];
         modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
     }
-    modelEntity.setAttribute('rotation', rotationValue1);
+    modelEntity.setAttribute('rotation', rotationValue);
     modelEntity.innerHTML = targetPosition;
     const modelAssetItem = document.createElement('a-asset-item');
     modelAssetItem.setAttribute('id', 'model-asset');
