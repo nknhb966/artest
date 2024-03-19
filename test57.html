@@ -43,7 +43,16 @@
     </div>
     <script src="./js/common.js"></script>
     <script>
-      $(window).on('load orientationchange resize', function(){
+      $(window).on('load', function(){
+        if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
+          $('#rotateMessage').hide();
+          $('#contentWrapper').show();
+        } else {
+          $('#rotateMessage').show();
+          $('#contentWrapper').hide();
+        }
+      });
+      $(window).on('orientationchange resize', function(){
         if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
           location.reload();
           $('#rotateMessage').hide();
