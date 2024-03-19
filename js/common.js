@@ -1,5 +1,6 @@
 // locations.csvのパス
 const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
+// const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations2.csv';
 
 // モデルの場所を設定
 const targetPosition = `
@@ -32,8 +33,8 @@ async function fetchLocations() {
         const response = await fetch(locationsFilePath);
         const data = await response.text();
         const locations = parseCSV(data);
-        updateDropdown(locations);
         locationsSet = locations;
+        updateDropdown(locations);
     } catch (error) {
         console.error('Error fetching locations:', error);
     }
@@ -65,11 +66,13 @@ function updateDropdown(locations) {
     dropdownContainer.appendChild(dropdown);
     dropdown.innerHTML = ''; // リストをクリア
 
-    // デフォルトオプションを追加
-    const defaultOption = document.createElement('option');
-    defaultOption.value = -2;
-    defaultOption.text = 'モデルを配置する場所を選択';
-    dropdown.appendChild(defaultOption);
+    // リストが1件の場合はデフォルトオプションを表示しない
+    if (locations.length > 1) {
+        const defaultOption = document.createElement('option');
+        defaultOption.value = -2;
+        defaultOption.text = 'モデルを配置する場所を選択';
+        dropdown.appendChild(defaultOption);
+    }
 
     locations.forEach((location, index) => {
         const option = document.createElement('option');
@@ -83,6 +86,12 @@ function updateDropdown(locations) {
         }
         dropdown.appendChild(option);
     });
+
+    // リストが1件だけの場合は、その場所のモデルを直ちに表示
+    if (locations.length === 1) {
+        const selectedIndex = 0; // 一つ目の場所が選択されたものとして扱う
+        displaySelectedModel(selectedIndex, locations);
+    }
 }
 
 // 現在の位置情報を保持する変数
@@ -103,34 +112,16 @@ function hideModal() {
     isModalVisible = false;
 }
 
-// ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
-dropdownContainer.addEventListener('change', function () {
-    const dropdown = this.querySelector('#locationDropdown');
-    const selectedIndex = parseInt(dropdown.value);
-
-    // 選択されたモデル以外を削除
-    for (let i = 0; i < locationsSet.length; i++) {
-        const modelId = `model${i}`;
-        if (i !== selectedIndex) {
-            const model = document.getElementById(modelId);
-            if (model) {
-                model.parentNode.removeChild(model);
-            }
-        }
-    }
-
-    // デフォルトオプションでは何もしない
-    if (selectedIndex === -2) {
-      return;
-    }
-
+// モデル作成
+function createModelEntity(selectedIndex, locations) {
     const selectedModelId = `model${selectedIndex + 1}`;
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
 
     const orientation1 = -90 - 13 + orientation;
-    const rotationValue1 = "0 " + orientation1 + " 0"  // Y軸周り回転させる場合(iphone)
-    const rotationValue2 = "0 -103 0 "  // Y軸周り回転させる場合(iphone以外)
+    const rotationValue1 = "0 " + orientation1 + " 0";  // Y軸周り回転させる場合(iphone)
+    const orientation2 = -90 - 13;
+    const rotationValue2 = "0 " + orientation2 + " 0";  // Y軸周り回転させる場合(iphone以外)
 
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
     if (selectedIndex === -1) {
@@ -160,8 +151,54 @@ dropdownContainer.addEventListener('change', function () {
     modelAssetItem.setAttribute('id', 'model-asset');
     modelAssetItem.setAttribute('src', selectedLocation.modelURL);
     modelEntity.appendChild(modelAssetItem);
-    document.getElementById('modelContainer').appendChild(modelEntity);
 
+    return modelEntity;
+}
+
+// ロード時に最初のモデルを表示する関数
+function displaySelectedModel(selectedIndex, locations) {
+    const modelEntity = createModelEntity(selectedIndex, locations);
+
+    // モデルをモデルコンテナに追加
+    const modelContainer = document.getElementById('modelContainer');
+    modelContainer.appendChild(modelEntity);
+
+    // モデルに関連する情報を表示
+    document.getElementById('overviewButton').addEventListener('click', function() {
+        document.getElementById('modalContainer2').style.display = 'block';
+        document.getElementById('overviewTitle').innerText = selectedLocation.title;
+        document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
+        document.getElementById('overviewDescription').innerText = selectedLocation.description;
+        document.getElementById('overviewImage').src = selectedLocation.image;
+        document.getElementById('overviewUrl').href = selectedLocation.url;
+        showModal();
+    });
+    addCursor();
+    initializemodal();
+}
+
+// ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
+dropdownContainer.addEventListener('change', function () {
+    const dropdown = this.querySelector('#locationDropdown');
+    const selectedIndex = parseInt(dropdown.value);
+
+    // モデルコンテナからすべての子要素（モデル）を削除
+    const modelContainer = document.getElementById('modelContainer');
+    while (modelContainer.firstChild) {
+        modelContainer.removeChild(modelContainer.firstChild);
+    }
+
+    // デフォルトオプションでは何もしない
+    if (selectedIndex === -2) {
+        return;
+    }
+
+    const modelEntity = createModelEntity(selectedIndex, locationsSet);
+
+    // モデルをモデルコンテナに追加
+    modelContainer.appendChild(modelEntity);
+
+    // モデルに関連する情報を表示
     document.getElementById('overviewButton').addEventListener('click', function() {
         document.getElementById('modalContainer2').style.display = 'block';
         document.getElementById('overviewTitle').innerText = selectedLocation.title;
@@ -174,6 +211,7 @@ dropdownContainer.addEventListener('change', function () {
     addCursor();
     initializemodal();
 });
+
 
 // モーダルを閉じる
 function closeModal2() {
@@ -237,7 +275,7 @@ function onTouchStart(event) {
     }
 }
 
-const pinchThreshold = 10;
+const pinchThreshold = 2;
 
 function onTouchMove(event) {
   if (isModalVisible) {
@@ -272,8 +310,8 @@ function onTouchMove(event) {
                   removeCursor();
                 }
 
-                model.object3D.position.x += newX * 0.005;
-                model.object3D.position.z += newY * 0.005;
+                model.object3D.position.x += newX * 0.01;
+                model.object3D.position.z += newY * 0.01;
     
                 touchStartX = touchX;
                 touchStartY = touchY;
@@ -289,9 +327,9 @@ function onTouchMove(event) {
                 var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
     
                 if (currentDistance - pinchThreshold > initialDistance) {
-                    model.object3D.position.y += 0.5;
+                    model.object3D.position.y += 0.1;
                 } else if (currentDistance + pinchThreshold < initialDistance) {
-                    model.object3D.position.y -= 0.5;
+                    model.object3D.position.y -= 0.1;
                 }
     
                 var angleChange = currentAngle - initialAngle;
