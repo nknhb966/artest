@@ -111,12 +111,12 @@ dropdownContainer.addEventListener('change', function () {
     // 選択されたモデル以外を削除
     for (let i = 0; i < locationsSet.length; i++) {
         const modelId = `model${i}`;
-        // if (i !== selectedIndex) {
+        if (i !== selectedIndex) {
             const model = document.getElementById(modelId);
             if (model) {
                 model.parentNode.removeChild(model);
             }
-        // }
+        }
     }
 
     // デフォルトオプションでは何もしない
