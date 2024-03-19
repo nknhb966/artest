@@ -54,16 +54,6 @@
           location.reload();
           checkOrientation();
       });
-
-      function checkOrientation() {
-          if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
-              $('#rotateMessageContainer').hide();
-              $('#contentWrapper').show();
-          } else {
-              $('#rotateMessageContainer').show();
-              $('#contentWrapper').hide();
-          }
-      }
     </script>
   </body>
 </html>
