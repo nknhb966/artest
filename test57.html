@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ロケーションベースTest8</title>
+    <title>ロケーションベースTest9</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -11,7 +11,7 @@
 
   <body>
     <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button class="reload-button" onclick="location.reload()">Reload1</button>
     <button id="overviewButton" class="overview-button">概要</button>
 
     <div id="compassHeadingDisplay">
@@ -23,7 +23,7 @@
             <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         </a-assets>
         <a-entity id="modelContainer"></a-entity>
-        <a-camera gps-camera rotation-reader></a-camera>
+        <a-camera gps-camera="gpsMinDistance:1;" rotation-reader></a-camera>
     </a-scene>
 
     <div id="modalContainer"></div>
