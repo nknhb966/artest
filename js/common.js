@@ -404,3 +404,4 @@ function permitDeviceOrientationForSafari() {
 }
 
 init();
+window.addEventListener("resize", updateJoystickCenters);
