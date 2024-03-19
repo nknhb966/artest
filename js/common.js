@@ -448,27 +448,9 @@ function checkOrientation() {
   if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
       $('#rotateMessageContainer').hide();
       $('#contentWrapper').show();
-      // 横向きの場合はカメラ機能を無効にする
-      disableCamera();
   } else {
       $('#rotateMessageContainer').show();
       $('#contentWrapper').hide();
-      // 縦向きの場合はカメラ機能を有効にする
-      enableCamera();
-  }
-}
-
-function disableCamera() {
-  var scene = document.querySelector('a-scene');
-  if (scene) {
-      scene.removeAttribute('arjs');
-  }
-}
-
-function enableCamera() {
-  var scene = document.querySelector('a-scene');
-  if (scene) {
-      scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false');
   }
 }
 
