@@ -43,26 +43,21 @@
     </div>
     <script src="./js/common.js"></script>
     <script>
-      $(window).on('load', function(){
-        if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
-          $('#rotateMessage').hide();
-          $('#contentWrapper').show();
-        } else {
-          $('#rotateMessage').show();
-          $('#contentWrapper').hide();
-        }
-      });
-      $(window).on('orientationchange resize', function(){
-        if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
-          location.reload();
-          $('#rotateMessage').hide();
-          $('#contentWrapper').show();
-        } else {
-          location.reload();
-          $('#rotateMessage').show();
-          $('#contentWrapper').hide();
-        }
-      });
+        $(document).ready(function(){
+            function handleOrientation() {
+                if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
+                    $('#rotateMessage').hide();
+                    $('#contentWrapper').show();
+                } else {
+                    $('#rotateMessage').show();
+                    $('#contentWrapper').hide();
+                }
+            }
+            handleOrientation();
+            $(window).on('orientationchange resize', function(){
+                handleOrientation();
+            });
+        });
     </script>
   </body>
 </html>
