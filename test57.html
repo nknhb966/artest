@@ -57,12 +57,10 @@
 
       function checkOrientation() {
           if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
-              $('#rotateMessage').hide();
-              $('#rotateImage').hide();
+              $('#rotateMessageContainer').hide();
               $('#contentWrapper').show();
           } else {
-              $('#rotateMessage').show();
-              $('#rotateImage').show();
+              $('#rotateMessageContainer').show();
               $('#contentWrapper').hide();
           }
       }
