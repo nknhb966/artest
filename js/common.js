@@ -113,9 +113,9 @@ dropdownContainer.addEventListener('change', function () {
         const modelId = `model${i}`;
         // if (i !== selectedIndex) {
             const model = document.getElementById(modelId);
-            // if (model) {
+            if (model) {
                 model.parentNode.removeChild(model);
-            // }
+            }
         // }
     }
 
