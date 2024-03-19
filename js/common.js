@@ -1,6 +1,7 @@
 // locations.csvのパス
 // const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
 const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations2.csv';
+// const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations3.csv';
 
 // モデルの場所を設定
 const targetPosition = `
@@ -19,8 +20,8 @@ const targetPosition = `
                          animation="property: position; to: 6.5 0.7 1.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow7" gltf-model="#arrow-asset" position="-7 0.8 3" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: -7 0.7 3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow8" gltf-model="#arrow-asset" position="4.6 0.8 1.4" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 4.6 0.7 1.4; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+  <a-entity id="arrow8" gltf-model="#arrow-asset" position="5.2 0.8 1.45" scale="0.25 0.25 0.25" rotation="0 0 180"
+                         animation="property: position; to: 5.2 0.7 1.45; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow9" gltf-model="#arrow-asset" position="-7.2 0.8 0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
                          animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
   <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
@@ -89,7 +90,7 @@ function updateDropdown(locations) {
 
     // リストが1件だけの場合は、その場所のモデルを直ちに表示
     if (locations.length === 1) {
-        const selectedIndex = 0; // 一つ目の場所が選択されたものとして扱う
+        const selectedIndex = (locations[0].name === "現在地") ? -1 : 0;
         displaySelectedModel(selectedIndex, locations);
     }
 }
@@ -248,12 +249,14 @@ const init = () => {
         document.addEventListener('touchstart', onTouchStart, { passive: false });
         document.addEventListener('touchmove', onTouchMove, { passive: false });
         document.addEventListener('touchend', function (event) {
-            addCursor();
             var now = (new Date()).getTime();
+            if (now - lastTouchEnd > 300) {
+                addCursor();
+            }
             if (now - lastTouchEnd <= 300) {
                 event.preventDefault();
             }
-          lastTouchEnd = now;
+            lastTouchEnd = now;
         }, false);
         isInitialized = true; // 初期化済みに設定
     }
