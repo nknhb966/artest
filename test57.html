@@ -12,32 +12,33 @@
   <body>
     <div id="rotateMessage">Rotate Your Phone</div>
     <div id="contentWrapper">
-    <div id="dropdownContainer"></div>
-    <button class="reload-button" onclick="location.reload()">Reload</button>
-    <button id="overviewButton" class="overview-button">概要</button>
-
-    <div id="compassHeadingDisplay">
-        <span id="direction"></span>
-    </div>
-
-    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false">
-        <a-assets>
-            <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        </a-assets>
-        <a-entity id="modelContainer"></a-entity>
-        <a-camera gps-camera="gpsMinDistance:1;" rotation-reader></a-camera>
-    </a-scene>
-
-    <div id="modalContainer"></div>
-
-    <div id="modalContainer2" class="modal" onclick="closeModalBackground(event)">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal2()">&times;</span>
-            <div id="overviewTitle"></div>
-            <div id="overviewSubtitle"></div>
-            <div id="overviewDescription"></div>
-            <img id="overviewImage" src="" alt="Overview Image">
-            <a id="overviewUrl" href="#" target="_blank">詳細を見る</a>
+        <div id="dropdownContainer"></div>
+        <button class="reload-button" onclick="location.reload()">Reload</button>
+        <button id="overviewButton" class="overview-button">概要</button>
+    
+        <div id="compassHeadingDisplay">
+            <span id="direction"></span>
+        </div>
+    
+        <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false">
+            <a-assets>
+                <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+            </a-assets>
+            <a-entity id="modelContainer"></a-entity>
+            <a-camera gps-camera="gpsMinDistance:1;" rotation-reader></a-camera>
+        </a-scene>
+    
+        <div id="modalContainer"></div>
+    
+        <div id="modalContainer2" class="modal" onclick="closeModalBackground(event)">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal2()">&times;</span>
+                <div id="overviewTitle"></div>
+                <div id="overviewSubtitle"></div>
+                <div id="overviewDescription"></div>
+                <img id="overviewImage" src="" alt="Overview Image">
+                <a id="overviewUrl" href="#" target="_blank">詳細を見る</a>
+            </div>
         </div>
     </div>
     <script src="./js/common.js"></script>
