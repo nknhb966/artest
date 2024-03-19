@@ -16,7 +16,7 @@ body {
   align-items: center;
   color: white;
   font-size: 24px;
-  z-index: 9999;
+  z-index: 10002;
 }
 #contentWrapper {
   display: none;
