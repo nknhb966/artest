@@ -403,30 +403,4 @@ function permitDeviceOrientationForSafari() {
         });
 }
 
-// デバイスの回転を無効にする
-function disableRotation() {
-    if (window.screen.orientation) {
-        // 最新のブラウザーでは、screen.orientation.lockを使用します
-        if (screen.orientation.lock) {
-            screen.orientation.lock('landscape-primary'); // または 'landscape'
-        } else {
-            console.error("Screen orientation lock not supported.");
-        }
-    } else if (window.screen.mozLockOrientation) {
-        // Firefoxでのサポート
-        window.screen.mozLockOrientation('landscape-primary'); // または 'landscape'
-    } else if (window.screen.msLockOrientation) {
-        // Microsoft Edgeでのサポート
-        window.screen.msLockOrientation('landscape-primary'); // または 'landscape'
-    } else {
-        console.error("Screen orientation locking not supported.");
-    }
-}
-
-// ページが読み込まれた後、回転を無効にする
-window.onload = function() {
-    disableRotation();
-};
-
-
 init();
