@@ -4,7 +4,7 @@ body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
-#rotateMessage {
+#rotateMessageContainer {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,9 +13,22 @@ body {
   background-color: rgba(0, 0, 0, 1);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  z-index: 9999;
+}
+
+#rotateMessage {
   color: white;
-  font-size: 24px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+#rotateImage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  max-height: 80vh;
   z-index: 9999;
 }
 #contentWrapper {
