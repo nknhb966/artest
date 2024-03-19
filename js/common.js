@@ -1,6 +1,6 @@
 // locations.csvのパス
-// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
-const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations2.csv';
+const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
+// const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations2.csv';
 // const locationsFilePath = 'https://nknhb966.github.io/artest/csv/locations3.csv';
 
 // モデルの場所を設定
