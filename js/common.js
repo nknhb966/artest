@@ -1,6 +1,6 @@
 // locations.csvのパス
-// const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
-const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
+const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
+// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
 // const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
 
 // モデルの場所を設定
@@ -473,17 +473,18 @@ function checkOrientation() {
 // タブが切り替わったかどうかを示すフラグ
 let tabSwitched = false;
 
-// タブのフォーカスが失われたときの処理
-document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'hidden') {
-        tabSwitched = true;
-    }
+// 別のタブに移動するときの処理
+window.addEventListener('blur', function() {
+    // タブが切り替わったことを示すフラグを設定
+    tabSwitched = true;
 });
 
 // 元のタブに戻ったときの処理
 window.addEventListener('focus', function() {
+    // タブが切り替わった場合にのみページをリロードする
     if (tabSwitched) {
-        location.reload();
+        location.reload(); // ページを再読み込み
+        // フラグをリセット
         tabSwitched = false;
     }
 });
