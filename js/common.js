@@ -225,6 +225,7 @@ function closeModalBackground2(event) {
     var modal = document.getElementById('modalContainer2');
     if (event.target === modal) {
         modal.style.display = "none";
+        hideModal();
     }
 }
 
@@ -239,6 +240,7 @@ function closeModalBackground3(event) {
     var modal = document.getElementById('modalContainer3');
     if (event.target === modal) {
         modal.style.display = "none";
+        hideModal();
     }
 }
 
