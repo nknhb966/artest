@@ -1,7 +1,7 @@
 // locations.csvのパス
 // const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
-const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
-// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
+// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
+const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
 
 // モデルの場所を設定
 const targetPosition = `
@@ -173,7 +173,11 @@ function displaySelectedModel(selectedIndex, locations) {
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
         document.getElementById('overviewUrl').addEventListener('click', function(event) {
-            location.reload();
+            event.preventDefault();
+            window.location.href = selectedLocation.url;
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
         });
         showModal();
     });
@@ -211,7 +215,11 @@ dropdownContainer.addEventListener('change', function () {
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
         document.getElementById('overviewUrl').addEventListener('click', function(event) {
-            location.reload();
+            event.preventDefault();
+            window.location.href = selectedLocation.url;
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
         });
         showModal();
     });
