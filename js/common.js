@@ -1,32 +1,32 @@
 // locations.csvのパス
 // const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
-// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
-const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
+const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
+// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
 
 // モデルの場所を設定
 const targetPosition = `
-  <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
-  <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow2" gltf-model="#arrow-asset" position="3.1 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 3.1 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.5 0.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -0.5 0.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.3 0.8 0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -3.3 0.7 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow5" gltf-model="#arrow-asset" position="2 0.8 1" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 2 0.7 1; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow6" gltf-model="#arrow-asset" position="6.5 0.8 1.8" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 6.5 0.7 1.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow7" gltf-model="#arrow-asset" position="-7 0.8 3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -7 0.7 3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow8" gltf-model="#arrow-asset" position="5.2 0.8 1.45" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 5.2 0.7 1.45; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow9" gltf-model="#arrow-asset" position="-7.2 0.8 0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
-                         animation="property: position; to: 7.8 0.7 -0.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-  `
+    <a-entity gltf-model="#model-asset" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
+    <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow2" gltf-model="#arrow-asset" position="3.1 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: 3.1 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.5 0.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: -0.5 0.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.3 0.8 0" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: -3.3 0.7 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow5" gltf-model="#arrow-asset" position="2 0.8 1" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: 2 0.7 1; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow6" gltf-model="#arrow-asset" position="6.5 0.8 1.8" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: 6.5 0.7 1.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow7" gltf-model="#arrow-asset" position="-7 0.8 3" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: -7 0.7 3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow8" gltf-model="#arrow-asset" position="5.2 0.8 1.45" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: 5.2 0.7 1.45; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow9" gltf-model="#arrow-asset" position="-7.2 0.8 0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
+                           animation="property: position; to: 7.8 0.7 -0.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    `
 
 // CSVファイルを取得してlocationsを更新する関数
 async function fetchLocations() {
@@ -172,13 +172,15 @@ function displaySelectedModel(selectedIndex, locations) {
         document.getElementById('overviewDescription').innerText = selectedLocation.description;
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
-        document.getElementById('overviewUrl').addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = selectedLocation.url;
-            setTimeout(function() {
-                location.reload();
-            }, 1000);
-        });
+        if (os == "iphone") {
+            document.getElementById('overviewUrl').addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = selectedLocation.url;
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            });
+        }
         showModal();
     });
     addCursor();
@@ -214,13 +216,15 @@ dropdownContainer.addEventListener('change', function () {
         document.getElementById('overviewDescription').innerText = selectedLocation.description;
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
-        document.getElementById('overviewUrl').addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = selectedLocation.url;
-            setTimeout(function() {
-                location.reload();
-            }, 1000);
-        });
+        if (os == "iphone") {
+            document.getElementById('overviewUrl').addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = selectedLocation.url;
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            });
+        }
         showModal();
     });
     addCursor();
@@ -426,7 +430,7 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + Math.round(degrees) + " : " + Math.round(degrees + orientation);
+  // document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + Math.round(degrees) + " : " + Math.round(degrees + orientation);
 }
 
 function compassHeading(alpha) {
@@ -475,13 +479,18 @@ function permitDeviceOrientationForSafari() {
 }
 
 function checkOrientation() {
-  if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
-      $('#rotateMessageContainer').hide();
-      $('#contentWrapper').show();
-  } else {
-      $('#rotateMessageContainer').show();
-      $('#contentWrapper').hide();
-  }
+    if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
+        $('#rotateMessageContainer').hide();
+        $('#contentWrapper').show();
+    } else {
+        $('#rotateMessageContainer').show();
+        $('#contentWrapper').hide();
+    }
 }
+
+document.getElementById('overviewButton3').addEventListener('click', function() {
+    document.getElementById('modalContainer3').style.display = 'block';
+    showModal();
+});
 
 init();
