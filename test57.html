@@ -17,7 +17,7 @@
     <div id="contentWrapper">
         <div id="dropdownContainer"></div>
         <button class="reload-button" onclick="location.reload()">Reload</button>
-        <button id="overviewButton2" class="overview-button">概要</button>
+        <button id="overviewButton2" class="overview-button">1概要</button>
         <button id="overviewButton3" class="overview-button">使い方</button>
     
 <!--         <div id="compassHeadingDisplay">
@@ -68,7 +68,32 @@
         </div>
     </div>
     <script src="./js/common.js"></script>
-    <script>
+<script>
+    $(window).on('load', function(){
+        checkOrientation();
+    });
+
+    $(window).on('orientationchange resize', function(){
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            // 横向きの場合、カメラ機能を削除する
+            $('a-camera').remove();
+            // arjs属性のsourceTypeを変更する
+            $('a-scene').attr('arjs', 'sourceType: none;');
+        } else {
+            // 縦向きの場合、カメラ機能を追加する
+            if ($('a-camera').length === 0) {
+                $('a-scene').append('<a-camera gps-camera="gpsMinDistance:1;" rotation-reader></a-camera>');
+            }
+            // arjs属性のsourceTypeを元に戻す
+            $('a-scene').attr('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false');
+            if (os == "iphone") {
+                location.reload();
+            }
+        }
+        checkOrientation();
+    });
+</script>
+<!--     <script>
         $(window).on('load', function(){
             checkOrientation();
         });
@@ -79,6 +104,6 @@
             }
             checkOrientation();
         });
-    </script>
+    </script> -->
   </body>
 </html>
