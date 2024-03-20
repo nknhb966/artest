@@ -80,7 +80,7 @@ body {
   padding: 8px;
   font-size: 16px;
   top: 10px;
-  right: 100px;
+  right: 10px;
   z-index: 10000;
 }
 
@@ -109,7 +109,7 @@ body {
   font-family: Arial, sans-serif;
   padding: 8px;
   font-size: 16px;
-  top: 10px;
+  bottom: 60px;
   right: 10px;
   z-index: 10000;
 }
