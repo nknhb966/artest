@@ -1,7 +1,7 @@
 // locations.csvのパス
 // const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
-// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
-const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
+const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations.csv';
+// const locationsFilePath = 'https://echizencity.github.io/artest/csv/locations2.csv';
 
 // モデルの場所を設定
 const targetPosition = `
@@ -172,6 +172,9 @@ function displaySelectedModel(selectedIndex, locations) {
         document.getElementById('overviewDescription').innerText = selectedLocation.description;
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
+        document.getElementById('overviewUrl').addEventListener('click', function(event) {
+            location.reload();
+        });
         showModal();
     });
     addCursor();
@@ -207,6 +210,9 @@ dropdownContainer.addEventListener('change', function () {
         document.getElementById('overviewDescription').innerText = selectedLocation.description;
         document.getElementById('overviewImage').src = selectedLocation.image;
         document.getElementById('overviewUrl').href = selectedLocation.url;
+        document.getElementById('overviewUrl').addEventListener('click', function(event) {
+            location.reload();
+        });
         showModal();
     });
     addCursor();
@@ -469,27 +475,5 @@ function checkOrientation() {
       $('#contentWrapper').hide();
   }
 }
-
-// タブが切り替わったかどうかを示すフラグ
-let tabSwitched = false;
-
-// タブのフォーカスが失われたときの処理
-document.addEventListener('visibilitychange', function() {
-    // タブの可視性が変化したときに発生するイベント
-    if (document.visibilityState === 'hidden') {
-        // タブが非アクティブになった場合、タブが切り替わったことを示すフラグを設定
-        tabSwitched = true;
-    }
-});
-
-// 元のタブに戻ったときの処理
-window.addEventListener('focus', function() {
-    // タブが切り替わった場合にのみページをリロードする
-    if (tabSwitched) {
-        location.reload(); // ページを再読み込み
-        // フラグをリセット
-        tabSwitched = false;
-    }
-});
 
 init();
