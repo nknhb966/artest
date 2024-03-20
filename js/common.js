@@ -165,7 +165,7 @@ function displaySelectedModel(selectedIndex, locations) {
     modelContainer.appendChild(modelEntity);
 
     // モデルに関連する情報を表示
-    document.getElementById('overviewButton').addEventListener('click', function() {
+    document.getElementById('overviewButton2').addEventListener('click', function() {
         document.getElementById('modalContainer2').style.display = 'block';
         document.getElementById('overviewTitle').innerText = selectedLocation.title;
         document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
@@ -200,7 +200,7 @@ dropdownContainer.addEventListener('change', function () {
     modelContainer.appendChild(modelEntity);
 
     // モデルに関連する情報を表示
-    document.getElementById('overviewButton').addEventListener('click', function() {
+    document.getElementById('overviewButton2').addEventListener('click', function() {
         document.getElementById('modalContainer2').style.display = 'block';
         document.getElementById('overviewTitle').innerText = selectedLocation.title;
         document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
@@ -214,15 +214,29 @@ dropdownContainer.addEventListener('change', function () {
 });
 
 
-// モーダルを閉じる
+// 概要モーダルを閉じる
 function closeModal2() {
     document.getElementById('modalContainer2').style.display = 'none';
     hideModal();
 }
 
-// モーダルの背景をクリックしたらモーダルを閉じる
-function closeModalBackground(event) {
+// 概要モーダルの背景をクリックしたらモーダルを閉じる
+function closeModalBackground2(event) {
     var modal = document.getElementById('modalContainer2');
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+
+// 使い方モーダルを閉じる
+function closeModal3() {
+    document.getElementById('modalContainer3').style.display = 'none';
+    hideModal();
+}
+
+// 使い方モーダルの背景をクリックしたらモーダルを閉じる
+function closeModalBackground3(event) {
+    var modal = document.getElementById('modalContainer3');
     if (event.target === modal) {
         modal.style.display = "none";
     }
