@@ -69,19 +69,16 @@
     </div>
     <script src="./js/common.js"></script>
     <script>
-      $(window).on('load', function(){
-          checkOrientation();
-      });
+        $(window).on('load', function(){
+            checkOrientation();
+        });
 
-      $(window).on('orientationchange resize', function(){
-          location.reload();
-          checkOrientation();
-      });
-      // 使い方に関連する情報を表示
-      document.getElementById('overviewButton3').addEventListener('click', function() {
-          document.getElementById('modalContainer3').style.display = 'block';
-          showModal();
-      });
+        $(window).on('orientationchange resize', function(){
+            if (os == "iphone") {
+                location.reload();
+            }
+            checkOrientation();
+        });
     </script>
   </body>
 </html>
