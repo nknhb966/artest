@@ -121,7 +121,7 @@ function createModelEntity(selectedIndex, locations) {
 
     const orientation1 = -90 - 13 + orientation;
     const rotationValue1 = "0 " + orientation1 + " 0";  // Y軸周り回転させる場合(iphone)
-    const orientation2 = -90 + 20;
+    const orientation2 = -90 - 26;
     const rotationValue2 = "0 " + orientation2 + " 0";  // Y軸周り回転させる場合(iphone以外)
 
     // 選択された場所が現在地の場合は、現在位置を取得してモデルを表示
