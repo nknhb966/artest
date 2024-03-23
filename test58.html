@@ -17,8 +17,8 @@
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
       <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
       <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane> -->
-<!--       <a-entity id="ctlL" laser-controls="hand: left"></a-entity>
-      <a-entity id="ctlR" laser-controls="hand: right"></a-entity> -->
+      <a-entity id="ctlL" laser-controls="hand: left"></a-entity>
+      <a-entity id="ctlR" laser-controls="hand: right"></a-entity>
       <a-entity camera look-controls position="0 1.6 0">
         <a-text id="txt" value="" position="0 0 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
         <a-text id="txt2" value="" position="0 -0.15 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
@@ -30,6 +30,10 @@
       const ctlR = document.getElementById("ctlR");
       const txt = document.getElementById("txt");
       const txt2 = document.getElementById("txt2");
+
+      ctlL.style.visibility ="hidden";
+      ctlR.style.visibility ="hidden";
+
 
       //Getting Position of Right Controller.
       const timer = setInterval(() => {     
