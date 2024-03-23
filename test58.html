@@ -5,10 +5,13 @@
     <title>Oculus Quest Input</title>
     <meta name="description" content="Oculus Quest Input">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  <!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script> -->
+
   </head>
 
 
-<script type="module">
+<!-- <script type="module">
 AFRAME.registerComponent('collider-check', {
     dependencies: ['raycaster'],
     init: function () {
@@ -19,12 +22,13 @@ AFRAME.registerComponent('collider-check', {
         });
     }
 });
-</script>
+</script> -->
 
 
 
   <body>
-    <a-scene id="scene" background="color: #77ADD1" renderer="colorManagement: true">
+    <!-- <a-scene id="scene" background="color: #77ADD1" renderer="colorManagement: true"> -->
+    <a-scene vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false">
 
   <a-assets>
     <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
