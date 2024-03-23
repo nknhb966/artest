@@ -325,7 +325,6 @@ function onTouchMove(event) {
         if (model !== null && model.object3D !== null) {
             if (event.touches.length == 1) {
                 event.preventDefault();
-                removeCursor();
                 
                 var touchX = event.touches[0].clientX;
                 var touchY = event.touches[0].clientY;
@@ -344,9 +343,9 @@ function onTouchMove(event) {
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-//                if(Math.sqrt(newX * newX + newY * newY) > 0.05) {
-//                  removeCursor();
-//                }
+                if(Math.sqrt(newX * newX + newY * newY) > 0.05) {
+                  removeCursor();
+                }
 
                 model.object3D.position.x += newX * 0.01;
                 model.object3D.position.z += newY * 0.01;
