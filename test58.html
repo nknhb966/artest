@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>Oculus Quest Input</title>
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script> -->
 </head>
 <!-- 
 <script type="module">
@@ -20,8 +21,8 @@ AFRAME.registerComponent('collider-check', {
 });
 </script> -->
 <body>
-  <a-scene background="color: #FAFAFA">
-    <!-- <a-scene vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false"> -->
+  <!-- <a-scene background="color: #FAFAFA"> -->
+    <a-scene vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false">
 <!--   <a-assets timeout="10000">
     <a-asset-item id="sabae" src="./cic-tokyo.glb"></a-asset-item>
   </a-assets>
