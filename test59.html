@@ -17,7 +17,7 @@
                 //xボタンを押した時 
                 this.el.addEventListener('xbuttondown', function (e) {
                     //行き先をポインティング  
-                    moveModel("left");
+                    moveCamera("left");
                 });
 
                 //Xボタンを離した時 
@@ -45,33 +45,46 @@
     });
 </script>
 
+<script type="module">
+AFRAME.registerComponent('collider-check', {
+    dependencies: ['raycaster'],
+    init: function () {
+        this.el.addEventListener('raycaster-intersection', function () {
+            window.open("https://nknhb966.github.io/artest/test57.html", "_blank");
+        });
+        this.el.addEventListener('raycaster-intersection-cleared', function () {
+        });
+    }
+});
+</script>
+
     <script>
-      function moveModel(direction) {
-        var model = document.getElementById('model');
-        var currentPosition = model.getAttribute('position');
-        var step = 0.5;
-        
-        switch(direction) {
-          case 'left':
-            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+function moveCamera(direction) {
+    var camera = document.getElementById('head');
+    var currentPosition = camera.getAttribute('position');
+    var step = 0.5;
+    
+    switch(direction) {
+        case 'left':
+            camera.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
             break;
-          case 'right':
-            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+        case 'right':
+            camera.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
             break;
-          case 'bottom':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+        case 'up':
+            camera.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
             break;
-          case 'top':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+        case 'down':
+            camera.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
             break;
-          case 'down':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+        case 'forward':
+            camera.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
             break;
-          case 'up':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+        case 'backward':
+            camera.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
             break;
-        }
-      }
+    }
+}
     </script>
 
   <body>
@@ -82,8 +95,17 @@
       </a-assets>
       <a-entity id="model" gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
 
+  <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
+
+<!--   <a-entity id="cameraRig">
+    <a-entity id="head" camera position="0 1.7 0" mc-controls x-wasd-controls-mode2 look-controls x-drone-controls-mode2 raycaster="objects: .collidable; far: 0.5;" collider-check></a-entity>
+    <a-entity oculus-touch-controls="hand:left" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
+    <a-entity oculus-touch-controls="hand:right" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
+  </a-entity> -->
+
       <a-entity id="cameraRig">
-          <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0">
+          <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0" raycaster="objects: .collidable; far: 0.5;" collider-check>
+          <!-- <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0"> -->
           </a-entity>
           <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
               <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
@@ -106,7 +128,7 @@
       <!-- 説明作成No.1 -->
       <a-entity position="1 2 -2.5">
         <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
-        <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20101_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+        <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
         </a-image>
       </a-entity>
 
