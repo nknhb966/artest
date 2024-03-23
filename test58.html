@@ -17,13 +17,13 @@
                 //xボタンを押した時 
                 this.el.addEventListener('xbuttondown', function (e) {
                     //行き先をポインティング  
-                    this.emit('teleportstart');
+                    moveModel("left");
                 });
 
                 //Xボタンを離した時 
                 this.el.addEventListener('xbuttonup', function (e) {
                     //ポイントした場所にジャンプ
-                    this.emit('teleportend');
+                    // this.emit('teleportend');
                 });
             },
 
@@ -45,6 +45,35 @@
     });
 </script>
 
+    <script>
+      function moveModel(direction) {
+        var model = document.getElementById('model');
+        var currentPosition = model.getAttribute('position');
+        var step = 0.5;
+        
+        switch(direction) {
+          case 'left':
+            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'right':
+            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+            break;
+          case 'bottom':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+            break;
+          case 'top':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+            break;
+          case 'down':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+            break;
+          case 'up':
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+            break;
+        }
+      }
+    </script>
+
   <body>
     <a-scene renderer="colorManagement: false" vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false">
 
@@ -57,7 +86,7 @@
           <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0">
           </a-entity>
           <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
-              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+              <a-text value="L-Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
           </a-entity>
           <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
               <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
