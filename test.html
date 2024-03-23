@@ -1,134 +1,148 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>Oculus Quest Input</title>
-    <meta name="description" content="Oculus Quest Input">
+    <title>Oculus Quest Demo</title>
+    <meta name="description" content="Oculus Quest Demo">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene background="color: #FAFAFA">
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
-      <a-entity id="ctlL" laser-controls="hand: left"></a-entity>
-      <a-entity id="ctlR" laser-controls="hand: right"></a-entity>
-      <a-entity camera look-controls position="0 1.6 0">
-        <a-text id="txt" value="" position="0 0 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
-        <a-text id="txt2" value="" position="0 -0.15 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
-      </a-entity>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.3.0/dist/aframe-physics-system.min.js"></script>
+</head>
+<script>
+    AFRAME.registerComponent('input-listener', {
+        init:
+            function () {
+                //コントローラのグリップボタンを押しているかどうかを保持
+                this.el.grip = false;
+
+                //トリガーを押した時に球を発射 
+                this.el.addEventListener('triggerdown', function (e) {
+                    //コントローラの位置を取得(thisはコントローラ)
+                    var point = this.object3D.getWorldPosition();
+                    //ボールを生成
+                    var ball = document.createElement('a-sphere');
+                    ball.setAttribute('class', 'ball');
+                    ball.setAttribute('scale', '0.2 0.2 0.2');
+                    ball.setAttribute('position', point);
+                    //dynamic-bodyを設定することで物理演算をさせる
+                    ball.setAttribute('dynamic-body', 'shape: sphere; sphereRadius:0.2; ');
+                    //コントローラのレイキャスターの向きを取得
+                    var dir = this.getAttribute("raycaster").direction;
+                    //球を発射するときの向きと大きさを設定(好みに応じて変更) 
+                    var force = new THREE.Vector3(dir.x, dir.y, dir.z);
+                    force.multiplyScalar(2000);
+                    //レイキャスターの向きはコントローラを原点としたローカル座標系なのでワールド座標に変換                   
+                    ball.force = this.object3D.localToWorld(force);
+                    //上記の設定を済ませた球をシーンに登場させる
+                    var scene = document.querySelector('a-scene');
+                    scene.appendChild(ball);
+                    //物理関係の設定が済んだタイミングで球を飛ばす 
+                    ball.addEventListener('body-loaded', function (e) {
+                        //ボールの位置を取得(ここでのthisはballを示す)
+                        var p = this.object3D.position;
+                        //加える力は先ほど計算したものを使用
+                        var f = this.force;
+                        //球に力を加えて飛ばす
+                        this.body.applyForce(
+                            new CANNON.Vec3(f.x, f.y, f.z),
+                            new CANNON.Vec3(p.x, p.y, p.z)
+                        );
+                    });
+                });
+
+                //グリップボタンを押した時に呼ばれる
+                this.el.addEventListener('gripdown', function (e) {
+                    //グリップボタン押下中
+                    this.grip = true;
+                });
+
+                //グリップボタンを話した時に呼ばれる
+                this.el.addEventListener('gripup', function (e) {
+                    //グリップボタン押下終了
+                    this.grip = false;
+                });
+
+                //レイキャスターが何かしらのオブジェクトにぶつかった時
+                this.el.addEventListener('raycaster-intersection', function (e) {
+                    //交差したオブジェクトのうち0番目を覚えておく(本当はもうちょっと上手にやるべき)
+                    this.selectedObj = e.detail.els[0];
+                });
+
+                //レイキャスターとオブジェクトとの接触完了
+                this.el.addEventListener('raycaster-intersection-cleared', function (e) {
+                    //レイキャスターと接触しているオブジェクトの情報をクリア
+                    this.selectedObj = null;
+                });
+
+                //Aボタンを押した時(球を全部削除する) 
+                this.el.addEventListener('abuttondown', function (e) {
+                    //a-sceneに存在する球を全て取得
+                    var els = document.querySelectorAll('.ball');
+                    //球を削除
+                    for (var i = 0; i < els.length; i++) {
+                        els[i].parentNode.removeChild(els[i]);
+                    }
+                });
+
+                //xボタンを押した時 
+                this.el.addEventListener('xbuttondown', function (e) {
+                    //行き先をポインティング  
+                    this.emit('teleportstart');
+                });
+
+                //Xボタンを離した時 
+                this.el.addEventListener('xbuttonup', function (e) {
+                    //ポイントした場所にジャンプ
+                    this.emit('teleportend');
+                });
+            },
+
+        //毎フレーム呼ばれる
+        tick:
+            function () {
+                if (!this.el.selectedObj) { return; }
+                if (!this.el.grip) { return; }
+                //レイキャスターの向きを取得 (this.elはコントローラを示す)
+                var ray = this.el.getAttribute("raycaster").direction;
+                //レイキャスターの先端の位置を1.2m手前とし、そのワールド座標を計算 
+                var p = new THREE.Vector3(ray.x, ray.y, ray.z);
+                p.normalize();
+                p.multiplyScalar(1.2);
+                this.el.object3D.localToWorld(p);
+                //レイキャスターの先端に、選択中のオブジェクトを追従させる。
+                this.el.selectedObj.object3D.position.set(p.x, p.y, p.z);
+            }
+    });
+
+
+</script>
+
+<body>
+    <a-scene physics="debug: false; gravity: 0; restitution: 0.9; " background="color: #AAAAAA">
+        <!--collidable:レイキャスターとの交差判定の対象とするクラス-->
+        <!--static-body:ボールとの衝突判定はする。ただし重力の影響や衝突の影響は受けない-->
+        <a-sphere class="collidable" static-body position="0 1.25 -4" radius="0.7" color="#EF2D5E" shadow></a-sphere>
+        <a-cylinder class="collidable" static-body position="1 0.75 -2" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
+        <a-box class="collidable" static-body position="-1 0.5 -2" rotation="0 0 0" color="#4CC3D9" shadow> </a-box>
+
+        <!--a-plane:部屋の壁や床・天井-->
+        <!--src="./back.png"の部分は適宜書き換えてください。-->
+        <a-plane static-body position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#7BC8A4" src="./back.png" shadow> </a-plane>
+        <a-plane static-body position="0 5 0" rotation="90 0 0" width="10" height="10" color="#7BC8A4" src="./back.png" shadow> </a-plane>
+        <a-plane static-body position="0 2.5 -5" rotation="0 0 0" width="10" height="5" color="#7BC8FF" src="./back.png" shadow> </a-plane>
+        <a-plane static-body position="0 2.5 5" rotation="0 180 0" width="10" height="5" color="#7BC8FF" src="./back.png" shadow> </a-plane>
+        <a-plane static-body position="5 2.5 0" rotation="0 -90 0" width="10" height="5" color="#7BC8FF" src="./back.png" shadow> </a-plane>
+        <a-plane static-body position="-5 2.5 0" rotation="0 90 0" width="10" height="5" color="#7BC8FF" src="./back.png" shadow> </a-plane>
+        <a-entity id="cameraRig">
+            <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0">
+            </a-entity>
+            <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
+                <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+            </a-entity>
+            <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
+                <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+            </a-entity>
+        </a-entity>
     </a-scene>
-
-    <script>
-      const ctlL = document.getElementById("ctlL");
-      const ctlR = document.getElementById("ctlR");
-      const txt = document.getElementById("txt");
-      const txt2 = document.getElementById("txt2");
-
-      //Getting Position of Right Controller.
-      const timer = setInterval(() => {     
-        var p=ctlR.object3D.position;
-        txt2.setAttribute("value","R-Position: "+ p.x.toFixed(2)+", "+p.y.toFixed(2)+", "+p.z.toFixed(2));
-      }, 100);
-
-      //Stick Moved
-      ctlL.addEventListener('axismove',function(event){
-        txt.setAttribute("value", "L Stick  x:"+event.detail.axis[0].toFixed(2)+", y:"+event.detail.axis[1].toFixed(2));
-      });
-      ctlR.addEventListener('axismove',function(event){
-        txt.setAttribute("value", "R Stick  x:"+event.detail.axis[0].toFixed(2)+", y:"+event.detail.axis[1].toFixed(2));
-      });
-
-      //Trigger Touch Started
-      ctlL.addEventListener('triggertouchstart', function (event) {
-        txt.setAttribute("value","Left touch started ");
-      });
-      ctlR.addEventListener('triggertouchstart', function (event) {
-        txt.setAttribute("value","Right touch started");
-      });
-
-      //Trigger Touch Ended
-      ctlL.addEventListener('triggertouchend', function (event) {
-        txt.setAttribute("value","Left touch ended ");
-      });
-      ctlR.addEventListener('triggertouchend', function (event) {
-        txt.setAttribute("value","Right touch ended");
-      });
-
-      //Trigger Pressed
-      ctlL.addEventListener('triggerdown', function (event) {
-        txt.setAttribute("value","Left trigger down");
-      });
-
-      ctlR.addEventListener('triggerdown', function (event) {
-        txt.setAttribute("value","Right trigger down");
-      });
-
-      //Trigger Released
-      ctlL.addEventListener('triggerup', function (event) {
-        txt.setAttribute("value","Left trigger up");
-      });
-      ctlR.addEventListener('triggerup', function (event) {
-        txt.setAttribute("value","Right trigger up");
-      });
-
-      //Grip Pressed
-      ctlL.addEventListener('gripdown', function (event) {
-        txt.setAttribute("value","Left gripdown down");
-      });
-      ctlR.addEventListener('gripdown', function (event) {
-        txt.setAttribute("value","Right gripdown down");
-      });
-
-      //Grip Released
-      ctlL.addEventListener('gripup', function (event) {
-        txt.setAttribute("value","Left gripdown up");
-      });
-      ctlR.addEventListener('gripup', function (event) {
-        txt.setAttribute("value","Right gripdown up");
-      });
-
-
-      //A-buttorn Pressed 
-      ctlR.addEventListener('abuttondown', function (event) {
-        txt.setAttribute("value","Right A-button down");
-      });
-
-      //A-buttorn Released 
-      ctlR.addEventListener('abuttonup', function (event) {
-        txt.setAttribute("value","Right A-button up");
-      });
-
-      //B-buttorn Pressed 
-      ctlR.addEventListener('bbuttondown', function (event) {
-        txt.setAttribute("value","Right B-button down");
-      });
-
-      //B-buttorn Released 
-      ctlR.addEventListener('bbuttonup', function (event) {
-        txt.setAttribute("value","Right B-button up");
-      });
-
-      //Y-buttorn Pressed 
-      ctlL.addEventListener('ybuttondown', function (event) {
-        txt.setAttribute("value","Left Y-button down");
-      });
-
-      //Y-buttorn Released 
-      ctlL.addEventListener('ybuttonup', function (event) {
-        txt.setAttribute("value","Left Y-button up");
-      });
-
-      //X-buttorn Pressed 
-      ctlL.addEventListener('xbuttondown', function (event) {
-        txt.setAttribute("value","Left X-button down");
-      });
-
-      //X-buttorn Released 
-      ctlL.addEventListener('xbuttonup', function (event) {
-        txt.setAttribute("value","Left X-button up");
-      });
-    </script>
-  </body>
+</body>
 </html>
