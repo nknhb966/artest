@@ -41,15 +41,17 @@ AFRAME.registerComponent('collider-check', {
         <a-text id="txt2" value="" position="0 -0.15 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
       </a-entity> -->
 
-  <a-entity light="type: ambient; color: #FFF"></a-entity>
+  <!-- <a-entity light="type: ambient; color: #FFF"></a-entity> -->
     <!--<a-plane color="#888" height="300" width="300" rotation="-90 0 0"></a-plane>-->
-  <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
+<!--   <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
   <a-entity id="cameraRig">
     <a-entity id="head" camera position="0 1.7 0" mc-controls x-wasd-controls-mode2 look-controls x-drone-controls-mode2 raycaster="objects: .collidable; far: 0.5;" collider-check></a-entity>
     <a-entity oculus-touch-controls="hand:left" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
     <a-entity oculus-touch-controls="hand:right" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
-  </a-entity>
+  </a-entity> -->
 
+
+        <a-entity id="cameraRig">
             <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0">
             </a-entity>
             <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
@@ -58,6 +60,8 @@ AFRAME.registerComponent('collider-check', {
             <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
                 <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
             </a-entity>
+        </a-entity>
+
 
     </a-scene>
 
