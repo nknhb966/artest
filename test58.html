@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Oculus Quest Input</title>
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-<!-- <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script> -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 <!-- 
 <script type="module">
@@ -20,7 +20,7 @@ AFRAME.registerComponent('collider-check', {
 });
 </script> -->
 <body>
-    <a-scene background="color: #FAFAFA">
+    <a-scene vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false">
 <!--   <a-assets timeout="10000">
     <a-asset-item id="sabae" src="./cic-tokyo.glb"></a-asset-item>
   </a-assets>
@@ -33,7 +33,7 @@ AFRAME.registerComponent('collider-check', {
 
   <!-- <a-entity light="type: ambient; color: #FFF"></a-entity> -->
     <!--<a-plane color="#888" height="300" width="300" rotation="-90 0 0"></a-plane>-->
-  <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
+
 <!--   <a-entity id="cameraRig">
     <a-entity id="head" camera position="0 1.7 0" mc-controls x-wasd-controls-mode2 look-controls x-drone-controls-mode2 raycaster="objects: .collidable; far: 0.5;" collider-check></a-entity> -->
 <!--     <a-entity oculus-touch-controls="hand:left" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
@@ -45,6 +45,89 @@ AFRAME.registerComponent('collider-check', {
         <a-text id="txt" value="" position="0 0 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
         <a-text id="txt2" value="" position="0 -0.15 -1" scale="0.4 0.4 0.4" align="center" color="#000000"></a-text>
       </a-entity>
+
+
+    <!-- 説明作成No.0 -->
+    <a-entity position="-4 3.5 0.5">
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
+      </a-image>
+    </a-entity>
+    <a-entity position="4 3.5 0.5">
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.1 -->
+    <a-entity position="1 2 -2.5">
+      <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.2 -->
+    <a-entity position="4 2 -2.5">
+      <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.3 -->
+    <a-entity position="-1.75 2 -2.5">
+      <a-entity line="start: 0 -0.75 0; end: 1.25 -1.5 1.75; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20300_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.4 -->
+    <a-entity position="-3.5 2 -2.5">
+      <a-entity line="start: 0 -0.75 0; end: 0 -1.5 2.5; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.5 -->
+    <a-entity position="1 2 3">
+      <a-entity line="start: 0 -0.75 0; end: 1 -1.8 -2; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 180 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.6 -->
+    <a-entity position="6 2 3">
+      <a-entity line="start: 0 -0.75 0; end: 1 -1.5 -1.3; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.7 -->
+    <a-entity position="-5 2 3.7">
+      <a-entity line="start: 0 -0.75 0; end: -2 -1.5 -1; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.8 -->
+    <a-entity position="3.5 2 3">
+      <a-entity line="start: 0 -0.75 0; end: 1.7 -1.5 -1.5; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.9 -->
+    <a-entity position="-5.3 2 -2.5">
+      <a-entity line="start: 0 -0.75 0; end: -2 -1.3 2.7; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+      </a-image>
+    </a-entity>
+
+    <!-- 説明作成No.10 -->
+    <a-entity position="6.5 2 -2.5">
+      <a-entity line="start: 0 -0.75 0; end: 1.2 -1.3 1.8; color: white;" opacity="0.8"></a-entity>
+      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+      </a-image>
+    </a-entity>
+
+
 </a-scene>
 </body>
 </html>
