@@ -19,7 +19,7 @@
       var acceleration = 0.001;
       var deceleration = 0.0003;
 
-      var maxVelocity = 0.008; // 最大速度を定義します
+      var maxVelocity = 0.008; // 最大速度を定義
 
       AFRAME.registerComponent('thumbstick-logging', {
         init: function () {
@@ -100,33 +100,33 @@
         if (!keyStatus[72] && velocity.x > 0) {
           velocity.x -= deceleration;
           if (velocity.x < deceleration) {
-            velocity.x = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+            velocity.x = 0;
           }
           shouldStop = false;
         }
         if (!keyStatus[75] && velocity.x < 0) {
           velocity.x += deceleration;
           if (velocity.x > -deceleration) {
-            velocity.x = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+            velocity.x = 0;
           }
           shouldStop = false;
         }
         if (!keyStatus[85] && velocity.z > 0) {
           velocity.z -= deceleration;
           if (velocity.z < deceleration) {
-            velocity.z = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+            velocity.z = 0;
           }
           shouldStop = false;
         }
         if (!keyStatus[74] && velocity.z < 0) {
           velocity.z += deceleration;
           if (velocity.z > -deceleration) {
-            velocity.z = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+            velocity.z = 0;
           }
           shouldStop = false;
         }
 
-        // 速度が最大速度を超えないように制御します
+        // 速度が最大速度を超えないように制御
         var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
         if (speed > maxVelocity) {
           var ratio = maxVelocity / speed;
@@ -135,7 +135,7 @@
         }
 
         if (shouldStop) {
-          velocity = {x: 0, y: 0, z: 0}; // すべての方向の速度を0にする
+          velocity = {x: 0, y: 0, z: 0};
         }
 
         if (!shouldStop) {
@@ -159,7 +159,7 @@
           var keyCode = event.keyCode || event.which;
           if (keyStatus.hasOwnProperty(keyCode)) {
             keyStatus[keyCode] = false;
-            updateModelMovement(); // キーが離されたときも速度を更新する
+            updateModelMovement();
           }
       });
 
