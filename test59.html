@@ -43,29 +43,47 @@ AFRAME.registerComponent('collider-check', {
 </script>
 
     <script>
+      var modelContainer = []; // モデルを格納する配列
+
       function moveModel(direction) {
-        var model = document.getElementById('model');
-        var currentPosition = model.getAttribute('position');
         var step = 0.5;
         
         switch(direction) {
           case 'left':
-            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+            modelContainer.forEach(function(model) {
+              var currentPosition = model.getAttribute('position');
+              model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
+            });
             break;
           case 'right':
-            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+            modelContainer.forEach(function(model) {
+              var currentPosition = model.getAttribute('position');
+              model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
+            });
             break;
           case 'bottom':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+            modelContainer.forEach(function(model) {
+              var currentPosition = model.getAttribute('position');
+              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
+            });
             break;
           case 'top':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+            modelContainer.forEach(function(model) {
+              var currentPosition = model.getAttribute('position');
+              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
+            });
             break;
           case 'down':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+            modelContainer.forEach(function(model) {
+              var currentPosition = model.getAttribute('position');
+              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
+            });
             break;
           case 'up':
-            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+            modelContainer.forEach(function(model) {
+              var currentPosition = model.getAttribute('position');
+              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
+            });
             break;
         }
       }
@@ -77,27 +95,15 @@ AFRAME.registerComponent('collider-check', {
       <a-assets>
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
       </a-assets>
-      <a-entity id="model" gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+      
+      <!-- モデルをmodelContainerに格納 -->
+      <a-entity id="modelContainer" position="0 0 0"></a-entity>
 
-  <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
+      <!-- モデルをmodelContainerに追加 -->
+      <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="model" collidable></a-entity>
 
-<!--   <a-entity id="cameraRig">
-    <a-entity id="head" camera position="0 1.7 0" mc-controls x-wasd-controls-mode2 look-controls x-drone-controls-mode2 raycaster="objects: .collidable; far: 0.5;" collider-check></a-entity>
-    <a-entity oculus-touch-controls="hand:left" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
-    <a-entity oculus-touch-controls="hand:right" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
-  </a-entity> -->
 
-      <a-entity id="cameraRig">
-          <a-entity id="head" camera wasd-controls look-controls position="10 1.6 0" raycaster="objects: .collidable; far: 0.5;" collider-check>
-          <!-- <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0"> -->
-          </a-entity>
-          <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
-              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
-          </a-entity>
-          <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
-              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
-          </a-entity>
-      </a-entity>
+      <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
 
       <!-- 説明作成No.0 -->
       <a-entity position="-4 3.5 0.5">
@@ -179,8 +185,19 @@ AFRAME.registerComponent('collider-check', {
         </a-image>
       </a-entity>
 
+
+      <!-- コントローラー -->
+      <a-entity id="cameraRig">
+          <a-entity id="head" camera wasd-controls look-controls position="10 1.6 0" raycaster="objects: .collidable; far: 0.5;" collider-check>
+          </a-entity>
+          <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
+              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+          </a-entity>
+          <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
+              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+          </a-entity>
+      </a-entity>
+
       </a-scene>
   </body>
 </html>
-
-
