@@ -12,13 +12,14 @@ AFRAME.registerComponent('input-listener', {
   init: function () {
     var el = this.el;
 
-    el.addEventListener('xbuttondown', function (e) {
-      // Xボタンが押されたときに、カメラを前に移動させる
+    // Xボタンの代わりにトリガーボタンのイベントを使います
+    el.addEventListener('triggerdown', function (e) {
+      // トリガーボタンが押されたときに、カメラを前に移動させる
       moveCamera('forward');
     });
 
-    el.addEventListener('xbuttonup', function (e) {
-      // Xボタンが離されたときに何か処理を行う場合はここに記述する
+    el.addEventListener('triggerup', function (e) {
+      // トリガーボタンが離されたときに何か処理を行う場合はここに記述する
     });
 
     // 他のボタンに対するイベントリスナーを追加することができます
