@@ -21,27 +21,17 @@
 
       var maxVelocity = 0.08; // 最大速度を定義します
 
-      AFRAME.registerComponent('input-listener', {
-          init:
-              function () {
-                  //コントローラのグリップボタンを押しているかどうかを保持
-                  this.el.grip = false;
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function () {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+        logThumbstick: function (event) {
+          // if (evt.detail.y > 0.95) { txt.setAttribute("value", "L Stick  x:"+evt.detail.y+", y:"+evt.detail.x); }
+          // if (evt.detail.y < -0.95) { txt.setAttribute("value", "L Stick  x:"+evt.detail.y+", y:"+evt.detail.x); }
+          // if (evt.detail.x < -0.95) { txt.setAttribute("value", "R Stick  x:"+evt.detail.y.toFixed(5)+", y:"+evt.detail.x.toFixed(10)); }
+          // if (evt.detail.x > 0.95) { txt.setAttribute("value", "R Stick  x:"+evt.detail.y.toFixed(5)+", y:"+evt.detail.x.toFixed(10)); }
 
-                  //xボタンを押した時 
-                  this.el.addEventListener('xbuttondown', function (e) {
-                      //行き先をポインティング  
-                      moveModel("left");
-                  });
-
-                  //Xボタンを離した時 
-                  this.el.addEventListener('xbuttonup', function (e) {
-                      //ポイントした場所にジャンプ
-                      // this.emit('teleportend');
-                  });
-                  const ctlR = document.getElementById("ctlR");
-
-                  ctlR.addEventListener('axismove',function(event){
-                    if (event.detail.axis[0] == 0) {
+                    if (event.detail.x == 0) {
                       if (velocity.x > 0) {
                         velocity.x -= deceleration;
                         if (velocity.x < deceleration) {
@@ -56,14 +46,14 @@
                         }
                         shouldStop = false;
                       }
-                    } else if (event.detail.axis[0] > 0) {
+                    } else if (event.detail.x > 0) {
                       velocity.x -= acceleration;
                       shouldStop = false;
-                    } else if (event.detail.axis[0] < 0) {
+                    } else if (event.detail.x < 0) {
                       velocity.x += acceleration;
                       shouldStop = false;
                     }
-                    if (event.detail.axis[1] == 0) {
+                    if (event.detail.y == 0) {
                       if (velocity.z > 0) {
                         velocity.z -= deceleration;
                         if (velocity.z < deceleration) {
@@ -78,16 +68,68 @@
                         }
                         shouldStop = false;
                       }
-                    } else if (event.detail.axis[1] > 0) {
+                    } else if (event.detail.y > 0) {
                       velocity.z += acceleration;
                       shouldStop = false;
-                    } else if (event.detail.axis[1] < 0) {
+                    } else if (event.detail.y < 0) {
                       velocity.z -= acceleration;
                       shouldStop = false;
                     }
+        }
                   });
-              },
-      });
+
+          // init:
+          //     function () {
+          //         const ctlR = document.getElementById("ctlR");
+
+          //         ctlR.addEventListener('axismove',function(event){
+          //           if (event.detail.axis[0] == 0) {
+          //             if (velocity.x > 0) {
+          //               velocity.x -= deceleration;
+          //               if (velocity.x < deceleration) {
+          //                 velocity.x = 0;
+          //               }
+          //               shouldStop = false;
+          //             }
+          //             if (velocity.x < 0) {
+          //               velocity.x += deceleration;
+          //               if (velocity.x > -deceleration) {
+          //                 velocity.x = 0;
+          //               }
+          //               shouldStop = false;
+          //             }
+          //           } else if (event.detail.axis[0] > 0) {
+          //             velocity.x -= acceleration;
+          //             shouldStop = false;
+          //           } else if (event.detail.axis[0] < 0) {
+          //             velocity.x += acceleration;
+          //             shouldStop = false;
+          //           }
+          //           if (event.detail.axis[1] == 0) {
+          //             if (velocity.z > 0) {
+          //               velocity.z -= deceleration;
+          //               if (velocity.z < deceleration) {
+          //                 velocity.z = 0;
+          //               }
+          //               shouldStop = false;
+          //             }
+          //             if (velocity.z < 0) {
+          //               velocity.z += deceleration;
+          //               if (velocity.z > -deceleration) {
+          //                 velocity.z = 0;
+          //               }
+          //               shouldStop = false;
+          //             }
+          //           } else if (event.detail.axis[1] > 0) {
+          //             velocity.z += acceleration;
+          //             shouldStop = false;
+          //           } else if (event.detail.axis[1] < 0) {
+          //             velocity.z -= acceleration;
+          //             shouldStop = false;
+          //           }
+          //         });
+          //     },
+      // });
 
       function updateModelMovement() {
         var model = document.getElementById('modelContainer');
@@ -304,7 +346,7 @@
           <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
               <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
           </a-entity>
-          <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
+          <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" thumbstick-logging>
               <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
           </a-entity>
       </a-entity>
