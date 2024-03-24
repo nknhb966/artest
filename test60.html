@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <meta name="description" content="Oculus Quest Input">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+  <script>
+      var keyStatus = {
+        72: false, // h
+        75: false, // k
+        85: false, // u
+        74: false  // j
+      };
+
+      var velocity = {x: 0, y: 0, z: 0};
+      var acceleration = 0.01;
+      var deceleration = 0.003;
+
+      var maxVelocity = 0.08; // 最大速度を定義します
+
+      AFRAME.registerComponent('input-listener', {
+          init:
+              function () {
+                  //コントローラのグリップボタンを押しているかどうかを保持
+                  this.el.grip = false;
+
+                  //xボタンを押した時 
+                  this.el.addEventListener('xbuttondown', function (e) {
+                      //行き先をポインティング  
+                      moveModel("left");
+                  });
+
+                  //Xボタンを離した時 
+                  this.el.addEventListener('xbuttonup', function (e) {
+                      //ポイントした場所にジャンプ
+                      // this.emit('teleportend');
+                  });
+                  const ctlR = document.getElementById("ctlR");
+
+                  ctlR.addEventListener('axismove',function(event){
+                    if (event.detail.axis[0] == 0) {
+                      if (velocity.x > 0) {
+                        velocity.x -= deceleration;
+                        if (velocity.x < deceleration) {
+                          velocity.x = 0;
+                        }
+                        shouldStop = false;
+                      }
+                      if (velocity.x < 0) {
+                        velocity.x += deceleration;
+                        if (velocity.x > -deceleration) {
+                          velocity.x = 0;
+                        }
+                        shouldStop = false;
+                      }
+                    } else if (event.detail.axis[0] > 0) {
+                      velocity.x -= acceleration;
+                      shouldStop = false;
+                    } else if (event.detail.axis[0] < 0) {
+                      velocity.x += acceleration;
+                      shouldStop = false;
+                    }
+                    if (event.detail.axis[1] == 0) {
+                      if (velocity.z > 0) {
+                        velocity.z -= deceleration;
+                        if (velocity.z < deceleration) {
+                          velocity.z = 0;
+                        }
+                        shouldStop = false;
+                      }
+                      if (velocity.z < 0) {
+                        velocity.z += deceleration;
+                        if (velocity.z > -deceleration) {
+                          velocity.z = 0;
+                        }
+                        shouldStop = false;
+                      }
+                    } else if (event.detail.axis[1] > 0) {
+                      velocity.z += acceleration;
+                      shouldStop = false;
+                    } else if (event.detail.axis[1] < 0) {
+                      velocity.z -= acceleration;
+                      shouldStop = false;
+                    }
+                  });
+              },
+      });
+
+      function updateModelMovement() {
+        var model = document.getElementById('modelContainer');
+        var currentPosition = model.getAttribute('position');
+        var shouldStop = true;
+
+        if (keyStatus[72]) { // h
+          velocity.x += acceleration;
+          shouldStop = false;
+        }
+        if (keyStatus[75]) { // k
+          velocity.x -= acceleration;
+          shouldStop = false;
+        }
+        if (keyStatus[85]) { // u
+          velocity.z += acceleration;
+          shouldStop = false;
+        }
+        if (keyStatus[74]) { // j
+          velocity.z -= acceleration;
+          shouldStop = false;
+        }
+
+        // 減速
+        if (!keyStatus[72] && velocity.x > 0) {
+          velocity.x -= deceleration;
+          if (velocity.x < deceleration) {
+            velocity.x = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
+        }
+        if (!keyStatus[75] && velocity.x < 0) {
+          velocity.x += deceleration;
+          if (velocity.x > -deceleration) {
+            velocity.x = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
+        }
+        if (!keyStatus[85] && velocity.z > 0) {
+          velocity.z -= deceleration;
+          if (velocity.z < deceleration) {
+            velocity.z = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
+        }
+        if (!keyStatus[74] && velocity.z < 0) {
+          velocity.z += deceleration;
+          if (velocity.z > -deceleration) {
+            velocity.z = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
+        }
+
+        // 速度が最大速度を超えないように制御します
+        var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+        if (speed > maxVelocity) {
+          var ratio = maxVelocity / speed;
+          velocity.x *= ratio;
+          velocity.z *= ratio;
+        }
+
+        if (shouldStop) {
+          velocity = {x: 0, y: 0, z: 0}; // すべての方向の速度を0にする
+        }
+
+        if (!shouldStop) {
+          model.setAttribute('position', {
+            x: currentPosition.x + velocity.x,
+            y: currentPosition.y + velocity.y,
+            z: currentPosition.z + velocity.z
+          });
+        }
+      }
+
+      window.addEventListener('keydown', function(event) {
+          var keyCode = event.keyCode || event.which;
+          if (keyStatus.hasOwnProperty(keyCode)) {
+            keyStatus[keyCode] = true;
+            updateModelMovement();
+          }
+      });
+
+      window.addEventListener('keyup', function(event) {
+          var keyCode = event.keyCode || event.which;
+          if (keyStatus.hasOwnProperty(keyCode)) {
+            keyStatus[keyCode] = false;
+            updateModelMovement(); // キーが離されたときも速度を更新する
+          }
+      });
+
+      // フレームごとにモデルの移動を更新
+      AFRAME.registerComponent('move-model', {
+        tick: function () {
+          updateModelMovement();
+        }
+      });
+  </script>
+
+  <script type="module">
+    AFRAME.registerComponent('collider-check', {
+        dependencies: ['raycaster'],
+        init: function () {
+            this.el.addEventListener('raycaster-intersection', function () {
+                window.open("https://nknhb966.github.io/artest/test57.html", "_blank");
+            });
+            this.el.addEventListener('raycaster-intersection-cleared', function () {
+            });
+        }
+    });
+  </script>
+
+
+
+  <body>
+    <a-scene renderer="colorManagement: false" vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false">
+
+      <a-assets>
+        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+      </a-assets>
+      
+      <!-- モデルをmodelContainerに格納 -->
+      <a-entity id="modelContainer" position="0 0 0" move-model>
+
+        <!-- モデルをmodelContainerに追加 -->
+        <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="model" collidable></a-entity>
+
+        <a-sphere id="sphere" color="#222" position="0 1 -3" class="collidable"></a-sphere>
+
+        <!-- 説明作成No.0 -->
+        <a-entity position="-4 3.5 0.5">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
+          </a-image>
+        </a-entity>
+        <a-entity position="4 3.5 0.5">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.1 -->
+        <a-entity position="1 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.2 -->
+        <a-entity position="4 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.3 -->
+        <a-entity position="-1.75 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 1.25 -1.5 1.75; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20300_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.4 -->
+        <a-entity position="-3.5 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 0 -1.5 2.5; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.5 -->
+        <a-entity position="1 2 3">
+          <a-entity line="start: 0 -0.75 0; end: 1 -1.8 -2; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.6 -->
+        <a-entity position="6 2 3">
+          <a-entity line="start: 0 -0.75 0; end: 1 -1.5 -1.3; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.7 -->
+        <a-entity position="-5 2 3.7">
+          <a-entity line="start: 0 -0.75 0; end: -2 -1.5 -1; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.8 -->
+        <a-entity position="3.5 2 3">
+          <a-entity line="start: 0 -0.75 0; end: 1.7 -1.5 -1.5; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.9 -->
+        <a-entity position="-5.3 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: -2 -1.3 2.7; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.10 -->
+        <a-entity position="6.5 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 1.2 -1.3 1.8; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+      </a-entity>
+
+      <!-- コントローラー -->
+      <a-entity id="cameraRig">
+          <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0" raycaster="objects: .collidable; far: 0.5;" collider-check>
+          </a-entity>
+          <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
+              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+          </a-entity>
+          <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" input-listener>
+              <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+          </a-entity>
+      </a-entity>
+
+      </a-scene>
+  </body>
+</html>
