@@ -8,29 +8,6 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   </head>
   <script>
-      AFRAME.registerComponent('input-listener', {
-          init:
-              function () {
-                  //コントローラのグリップボタンを押しているかどうかを保持
-                  this.el.grip = false;
-
-                  //xボタンを押した時 
-                  this.el.addEventListener('xbuttondown', function (e) {
-                      //行き先をポインティング  
-                      moveModel("left");
-                  });
-
-                  //Xボタンを離した時 
-                  this.el.addEventListener('xbuttonup', function (e) {
-                      //ポイントした場所にジャンプ
-                      // this.emit('teleportend');
-                  });
-              },
-      });
-  </script>
-
-
-  <script>
       var keyStatus = {
         72: false, // h
         75: false, // k
@@ -39,45 +16,82 @@
       };
 
       var velocity = {x: 0, y: 0, z: 0};
-      var acceleration = 0.001;
-      var deceleration = 0.005;
+      var acceleration = 0.01;
+      var deceleration = 0.003;
+
+      var maxVelocity = 0.08; // 最大速度を定義します
 
       function updateModelMovement() {
         var model = document.getElementById('modelContainer');
         var currentPosition = model.getAttribute('position');
+        var shouldStop = true;
 
         if (keyStatus[72]) { // h
           velocity.x += acceleration;
+          shouldStop = false;
         }
         if (keyStatus[75]) { // k
           velocity.x -= acceleration;
+          shouldStop = false;
         }
         if (keyStatus[85]) { // u
           velocity.z += acceleration;
+          shouldStop = false;
         }
         if (keyStatus[74]) { // j
           velocity.z -= acceleration;
+          shouldStop = false;
         }
 
         // 減速
-        if (!keyStatus[72] && velocity.x >= 0) {
+        if (!keyStatus[72] && velocity.x > 0) {
           velocity.x -= deceleration;
+          if (velocity.x < deceleration) {
+            velocity.x = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
         }
-        if (!keyStatus[75] && velocity.x <= 0) {
+        if (!keyStatus[75] && velocity.x < 0) {
           velocity.x += deceleration;
+          if (velocity.x > -deceleration) {
+            velocity.x = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
         }
-        if (!keyStatus[85] && velocity.z >= 0) {
+        if (!keyStatus[85] && velocity.z > 0) {
           velocity.z -= deceleration;
+          if (velocity.z < deceleration) {
+            velocity.z = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
         }
-        if (!keyStatus[74] && velocity.z <= 0) {
+        if (!keyStatus[74] && velocity.z < 0) {
           velocity.z += deceleration;
+          if (velocity.z > -deceleration) {
+            velocity.z = 0; // 減速後、速度が減速度以下の場合はゼロに設定します
+          }
+          shouldStop = false;
         }
 
-        model.setAttribute('position', {
-          x: currentPosition.x + velocity.x,
-          y: currentPosition.y + velocity.y,
-          z: currentPosition.z + velocity.z
-        });
+        // 速度が最大速度を超えないように制御します
+        var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+        if (speed > maxVelocity) {
+          var ratio = maxVelocity / speed;
+          velocity.x *= ratio;
+          velocity.z *= ratio;
+        }
+
+        if (shouldStop) {
+          velocity = {x: 0, y: 0, z: 0}; // すべての方向の速度を0にする
+        }
+
+        if (!shouldStop) {
+          model.setAttribute('position', {
+            x: currentPosition.x + velocity.x,
+            y: currentPosition.y + velocity.y,
+            z: currentPosition.z + velocity.z
+          });
+        }
       }
 
       window.addEventListener('keydown', function(event) {
@@ -92,6 +106,7 @@
           var keyCode = event.keyCode || event.which;
           if (keyStatus.hasOwnProperty(keyCode)) {
             keyStatus[keyCode] = false;
+            updateModelMovement(); // キーが離されたときも速度を更新する
           }
       });
 
@@ -102,10 +117,6 @@
         }
       });
   </script>
-
-
-
-
 
   <script type="module">
     AFRAME.registerComponent('collider-check', {
