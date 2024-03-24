@@ -47,6 +47,13 @@
       </a-entity>
 
       <!-- scene geometry -->
+
+      <a-assets>
+        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+      </a-assets>
+
+      <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="collision"></a-entity>
+
       <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 8; height: 8" material="color: #ffcc80"></a-entity>
       <a-entity class="collision" position="2 .75 2" geometry="primitive: box; width: 2; height: .1; depth: 2" material="color: #ff1744"></a-entity>
       <a-entity class="collision" position="2 1.5 -2" geometry="primitive: box; width: 2; height: .1; depth: 2" material="color: #80cbc4"></a-entity>
@@ -91,9 +98,3 @@
 </html>
 
 
-<!--       <a-assets>
-        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
-      </a-assets>
-
-      <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="collision"></a-entity>
- -->
