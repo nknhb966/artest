@@ -7,43 +7,27 @@
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   </head>
-<script>
-    AFRAME.registerComponent('input-listener', {
-        init:
-            function () {
-                //コントローラのグリップボタンを押しているかどうかを保持
-                this.el.grip = false;
+  <script>
+      AFRAME.registerComponent('input-listener', {
+          init:
+              function () {
+                  //コントローラのグリップボタンを押しているかどうかを保持
+                  this.el.grip = false;
 
-                //xボタンを押した時 
-                this.el.addEventListener('xbuttondown', function (e) {
-                    //行き先をポインティング  
-                    moveModel("left");
-                });
+                  //xボタンを押した時 
+                  this.el.addEventListener('xbuttondown', function (e) {
+                      //行き先をポインティング  
+                      moveModel("left");
+                  });
 
-                //Xボタンを離した時 
-                this.el.addEventListener('xbuttonup', function (e) {
-                    //ポイントした場所にジャンプ
-                    // this.emit('teleportend');
-                });
-            },
-
-        //毎フレーム呼ばれる
-        tick:
-            function () {
-                if (!this.el.selectedObj) { return; }
-                if (!this.el.grip) { return; }
-                //レイキャスターの向きを取得 (this.elはコントローラを示す)
-                var ray = this.el.getAttribute("raycaster").direction;
-                //レイキャスターの先端の位置を1.2m手前とし、そのワールド座標を計算 
-                var p = new THREE.Vector3(ray.x, ray.y, ray.z);
-                p.normalize();
-                p.multiplyScalar(1.2);
-                this.el.object3D.localToWorld(p);
-                //レイキャスターの先端に、選択中のオブジェクトを追従させる。
-                this.el.selectedObj.object3D.position.set(p.x, p.y, p.z);
-            }
-    });
-</script>
+                  //Xボタンを離した時 
+                  this.el.addEventListener('xbuttonup', function (e) {
+                      //ポイントした場所にジャンプ
+                      // this.emit('teleportend');
+                  });
+              },
+      });
+  </script>
 
 <script type="module">
 AFRAME.registerComponent('collider-check', {
