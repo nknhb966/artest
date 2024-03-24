@@ -65,10 +65,10 @@
                 shouldStop = false;
               }
             } else if (event.detail.y > 0.9) {
-              velocity.z += acceleration;
+              velocity.z -= acceleration;
               shouldStop = false;
             } else if (event.detail.y < -0.9) {
-              velocity.z -= acceleration;
+              velocity.z += acceleration;
               shouldStop = false;
             }
           }
