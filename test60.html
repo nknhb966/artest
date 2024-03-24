@@ -167,11 +167,47 @@
       // フレームごとにモデルの移動を更新
       AFRAME.registerComponent('move-model', {
         tick: function () {
-        console.log(velocity);
           updateModelMovement();
         }
       });
+
+      AFRAME.registerComponent('input-listener', {
+          init:
+              function () {
+                  //コントローラのグリップボタンを押しているかどうかを保持
+                  this.el.grip = false;
+
+                  //xボタンを押した時 
+                  this.el.addEventListener('xbuttondown', function (e) {
+                      //行き先をポインティング  
+                      this.emit('teleportstart');
+                  });
+
+                  //Xボタンを離した時 
+                  this.el.addEventListener('xbuttonup', function (e) {
+                      //ポイントした場所にジャンプ
+                      this.emit('teleportend');
+                  });
+              },
+          //毎フレーム呼ばれる
+          tick:
+              function () {
+                  if (!this.el.selectedObj) { return; }
+                  if (!this.el.grip) { return; }
+                  //レイキャスターの向きを取得 (this.elはコントローラを示す)
+                  var ray = this.el.getAttribute("raycaster").direction;
+                  //レイキャスターの先端の位置を1.2m手前とし、そのワールド座標を計算 
+                  var p = new THREE.Vector3(ray.x, ray.y, ray.z);
+                  p.normalize();
+                  p.multiplyScalar(1.2);
+                  this.el.object3D.localToWorld(p);
+                  //レイキャスターの先端に、選択中のオブジェクトを追従させる。
+                  this.el.selectedObj.object3D.position.set(p.x, p.y, p.z);
+              }
+      });
   </script>
+
+
 
   <script type="module">
     AFRAME.registerComponent('collider-check', {
@@ -185,8 +221,6 @@
         }
     });
   </script>
-
-
 
   <body>
     <a-scene renderer="colorManagement: false" vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false">
