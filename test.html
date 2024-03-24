@@ -34,7 +34,8 @@
 
       //Stick Moved
       ctlL.addEventListener('axismove',function(event){
-        txt.setAttribute("value", "L Stick  x:"+event.detail.axis[0].toFixed(2)+", y:"+event.detail.axis[1].toFixed(2));
+        // txt.setAttribute("value", "L Stick  x:"+event.detail.axis[0].toFixed(2)+", y:"+event.detail.axis[1].toFixed(2));
+        txt.setAttribute("value", "L Stick  x:"+event.detail.axis[0]+", y:"+event.detail.axis[1];
       });
       ctlR.addEventListener('axismove',function(event){
         txt.setAttribute("value", "R Stick  x:"+event.detail.axis[0].toFixed(2)+", y:"+event.detail.axis[1].toFixed(2));
