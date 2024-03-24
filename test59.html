@@ -43,47 +43,29 @@ AFRAME.registerComponent('collider-check', {
 </script>
 
     <script>
-      var modelContainer = []; // モデルを格納する配列
-
       function moveModel(direction) {
+        var model = document.getElementById('modelContainer');
+        var currentPosition = model.getAttribute('position');
         var step = 0.5;
         
         switch(direction) {
           case 'left':
-            modelContainer.forEach(function(model) {
-              var currentPosition = model.getAttribute('position');
-              model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
-            });
+            model.setAttribute('position', {x: currentPosition.x - step, y: currentPosition.y, z: currentPosition.z});
             break;
           case 'right':
-            modelContainer.forEach(function(model) {
-              var currentPosition = model.getAttribute('position');
-              model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
-            });
+            model.setAttribute('position', {x: currentPosition.x + step, y: currentPosition.y, z: currentPosition.z});
             break;
           case 'bottom':
-            modelContainer.forEach(function(model) {
-              var currentPosition = model.getAttribute('position');
-              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
-            });
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z + step});
             break;
           case 'top':
-            modelContainer.forEach(function(model) {
-              var currentPosition = model.getAttribute('position');
-              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
-            });
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y, z: currentPosition.z - step});
             break;
           case 'down':
-            modelContainer.forEach(function(model) {
-              var currentPosition = model.getAttribute('position');
-              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
-            });
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y + step, z: currentPosition.z});
             break;
           case 'up':
-            modelContainer.forEach(function(model) {
-              var currentPosition = model.getAttribute('position');
-              model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
-            });
+            model.setAttribute('position', {x: currentPosition.x, y: currentPosition.y - step, z: currentPosition.z});
             break;
         }
       }
