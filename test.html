@@ -47,16 +47,16 @@
 
 
       AFRAME.registerComponent('thumbstick-logging',{
-  init: function () {
-    this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-  },
-  logThumbstick: function (evt) {
-    if (evt.detail.y > 0.95) { txt.setAttribute("value", "L Stick  x:"+evt.detail.y+", y:"+evt.detail.x; }
-    if (evt.detail.y < -0.95) { txt.setAttribute("value", "L Stick  x:"+evt.detail.y+", y:"+evt.detail.x; }
-    if (evt.detail.x < -0.95) { txt.setAttribute("value", "R Stick  x:"+evt.detail.y.toFixed(5)+", y:"+evt.detail.x.toFixed(10)); }
-    if (evt.detail.x > 0.95) { txt.setAttribute("value", "R Stick  x:"+evt.detail.y.toFixed(5)+", y:"+evt.detail.x.toFixed(10)); }
-  }
-});
+        init: function () {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+        logThumbstick: function (evt) {
+          if (evt.detail.y > 0.95) { txt.setAttribute("value", "L Stick  x:"+evt.detail.y+", y:"+evt.detail.x); }
+          if (evt.detail.y < -0.95) { txt.setAttribute("value", "L Stick  x:"+evt.detail.y+", y:"+evt.detail.x); }
+          if (evt.detail.x < -0.95) { txt.setAttribute("value", "R Stick  x:"+evt.detail.y.toFixed(5)+", y:"+evt.detail.x.toFixed(10)); }
+          if (evt.detail.x > 0.95) { txt.setAttribute("value", "R Stick  x:"+evt.detail.y.toFixed(5)+", y:"+evt.detail.x.toFixed(10)); }
+        }
+      });
 
 
       //Trigger Touch Started
