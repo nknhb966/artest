@@ -6,6 +6,7 @@
     <meta name="description" content="Oculus Quest Input">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
   </head>
   <script>
       var keyStatus = {
@@ -18,6 +19,8 @@
       var velocity = {x: 0, y: 0, z: 0};
       var acceleration = 0.004;
       var deceleration = 0.002;
+      // var acceleration = 0.001;
+      // var deceleration = 0.0003;
 
       var maxVelocity = 0.008; // 最大速度を定義
 
