@@ -1,1 +1,32 @@
+<html>
+  <head>
+    <title>TEST1</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js"
+    ></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+    >
+        <a-assets>
+            <a-asset-item id="test" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+        </a-assets>
+        <a-entity
+          id="model"
+          gltf-model="#test"
+          scale="1 1 1"
+          position="0 0 0"
+          rotation="0 0 0"
+          gps-new-entity-place="latitude: 35.903835; longitude: 136.169034;"
+        >
+        </a-entity>
+        <a-camera gps-new-camera="gpsMinDistance:0.5;" rotation-reader></a-camera>
+    </a-scene>
 
+</body>
+</html>
