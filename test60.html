@@ -356,7 +356,7 @@ AFRAME.registerComponent('collider-check', {
 
       <!-- コントローラー -->
       <a-entity id="cameraRig">
-          <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0" raycaster="objects: .collidable; far: 0.5;" collider-check>
+          <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0" raycaster="objects: .collidable; far: 1.5;" collider-check>
           </a-entity>
           <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
               <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
