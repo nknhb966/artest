@@ -31,7 +31,13 @@
           });
         },
         tick: function() {
-          const distance = this.el.object3D.position.distanceTo(this.target.object3D.position);
+          // const distance = this.el.object3D.position.distanceTo(this.target.object3D.position);
+
+          // XZ平面上の距離を計算
+          const deltaX = this.el.object3D.position.x - this.target.object3D.position.x;
+          const deltaZ = this.el.object3D.position.z - this.target.object3D.position.z;
+          const distance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+
           if (distance < this.data.radius && !this.animationInProgress && this.el.object3D.position.y < this.defaultY + 1) {
             this.animate(true);
           } else if (distance >= this.data.radius && !this.animationInProgress && this.el.object3D.position.y > this.defaultY) {
@@ -96,9 +102,9 @@
       <a-entity class="collision" position="-2 -1 2" geometry="primitive: sphere; radius: 2;" material="color: #f55d42"></a-entity>
 
       <!-- ui element -->
-      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="-.8 -0.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 3;"></a-entity>
-      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="0 -0.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 3;"></a-entity>
-      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position=".8 -0.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 3;"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="-.8 -0.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="0 -0.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position=".8 -0.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
 
 
       <a-entity id="destination" position="1.4 1.55 -1.38" rotation="0 135 0">
