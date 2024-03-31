@@ -56,23 +56,34 @@
       <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
       <!-- ui element -->
-      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="-.8 1.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
-      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="0 1.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
-      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position=".8 1.5 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: sphere" scale=".05 .05 .05" position="-1 1.2 -1.5" material="color: white"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: sphere" scale=".05 .05 .05" position="-0 1.2 -1.5" material="color: white"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: sphere" scale=".05 .05 .05" position="1 1.2 -1.5" material="color: white"></a-entity>
 
-      <a-entity id="destination" position="1.4 0 -1.38" rotation="0 135 0">
-      </a-entity>
-      <a-entity id="moveup" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non second platform; align: center; width: 2" position="1.6 1 -1.5" rotation="0 -45 0" material="color: #000000"></a-entity>
+      <a-entity id="destination1" position="3 0 3" rotation="0 0 0"></a-entity>
+      <a-entity id="moveup1" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 1st platform; align: center; width: 2" position="0 1 -2.5" rotation="0 0 0" material="color: #000000"></a-entity>
+
+      <a-entity id="destination2" position="8 0 -2.5" rotation="0 135 0"></a-entity>
+      <a-entity id="moveup2" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 2nd platform; align: center; width: 2" position="5 1 -2.5" rotation="0 -30 0" material="color: #000000"></a-entity>
+
+      <a-entity id="destination3" position="-8 0 -2.5" rotation="0 -135 0"></a-entity>
+      <a-entity id="moveup3" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 3rd platform; align: center; width: 2" position="4 1 1.5" rotation="0 135 0" material="color: #000000"></a-entity>
+
+      <a-entity id="destination4" position="0 0 0" rotation="0 0 0"></a-entity>
+      <a-entity id="moveup4" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: return directly\non start platform; align: center; width: 2" position="-4 1 1.5" rotation="0 225 0" material="color: #000000"></a-entity>
     </a-scene>
 
     <script>
-      const moveup = document.getElementById('moveup');
-      const destination = document.getElementById('destination');
       const cameraRig = document.getElementById('cameraRig');
-      moveup.addEventListener('click', () => {
-        const cursorTeleport = cameraRig.components['cursor-teleport'];
-        cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
-      });
+
+      for (let i = 1; i <= 4; i++) {
+        const moveup = document.getElementById(`moveup${i}`);
+        const destination = document.getElementById(`destination${i}`);
+        moveup.addEventListener('click', () => {
+          const cursorTeleport = cameraRig.components['cursor-teleport'];
+          cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
+        });
+      }
     </script>
 
   </body>
