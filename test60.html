@@ -213,47 +213,46 @@
 
 
   <script type="module">
-AFRAME.registerComponent('collider-check', {
-    dependencies: ['raycaster'],
-    init: function () {
-        var el = this.el; // レイキャスターがアタッチされているエンティティ
-
-        el.addEventListener('raycaster-intersection', function () {
-            // 衝突が検出された場合のアクション
-            el.emit('collideStart');
-        });
-
-        el.addEventListener('raycaster-intersection-cleared', function () {
-            // 衝突が解除された場合のアクション
-            el.emit('collideEnd');
-        });
-
-        el.addEventListener('collideStart', function () {
-            // 衝突開始時のアニメーション
-            var sphere = document.getElementById('sphere'); // アニメーションを適用する球体の要素
-
-            // 上昇アニメーションの開始
-            sphere.setAttribute('animation', {
-                property: 'position',
-                to: '0 2 0', // 上昇後の位置
-                dur: 1000 // アニメーションの時間（1秒）
+    AFRAME.registerComponent('collider-check', {
+        dependencies: ['raycaster'],
+        init: function () {
+            var el = this.el; // レイキャスターがアタッチされているエンティティ
+    
+            el.addEventListener('raycaster-intersection', function () {
+                // 衝突が検出された場合のアクション
+                el.emit('collideStart');
             });
-        });
-
-        el.addEventListener('collideEnd', function () {
-            // 衝突解除時のアニメーション
-            var sphere = document.getElementById('sphere'); // アニメーションを適用する球体の要素
-
-            // 下降アニメーションの開始
-            sphere.setAttribute('animation', {
-                property: 'position',
-                to: '0 1 0', // 下降後の位置
-                dur: 1000 // アニメーションの時間（1秒）
+    
+            el.addEventListener('raycaster-intersection-cleared', function () {
+                // 衝突が解除された場合のアクション
+                el.emit('collideEnd');
             });
-        });
-    }
-});
-
+    
+            el.addEventListener('collideStart', function () {
+                // 衝突開始時のアニメーション
+                var sphere = document.getElementById('sphere'); // アニメーションを適用する球体の要素
+    
+                // 上昇アニメーションの開始
+                sphere.setAttribute('animation', {
+                    property: 'position',
+                    to: '0 2 0', // 上昇後の位置
+                    dur: 1000 // アニメーションの時間（1秒）
+                });
+            });
+    
+            el.addEventListener('collideEnd', function () {
+                // 衝突解除時のアニメーション
+                var sphere = document.getElementById('sphere'); // アニメーションを適用する球体の要素
+    
+                // 下降アニメーションの開始
+                sphere.setAttribute('animation', {
+                    property: 'position',
+                    to: '0 1 0', // 下降後の位置
+                    dur: 1000 // アニメーションの時間（1秒）
+                });
+            });
+        }
+    });
   </script>
 
   <body>
