@@ -12,19 +12,21 @@
     <script>
       AFRAME.registerComponent('spawn-box', {
         init: function () {
+          const sphereId = this.el.getAttribute('id');
+          const boxId = `box-${sphereId}`;
           this.el.addEventListener('click', () => {
-            // Check if there is already a box present, if yes remove it
-            const existingBox = document.querySelector('.spawned-box');
+            // Check if the box is already present
+            const existingBox = document.getElementById(boxId);
             if (existingBox) {
-              existingBox.parentNode.removeChild(existingBox);
+              existingBox.parentNode.removeChild(existingBox); // Remove the existing box
               return;
             }
 
             // Create and append a box
             const box = document.createElement('a-box');
-            box.classList.add('spawned-box'); // Add a class to identify the spawned box
+            box.setAttribute('id', boxId);
             box.setAttribute('color', 'red');
-            box.setAttribute('position', '0 3.5 0');
+            box.setAttribute('position', '0 0 0');
             box.setAttribute('scale', '0.001 0.001 0.001'); // Initially set to very small size
             box.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeInOutQuad'); // Animation to scale up
             this.el.appendChild(box);
