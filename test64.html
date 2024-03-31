@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-Frame Cursor Teleport Component - Basic</title>
+    <meta name="description" content="Basic example for Cursor Teleport component."></meta>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+  </head>
+  <body>
+    <script>
+      AFRAME.registerComponent('color-change', {
+        init: function(){
+          this.el.addEventListener('click', function(){
+            //set material color to random hex value
+            var randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+            this.setAttribute( 'material', {color: randomColor} );
+          })
+        }
+      });
+    </script>
+
+    <script>
+      AFRAME.registerComponent('proximity-trigger', {
+        init: function() {
+          this.target = document.querySelector(this.data.target);
+          this.el.addEventListener('loaded', () => {
+            this.animationInProgress = false;
+            this.defaultY = this.el.object3D.position.y;
+          });
+        },
+        tick: function() {
+          const distance = this.el.object3D.position.distanceTo(this.target.object3D.position);
+          if (distance < this.data.radius && !this.animationInProgress && this.el.object3D.position.y < this.defaultY + 1) {
+            this.animate(true);
+          } else if (distance >= this.data.radius && !this.animationInProgress && this.el.object3D.position.y > this.defaultY) {
+            this.animate(false);
+          }
+        },
+        animate: function(isNear) {
+          this.animationInProgress = true;
+          const position = this.el.getAttribute('position');
+          const targetY = isNear ? this.defaultY + 1 : this.defaultY;
+          this.el.setAttribute('animation', {
+            property: 'position',
+            to: { x: position.x, y: targetY, z: position.z },
+            dur: 1000,
+            easing: 'easeInOutQuad'
+          });
+          setTimeout(() => {
+            this.animationInProgress = false;
+          }, 1000);
+        }
+      });
+    </script>
+
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
+
+      <!-- player -->
+      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
+        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity>
+        <a-entity
+          laser-controls="hand: left"
+          raycaster="objects: .clickable; far: 100"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+        <a-entity
+          laser-controls="hand: right"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+      </a-entity>
+
+      <!-- scene geometry -->
+
+      <a-assets>
+        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+      </a-assets>
+
+      <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+
+      <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 8; height: 8" material="color: #ffcc80"></a-entity>
+      <a-entity class="collision" position="2 .75 2" geometry="primitive: box; width: 2; height: .1; depth: 2" material="color: #ff1744"></a-entity>
+      <a-entity class="collision" position="2 1.5 -2" geometry="primitive: box; width: 2; height: .1; depth: 2" material="color: #80cbc4"></a-entity>
+      <a-entity class="collision" position="-2 2.25 -2" geometry="primitive: box; width: 2; height: .1; depth: 2" material="color: #9ccc65"></a-entity>
+      <a-entity class="collision" position="-2 3 2" geometry="primitive: box; width: 2; height: .1; depth: 2" material="color: #3f51b5"></a-entity>
+      <a-entity class="collision" position="-2 -1 2" geometry="primitive: sphere; radius: 2;" material="color: #f55d42"></a-entity>
+
+      <!-- ui element -->
+      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="-.8 1 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position="0 1.2 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
+      <a-entity class="clickable" color-change geometry="primitive: octahedron" scale=".2 .2 .2" position=".8 1 -1.5" material="color: #3f51b5" proximity-trigger="target: #cameraRig; radius: 2;"></a-entity>
+
+
+      <a-entity id="destination" position="1.4 1.55 -1.38" rotation="0 135 0">
+        <a-entity geometry="primitive: ring; radiusInner: 0.48" scale="0.2 0.2 0.2" position="0 0.01 0" rotation="-90 0 0" material="color: #000000"></a-entity>
+        <a-entity geometry="primitive: plane" scale="0.15 0.15 0.15" position="0 0.011 -0.2" rotation="-90 45 0" material="color: #000000"></a-entity>
+      </a-entity>
+      <a-entity id="moveup" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non second platform; align: center; width: 2" position="1.6 1 -1.5" rotation="0 -45 0" material="color: #000000"></a-entity>
+
+      <!-- environment -->
+      <!-- <a-sky color="#e1f5fe"></a-sky> -->
+
+    </a-scene>
+    <script>
+      const moveup = document.getElementById('moveup');
+      const destination = document.getElementById('destination');
+      const cameraRig = document.getElementById('cameraRig');
+      moveup.addEventListener('click', () => {
+        const cursorTeleport = cameraRig.components['cursor-teleport'];
+        cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
+      });
+    </script>
+  </body>
+</html>
