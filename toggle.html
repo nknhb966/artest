@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toggle Button</title>
+<style>
+.toggle-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.toggle-label {
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.toggle-input:checked + .toggle-slider {
+  background-color: #ccc;
+}
+
+.toggle-input:focus + .toggle-slider {
+  box-shadow: 0 0 1px #ccc;
+}
+
+.toggle-input:checked + .toggle-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+</style>
+</head>
+<body>
+<div class="toggle-container">
+  <label class="toggle-label">
+    <input type="checkbox" class="toggle-input" id="toggleButton">
+    <span class="toggle-slider"></span>
+  </label>
+</div>
+
+<script>
+let toggleValue;
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleButton = document.getElementById('toggleButton');
+
+  // ローカルストレージから値を読み込み、チェック状態を設定
+  const savedToggleState = localStorage.getItem('toggleState');
+  if (savedToggleState === 'true') {
+    toggleButton.checked = true;
+    toggleValue = toggleButton.checked ? 90 : 0;
+    console.log(toggleValue);
+  }
+
+  // チェック状態が変更されたらローカルストレージに値を保存
+  toggleButton.addEventListener('change', function() {
+    localStorage.setItem('toggleState', toggleButton.checked);
+    toggleValue = toggleButton.checked ? 90 : 0;
+    console.log(toggleValue);
+  });
+});
+</script>
+</body>
+</html>
