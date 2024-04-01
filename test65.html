@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>A-Frame Cursor Teleport Component</title>
+    <title>A-Frame Cursor Teleport Component - Basic</title>
     <meta name="description" content="Basic example for Cursor Teleport component."></meta>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
@@ -12,24 +12,21 @@
     <script>
       AFRAME.registerComponent('spawn-box', {
         init: function () {
-          const sphereId = this.el.getAttribute('id');
-          const boxId = `box-${sphereId}`;
           this.el.addEventListener('click', () => {
-            // Check if the box is already present
-            const existingBox = document.getElementById(boxId);
+            // Check if there is already a box present, if yes remove it
+            const existingBox = document.querySelector('.spawned-box');
             if (existingBox) {
-              existingBox.parentNode.removeChild(existingBox); // Remove the existing box
+              existingBox.parentNode.removeChild(existingBox);
               return;
             }
 
             // Create and append a box
             const box = document.createElement('a-box');
-            box.setAttribute('id', boxId);
+            box.classList.add('spawned-box'); // Add a class to identify the spawned box
             box.setAttribute('color', 'red');
-            box.setAttribute('position', '0 3 0');
+            box.setAttribute('position', '0 3.5 0');
             box.setAttribute('scale', '0.001 0.001 0.001'); // Initially set to very small size
             box.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeInOutQuad'); // Animation to scale up
-            box.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; dur: 3000; loop: true'); // Rotation animation
             this.el.appendChild(box);
           });
         }
@@ -71,9 +68,9 @@
       <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
       <!-- ui element -->
-      <a-entity id="sphere1" class="clickable" spawn-box geometry="primitive: sphere" scale=".1 .1 .1" position="-1 1.2 -1.5" material="color: white"></a-entity>
-      <a-entity id="sphere2" class="clickable" spawn-box geometry="primitive: sphere" scale=".1 .1 .1" position="-0 1.2 -1.5" material="color: white"></a-entity>
-      <a-entity id="sphere3" class="clickable" spawn-box geometry="primitive: sphere" scale=".1 .1 .1" position="1 1.2 -1.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-box geometry="primitive: sphere" scale=".1 .1 .1" position="-1 1.2 -1.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-box geometry="primitive: sphere" scale=".1 .1 .1" position="-0 1.2 -1.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-box geometry="primitive: sphere" scale=".1 .1 .1" position="1 1.2 -1.5" material="color: white"></a-entity>
 
       <a-entity id="destination1" position="3 0 3" rotation="0 0 0"></a-entity>
       <a-entity id="moveup1" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 1st platform; align: center; width: 2" position="0 2 -3.5" rotation="0 0 0" material="color: #000000"></a-entity>
@@ -91,32 +88,12 @@
     <script>
       const cameraRig = document.getElementById('cameraRig');
 
-      // Array to keep track of box visibility for each sphere
-      const boxVisibility = [false, false, false];
-
-      for (let i = 1; i <= 3; i++) {
-        const sphere = document.getElementById(`sphere${i}`);
-        const boxId = `box-sphere${i}`;
-        sphere.addEventListener('click', () => {
-          // Toggle box visibility for this sphere
-          boxVisibility[i - 1] = !boxVisibility[i - 1];
-          const box = document.getElementById(boxId);
-          if (boxVisibility[i - 1]) {
-            if (!box) {
-              const newBox = document.createElement('a-box');
-              newBox.setAttribute('id', boxId);
-              newBox.setAttribute('color', 'red');
-              newBox.setAttribute('position', '0 3 0');
-              newBox.setAttribute('scale', '0.001 0.001 0.001'); // Initially set to very small size
-              newBox.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeInOutQuad'); // Animation to scale up
-              newBox.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; dur: 3000; loop: true'); // Rotation animation
-              sphere.appendChild(newBox);
-            }
-          } else {
-            if (box) {
-              box.parentNode.removeChild(box);
-            }
-          }
+      for (let i = 1; i <= 4; i++) {
+        const moveup = document.getElementById(`moveup${i}`);
+        const destination = document.getElementById(`destination${i}`);
+        moveup.addEventListener('click', () => {
+          const cursorTeleport = cameraRig.components['cursor-teleport'];
+          cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
         });
       }
     </script>
