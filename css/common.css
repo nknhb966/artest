@@ -203,7 +203,7 @@ body {
 .toggle-container {
   position: fixed;
   bottom: 120px;
-  right: 20px;
+  right: 10px;
   z-index: 10000;
 }
 
