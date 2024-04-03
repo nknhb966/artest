@@ -7,21 +7,18 @@
 </head>
 <body>
 
-<h1>最頻値を求める2</h1>
+<h1>最頻値を求める</h1>
 
 <div id="output">
     <p>ランダムな数値リスト: <span id="numberList"></span></p>
-    <p>一の位を四捨五入して最頻値: <span id="modeValue"></span></p>
+    <p>最頻値: <span id="modeValue"></span></p>
 </div>
 
 <script>
 function calculateMode(list) {
-    // 一の位を四捨五入
-    const roundedList = list.map(num => Math.round(num));
-    
     // 数を数えるためのオブジェクトを作成
     const counts = {};
-    for (const num of roundedList) {
+    for (const num of list) {
         counts[num] = counts[num] ? counts[num] + 1 : 1;
     }
     
@@ -48,7 +45,7 @@ function generateRandomList(length) {
 }
 
 // ランダムな数値リストを生成
-const numbers = generateRandomList(10);
+const numbers = generateRandomList(10).map(num => Math.round(num)); // 一の位を四捨五入
 
 // 最頻値を計算
 const mode = calculateMode(numbers);
