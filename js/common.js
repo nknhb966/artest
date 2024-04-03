@@ -276,6 +276,29 @@ var touchStartY = 0;
 
 let isInitialized = false; // 初期化済みフラグ
 
+// 
+let toggleValue = 0;
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleButton = document.getElementById('toggleButton');
+
+  // ローカルストレージから値を読み込み、チェック状態を設定
+  const savedToggleState = localStorage.getItem('toggleState');
+  if (savedToggleState === 'true') {
+    toggleButton.checked = true;
+    toggleValue = toggleButton.checked ? 90 : 0;
+    console.log(toggleValue);
+  }
+
+  // チェック状態が変更されたらローカルストレージに値を保存
+  toggleButton.addEventListener('change', function() {
+    localStorage.setItem('toggleState', toggleButton.checked);
+    toggleValue = toggleButton.checked ? 90 : 0;
+    console.log(toggleValue);
+  });
+});
+
 const init = () => {
     if (!isInitialized) {
         fetchLocations();
@@ -430,7 +453,7 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + Math.round(degrees) + " : " + Math.round(degrees + orientation);
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + Math.round(degrees) + " : " + Math.round(degrees + orientation) + " : " + toggleValue;
 }
 
 function compassHeading(alpha) {
@@ -494,3 +517,4 @@ document.getElementById('overviewButton3').addEventListener('click', function() 
 });
 
 init();
+
