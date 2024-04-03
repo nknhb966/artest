@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>最頻値を求める</title>
+</head>
+<body>
+
+<h1>最頻値を求める</h1>
+
+<div id="output">
+    <p>ランダムな数値リスト: <span id="numberList"></span></p>
+    <p>最頻値: <span id="modeValue"></span></p>
+</div>
+
+<script>
+function calculateMode(list) {
+    // 一の位を四捨五入
+    const roundedList = list.map(num => Math.round(num));
+    
+    // 数を数えるためのオブジェクトを作成
+    const counts = {};
+    for (const num of roundedList) {
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    
+    // 最頻値を見つける
+    let mode;
+    let maxCount = 0;
+    for (const num in counts) {
+        if (counts[num] > maxCount) {
+            mode = num;
+            maxCount = counts[num];
+        }
+    }
+    
+    return mode;
+}
+
+// ランダムな数値リストを生成する関数
+function generateRandomList(length) {
+    const list = [];
+    for (let i = 0; i < length; i++) {
+        list.push(Math.random() * 100); // ランダムな数値を0から100の範囲で生成
+    }
+    return list;
+}
+
+// ランダムな数値リストを生成
+const numbers = generateRandomList(10);
+
+// 最頻値を計算
+const mode = calculateMode(numbers);
+
+// HTMLに表示
+document.getElementById("numberList").textContent = numbers.join(", ");
+document.getElementById("modeValue").textContent = mode;
+</script>
+
+</body>
+</html>
