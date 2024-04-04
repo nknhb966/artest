@@ -45,7 +45,7 @@ function generateRandomList(length) {
 }
 
 // ランダムな数値リストを生成
-const numbers = generateRandomList(10).map(num => Math.round(num)); // 一の位を四捨五入
+const numbers = generateRandomList(10).map(num => Math.round(num/10)*10); // 一の位を四捨五入
 
 // 最頻値を計算
 const mode = calculateMode(numbers);
