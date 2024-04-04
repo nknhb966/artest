@@ -358,9 +358,9 @@ function onTouchMove(event) {
                 let rad = 0;
 
                 if(os == "iphone") {
-                  rad = (degrees + toggleValue) * Math.PI / 180;
+                  rad = (mode + toggleValue) * Math.PI / 180;
                 }else{
-                  rad = (degrees + orientation + toggleValue) * Math.PI / 180;
+                  rad = (mode + orientation + toggleValue) * Math.PI / 180;
                 }        
       
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
@@ -436,6 +436,8 @@ function initOS() {
 // 方位角取得  
 let degrees = 0;
 let orientation = 0;
+let angleList = [];
+let mode = 0;
 
 window.addEventListener("deviceorientation", handleOrientation, true);
 window.addEventListener("deviceorientationabsolute", handleOrientation, true);
@@ -453,7 +455,30 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + Math.round(degrees) + " : " + Math.round(degrees + orientation) + " : " + toggleValue;
+  angleList.push(Math.round(degrees));
+  if(angleList.length > 10) {
+    angleList.shift();
+  }
+  const angleMode = angleList.map(num => Math.round(num/5)*5);
+  const mode = calculateMode(angleMode);
+
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + mode + " : " + toggleValue;
+}
+
+function calculateMode(list) {
+    const counts = {};
+    for (const num of list) {
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    let mode;
+    let maxCount = 0;
+    for (const num in counts) {
+        if (counts[num] > maxCount) {
+            mode = num;
+            maxCount = counts[num];
+        }
+    }
+    return mode;
 }
 
 function compassHeading(alpha) {
