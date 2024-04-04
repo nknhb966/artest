@@ -103,11 +103,11 @@
             }
 
             document.querySelector("#direction1").innerHTML =
-                direction + " : " + degrees;
+                direction + " : " + degrees);
             document.querySelector("#absolute1").innerHTML = absolute;
             document.querySelector("#alpha1").innerHTML = alpha;
             document.querySelector("#beta1").innerHTML = beta;
-            document.querySelector("#gamma1").innerHTML = gamma;
+            document.querySelector("#gamma1").innerHTML = Math.round(gamma);
         }
 
         // ジャイロスコープと地磁気をセンサーから取得2
@@ -150,7 +150,7 @@
             document.querySelector("#direction2").innerHTML =
                 direction + " : " + Math.round(degrees);
             document.querySelector("#absolute2").innerHTML = absolute;
-            document.querySelector("#alpha2").innerHTML = alpha;
+            document.querySelector("#alpha2").innerHTML = Math.round(alpha);
         }
 
         // 端末の傾き補正（Android用）1
