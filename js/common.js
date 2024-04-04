@@ -460,7 +460,7 @@ function handleOrientation(event) {
     angleList.shift();
   }
   const angleMode = angleList.map(num => Math.round(num/5)*5);
-  const mode = calculateMode(angleMode);
+  mode = calculateMode(angleMode);
 
   document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + mode + " : " + toggleValue;
 }
