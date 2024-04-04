@@ -456,12 +456,12 @@ function handleOrientation(event) {
       orientation = 0;
   }
   angleList.push(Math.round(degrees));
-  if(angleList.length > 10) {
+  if(angleList.length > 20) {
     angleList.shift();
   }
   const angleMode = angleList.map(num => Math.round(num/5)*5);
   mode = calculateMode(angleMode);
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + (parseInt(mode) + parseInt(orientation)) + " : " + toggleValue;
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + parseInt(mode) + " : " + (parseInt(mode) + parseInt(orientation)) + " : " + toggleValue;
 }
 
 function calculateMode(list) {
