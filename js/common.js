@@ -358,9 +358,9 @@ function onTouchMove(event) {
                 let rad = 0;
 
                 if(os == "iphone") {
-                  rad = (mode + toggleValue) * Math.PI / 180;
+                  rad = (parseInt(mode) + parseInt(toggleValue)) * Math.PI / 180;
                 }else{
-                  rad = (mode + orientation + toggleValue) * Math.PI / 180;
+                  rad = (parseInt(mode) + parseInt(orientation) + parseInt(toggleValue)) * Math.PI / 180;
                 }        
       
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
@@ -461,8 +461,7 @@ function handleOrientation(event) {
   }
   const angleMode = angleList.map(num => Math.round(num/5)*5);
   mode = calculateMode(angleMode);
-
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + mode + " : " + toggleValue;
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + (parseInt(mode) + parseInt(orientation)) + " : " + toggleValue;
 }
 
 function calculateMode(list) {
