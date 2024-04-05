@@ -358,9 +358,9 @@ function onTouchMove(event) {
                 let rad = 0;
 
                 if(os == "iphone") {
-                  rad = (parseInt(mode) + parseInt(toggleValue)) * Math.PI / 180;
+                  rad = (parseInt(degrees) + parseInt(toggleValue)) * Math.PI / 180;
                 }else{
-                  rad = (parseInt(mode) + parseInt(orientation) + parseInt(toggleValue)) * Math.PI / 180;
+                  rad = (parseInt(degrees) + parseInt(orientation) + parseInt(toggleValue)) * Math.PI / 180;
                 }        
       
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
