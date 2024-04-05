@@ -103,10 +103,10 @@
             }
 
             document.querySelector("#direction1").innerHTML =
-                direction + " : " + degrees);
+                direction + " : " + Math.round(degrees);
             document.querySelector("#absolute1").innerHTML = absolute;
-            document.querySelector("#alpha1").innerHTML = alpha;
-            document.querySelector("#beta1").innerHTML = beta;
+            document.querySelector("#alpha1").innerHTML = Math.round(alpha);
+            document.querySelector("#beta1").innerHTML = Math.round(beta);
             document.querySelector("#gamma1").innerHTML = Math.round(gamma);
         }
 
