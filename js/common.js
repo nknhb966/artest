@@ -426,19 +426,19 @@ let os;
 
 window.addEventListener("DOMContentLoaded", initOS);
 
-function init() {
+function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
         document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari2);
         window.addEventListener(
             "deviceorientation",
-            orientation,
+            handleOrientation,
             true
         );
     } else {
         window.addEventListener(
             "deviceorientationabsolute",
-            orientation,
+            handleOrientation,
             true
         );
     }
@@ -453,8 +453,7 @@ let mode = 0;
 // window.addEventListener("deviceorientation", handleOrientation, true);
 // window.addEventListener("deviceorientationabsolute", handleOrientation, true);
 
-function orientation(event) {
-// function handleOrientation(event) {
+function handleOrientation(event) {
   let alpha = event.alpha;
   if(os == "iphone") {
     degrees = event.webkitCompassHeading;
@@ -506,7 +505,7 @@ function compassHeading(alpha) {
     return compassHeading * (180 / Math.PI);
 }
 
-function detectOSSimply2() {
+function detectOSSimply() {
     let ret;
     if (
         navigator.userAgent.indexOf("iPhone") > 0 ||
@@ -538,13 +537,13 @@ function permitDeviceOrientationForSafari() {
 }
 
 function checkOrientation() {
-    // if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
+    if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
         $('#rotateMessageContainer').hide();
         $('#contentWrapper').show();
-    // } else {
-    //     $('#rotateMessageContainer').show();
-    //     $('#contentWrapper').hide();
-    // }
+    } else {
+        $('#rotateMessageContainer').show();
+        $('#contentWrapper').hide();
+    }
 }
 
 document.getElementById('overviewButton3').addEventListener('click', function() {
