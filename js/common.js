@@ -426,10 +426,21 @@ let os;
 
 window.addEventListener("DOMContentLoaded", initOS);
 
-function initOS() {
+function init() {
     os = detectOSSimply();
     if (os == "iphone") {
-        permitDeviceOrientationForSafari();
+        document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari2);
+        window.addEventListener(
+            "deviceorientation",
+            orientation,
+            true
+        );
+    } else {
+        window.addEventListener(
+            "deviceorientationabsolute",
+            orientation,
+            true
+        );
     }
 }
 
@@ -439,22 +450,23 @@ let orientation = 0;
 let angleList = [];
 let mode = 0;
 
-window.addEventListener("deviceorientation", handleOrientation, true);
-window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+// window.addEventListener("deviceorientation", handleOrientation, true);
+// window.addEventListener("deviceorientationabsolute", handleOrientation, true);
 
-function handleOrientation(event) {
+function orientation(event) {
+// function handleOrientation(event) {
   let alpha = event.alpha;
   if(os == "iphone") {
     degrees = event.webkitCompassHeading;
   }else{
     degrees = compassHeading(alpha);
   }
-  if(window.orientation !== undefined) {
-      orientation = window.orientation;
-  }
-  else {
-      orientation = 0;
-  }
+  // if(window.orientation !== undefined) {
+  //     orientation = window.orientation;
+  // }
+  // else {
+  //     orientation = 0;
+  // }
   angleList.push(Math.round(degrees));
   if(angleList.length > 20) {
     angleList.shift();
@@ -486,7 +498,6 @@ function compassHeading(alpha) {
     var cZ = Math.cos(_z);
     var sZ = Math.sin(_z);
     var compassHeading = Math.atan(-sZ / cZ);
-
     if (cZ < 0) {
         compassHeading += Math.PI;
     } else if (-sZ < 0) {
@@ -495,11 +506,12 @@ function compassHeading(alpha) {
     return compassHeading * (180 / Math.PI);
 }
 
-function detectOSSimply() {
+function detectOSSimply2() {
     let ret;
     if (
-        /(iPad|iPhone|iPod)/.test(navigator.platform) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+        navigator.userAgent.indexOf("iPhone") > 0 ||
+        navigator.userAgent.indexOf("iPad") > 0 ||
+        navigator.userAgent.indexOf("iPod") > 0
     ) {
         ret = "iphone";
     } else if (navigator.userAgent.indexOf("Android") > 0) {
