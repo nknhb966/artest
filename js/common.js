@@ -461,7 +461,7 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + (parseInt(degrees) + parseInt(orientation)) + " : " + parseInt(degrees) + " : " + toggleValue;
+  // document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + parseInt(degrees) + " : " + toggleValue;
 }
 
 function compassHeading(alpha) {
