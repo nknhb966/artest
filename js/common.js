@@ -274,11 +274,11 @@ var initialAngle = 0;
 var touchStartX = 0;
 var touchStartY = 0;
 
-let isInitialized = false; // 初期化済みフラグ
+// 初期化済みフラグ
+let isInitialized = false;
 
-// 
+// トグルの初期値を設定
 let toggleValue = 0;
-
 
 document.addEventListener('DOMContentLoaded', function() {
   const toggleButton = document.getElementById('toggleButton');
@@ -447,11 +447,6 @@ function initOS() {
 // 方位角取得  
 let degrees = 0;
 let orientation = 0;
-let angleList = [];
-let mode = 0;
-
-// window.addEventListener("deviceorientation", handleOrientation, true);
-// window.addEventListener("deviceorientationabsolute", handleOrientation, true);
 
 function handleOrientation(event) {
   let alpha = event.alpha;
@@ -460,35 +455,13 @@ function handleOrientation(event) {
   }else{
     degrees = compassHeading(alpha);
   }
-  // if(window.orientation !== undefined) {
-  //     orientation = window.orientation;
-  // }
-  // else {
-  //     orientation = 0;
-  // }
-  angleList.push(Math.round(degrees));
-  if(angleList.length > 20) {
-    angleList.shift();
+  if(window.orientation !== undefined) {
+      orientation = window.orientation;
   }
-  const angleMode = angleList.map(num => Math.round(num/5)*5);
-  mode = calculateMode(angleMode);
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + (parseInt(mode) + parseInt(orientation)) + " : " + parseInt(degrees) + " : " + toggleValue;
-}
-
-function calculateMode(list) {
-    const counts = {};
-    for (const num of list) {
-        counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-    let mode;
-    let maxCount = 0;
-    for (const num in counts) {
-        if (counts[num] > maxCount) {
-            mode = num;
-            maxCount = counts[num];
-        }
-    }
-    return mode;
+  else {
+      orientation = 0;
+  }
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + orientation + " : " + (parseInt(degrees) + parseInt(orientation)) + " : " + parseInt(degrees) + " : " + toggleValue;
 }
 
 function compassHeading(alpha) {
