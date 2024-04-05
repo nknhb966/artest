@@ -370,8 +370,8 @@ function onTouchMove(event) {
                   removeCursor();
                 }
 
-                model.object3D.position.x += newX * 0.01;
-                model.object3D.position.z += newY * 0.01;
+                model.object3D.position.x += newX * 0.012;
+                model.object3D.position.z += newY * 0.012;
     
                 touchStartX = touchX;
                 touchStartY = touchY;
