@@ -538,13 +538,13 @@ function permitDeviceOrientationForSafari() {
 }
 
 function checkOrientation() {
-    if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
+    // if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
         $('#rotateMessageContainer').hide();
         $('#contentWrapper').show();
-    } else {
-        $('#rotateMessageContainer').show();
-        $('#contentWrapper').hide();
-    }
+    // } else {
+    //     $('#rotateMessageContainer').show();
+    //     $('#contentWrapper').hide();
+    // }
 }
 
 document.getElementById('overviewButton3').addEventListener('click', function() {
