@@ -10,10 +10,10 @@
   </head>
   <body>
     <script>
-      let modelAdded = [false, false, false];
-      let imageAdded = [false, false, false];
+      let modelAdded = [false, false, false, false, false, false, false, false, false, false];
+      let imageAdded = [false, false, false, false, false, false, false, false, false, false];
 
-      function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, imageUrl) {
+      function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingModel = document.querySelector(`.spawned-model${i}`);
           const existingImage = document.querySelector(`.spawned-image${i}`);
           const existingImageInv = document.querySelector(`.spawned-imageInv${i}`);
@@ -25,7 +25,7 @@
               modelAdded[i] = true;
           } else if (modelAdded[i] && !imageAdded[i]) {
               // 画像を追加
-              spawnImage(i, finalPositionImage, finalScaleImage, imageUrl);
+              spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
               imageAdded[i] = true;
           } else {
               // モデルと画像を削除
@@ -40,7 +40,7 @@
           }
       }
 
-      function spawnImage(i, finalPosition, finalScale, imageUrl) {
+      function spawnImage(i, finalPosition, finalScale, inv, imageUrl) {
           const existingImage = document.querySelector(`.spawned-image${i}`);
           if (existingImage) {
               existingImage.parentNode.removeChild(existingImage);
@@ -54,7 +54,11 @@
           const image = document.createElement('a-image');
           image.classList.add(`spawned-image${i}`);
           image.setAttribute('src', imageUrl);
-          image.setAttribute('rotation', '0 0 0');
+          if (inv){
+            image.setAttribute('rotation', '0 0 0');
+          } else {
+            image.setAttribute('rotation', '0 180 0');
+          }
           image.setAttribute('animation__position', `property: position; to: ${finalPosition.x} ${finalPosition.y} ${finalPosition.z}; dur: 2000; easing: easeInOutQuad`);
           image.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
 
@@ -90,7 +94,7 @@
       AFRAME.registerComponent('spawn-sphere1', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(1, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.2 * 20, z: -0.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png");
+            spawnModelImage(1, { x: 3, y: 3, z: 3 }, { x: -0.5 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png");
           });
         }
       });
@@ -98,7 +102,7 @@
       AFRAME.registerComponent('spawn-sphere2', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(2, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
+            spawnModelImage(2, { x: 3, y: 3, z: 3 }, { x: 0.9 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
           });
         }
       });
@@ -106,7 +110,7 @@
       AFRAME.registerComponent('spawn-sphere3', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(3, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20300_kokufuhakkutsu.png");
+            spawnModelImage(3, { x: 3, y: 3, z: 3 }, { x: -1.25 * 20, y: 1.2 * 20, z: -2 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20300_kokufuhakkutsu.png");
           });
         }
       });
@@ -114,7 +118,7 @@
       AFRAME.registerComponent('spawn-sphere4', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(4, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
+            spawnModelImage(4, { x: 3, y: 3, z: 3 }, { x: -0.2 * 20, y: 1.2 * 20, z: -2.5 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
           });
         }
       });
@@ -122,7 +126,7 @@
       AFRAME.registerComponent('spawn-sphere5', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(5, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png");
+            spawnModelImage(5, { x: 3, y: 3, z: 3 }, { x: -1 * 20, y: 1.2 * 20, z: 2 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png");
           });
         }
       });
@@ -130,7 +134,7 @@
       AFRAME.registerComponent('spawn-sphere6', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(6, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png");
+            spawnModelImage(6, { x: 3, y: 3, z: 3 }, { x: -0.5 * 20, y: 1.2 * 20, z: 1.2 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png");
           });
         }
       });
@@ -138,7 +142,7 @@
       AFRAME.registerComponent('spawn-sphere7', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(7, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png");
+            spawnModelImage(7, { x: 3, y: 3, z: 3 }, { x: 2 * 20, y: 1.2 * 20, z: 0.7 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png");
           });
         }
       });
@@ -146,7 +150,7 @@
       AFRAME.registerComponent('spawn-sphere8', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(8, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png");
+            spawnModelImage(8, { x: 3, y: 3, z: 3 }, { x: -1.7 * 20, y: 1.2 * 20, z: 1.55 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png");
           });
         }
       });
@@ -154,7 +158,7 @@
       AFRAME.registerComponent('spawn-sphere9', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(9, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png");
+            spawnModelImage(9, { x: 3, y: 3, z: 3 }, { x: 1.9 * 20, y: 1.2 * 20, z: -2.7 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true,  "https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png");
           });
         }
       });
@@ -162,7 +166,7 @@
       AFRAME.registerComponent('spawn-sphere10', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(10, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
+            spawnModelImage(10, { x: 3, y: 3, z: 3 }, { x: -1.3 * 20, y: 1.2 * 20, z: -1.7 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
           });
         }
       });
@@ -170,8 +174,8 @@
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: false;">
       <!-- ui element -->
-      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" scale=".05 .05 .05" position="1.5 0.8 -2.2" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="3.1 0.8 -2.2" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" scale=".05 .05 .05" position="1.5 0.8 -1.2" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="3.1 0.8 -1.2" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" scale=".05 .05 .05" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" scale=".05 .05 .05" position="-3.3 0.8 0" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" scale=".05 .05 .05" position="2 0.8 1" material="color: white"></a-entity>
@@ -235,14 +239,14 @@
     <script>
       const cameraRig = document.getElementById('cameraRig');
 
-      for (let i = 1; i <= 4; i++) {
-        const moveup = document.getElementById(`moveup${i}`);
-        const destination = document.getElementById(`destination${i}`);
-        moveup.addEventListener('click', () => {
-          const cursorTeleport = cameraRig.components['cursor-teleport'];
-          cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
-        });
-      }
+      // for (let i = 1; i <= 4; i++) {
+      //   const moveup = document.getElementById(`moveup${i}`);
+      //   const destination = document.getElementById(`destination${i}`);
+      //   moveup.addEventListener('click', () => {
+      //     const cursorTeleport = cameraRig.components['cursor-teleport'];
+      //     cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
+      //   });
+      // }
     </script>
 
   </body>
