@@ -90,7 +90,7 @@
       AFRAME.registerComponent('spawn-sphere1', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(1, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png");
+            spawnModelImage(1, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.2 * 20, z: -0.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png");
           });
         }
       });
@@ -110,25 +110,88 @@
           });
         }
       });
+
+      AFRAME.registerComponent('spawn-sphere4', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(4, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
+          });
+        }
+      });
+
+      AFRAME.registerComponent('spawn-sphere5', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(5, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png");
+          });
+        }
+      });
+
+      AFRAME.registerComponent('spawn-sphere6', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(6, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png");
+          });
+        }
+      });
+
+      AFRAME.registerComponent('spawn-sphere7', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(7, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png");
+          });
+        }
+      });
+
+      AFRAME.registerComponent('spawn-sphere8', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(8, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png");
+          });
+        }
+      });
+
+      AFRAME.registerComponent('spawn-sphere9', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(9, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png");
+          });
+        }
+      });
+
+      AFRAME.registerComponent('spawn-sphere10', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            spawnModelImage(10, { x: 3, y: 3, z: 3 }, { x: 0 * 20, y: 1.5 * 20, z: -2.5 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
+          });
+        }
+      });
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: false;">
       <!-- ui element -->
-      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" scale=".05 .05 .05" position="-3 1.2 0" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="0 1.2 -1.5" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" scale=".05 .05 .05" position="3 1.2 1.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" scale=".05 .05 .05" position="1.5 0.8 -2.2" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="3.1 0.8 -2.2" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" scale=".05 .05 .05" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" scale=".05 .05 .05" position="-3.3 0.8 0" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" scale=".05 .05 .05" position="2 0.8 1" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" scale=".05 .05 .05" position="6.5 0.8 1.8" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" scale=".05 .05 .05" position="-7 0.8 3" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.8 1.45" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" scale=".05 .05 .05" position="-7.2 0.8 0.2" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" scale=".05 .05 .05" position="7.8 0.8 -0.8" material="color: white"></a-entity>
 
       <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
       <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
-      <a-entity id="destination1" position="3 0 3" rotation="0 0 0"></a-entity>
+<!--       <a-entity id="destination1" position="3 0 3" rotation="0 0 0"></a-entity>
       <a-entity id="moveup1" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 1st platform; align: center; width: 2" position="0 2 -3.5" rotation="0 0 0" material="color: #000000"></a-entity>
       <a-entity id="destination2" position="8 0 -2.5" rotation="0 135 0"></a-entity>
       <a-entity id="moveup2" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 2nd platform; align: center; width: 2" position="5 2 -3.5" rotation="0 -15 0" material="color: #000000"></a-entity>
       <a-entity id="destination3" position="-8 0 -2.5" rotation="0 -135 0"></a-entity>
       <a-entity id="moveup3" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 3rd platform; align: center; width: 2" position="4 2 3.5" rotation="0 135 0" material="color: #000000"></a-entity>
       <a-entity id="destination4" position="0 0 0" rotation="0 0 0"></a-entity>
-      <a-entity id="moveup4" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: return directly\non start platform; align: center; width: 2" position="-4 2 3.5" rotation="0 225 0" material="color: #000000"></a-entity>
+      <a-entity id="moveup4" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: return directly\non start platform; align: center; width: 2" position="-4 2 3.5" rotation="0 225 0" material="color: #000000"></a-entity> -->
 
       <!-- scene geometry -->
       <a-assets>
@@ -136,6 +199,13 @@
         <a-asset-item id="model-asset1" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         <a-asset-item id="model-asset2" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         <a-asset-item id="model-asset3" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset4" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset5" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset6" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset7" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset8" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset9" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset10" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
       </a-assets>
 
       <!-- player -->
