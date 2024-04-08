@@ -27,15 +27,17 @@
               // 画像を追加
               spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
               imageAdded[i] = true;
-          } else {
-              // モデルと画像を削除
+          } else if (modelAdded[i] && imageAdded[i]) {
+              // モデルを削除
               if (existingModel) {
                   existingModel.parentNode.removeChild(existingModel);
               }
+              modelAdded[i] = false;
+          } else {
+              // 画像を削除
               if (existingImage) {
                   existingImage.parentNode.removeChild(existingImage);
               }
-              modelAdded[i] = false;
               imageAdded[i] = false;
           }
       }
