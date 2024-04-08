@@ -31,6 +31,7 @@
               imageAdded[i] = true;
               const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
               const clickablePosition = clickableElement.getAttribute('position');
+              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
               // 線の始点と終点の座標を設定
               setTimeout(() => {
                   lineElement.setAttribute('line', {
@@ -38,7 +39,6 @@
                       end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleModel.y/4} ${clickablePosition.z + finalPositionImage.z/20}`
                   });
               }, 2000);
-              
           } else if (modelAdded[i] && imageAdded[i]) {
               // モデルを削除
               if (existingModel) {
@@ -49,6 +49,10 @@
               // 画像を削除
               if (existingImage) {
                   existingImage.parentNode.removeChild(existingImage);
+              }
+              // 線の始点と終点の削除
+              if (lineElement) {
+                  lineElement.removeAttribute('line');
               }
               imageAdded[i] = false;
           }
@@ -213,7 +217,7 @@
       <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="-6.9 0.7 0.2" rotation="0 90 0"></a-entity>
       <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="7.5 0.8 -0.8" rotation="0 -90 0"></a-entity>
 
-      <a-entity id="line1" line="color: white;" opacity="0.8"></a-entity>
+      <a-entity id="line1"></a-entity>
       <a-entity id="line2" line="color: white;" opacity="0.8"></a-entity>
       <a-entity id="line3" line="color: white;" opacity="0.8"></a-entity>
       <a-entity id="line4" line="color: white;" opacity="0.8"></a-entity>
