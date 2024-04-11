@@ -11,13 +11,43 @@
 
   <body>
     <script>
-      let modelAdded = [false, false, false, false, false, false, false, false, false, false];
-      let imageAdded = [false, false, false, false, false, false, false, false, false, false];
+      let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+      let imageAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+
+      function spawnImageOnly(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
+          const existingImage = document.querySelector(`.spawned-image${i}`);
+          const lineElement = document.getElementById(`line${i}`);
+
+          if (!imageAdded[i]) {
+              // 画像を追加
+              spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
+              imageAdded[i] = true;
+              const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
+              const clickablePosition = clickableElement.getAttribute('position');
+              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
+              // 線の始点と終点の座標を設定
+              setTimeout(() => {
+                  lineElement.setAttribute('line', {
+                      start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
+                      end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleImage.y/40} ${clickablePosition.z + finalPositionImage.z/20}`
+                  });
+              }, 2000);
+          } else {
+              // 画像を削除
+              if (existingImage) {
+                  existingImage.parentNode.removeChild(existingImage);
+              }
+              // 線の始点と終点の削除
+              if (lineElement) {
+                  lineElement.removeAttribute('line');
+              }
+              imageAdded[i] = false;
+          }
+      }
 
       function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingModel = document.querySelector(`.spawned-model${i}`);
           const existingImage = document.querySelector(`.spawned-image${i}`);
-          const existingImageInv = document.querySelector(`.spawned-imageInv${i}`);
           const lineElement = document.getElementById(`line${i}`);
 
           if (!modelAdded[i] && !imageAdded[i]) {
@@ -60,7 +90,6 @@
       function spawnBoxImage(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingModel = document.querySelector(`.spawned-model${i}`);
           const existingImage = document.querySelector(`.spawned-image${i}`);
-          const existingImageInv = document.querySelector(`.spawned-imageInv${i}`);
           const boxElement = document.getElementById(`box${i}`);
           const lineElement = document.getElementById(`line${i}`);
 
@@ -169,7 +198,7 @@
       AFRAME.registerComponent('spawn-sphere2', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnBoxImage(2, { x: -0.5 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
+            spawnModelImage(2, { x: 3, y: 3, z: 3 }, { x: -1.5 * 20, y: 1.2 * 20, z: 1.2 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
           });
         }
       });
@@ -185,7 +214,7 @@
       AFRAME.registerComponent('spawn-sphere4', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnBoxImage(4, { x: -0.1 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
+            spawnModelImage(4, { x: 3, y: 3, z: 3 }, { x: -0.1 * 20, y: 1.2 * 20, z: 0.8 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
           });
         }
       });
@@ -193,7 +222,7 @@
       AFRAME.registerComponent('spawn-sphere5', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(5, { x: 3, y: 3, z: 3 }, { x: -1.25 * 20, y: 1.2 * 20, z: -2 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png");
+            spawnImageOnly(5, { x: -1.25 * 20, y: 1.2 * 20, z: -2 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png");
           });
         }
       });
@@ -201,7 +230,7 @@
       AFRAME.registerComponent('spawn-sphere6', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(6, { x: 3, y: 3, z: 3 }, { x: -0.2 * 20, y: 1.2 * 20, z: -2.5 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png");
+            spawnImageOnly(6, { x: -0.2 * 20, y: 1.2 * 20, z: -2.5 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png");
           });
         }
       });
@@ -209,7 +238,7 @@
       AFRAME.registerComponent('spawn-sphere7', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(7, { x: 3, y: 3, z: 3 }, { x: -1 * 20, y: 1.2 * 20, z: 2 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png");
+            spawnImageOnly(7, { x: -3 * 20, y: 1.2 * 20, z: 2 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png");
           });
         }
       });
@@ -217,7 +246,7 @@
       AFRAME.registerComponent('spawn-sphere8', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(8, { x: 3, y: 3, z: 3 }, { x: -0.5 * 20, y: 1.2 * 20, z: 1.2 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png");
+            spawnImageOnly(8, { x: 2 * 20, y: 1.2 * 20, z: 1.5 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png");
           });
         }
       });
@@ -233,7 +262,7 @@
       AFRAME.registerComponent('spawn-sphere10', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(10, { x: 3, y: 3, z: 3 }, { x: 2 * 20, y: 1.2 * 20, z: 0.7 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
+            spawnImageOnly(10, { x: 0 * 20, y: 1.2 * 20, z: 0.5 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
           });
         }
       });
@@ -241,7 +270,7 @@
       AFRAME.registerComponent('spawn-sphere11', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(11, { x: 3, y: 3, z: 3 }, { x: 2 * 20, y: 1.2 * 20, z: 0.7 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/21100_kokufuhakkutsu.png");
+            spawnModelImage(11, { x: 3, y: 3, z: 3 }, { x: 2 * 20, y: 1.2 * 20, z: 0.8 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/21100_kokufuhakkutsu.png");
           });
         }
       });
@@ -249,7 +278,7 @@
       AFRAME.registerComponent('spawn-sphere12', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(12, { x: 3, y: 3, z: 3 }, { x: -1.7 * 20, y: 1.2 * 20, z: 1.55 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/21200_kokufuhakkutsu.png");
+            spawnImageOnly(12, { x: -1.7 * 20, y: 1.2 * 20, z: 1.75 * 20 }, { x: 2 * 20, y: 1.5 * 20, z: 0 }, false, "https://echizencity.github.io/opendata/kokufuhakkutsu/21200_kokufuhakkutsu.png");
           });
         }
       });
@@ -265,7 +294,7 @@
       AFRAME.registerComponent('spawn-sphere14', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(14, { x: 3, y: 3, z: 3 }, { x: 1.9 * 20, y: 1.2 * 20, z: -2.7 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true,  "https://echizencity.github.io/opendata/kokufuhakkutsu/21400_kokufuhakkutsu.png");
+            spawnImageOnly(14, { x: 1.9 * 20, y: 1. * 20, z: -2.7 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true,  "https://echizencity.github.io/opendata/kokufuhakkutsu/21400_kokufuhakkutsu.png");
           });
         }
       });
@@ -273,7 +302,7 @@
       AFRAME.registerComponent('spawn-sphere15', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(15, { x: 3, y: 3, z: 3 }, { x: -1.3 * 20, y: 1.2 * 20, z: -1.7 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/21500_kokufuhakkutsu.png");
+            spawnImageOnly(15, { x: -1.3 * 20, y: 1. * 20, z: -1.7 * 20 }, { x: 1 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/21500_kokufuhakkutsu.png");
           });
         }
       });
