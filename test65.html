@@ -18,7 +18,6 @@
           const existingModel = document.querySelector(`.spawned-model${i}`);
           const existingImage = document.querySelector(`.spawned-image${i}`);
           const existingImageInv = document.querySelector(`.spawned-imageInv${i}`);
-          const existingBox = document.querySelector(`.spawned-box${i}`);
           const lineElement = document.getElementById(`line${i}`);
 
           if (!modelAdded[i] && !imageAdded[i]) {
@@ -36,7 +35,7 @@
               setTimeout(() => {
                   lineElement.setAttribute('line', {
                       start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
-                      end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleModel.y/4} ${clickablePosition.z + finalPositionImage.z/20}`
+                      end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleImage.y/40} ${clickablePosition.z + finalPositionImage.z/20}`
                   });
               }, 2000);
           } else if (modelAdded[i] && imageAdded[i]) {
@@ -58,6 +57,49 @@
           }
       }
 
+      function spawnBoxImage(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
+          const existingModel = document.querySelector(`.spawned-model${i}`);
+          const existingImage = document.querySelector(`.spawned-image${i}`);
+          const existingImageInv = document.querySelector(`.spawned-imageInv${i}`);
+          const boxElement = document.getElementById(`box${i}`);
+          const lineElement = document.getElementById(`line${i}`);
+
+          if (!modelAdded[i] && !imageAdded[i]) {
+              // Boxを追加
+              spawnBox(i);
+              modelAdded[i] = true;
+          } else if (modelAdded[i] && !imageAdded[i]) {
+              // 画像を追加
+              spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
+              imageAdded[i] = true;
+              const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
+              const clickablePosition = clickableElement.getAttribute('position');
+              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
+              // 線の始点と終点の座標を設定
+              setTimeout(() => {
+                  lineElement.setAttribute('line', {
+                      start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
+                      end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleImage.y/40} ${clickablePosition.z + finalPositionImage.z/20}`
+                  });
+              }, 2000);
+          } else if (modelAdded[i] && imageAdded[i]) {
+              // Boxを削除
+              if (existingModel) {
+                  boxElement.setAttribute('visible', 'false');
+              }
+              modelAdded[i] = false;
+          } else {
+              // 画像を削除
+              if (existingImage) {
+                  existingImage.parentNode.removeChild(existingImage);
+              }
+              // 線の始点と終点の削除
+              if (lineElement) {
+                  lineElement.removeAttribute('line');
+              }
+              imageAdded[i] = false;
+          }
+      }
 
       function spawnImage(i, finalPosition, finalScale, inv, imageUrl) {
           const existingImage = document.querySelector(`.spawned-image${i}`);
@@ -110,10 +152,16 @@
         }
       }
 
+      function spawnBox(i) {
+        const boxElement = document.getElementById(`box${i}`);
+        boxElement.classList.add(`spawned-model${i}`);
+        boxElement.setAttribute('visible', 'true');
+      }
+
       AFRAME.registerComponent('spawn-sphere1', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(1, { x: 3, y: 3, z: 3 }, { x: -0.5 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png");
+            spawnBoxImage(1, { x: -0.5 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png");
           });
         }
       });
@@ -121,7 +169,7 @@
       AFRAME.registerComponent('spawn-sphere2', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(2, { x: 3, y: 3, z: 3 }, { x: 0.9 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
+            spawnBoxImage(2, { x: 0.9 * 20, y: 1.2 * 20, z: -1.3 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, true, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
           });
         }
       });
@@ -189,12 +237,13 @@
           });
         }
       });
+
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: false;">
       <!-- ui element -->
       <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" scale=".05 .05 .05" position="1.5 0.8 -1.2" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="3.1 0.8 -1.2" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="4.1 0.8 -1.2" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" scale=".05 .05 .05" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" scale=".05 .05 .05" position="-3.3 0.8 0" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" scale=".05 .05 .05" position="2 0.8 1" material="color: white"></a-entity>
@@ -206,8 +255,9 @@
 
       <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
       <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
+
       <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.5 0.7 -0.9" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="3.1 0.7 -0.9" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="4.1 0.7 -0.9" rotation="0 0 0"></a-entity>
       <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="-0.5 0.7 -0.2" rotation="0 0 0"></a-entity>
       <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="-3 0.7 0" rotation="0 90 0"></a-entity>
       <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="2 0.7 0.7" rotation="0 180 0"></a-entity>
@@ -237,7 +287,8 @@
         </a-image>
       </a-entity>
 
-      <a-entity id="box" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.7 0 3.5" scale="1.4 1 0" animation="property: position; to: 1.5 0 -3; dur: 5000; easing: linear; dir: alternate; loop: true"></a-entity>
+      <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 1.5 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="box2" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
 
 <!--       <a-entity id="destination1" position="3 0 3" rotation="0 0 0"></a-entity>
       <a-entity id="moveup1" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 1st platform; align: center; width: 2" position="0 2 -3.5" rotation="0 0 0" material="color: #000000"></a-entity>
