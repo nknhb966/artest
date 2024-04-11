@@ -198,9 +198,9 @@
       <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" scale=".05 .05 .05" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" scale=".05 .05 .05" position="-3.3 0.8 0" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" scale=".05 .05 .05" position="2 0.8 1" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" scale=".05 .05 .05" position="6.5 0.8 1.8" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" scale=".05 .05 .05" position="-7 0.8 3" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.8 1.45" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" scale=".05 .05 .05" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" scale=".05 .05 .05" position="-7 0.8 3" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.8 1.45" material="color: aqua"></a-entity>
       <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" scale=".05 .05 .05" position="-7.2 0.8 0.2" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" scale=".05 .05 .05" position="7.8 0.8 -0.8" material="color: white"></a-entity>
 
@@ -218,24 +218,26 @@
       <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="7.5 0.8 -0.8" rotation="0 -90 0"></a-entity>
 
       <a-entity id="line1"></a-entity>
-      <a-entity id="line2" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line3" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line4" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line5" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line6" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line7" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line8" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line9" line="color: white;" opacity="0.8"></a-entity>
-      <a-entity id="line10" line="color: white;" opacity="0.8"></a-entity>
+      <a-entity id="line2"></a-entity>
+      <a-entity id="line3"></a-entity>
+      <a-entity id="line4"></a-entity>
+      <a-entity id="line5"></a-entity>
+      <a-entity id="line6"></a-entity>
+      <a-entity id="line7"></a-entity>
+      <a-entity id="line8"></a-entity>
+      <a-entity id="line9"></a-entity>
+      <a-entity id="line10"></a-entity>
 
-    <a-entity position="-4 3.5 0.5">
-      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
-      </a-image>
-    </a-entity>
-    <a-entity position="4 3.5 0.5">
-      <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
-      </a-image>
-    </a-entity>
+      <a-entity position="-4 3.5 0.5">
+        <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
+        </a-image>
+      </a-entity>
+      <a-entity position="4 3.5 0.5">
+        <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
+        </a-image>
+      </a-entity>
+
+      <a-entity id="box" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.7 0 3.5" scale="1.4 1 0" animation="property: position; to: 1.5 0 -3; dur: 5000; easing: linear; dir: alternate; loop: true"></a-entity>
 
 <!--       <a-entity id="destination1" position="3 0 3" rotation="0 0 0"></a-entity>
       <a-entity id="moveup1" class="clickable" geometry="primitive: plane; width: 0.9; height: 0.3" text="value: move directly\non 1st platform; align: center; width: 2" position="0 2 -3.5" rotation="0 0 0" material="color: #000000"></a-entity>
