@@ -151,8 +151,8 @@ function createModelEntity(selectedIndex, locations) {
     } else {
         modelEntity.setAttribute('rotation', rotationValue2);
     }
-    modelEntity.appendChild(modelAssetItem);
     modelEntity.innerHTML = targetPosition;
+    modelEntity.appendChild(modelAssetItem);
 
     return modelEntity;
 }
