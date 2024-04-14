@@ -115,6 +115,10 @@ function hideModal() {
 
 // モデル作成
 function createModelEntity(selectedIndex, locations) {
+    const modelAssetItem = document.createElement('a-asset-item');
+    modelAssetItem.setAttribute('id', 'model-asset');
+    modelAssetItem.setAttribute('src', selectedLocation.modelURL);
+
     const selectedModelId = `model${selectedIndex + 1}`;
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
@@ -147,11 +151,8 @@ function createModelEntity(selectedIndex, locations) {
     } else {
         modelEntity.setAttribute('rotation', rotationValue2);
     }
-    modelEntity.innerHTML = targetPosition;
-    const modelAssetItem = document.createElement('a-asset-item');
-    modelAssetItem.setAttribute('id', 'model-asset');
-    modelAssetItem.setAttribute('src', selectedLocation.modelURL);
     modelEntity.appendChild(modelAssetItem);
+    modelEntity.innerHTML = targetPosition;
 
     return modelEntity;
 }
