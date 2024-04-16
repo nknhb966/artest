@@ -115,10 +115,6 @@ function hideModal() {
 
 // モデル作成
 function createModelEntity(selectedIndex, locations) {
-    const modelAssetItem = document.createElement('a-asset-item');
-    modelAssetItem.setAttribute('id', 'model-asset');
-    modelAssetItem.setAttribute('src', selectedLocation.modelURL);
-
     const selectedModelId = `model${selectedIndex + 1}`;
     const modelEntity = document.createElement('a-entity');
     modelEntity.setAttribute('id', selectedModelId);
@@ -146,13 +142,18 @@ function createModelEntity(selectedIndex, locations) {
         selectedLocation = locationsSet[selectedIndex];
         modelEntity.setAttribute('gps-new-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
     }
+    modelEntity.innerHTML = targetPosition;
+
+    const modelAssetItem = document.createElement('a-asset-item');
+    modelAssetItem.setAttribute('id', 'model-asset');
+    modelAssetItem.setAttribute('src', selectedLocation.modelURL);
+    modelEntity.appendChild(modelAssetItem);
+    
     if (os === "iphone") {
         modelEntity.setAttribute('rotation', rotationValue1);
     } else {
         modelEntity.setAttribute('rotation', rotationValue2);
     }
-    modelEntity.innerHTML = targetPosition;
-    modelEntity.appendChild(modelAssetItem);
 
     return modelEntity;
 }
