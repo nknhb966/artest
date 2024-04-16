@@ -429,8 +429,7 @@ window.addEventListener("DOMContentLoaded", initOS);
 function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
-        // document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
-        // document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari2);
+        document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
         window.addEventListener(
             "deviceorientation",
             handleOrientation,
