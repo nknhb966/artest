@@ -421,6 +421,7 @@ window.addEventListener("DOMContentLoaded", initOS);
 function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
+        permitDeviceOrientationForSafari();
         // document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
         window.addEventListener(
             "deviceorientation",
