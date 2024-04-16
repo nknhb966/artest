@@ -429,6 +429,7 @@ window.addEventListener("DOMContentLoaded", initOS);
 function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
+        document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari2);
         window.addEventListener(
             "deviceorientation",
             handleOrientation,
@@ -493,6 +494,21 @@ function detectOSSimply() {
     return ret;
 }
 
+function permitDeviceOrientationForSafari() {
+    DeviceOrientationEvent.requestPermission()
+        .then(response => {
+            if (response === "granted") {
+                window.addEventListener(
+                    "deviceorientation",
+                    detectDirection
+                );
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
 function checkOrientation() {
     if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
         $('#rotateMessageContainer').hide();
@@ -509,4 +525,3 @@ document.getElementById('overviewButton3').addEventListener('click', function() 
 });
 
 init();
-
