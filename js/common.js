@@ -168,7 +168,6 @@ function displaySelectedModel(selectedIndex, locations) {
 
     // モデルに関連する情報を表示
     document.getElementById('overviewButton2').addEventListener('click', function() {
-        permitDeviceOrientationForSafari();
         document.getElementById('modalContainer2').style.display = 'block';
         document.getElementById('overviewTitle').innerText = selectedLocation.title;
         document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
@@ -288,14 +287,12 @@ document.addEventListener('DOMContentLoaded', function() {
   if (savedToggleState === 'true') {
     toggleButton.checked = true;
     toggleValue = toggleButton.checked ? -90 : 0;
-    console.log(toggleValue);
   }
 
   // チェック状態が変更されたらローカルストレージに値を保存
   toggleButton.addEventListener('change', function() {
     localStorage.setItem('toggleState', toggleButton.checked);
     toggleValue = toggleButton.checked ? -90 : 0;
-    console.log(toggleValue);
   });
 });
 
@@ -421,7 +418,6 @@ function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
         permitDeviceOrientationForSafari();
-        console.log("iphonedone");
         window.addEventListener(
             "deviceorientation",
             handleOrientation,
@@ -487,7 +483,6 @@ function detectOSSimply() {
 }
 
 function permitDeviceOrientationForSafari() {
-    console.log("a");
     DeviceOrientationEvent.requestPermission()
         .then(response => {
             if (response === "granted") {
@@ -495,14 +490,10 @@ function permitDeviceOrientationForSafari() {
                     "deviceorientation",
                     detectDirection
                 );
-                console.log("b");
-            } else {
-                    console.log("c");
             }
         })
         .catch(error => {
             console.error(error);
-    console.log("e");
         });
 }
 
