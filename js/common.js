@@ -492,6 +492,7 @@ function permitDeviceOrientationForSafari() {
                     "deviceorientation",
                     detectDirection
                 );
+                window.location.reload();
             }
         })
         .catch(error => {
