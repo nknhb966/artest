@@ -420,6 +420,7 @@ function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
         permitDeviceOrientationForSafari();
+        console.log("iphonedone");
         window.addEventListener(
             "deviceorientation",
             handleOrientation,
