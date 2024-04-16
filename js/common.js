@@ -185,7 +185,7 @@ function displaySelectedModel(selectedIndex, locations) {
         }
         showModal();
     });
-    // addCursor();
+    addCursor();
     initializemodal();
 }
 
@@ -229,7 +229,7 @@ dropdownContainer.addEventListener('change', function () {
         }
         showModal();
     });
-    // addCursor();
+    addCursor();
     initializemodal();
 });
 
@@ -303,7 +303,7 @@ const init = () => {
     document.addEventListener('touchend', function (event) {
         var now = (new Date()).getTime();
         if (now - lastTouchEnd > 300) {
-            // addCursor();
+            addCursor();
         }
         if (now - lastTouchEnd <= 300) {
             event.preventDefault();
@@ -356,7 +356,7 @@ function onTouchMove(event) {
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
                 if(Math.sqrt(newX * newX + newY * newY) > 0.05) {
-                  // removeCursor();
+                  removeCursor();
                 }
 
                 model.object3D.position.x += newX * 0.012;
@@ -367,7 +367,7 @@ function onTouchMove(event) {
             }
             else if (event.touches.length == 2) {
                 event.preventDefault();
-                // removeCursor();
+                removeCursor();
 
                 var touch1 = event.touches[0];
                 var touch2 = event.touches[1];
