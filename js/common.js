@@ -412,30 +412,45 @@ function addCursor() {
     }
 }
 
-
 // OS識別
 let os;
 
-window.addEventListener("DOMContentLoaded", initOS);
+      // イベントリスナーを定義
+      window.addEventListener("deviceorientation", handleOrientation, true);
+      window.addEventListener("deviceorientationabsolute", handleOrientation, true);
 
-function initOS() {
-    os = detectOSSimply();
-    if (os == "iphone") {
-        permitDeviceOrientationForSafari();
-        // document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
-        window.addEventListener(
-            "deviceorientation",
-            handleOrientation,
-            true
-        );
-    } else {
-        window.addEventListener(
-            "deviceorientationabsolute",
-            handleOrientation,
-            true
-        );
-    }
-}
+      // DOM構築完了イベントハンドラ登録
+      window.addEventListener("DOMContentLoaded", initOS);
+
+      // 初期化
+      function initOS() {
+          os = detectOSSimply();
+          if (os == "iphone") {
+              permitDeviceOrientationForSafari();
+          }
+      }
+
+
+// window.addEventListener("DOMContentLoaded", initOS);
+
+// function initOS() {
+//     os = detectOSSimply();
+//     if (os == "iphone") {
+//         permitDeviceOrientationForSafari();
+//         // document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
+//         window.addEventListener(
+//             "deviceorientation",
+//             handleOrientation,
+//             true
+//         );
+//     } else {
+//         window.addEventListener(
+//             "deviceorientationabsolute",
+//             handleOrientation,
+//             true
+//         );
+//     }
+// }
 
 // 方位角取得  
 let degrees = 0;
