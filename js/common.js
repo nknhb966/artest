@@ -167,25 +167,25 @@ function displaySelectedModel(selectedIndex, locations) {
     modelContainer.appendChild(modelEntity);
 
     // モデルに関連する情報を表示
-    document.getElementById('overviewButton2').addEventListener('click', function() {
-        document.getElementById('modalContainer2').style.display = 'block';
-        document.getElementById('overviewTitle').innerText = selectedLocation.title;
-        document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
-        document.getElementById('overviewDescription').innerText = selectedLocation.description;
-        document.getElementById('overviewImage').src = selectedLocation.image;
-        document.getElementById('overviewUrl').href = selectedLocation.url;
-        if (os == "iphone") {
-            document.getElementById('overviewUrl').addEventListener('click', function(event) {
-                event.preventDefault();
-                window.location.href = selectedLocation.url;
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            });
-        }
-        showModal();
-    });
-    addCursor();
+    // document.getElementById('overviewButton2').addEventListener('click', function() {
+    //     document.getElementById('modalContainer2').style.display = 'block';
+    //     document.getElementById('overviewTitle').innerText = selectedLocation.title;
+    //     document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
+    //     document.getElementById('overviewDescription').innerText = selectedLocation.description;
+    //     document.getElementById('overviewImage').src = selectedLocation.image;
+    //     document.getElementById('overviewUrl').href = selectedLocation.url;
+    //     if (os == "iphone") {
+    //         document.getElementById('overviewUrl').addEventListener('click', function(event) {
+    //             event.preventDefault();
+    //             window.location.href = selectedLocation.url;
+    //             setTimeout(function() {
+    //                 location.reload();
+    //             }, 1000);
+    //         });
+    //     }
+    //     showModal();
+    // });
+    // addCursor();
     initializemodal();
 }
 
