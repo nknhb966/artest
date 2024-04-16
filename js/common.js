@@ -429,7 +429,6 @@ window.addEventListener("DOMContentLoaded", initOS);
 function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
-        document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari2);
         window.addEventListener(
             "deviceorientation",
             handleOrientation,
@@ -492,21 +491,6 @@ function detectOSSimply() {
         ret = "pc";
     }
     return ret;
-}
-
-function permitDeviceOrientationForSafari() {
-    DeviceOrientationEvent.requestPermission()
-        .then(response => {
-            if (response === "granted") {
-                window.addEventListener(
-                    "deviceorientation",
-                    detectDirection
-                );
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
 }
 
 function checkOrientation() {
