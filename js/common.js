@@ -154,43 +154,39 @@ function createModelEntity(selectedIndex, locations) {
     } else {
         modelEntity.setAttribute('rotation', rotationValue2);
     }
-    document.getElementById('modelContainer').appendChild(modelEntity);
     
-    initializemodal();
-    
-    // return modelEntity;
+    return modelEntity;
 }
 
 // ロード時に最初のモデルを表示する関数
 function displaySelectedModel(selectedIndex, locations) {
-    createModelEntity(selectedIndex, locations);
-    // const modelEntity = createModelEntity(selectedIndex, locations);
+    const modelEntity = createModelEntity(selectedIndex, locations);
 
     // モデルをモデルコンテナに追加
-    // const modelContainer = document.getElementById('modelContainer');
-    // modelContainer.appendChild(modelEntity);
+    const modelContainer = document.getElementById('modelContainer');
+    modelContainer.appendChild(modelEntity);
 
     // モデルに関連する情報を表示
-    // document.getElementById('overviewButton2').addEventListener('click', function() {
-    //     document.getElementById('modalContainer2').style.display = 'block';
-    //     document.getElementById('overviewTitle').innerText = selectedLocation.title;
-    //     document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
-    //     document.getElementById('overviewDescription').innerText = selectedLocation.description;
-    //     document.getElementById('overviewImage').src = selectedLocation.image;
-    //     document.getElementById('overviewUrl').href = selectedLocation.url;
-    //     if (os == "iphone") {
-    //         document.getElementById('overviewUrl').addEventListener('click', function(event) {
-    //             event.preventDefault();
-    //             window.location.href = selectedLocation.url;
-    //             setTimeout(function() {
-    //                 location.reload();
-    //             }, 1000);
-    //         });
-    //     }
-    //     showModal();
-    // });
-    // addCursor();
-    // initializemodal();
+    document.getElementById('overviewButton2').addEventListener('click', function() {
+        document.getElementById('modalContainer2').style.display = 'block';
+        document.getElementById('overviewTitle').innerText = selectedLocation.title;
+        document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
+        document.getElementById('overviewDescription').innerText = selectedLocation.description;
+        document.getElementById('overviewImage').src = selectedLocation.image;
+        document.getElementById('overviewUrl').href = selectedLocation.url;
+        if (os == "iphone") {
+            document.getElementById('overviewUrl').addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = selectedLocation.url;
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            });
+        }
+        showModal();
+    });
+    addCursor();
+    initializemodal();
 }
 
 // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
@@ -283,24 +279,24 @@ var touchStartY = 0;
 // トグルの初期値を設定
 let toggleValue = 0;
 
-// document.addEventListener('DOMContentLoaded', function() {
-//   const toggleButton = document.getElementById('toggleButton');
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleButton = document.getElementById('toggleButton');
 
-//   // ローカルストレージから値を読み込み、チェック状態を設定
-//   const savedToggleState = localStorage.getItem('toggleState');
-//   if (savedToggleState === 'true') {
-//     toggleButton.checked = true;
-//     toggleValue = toggleButton.checked ? 90 : 0;
-//     console.log(toggleValue);
-//   }
+  // ローカルストレージから値を読み込み、チェック状態を設定
+  const savedToggleState = localStorage.getItem('toggleState');
+  if (savedToggleState === 'true') {
+    toggleButton.checked = true;
+    toggleValue = toggleButton.checked ? 90 : 0;
+    console.log(toggleValue);
+  }
 
-//   // チェック状態が変更されたらローカルストレージに値を保存
-//   toggleButton.addEventListener('change', function() {
-//     localStorage.setItem('toggleState', toggleButton.checked);
-//     toggleValue = toggleButton.checked ? 90 : 0;
-//     console.log(toggleValue);
-//   });
-// });
+  // チェック状態が変更されたらローカルストレージに値を保存
+  toggleButton.addEventListener('change', function() {
+    localStorage.setItem('toggleState', toggleButton.checked);
+    toggleValue = toggleButton.checked ? 90 : 0;
+    console.log(toggleValue);
+  });
+});
 
 const init = () => {
     fetchLocations();
@@ -429,7 +425,8 @@ window.addEventListener("DOMContentLoaded", initOS);
 function initOS() {
     os = detectOSSimply();
     if (os == "iphone") {
-        document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
+        permitDeviceOrientationForSafari();
+        // document.querySelector("#permit2").addEventListener("click", permitDeviceOrientationForSafari);
         window.addEventListener(
             "deviceorientation",
             handleOrientation,
