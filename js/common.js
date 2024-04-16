@@ -168,7 +168,7 @@ function displaySelectedModel(selectedIndex, locations) {
 
     // モデルに関連する情報を表示
     document.getElementById('overviewButton2').addEventListener('click', function() {
-        permitDeviceOrientationForSafari()
+        permitDeviceOrientationForSafari();
         document.getElementById('modalContainer2').style.display = 'block';
         document.getElementById('overviewTitle').innerText = selectedLocation.title;
         document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
