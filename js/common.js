@@ -280,33 +280,29 @@ var initialAngle = 0;
 var touchStartX = 0;
 var touchStartY = 0;
 
-// 初期化済みフラグ
-let isInitialized = false;
-
 // トグルの初期値を設定
 let toggleValue = 0;
 
-document.addEventListener('DOMContentLoaded', function() {
-  const toggleButton = document.getElementById('toggleButton');
+// document.addEventListener('DOMContentLoaded', function() {
+//   const toggleButton = document.getElementById('toggleButton');
 
-  // ローカルストレージから値を読み込み、チェック状態を設定
-  const savedToggleState = localStorage.getItem('toggleState');
-  if (savedToggleState === 'true') {
-    toggleButton.checked = true;
-    toggleValue = toggleButton.checked ? 90 : 0;
-    console.log(toggleValue);
-  }
+//   // ローカルストレージから値を読み込み、チェック状態を設定
+//   const savedToggleState = localStorage.getItem('toggleState');
+//   if (savedToggleState === 'true') {
+//     toggleButton.checked = true;
+//     toggleValue = toggleButton.checked ? 90 : 0;
+//     console.log(toggleValue);
+//   }
 
-  // チェック状態が変更されたらローカルストレージに値を保存
-  toggleButton.addEventListener('change', function() {
-    localStorage.setItem('toggleState', toggleButton.checked);
-    toggleValue = toggleButton.checked ? 90 : 0;
-    console.log(toggleValue);
-  });
-});
+//   // チェック状態が変更されたらローカルストレージに値を保存
+//   toggleButton.addEventListener('change', function() {
+//     localStorage.setItem('toggleState', toggleButton.checked);
+//     toggleValue = toggleButton.checked ? 90 : 0;
+//     console.log(toggleValue);
+//   });
+// });
 
 const init = () => {
-    if (!isInitialized) {
         fetchLocations();
         var lastTouchEnd = 0;
         document.addEventListener('touchstart', onTouchStart, { passive: false });
@@ -321,7 +317,6 @@ const init = () => {
             }
             lastTouchEnd = now;
         }, false);
-        isInitialized = true; // 初期化済みに設定
     }
 };
 
