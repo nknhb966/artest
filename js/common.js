@@ -34,8 +34,8 @@ async function fetchLocations() {
         const response = await fetch(locationsFilePath);
         const data = await response.text();
         const locations = parseCSV(data);
-        updateDropdown(locations);
         locationsSet = locations;
+        updateDropdown(locations);
     } catch (error) {
         console.error('Error fetching locations:', error);
     }
