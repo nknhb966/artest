@@ -487,7 +487,7 @@ function detectOSSimply() {
 }
 
 function permitDeviceOrientationForSafari() {
-    console.log("safaridone");
+    console.log("a");
     DeviceOrientationEvent.requestPermission()
         .then(response => {
             if (response === "granted") {
@@ -495,11 +495,14 @@ function permitDeviceOrientationForSafari() {
                     "deviceorientation",
                     detectDirection
                 );
-                window.location.reload();
+                console.log("b");
+            } else {
+                    console.log("c");
             }
         })
         .catch(error => {
             console.error(error);
+    console.log("e");
         });
 }
 
