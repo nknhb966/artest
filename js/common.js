@@ -286,14 +286,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const savedToggleState = localStorage.getItem('toggleState');
   if (savedToggleState === 'true') {
     toggleButton.checked = true;
-    toggleValue = toggleButton.checked ? 90 : 0;
+    toggleValue = toggleButton.checked ? -90 : 0;
     console.log(toggleValue);
   }
 
   // チェック状態が変更されたらローカルストレージに値を保存
   toggleButton.addEventListener('change', function() {
     localStorage.setItem('toggleState', toggleButton.checked);
-    toggleValue = toggleButton.checked ? 90 : 0;
+    toggleValue = toggleButton.checked ? -90 : 0;
     console.log(toggleValue);
   });
 });
@@ -353,11 +353,7 @@ function onTouchMove(event) {
     
                 let rad = 0;
 
-                if(os == "iphone") {
-                  rad = (parseInt(degrees) + parseInt(toggleValue)) * Math.PI / 180;
-                }else{
-                  rad = (parseInt(degrees) + parseInt(orientation) + parseInt(toggleValue)) * Math.PI / 180;
-                }        
+                rad = (parseInt(degrees) + parseInt(toggleValue)) * Math.PI / 180;
       
                 const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
                 const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
