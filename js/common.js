@@ -154,17 +154,21 @@ function createModelEntity(selectedIndex, locations) {
     } else {
         modelEntity.setAttribute('rotation', rotationValue2);
     }
-
-    return modelEntity;
+    document.getElementById('modelContainer').appendChild(modelEntity);
+    
+    initializemodal();
+    
+    // return modelEntity;
 }
 
 // ロード時に最初のモデルを表示する関数
 function displaySelectedModel(selectedIndex, locations) {
-    const modelEntity = createModelEntity(selectedIndex, locations);
+    createModelEntity(selectedIndex, locations);
+    // const modelEntity = createModelEntity(selectedIndex, locations);
 
     // モデルをモデルコンテナに追加
-    const modelContainer = document.getElementById('modelContainer');
-    modelContainer.appendChild(modelEntity);
+    // const modelContainer = document.getElementById('modelContainer');
+    // modelContainer.appendChild(modelEntity);
 
     // モデルに関連する情報を表示
     // document.getElementById('overviewButton2').addEventListener('click', function() {
@@ -186,7 +190,7 @@ function displaySelectedModel(selectedIndex, locations) {
     //     showModal();
     // });
     // addCursor();
-    initializemodal();
+    // initializemodal();
 }
 
 // ドロップダウンリストの変更イベントを監視し、選択されたモデルの表示・非表示を切り替える
