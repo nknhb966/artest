@@ -200,7 +200,7 @@
       AFRAME.registerComponent('spawn-sphere2', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(2, { x: 3, y: 3, z: 3 }, { x: -0.8 * 20, y: 1.2 * 20, z: 1.2 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
+            spawnModelImage(2, { x: 20, y: 20, z: 20 }, { x: -0.8 * 20, y: 1.2 * 20, z: 1.2 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png");
           });
         }
       });
@@ -216,7 +216,7 @@
       AFRAME.registerComponent('spawn-sphere4', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(4, { x: 3, y: 3, z: 3 }, { x: -0.5 * 20, y: 1.2 * 20, z: 0.8 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
+            spawnModelImage(4, { x: 20, y: 20, z: 20 }, { x: -0.5 * 20, y: 1.2 * 20, z: 0.8 * 20 }, { x: 3 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png");
           });
         }
       });
@@ -256,7 +256,7 @@
       AFRAME.registerComponent('spawn-sphere9', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(9, { x: 3, y: 3, z: 3 }, { x: 2.2 * 20, y: 1.2 * 20, z: 0 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 90, "https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png");
+            spawnModelImage(9, { x: 20, y: 20, z: 20 }, { x: 2.2 * 20, y: 1.2 * 20, z: 0 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 90, "https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png");
           });
         }
       });
@@ -272,7 +272,7 @@
       AFRAME.registerComponent('spawn-sphere11', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(11, { x: 3, y: 3, z: 3 }, { x: 2 * 20, y: 1.2 * 20, z: 0.8 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/21100_kokufuhakkutsu.png");
+            spawnModelImage(11, { x: 20, y: 20, z: 20 }, { x: 2 * 20, y: 1.2 * 20, z: 0.8 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/21100_kokufuhakkutsu.png");
           });
         }
       });
@@ -288,7 +288,7 @@
       AFRAME.registerComponent('spawn-sphere13', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnModelImage(13, { x: 3, y: 3, z: 3 }, { x: 1 * 20, y: 1.2 * 20, z: 1.55 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/21300_kokufuhakkutsu.png");
+            spawnModelImage(13, { x: 20, y: 20, z: 20 }, { x: 1 * 20, y: 1.2 * 20, z: 1.55 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/21300_kokufuhakkutsu.png");
           });
         }
       });
@@ -311,7 +311,7 @@
 
     </script>
 
-    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: false;">
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
       <!-- ui element -->
       <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" scale=".05 .05 .05" position="1.5 0.9 -1.2" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" scale=".05 .05 .05" position="2.2 0.9 1.8" material="color: aqua"></a-entity>
@@ -404,21 +404,11 @@
         <a-asset-item id="text-asset14" src="https://nknhb966.github.io/artest/glb/text12.glb"></a-asset-item>
         <a-asset-item id="text-asset15" src="https://nknhb966.github.io/artest/glb/text12.glb"></a-asset-item>
 
-        <a-asset-item id="model-asset1" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset2" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset3" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset4" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset5" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset6" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset7" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset8" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset9" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset10" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset11" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset12" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset13" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset14" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-        <a-asset-item id="model-asset15" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+        <a-asset-item id="model-asset2" src="https://nknhb966.github.io/artest/glb/model00.glb"></a-asset-item>
+        <a-asset-item id="model-asset4" src="https://nknhb966.github.io/artest/glb/model04.glb"></a-asset-item>
+        <a-asset-item id="model-asset9" src="https://nknhb966.github.io/artest/glb/model13.glb"></a-asset-item>
+        <a-asset-item id="model-asset11" src="https://nknhb966.github.io/artest/glb/model13.glb"></a-asset-item>
+        <a-asset-item id="model-asset13" src="https://nknhb966.github.io/artest/glb/model13.glb"></a-asset-item>
       </a-assets>
 
       <!-- player -->
