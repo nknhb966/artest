@@ -128,19 +128,19 @@ function createModelEntity(selectedIndex, locations) {
     if (selectedIndex === -1) {
         selectedLocation = locationsSet[locationsSet.length - 1];
         if (currentLatitude !== null && currentLongitude !== null) {
-            modelEntity.setAttribute("gps-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
+            modelEntity.setAttribute("gps-new-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
         } else {
             // 現在の位置情報がまだ取得されていない場合は、再度取得する
             navigator.geolocation.getCurrentPosition(position => {
                 currentLatitude = position.coords.latitude;
                 currentLongitude = position.coords.longitude;
-                modelEntity.setAttribute("gps-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
+                modelEntity.setAttribute("gps-new-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
             });
         }
     } else {
         // 選択されたモデルを追加
         selectedLocation = locationsSet[selectedIndex];
-        modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
+        modelEntity.setAttribute('gps-new-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
     }
     modelEntity.innerHTML = targetPosition;
 
