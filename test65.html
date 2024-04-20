@@ -68,13 +68,11 @@
                       end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleImage.y/40} ${clickablePosition.z + finalPositionImage.z/20}`
                   });
               }, 2000);
-          } else if (modelAdded[i] && imageAdded[i]) {
+          } else {
               // モデルを削除
               if (existingModel) {
                   existingModel.parentNode.removeChild(existingModel);
               }
-              modelAdded[i] = false;
-          } else {
               // 画像を削除
               if (existingImage) {
                   existingImage.parentNode.removeChild(existingImage);
@@ -83,6 +81,7 @@
               if (lineElement) {
                   lineElement.removeAttribute('line');
               }
+              modelAdded[i] = false;
               imageAdded[i] = false;
           }
       }
@@ -111,13 +110,11 @@
                       end: `${clickablePosition.x + finalPositionImage.x/20} ${clickablePosition.y + finalPositionImage.y/20 - finalScaleImage.y/40} ${clickablePosition.z + finalPositionImage.z/20}`
                   });
               }, 2000);
-          } else if (modelAdded[i] && imageAdded[i]) {
+          } else {
               // Boxを削除
               if (existingModel) {
                   boxElement.setAttribute('visible', 'false');
               }
-              modelAdded[i] = false;
-          } else {
               // 画像を削除
               if (existingImage) {
                   existingImage.parentNode.removeChild(existingImage);
@@ -126,6 +123,7 @@
               if (lineElement) {
                   lineElement.removeAttribute('line');
               }
+              modelAdded[i] = false;
               imageAdded[i] = false;
           }
       }
