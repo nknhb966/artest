@@ -170,7 +170,7 @@
         const model = document.createElement('a-entity');
         model.classList.add(`spawned-model${i}`);
         model.setAttribute('gltf-model', `#model-asset${i}`);
-        model.setAttribute('animation__position', 'property: position; to: 0 2.5 0; dur: 2000; easing: easeInOutQuad');
+        model.setAttribute('animation__position', 'property: position; to: 0 3 0; dur: 2000; easing: easeInOutQuad');
         model.setAttribute('scale', '0 0 0');
         model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
         model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
@@ -296,7 +296,7 @@
       AFRAME.registerComponent('spawn-sphere13', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnImageOnly(13, { x: 2.5 * 20, y: 1.2 * 20, z: 1.55 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/21300_kokufuhakkutsu.png");
+            spawnImageOnly(13, { x: 2.5 * 20, y: 1.25 * 20, z: 1.55 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 180, "https://echizencity.github.io/opendata/kokufuhakkutsu/21300_kokufuhakkutsu.png");
           });
         }
       });
@@ -312,7 +312,7 @@
       AFRAME.registerComponent('spawn-sphere15', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnImageOnly(15, { x: 0 * 20, y: 1.2 * 20, z: -2.5 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 0,  "https://echizencity.github.io/opendata/kokufuhakkutsu/21500_kokufuhakkutsu.png");
+            spawnImageOnly(15, { x: 0 * 20, y: 1.2 * 20, z: -0.7 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 0,  "https://echizencity.github.io/opendata/kokufuhakkutsu/21500_kokufuhakkutsu.png");
           });
         }
       });
@@ -341,9 +341,9 @@
       <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" scale=".05 .05 .05" position="-7.1 0.8 2.9" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" scale=".05 .05 .05" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
       <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" scale=".05 .05 .05" position="-6.7 0.8 2.5" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.8 1.45" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.75 1.45" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.9 1.45" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" scale=".05 .05 .05" position="-5.8 0.8 -0.3" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" scale=".05 .05 .05" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" scale=".05 .05 .05" position="6.8 0.8 0.4" material="color: white"></a-entity>
 
       <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
@@ -361,10 +361,10 @@
       <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.8 2.9" rotation="0 180 0"></a-entity>
       <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.8 2.7" rotation="0 180 0"></a-entity>
       <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.05 0.8 2.5" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.8 1.35" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.75 1.35" rotation="0 180 0"></a-entity>
       <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.9 1.55" rotation="0 180 0"></a-entity>
       <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 90 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.0 0.8 -0.3" rotation="0 90 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 90 0"></a-entity>
       <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 90 0"></a-entity>
       <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="6.5 0.8 0.4" rotation="0 -90 0"></a-entity>
 
