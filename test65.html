@@ -272,7 +272,7 @@
       AFRAME.registerComponent('spawn-sphere10', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnImageOnly(10, { x: -1 * 20, y: 1.2 * 20, z: -0.5 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 90, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
+            spawnImageOnly(10, { x: -1 * 20, y: 1.2 * 20, z: -0.7 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 90, "https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png");
           });
         }
       });
@@ -320,7 +320,7 @@
       AFRAME.registerComponent('spawn-sphere16', {
         init: function () {
           this.el.addEventListener('click', () => {
-            spawnImageOnly(16, { x: -0.7 * 20, y: 1.2 * 20, z: -3.2 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 0, "https://echizencity.github.io/opendata/kokufuhakkutsu/21600_kokufuhakkutsu.png");
+            spawnImageOnly(16, { x: -0.9 * 20, y: 1.2 * 20, z: -2.0 * 20 }, { x: 1.5 * 20, y: 1.5 * 20, z: 0 }, 0, "https://echizencity.github.io/opendata/kokufuhakkutsu/21600_kokufuhakkutsu.png");
           });
         }
       });
@@ -338,13 +338,13 @@
       <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" scale=".05 .05 .05" position="2 0.8 0.5" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" scale=".05 .05 .05" position="7.1 0.8 1.7" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" scale=".05 .05 .05" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" scale=".05 .05 .05" position="-7.1 0.8 2.9" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" scale=".05 .05 .05" position="-7.1 0.8 3.1" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" scale=".05 .05 .05" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
       <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" scale=".05 .05 .05" position="-6.7 0.8 2.5" material="color: aqua"></a-entity>
       <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.75 1.45" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" scale=".05 .05 .05" position="5.2 0.9 1.45" material="color: aqua"></a-entity>
       <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" scale=".05 .05 .05" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" scale=".05 .05 .05" position="6.8 0.8 0.4" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" scale=".05 .05 .05" position="7.6 0.8 -0.8" material="color: white"></a-entity>
 
       <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
       <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
@@ -363,10 +363,10 @@
       <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.05 0.8 2.5" rotation="0 180 0"></a-entity>
       <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.75 1.35" rotation="0 180 0"></a-entity>
       <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.9 1.55" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 90 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 90 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 90 0"></a-entity>
-      <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="6.5 0.8 0.4" rotation="0 -90 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
 
       <a-entity id="line1"></a-entity>
       <a-entity id="line2"></a-entity>
@@ -420,7 +420,7 @@
         <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
         <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
         <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-        <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
+        <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
         <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
         <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
         <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
