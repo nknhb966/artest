@@ -175,7 +175,7 @@
         const model = document.createElement('a-entity');
         model.classList.add(`spawned-model${i}`);
         model.setAttribute('gltf-model', `#model-asset${i}`);
-        model.setAttribute('animation__position', 'property: position; to: 0 6 0; dur: 2000; easing: easeInOutQuad');
+        model.setAttribute('animation__position', 'property: position; to: 0 8 0; dur: 2000; easing: easeInOutQuad');
         model.setAttribute('scale', '0 0 0');
         model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
         model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
