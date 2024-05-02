@@ -8,6 +8,12 @@
 <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
 <style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
 .reload-button {
   position: fixed;
   font-family: Arial, sans-serif;
@@ -660,8 +666,8 @@
             const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
             const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-            cameraRig.object3D.position.x -= newX * 0.005;
-            cameraRig.object3D.position.z -= newY * 0.005;
+            cameraRig.object3D.position.x -= newX * 0.0025;
+            cameraRig.object3D.position.z -= newY * 0.0025;
 
             touchStartX = touchX;
             touchStartY = touchY;
