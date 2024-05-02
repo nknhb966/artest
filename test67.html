@@ -228,8 +228,24 @@
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;">
 
+      <a-entity position="4 3.5 0.5">
+        <a-image id="move" class="clickable" src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
+        </a-image>
+      </a-entity>
+      <a-entity position="-4 3.5 0.5">
+        <a-image id="move2" class="clickable" src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
+        </a-image>
+      </a-entity>
+
+      <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 0.7 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="boxtext1" gltf-model="#text-asset1" position="1.9 0.4 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 1.5 0.4 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 0.7 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.4 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.4 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+
+
         <a-entity id="destination" position="-7 0 1" rotation="0 -90 0"></a-entity>
         <a-entity id="destination2" position="0 0 0" rotation="0 0 0"></a-entity>
+        <a-entity id="destination3" position="15 0 -2" rotation="0 90 0"></a-entity>
 
         <!-- scene geometry -->
         <a-assets>
@@ -348,24 +364,28 @@
                 var modelEntity = document.createElement("a-entity");
                 modelEntity.setAttribute("gltf-model", "#kokufu");
                 modelEntity.setAttribute("scale", "1 1 1");
-                modelEntity.setAttribute("position", "-2 -1 -15");
-                modelEntity.setAttribute("rotation", "0 -70 0");
+                modelEntity.setAttribute("position", "0 -1 0");
+                // modelEntity.setAttribute("position", "-2 -1 -15");
+                modelEntity.setAttribute("rotation", "0 20 0");
                 document.querySelector("a-scene").appendChild(modelEntity);
                 // Add additional entity for collision detection
                 var collisionEntity = document.createElement("a-entity");
                 collisionEntity.setAttribute("class", "collision");
-                collisionEntity.setAttribute("position", "-2 0 -15");
+                collisionEntity.setAttribute("position", "0 0 0");
+                // collisionEntity.setAttribute("position", "-2 0 -15");
                 collisionEntity.setAttribute("rotation", "-90 0 0");
-                collisionEntity.setAttribute("geometry", "primitive: plane; width: 8; height: 18");
+                collisionEntity.setAttribute("geometry", "primitive: plane; width: 18; height: 8");
                 collisionEntity.setAttribute("material", "color: white; opacity: 0;");
                 document.querySelector("a-scene").appendChild(collisionEntity);
+                const cursorTeleport = cameraRig.components['cursor-teleport'];
+                cursorTeleport.teleportTo(destination3.object3D.position, destination3.object3D.quaternion);
             }
         }
 
         function checkRange(lat, lon) {
             var targetLat = 35.905512;
             var targetLon = 136.166730;
-            var range = 0.0005; // Adjust this value for your desired range
+            var range = 1.0005; // Adjust this value for your desired range
 
             if (Math.abs(lat - targetLat) <= range && Math.abs(lon - targetLon) <= range) {
                 return true;
