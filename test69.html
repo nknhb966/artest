@@ -491,9 +491,9 @@
         <!-- 固有データ -->
         <a-entity class="collision" position="0 0.5 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
-        <a-entity id="destination1" position="-3 0 -15" rotation="0 0 0"></a-entity>
-        <a-entity id="destination2" position="-3 0 -23" rotation="0 0 0"></a-entity>
-        <a-entity id="destination3" position="-3 0 -7" rotation="0 0 0"></a-entity>
+        <a-entity id="destination1" position="-3 0 -15"></a-entity>
+        <a-entity id="destination2" position="-3 0 -22"></a-entity>
+        <a-entity id="destination3" position="-3 0 -8"></a-entity>
       </a-entity>
 
       <!-- scene geometry -->
@@ -559,7 +559,7 @@
 
     function moveLocation(destination) {
       const cursorTeleport = cameraRig.components['cursor-teleport'];
-      cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion); 
+      cursorTeleport.teleportTo(destination.object3D.position, null); 
     }
 
     function showAll() {
