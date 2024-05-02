@@ -5,6 +5,7 @@
     <title>国府発掘プロジェクト3D化Test2</title>
     <meta name="description" content="Basic example for Cursor Teleport component."></meta>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
   </head>
@@ -14,7 +15,7 @@
       let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
       let imageAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
-      const sizeMultiplier = 15;
+      const sizeMultiplier = 12;
 
       function spawnImageOnly(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingImage = document.querySelector(`.spawned-image${i}`);
@@ -174,7 +175,7 @@
         const model = document.createElement('a-entity');
         model.classList.add(`spawned-model${i}`);
         model.setAttribute('gltf-model', `#model-asset${i}`);
-        model.setAttribute('animation__position', 'property: position; to: 0 3 0; dur: 2000; easing: easeInOutQuad');
+        model.setAttribute('animation__position', 'property: position; to: 0 5 0; dur: 2000; easing: easeInOutQuad');
         model.setAttribute('scale', '0 0 0');
         model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
         model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
@@ -208,42 +209,42 @@
       const baseUrl = "https://echizencity.github.io/opendata/kokufuhakkutsu/";
 
       function Spawn1(){spawnBoxImage(1, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20100_kokufuhakkutsu.png");}
-      function Spawn2(){spawnModelImage(2, { x: 1 * sizeMultiplier, y: 1 * sizeMultiplier, z: 1 * sizeMultiplier }, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 1.2 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "20200_kokufuhakkutsu.png");}
+      function Spawn2(){spawnModelImage(2, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 1.2 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "20200_kokufuhakkutsu.png");}
       function Spawn3(){spawnBoxImage(3, { x: 0.3 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20300_kokufuhakkutsu.png");}
-      function Spawn4(){spawnModelImage(4, { x: 1 * sizeMultiplier, y: 1 * sizeMultiplier, z: 1 * sizeMultiplier }, { x: -0.2 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "20400_kokufuhakkutsu.png");}
+      function Spawn4(){spawnModelImage(4, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: -0.2 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "20400_kokufuhakkutsu.png");}
       function Spawn5(){spawnImageOnly(5, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20500_kokufuhakkutsu.png");}
       function Spawn6(){spawnImageOnly(6, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20600_kokufuhakkutsu.png");}
       function Spawn7(){spawnImageOnly(7, { x: 0.7 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -3.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20700_kokufuhakkutsu.png");}
       function Spawn8(){spawnImageOnly(8, { x: 1.4 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -1.5 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, -90, baseUrl + "20800_kokufuhakkutsu.png");}
-      function Spawn9(){spawnModelImage(9, { x: 1 * sizeMultiplier, y: 1 * sizeMultiplier, z: 1 * sizeMultiplier }, { x: 2 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, -90, baseUrl + "20900_kokufuhakkutsu.png");}
+      function Spawn9(){spawnModelImage(9, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 2 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, -90, baseUrl + "20900_kokufuhakkutsu.png");}
       function Spawn10(){spawnImageOnly(10, { x: -1 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -0.7 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 90, baseUrl + "21000_kokufuhakkutsu.png");}
-      function Spawn11(){spawnModelImage(11, { x: 1 * sizeMultiplier, y: 1 * sizeMultiplier, z: 1 * sizeMultiplier }, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21100_kokufuhakkutsu.png");}
-      function Spawn12(){spawnModelImage(12, { x: 1 * sizeMultiplier, y: 1 * sizeMultiplier, z: 1 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 1.0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21200_kokufuhakkutsu.png");}
+      function Spawn11(){spawnModelImage(11, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21100_kokufuhakkutsu.png");}
+      function Spawn12(){spawnModelImage(12, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 1.0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21200_kokufuhakkutsu.png");}
       function Spawn13(){spawnImageOnly(13, { x: 2 * sizeMultiplier, y: 1.25 * sizeMultiplier, z: 1.55 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21300_kokufuhakkutsu.png");}
-      function Spawn14(){spawnModelImage(14, { x: 1 * sizeMultiplier, y: 1 * sizeMultiplier, z: 1 * sizeMultiplier }, { x: 0.5 * sizeMultiplier, y: 1.1 * sizeMultiplier, z: 1.55 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21400_kokufuhakkutsu.png");}
+      function Spawn14(){spawnModelImage(14, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 0.5 * sizeMultiplier, y: 1.1 * sizeMultiplier, z: 1.55 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21400_kokufuhakkutsu.png");}
       function Spawn15(){spawnImageOnly(15, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -0.7 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0,  baseUrl + "21500_kokufuhakkutsu.png");}
       function Spawn16(){spawnImageOnly(16, { x: -0.9 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "21600_kokufuhakkutsu.png");}
 
     </script>
 
-    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;">
       <!-- ui element -->
-      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.8 2.2" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" position="-3.3 0.8 0" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" position="2 0.8 0.5" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" position="7.1 0.8 1.7" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" position="-7.1 0.8 3.1" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" position="-6.6 0.8 2.4" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" position="5.2 0.75 1.45" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" position="5.2 0.9 1.45" material="color: aqua"></a-entity>
-      <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
-      <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" position="7.6 0.8 -0.8" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.3 -0.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.3 1.8" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.3 -0.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.3 2.2" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" position="-0.5 0.3 -0.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" position="-3.3 0.3 0" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" position="2 0.3 0.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" position="7.1 0.3 1.7" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" position="6.5 0.3 1.8" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" position="-7.1 0.3 3.1" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" position="-6.9 0.3 2.7" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" position="-6.65 0.3 2.45" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" position="5.2 0.25 1.45" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" position="5.2 0.4 1.45" material="color: aqua"></a-entity>
+      <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" position="-6.1 0.3 -2.1" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" position="7.6 0.3 -0.8" material="color: white"></a-entity>
       <script>
         const sphereScale = (1 / sizeMultiplier) + " " + (1 / sizeMultiplier) + " " + (1 / sizeMultiplier);
         document.querySelectorAll('.clickable').forEach((element, index) => {
@@ -251,26 +252,26 @@
         });
       </script>
 
-      <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+      <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -1. 0" rotation="0 20 0"></a-entity>
 
-      <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.8 -0.5" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.8 2.2" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.8 -0.9" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset6" scale="0.15 0.15 0.15" position="-2.8 0.8 0" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset7" scale="0.15 0.15 0.15" position="2.8 0.8 0.5" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset8" scale="0.15 0.15 0.15" position="7.1 0.8 2.1" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="6.1 0.8 2.0" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.8 2.9" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.8 2.7" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.05 0.8 2.5" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.75 1.35" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.9 1.55" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 180 0"></a-entity>
-      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
-      <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.3 -0.5" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.3 1.8" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.3 -0.5" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.3 2.2" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.3 -0.9" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset6" scale="0.15 0.15 0.15" position="-2.8 0.3 0" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset7" scale="0.15 0.15 0.15" position="2.8 0.3 0.5" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset8" scale="0.15 0.15 0.15" position="7.1 0.3 2.1" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="6.1 0.3 2.0" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.3 2.9" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.3 2.7" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.05 0.3 2.5" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.25 1.35" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.4 1.55" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.3 0.2" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.3 2.9" rotation="0 180 0"></a-entity>
+      <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.3 -2.1" rotation="0 0 0"></a-entity>
+      <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.3 -0.8" rotation="0 0 0"></a-entity>
 
       <script>
         for (let i = 1; i <= 16; i++) {
@@ -287,10 +288,10 @@
         </a-image>
       </a-entity>
 
-      <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 1.5 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
-      <a-entity id="boxtext1" gltf-model="#text-asset1" position="1.9 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 1.5 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
-      <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
-      <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 0.7 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="boxtext1" gltf-model="#text-asset1" position="1.9 0.4 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 1.5 0.4 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 0.7 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+      <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.4 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.4 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
 
       <a-entity id="destination" position="-7 0 1" rotation="0 -90 0"></a-entity>
       <a-entity id="destination2" position="0 0 0" rotation="0 0 0"></a-entity>
