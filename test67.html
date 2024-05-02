@@ -7,8 +7,74 @@
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+<style>
+.reload-button {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  top: 10px;
+  left: 10px;
+  z-index: 10000;
+}
+#overviewButton2 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  top: 10px;
+  right: 10px;
+  z-index: 10000;
+}
+#overviewButton3 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  top: 60px;
+  right: 10px;
+  z-index: 10000;
+}
+
+#moveButton1 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 50%;
+  z-index: 10000;
+}
+
+#moveButton2 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 25%;
+  z-index: 10000;
+}
+
+#moveButton3 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 75%;
+  z-index: 10000;
+}
+</style>
 </head>
 <body>
+
+    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button id="overviewButton2">概要</button>
+    <button id="overviewButton3">使い方</button>
+    <button id="moveButton1" onclick="moveLocation(destination3)">中央移動</button>
+    <button id="moveButton2" onclick="moveLocation(destination4)">北側移動</button>
+    <button id="moveButton3" onclick="moveLocation(destination5)">南側移動</button>
 
     <script>
       let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -226,7 +292,7 @@
 
     </script>
 
-    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;">
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false">
       <a-entity id="container" position="-2 -0.5 -15" rotation="0 -90 0" visible="false">
 
         <!-- ui element -->
@@ -298,8 +364,11 @@
         <!-- 固有データ -->
         <a-entity class="collision" position="0 0.5 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
-        <a-entity id="destination" position="-3 0 -23" rotation="0 180 0"></a-entity>
+        <a-entity id="destination1" position="-3 0 -23" rotation="0 180 0"></a-entity>
         <a-entity id="destination2" position="0 0 0" rotation="0 0 0"></a-entity>
+        <a-entity id="destination3" position="-3 0 -15" rotation="0 0 0"></a-entity>
+        <a-entity id="destination4" position="-3 0 -23" rotation="0 180 0"></a-entity>
+        <a-entity id="destination5" position="-3 0 -7" rotation="0 0 0"></a-entity>
 
       </a-entity>
 
@@ -364,7 +433,7 @@
 
     move.addEventListener('click', () => {
         const cursorTeleport = cameraRig.components['cursor-teleport'];
-        cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
+        cursorTeleport.teleportTo(destination1.object3D.position, destination1.object3D.quaternion);
         setTimeout(() => {
             modelsToSpawn1.forEach(index => {
                 if (!modelAdded[index] || !imageAdded[index]) {
@@ -399,6 +468,11 @@
           }
       });
     });
+
+    function moveLocation(destination) {
+      const cursorTeleport = cameraRig.components['cursor-teleport'];
+      cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion); 
+    }
 
     </script>
 
