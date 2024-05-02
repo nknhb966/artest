@@ -17,52 +17,64 @@
   left: 10px;
   z-index: 10000;
 }
-#overviewButton2 {
-  position: fixed;
-  font-family: Arial, sans-serif;
-  padding: 8px;
-  font-size: 16px;
-  top: 10px;
-  right: 10px;
-  z-index: 10000;
-}
-#overviewButton3 {
-  position: fixed;
-  font-family: Arial, sans-serif;
-  padding: 8px;
-  font-size: 16px;
-  top: 60px;
-  right: 10px;
-  z-index: 10000;
-}
-
 #moveButton1 {
   position: fixed;
   font-family: Arial, sans-serif;
   padding: 8px;
   font-size: 16px;
-  bottom: 10px;
+  bottom: 60px;
   left: 50%;
+  transform: translateX(-50%);
   z-index: 10000;
 }
-
 #moveButton2 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 60px;
+  left: 25%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#moveButton3 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 60px;
+  left: 75%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#showButton {
   position: fixed;
   font-family: Arial, sans-serif;
   padding: 8px;
   font-size: 16px;
   bottom: 10px;
   left: 25%;
+  transform: translateX(-50%);
   z-index: 10000;
 }
-
-#moveButton3 {
+#hideButton {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#overviewButton {
   position: fixed;
   font-family: Arial, sans-serif;
   padding: 8px;
   font-size: 16px;
   bottom: 10px;
   left: 75%;
+  transform: translateX(-50%);
   z-index: 10000;
 }
 </style>
@@ -70,11 +82,12 @@
 <body>
 
     <button class="reload-button" onclick="location.reload()">Reload</button>
-    <button id="overviewButton2">概要</button>
-    <button id="overviewButton3">使い方</button>
-    <button id="moveButton1" onclick="moveLocation(destination3)">中央移動</button>
-    <button id="moveButton2" onclick="moveLocation(destination4)">北側移動</button>
-    <button id="moveButton3" onclick="moveLocation(destination5)">南側移動</button>
+    <button id="moveButton1" onclick="moveLocation(destination1)">中央移動</button>
+    <button id="moveButton2" onclick="moveLocation(destination2)">北側移動</button>
+    <button id="moveButton3" onclick="moveLocation(destination3)">南側移動</button>
+    <button id="showButton" onclick="showAll()">全部表示</button>
+    <button id="hideButton" onclick="hideAll()">全非表示</button>
+    <button id="overviewButton">概要表示</button>
 
     <script>
       let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -346,12 +359,8 @@
           }
         </script>
 
-        <a-entity position="4 3.5 0.5">
-          <a-image id="move" class="clickable" src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
-          </a-image>
-        </a-entity>
-        <a-entity position="-4 3.5 0.5">
-          <a-image id="move2" class="clickable" src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
+        <a-entity position="-8 3 0">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="3 3 0" rotation="0 90 0">
           </a-image>
         </a-entity>
 
@@ -364,12 +373,9 @@
         <!-- 固有データ -->
         <a-entity class="collision" position="0 0.5 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
-        <a-entity id="destination1" position="-3 0 -23" rotation="0 180 0"></a-entity>
-        <a-entity id="destination2" position="0 0 0" rotation="0 0 0"></a-entity>
-        <a-entity id="destination3" position="-3 0 -15" rotation="0 0 0"></a-entity>
-        <a-entity id="destination4" position="-3 0 -23" rotation="0 180 0"></a-entity>
-        <a-entity id="destination5" position="-3 0 -7" rotation="0 0 0"></a-entity>
-
+        <a-entity id="destination1" position="-3 0 -15" rotation="0 0 0"></a-entity>
+        <a-entity id="destination2" position="-3 0 -23" rotation="0 180 0"></a-entity>
+        <a-entity id="destination3" position="-3 0 -7" rotation="0 0 0"></a-entity>
       </a-entity>
 
       <!-- scene geometry -->
@@ -474,6 +480,37 @@
       cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion); 
     }
 
+    function showAll() {
+        modelsToSpawn1.forEach(index => {
+            if (!modelAdded[index] || !imageAdded[index]) {
+                window[`Spawn${index}`]();
+                if (!imageAdded[index]) {
+                    window[`Spawn${index}`]();
+                }
+            }
+        });
+        modelsToSpawn2.forEach(index => {
+            if (!imageAdded[index]) {
+                window[`Spawn${index}`]();
+            }
+        });
+    }
+
+    function hideAll() {
+        modelsToSpawn1.forEach(index => {
+            if (modelAdded[index] && !imageAdded[index]) {
+                window[`Spawn${index}`]();
+                window[`Spawn${index}`]();
+            } else if (imageAdded[index]) {
+                window[`Spawn${index}`]();
+            }
+        });
+        modelsToSpawn2.forEach(index => {
+            if (imageAdded[index]) {
+                window[`Spawn${index}`]();
+            }
+        });
+    }
     </script>
 
     <script>
