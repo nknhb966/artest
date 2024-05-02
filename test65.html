@@ -15,6 +15,7 @@
       let imageAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
       const sizeMultiplier = 15;
+      const bottomLoation = 0.1;
 
       function spawnImageOnly(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingImage = document.querySelector(`.spawned-image${i}`);
@@ -228,7 +229,7 @@
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
       <!-- ui element -->
-      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
+      <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 ${bottomLocation + 0.8} -0.5" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
       <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
       <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.8 2.2" material="color: aqua"></a-entity>
@@ -252,7 +253,6 @@
       </script>
 
       <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
-      <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
       <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
       <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
@@ -323,6 +323,7 @@
         <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12.glb"></a-asset-item>
         <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14.glb"></a-asset-item>
       </a-assets>
+      <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
 
       <!-- player -->
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
