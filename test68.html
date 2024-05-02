@@ -123,8 +123,6 @@
         }
     }
 
-    const pinchThreshold = 2;
-
     function onTouchMove(event) {
         // if (isModalVisible) {
         //     return;
@@ -161,10 +159,10 @@
             var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
             var distanceDiff = currentDistance - initialDistance;
 
-            if (currentDistance - pinchThreshold > initialDistance) {
-                cameraRig.object3D.position.y -= 0.1;
-            } else if (currentDistance + pinchThreshold < initialDistance) {
-                cameraRig.object3D.position.y += 0.1;
+            if (currentDistance > initialDistance) {
+                cameraRig.object3D.position.y -= 0.005;
+            } else if (currentDistance < initialDistance) {
+                cameraRig.object3D.position.y += 0.005;
             }
 
             initialDistance = currentDistance;
