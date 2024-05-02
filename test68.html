@@ -39,8 +39,6 @@
 
       <!-- player -->
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
-        <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="enabled: false"></a-entity> -->
-        <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> -->
         <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity>
         <a-entity
           laser-controls="hand: left"
@@ -94,191 +92,103 @@
         cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion);
       });
     </script>
+
     <script>
-// 方位角取得 
-let degrees = 0;
-
-const init = () => {
-    var lastTouchEnd = 0;
-    document.addEventListener('touchstart', onTouchStart, { passive: false });
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-    document.addEventListener('touchend', function (event) {
-        var now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, false);
-};
-
-function onTouchStart(event) {
-    // if (isModalVisible) {
-    //     return;
-    // }
-    if (event.touches.length == 1) {
-        touchStartX = event.touches[0].clientX;
-        touchStartY = event.touches[0].clientY;
-    }
-    else if (event.touches.length == 2) {
-        var touch1 = event.touches[0];
-        var touch2 = event.touches[1];
-        initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-        initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
-    }
-}
-
-const pinchThreshold = 2;
-
-function onTouchMove(event) {
-    // if (isModalVisible) {
-    //     return;
-    // }
-
-    const cameraRig = document.getElementById('cameraRig');
-
-    if (event.touches.length == 1) {
-        event.preventDefault();
-        
-        var touchX = event.touches[0].clientX;
-        var touchY = event.touches[0].clientY;
-
-        var deltaX = touchX - touchStartX;
-        var deltaY = touchY - touchStartY;
-
-        let rad = 0;
-        rad = parseInt(currentrotation) * Math.PI / 180;
-      
-        const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
-        const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
-
-        cameraRig.object3D.position.x -= newX * 0.012;
-        cameraRig.object3D.position.z -= newY * 0.012;
-
-        touchStartX = touchX;
-        touchStartY = touchY;
-    }
-    else if (event.touches.length == 2) {
-        event.preventDefault();
-
-        var touch1 = event.touches[0];
-        var touch2 = event.touches[1];
-        var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-        var distanceDiff = currentDistance - initialDistance;
-
-        if (currentDistance - pinchThreshold > initialDistance) {
-            cameraRig.object3D.position.y -= 0.1;
-        } else if (currentDistance + pinchThreshold < initialDistance) {
-            cameraRig.object3D.position.y += 0.1;
-        }
-
-        initialDistance = currentDistance;
-    }
-}
-
-init();
-
-let alphaStart = null; // 初期のalpha値を保持する変数
-let currentrotation
-
-window.addEventListener('deviceorientation', function(event) {
-    if (alphaStart === null) {
-        alphaStart = event.alpha;
-    }
-    currentrotation = event.alpha - alphaStart;
-
-});
-
-window.addEventListener('deviceorientation', function(event) {
-    currentrotation = event.alpha - alphaStart;
-});
-
-// OS識別
-let os;
-
-window.addEventListener("DOMContentLoaded", initOS);
-
-function initOS() {
-    os = detectOSSimply();
-    if (os == "iphone") {
-        permitDeviceOrientationForSafari();
-        window.addEventListener(
-            "deviceorientation",
-            handleOrientation,
-            true
-        );
-    } else {
-        window.addEventListener(
-            "deviceorientationabsolute",
-            handleOrientation,
-            true
-        );
-    }
-}
-
-function handleOrientation(event) {
-  let alpha = event.alpha;
-  if(os == "iphone") {
-    // degrees = compassHeading(alpha);
-    degrees = event.webkitCompassHeading;
-  }else{
-    degrees = compassHeading(alpha);
-  }
-  if(window.orientation !== undefined) {
-      orientation = window.orientation;
-  }
-  else {
-      orientation = 0;
-  }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + parseInt(degrees) + " : " + parseInt(currentrotation);
-}
-
-function compassHeading(alpha) {
-    var degtorad = Math.PI / 180;
-    var _z = alpha ? alpha * degtorad : 0;
-    var cZ = Math.cos(_z);
-    var sZ = Math.sin(_z);
-    var compassHeading = Math.atan(-sZ / cZ);
-    if (cZ < 0) {
-        compassHeading += Math.PI;
-    } else if (-sZ < 0) {
-        compassHeading += 2 * Math.PI;
-    }
-    return compassHeading * (180 / Math.PI);
-}
-
-function detectOSSimply() {
-    let ret;
-    if (
-        navigator.userAgent.indexOf("iPhone") > 0 ||
-        navigator.userAgent.indexOf("iPad") > 0 ||
-        navigator.userAgent.indexOf("iPod") > 0
-    ) {
-        ret = "iphone";
-    } else if (navigator.userAgent.indexOf("Android") > 0) {
-        ret = "android";
-    } else {
-        ret = "pc";
-    }
-    return ret;
-}
-
-function permitDeviceOrientationForSafari() {
-    DeviceOrientationEvent.requestPermission()
-        .then(response => {
-            if (response === "granted") {
-                window.addEventListener(
-                    "deviceorientation",
-                    detectDirection
-                );
+    const init = () => {
+        var lastTouchEnd = 0;
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
             }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
+            lastTouchEnd = now;
+        }, false);
+    };
+
+    function onTouchStart(event) {
+        // if (isModalVisible) {
+        //     return;
+        // }
+        if (event.touches.length == 1) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        }
+        else if (event.touches.length == 2) {
+            var touch1 = event.touches[0];
+            var touch2 = event.touches[1];
+            initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+            initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+        }
+    }
+
+    const pinchThreshold = 2;
+
+    function onTouchMove(event) {
+        // if (isModalVisible) {
+        //     return;
+        // }
+
+        const cameraRig = document.getElementById('cameraRig');
+
+        if (event.touches.length == 1) {
+            event.preventDefault();
+            
+            var touchX = event.touches[0].clientX;
+            var touchY = event.touches[0].clientY;
+
+            var deltaX = touchX - touchStartX;
+            var deltaY = touchY - touchStartY;
+
+            let rad = 0;
+            rad = parseInt(currentrotation) * Math.PI / 180;
+          
+            const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
+            const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+
+            cameraRig.object3D.position.x -= newX * 0.012;
+            cameraRig.object3D.position.z -= newY * 0.012;
+
+            touchStartX = touchX;
+            touchStartY = touchY;
+        }
+        else if (event.touches.length == 2) {
+            event.preventDefault();
+
+            var touch1 = event.touches[0];
+            var touch2 = event.touches[1];
+            var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+            var distanceDiff = currentDistance - initialDistance;
+
+            if (currentDistance - pinchThreshold > initialDistance) {
+                cameraRig.object3D.position.y -= 0.1;
+            } else if (currentDistance + pinchThreshold < initialDistance) {
+                cameraRig.object3D.position.y += 0.1;
+            }
+
+            initialDistance = currentDistance;
+        }
+    }
+
+    init();
+
+    let alphaStart = null; // 初期のalpha値を保持する変数
+    let currentrotation
+
+    window.addEventListener('deviceorientation', function(event) {
+        if (alphaStart === null) {
+            alphaStart = event.alpha;
+        }
+        currentrotation = event.alpha - alphaStart;
+
+    });
+
+    window.addEventListener('deviceorientation', function(event) {
+        currentrotation = event.alpha - alphaStart;
+        document.querySelector("#direction").innerHTML = "【確認用】" + parseInt(currentrotation);
+    });
 
     </script>
-
-
   </body>
 </html>
