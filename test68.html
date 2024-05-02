@@ -169,7 +169,6 @@ function onTouchMove(event) {
     // }
 
     const cameraRig = document.getElementById('cameraRig');
-    const currentPosition = cameraRig.getAttribute('position');
 
     if (event.touches.length == 1) {
         event.preventDefault();
@@ -181,16 +180,13 @@ function onTouchMove(event) {
         var deltaY = touchY - touchStartY;
 
         let rad = 0;
-        rad = parseInt(degrees) * Math.PI / 180;
+        // rad = parseInt(degrees) * Math.PI / 180;
       
         const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
         const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-        cameraRig.setAttribute('position', {
-            x: currentPosition.x + newX * 0.012,
-            y: currentPosition.y,
-            z: currentPosition.z + newY * 0.012
-        });
+        // cameraRig.object3D.position.x += newX * 0.012;
+        cameraRig.object3D.position.z += newY * 0.012;
 
         touchStartX = touchX;
         touchStartY = touchY;
@@ -211,7 +207,7 @@ function onTouchMove(event) {
         }
 
         var angleChange = currentAngle - initialAngle;
-        cameraRig.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+        cameraRig.object3D.rotation.y = -angleChange * Math.PI / 180 * 1;
 
         initialDistance = currentDistance;
         initialAngle = currentAngle;
