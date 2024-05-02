@@ -9,32 +9,17 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
     <style>
-      #moveRight {
-        position: absolute;
-        z-index: 9999;
-        top: 20px;
-        left: 20px;
-      }
-      #moveLeft {
-        position: absolute;
-        z-index: 9999;
-        top: 20px;
-        left: 120px;
-      }
       #compassHeadingDisplay {
         position: fixed;
-        top: 50px;
+        top: 10px;
         left: 10px;
-        color: white;
+        /*color: white;*/
         z-index: 10000;
       }
     </style>
   </head>
 
   <body>
-    <button id="moveRight">Move Right</button>
-    <button id="moveLeft">Move Left</button>
-
     <div id="compassHeadingDisplay">
         <span id="direction"></span>
     </div>
@@ -56,6 +41,7 @@
       <!-- player -->
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
         <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="enabled: false"></a-entity> -->
+        <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> -->
         <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity>
         <a-entity
           laser-controls="hand: left"
@@ -110,26 +96,6 @@
       });
     </script>
     <script>
-      const moveRight = document.getElementById('moveRight');
-      const moveLeft = document.getElementById('moveLeft');
-
-      moveRight.addEventListener('click', () => {
-        const currentPosition = cameraRig.getAttribute('position');
-        cameraRig.setAttribute('position', {
-          x: currentPosition.x + 1,
-          y: currentPosition.y,
-          z: currentPosition.z
-        });
-      });
-      moveLeft.addEventListener('click', () => {
-        const currentPosition = cameraRig.getAttribute('position');
-        cameraRig.setAttribute('position', {
-          x: currentPosition.x - 1,
-          y: currentPosition.y,
-          z: currentPosition.z
-        });
-      });
-
 // 方位角取得 
 let degrees = 0;
 
@@ -199,7 +165,6 @@ function onTouchMove(event) {
         var touch2 = event.touches[1];
         var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
         var distanceDiff = currentDistance - initialDistance;
-        var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
 
         if (currentDistance - pinchThreshold > initialDistance) {
             cameraRig.object3D.position.y -= 0.1;
@@ -207,11 +172,7 @@ function onTouchMove(event) {
             cameraRig.object3D.position.y += 0.1;
         }
 
-        var angleChange = currentAngle - initialAngle;
-        cameraRig.object3D.rotation.y = -angleChange * Math.PI / 180 * 1;
-
         initialDistance = currentDistance;
-        initialAngle = currentAngle;
     }
 }
 
