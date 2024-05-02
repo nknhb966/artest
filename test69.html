@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>国府発掘プロジェクト3D化Test3</title>
+<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+<style>
+.reload-button {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  top: 10px;
+  left: 10px;
+  z-index: 10000;
+}
+#moveButton1 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#moveButton2 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 60px;
+  left: 25%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#moveButton3 {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 60px;
+  left: 75%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#showButton {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 25%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#hideButton {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+#overviewButton {
+  position: fixed;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  font-size: 16px;
+  bottom: 10px;
+  left: 75%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#overviewTitle {
+  font-weight: bold;  
+}
+#overviewImage {
+  width: 100%;
+  height: auto;
+  padding-top: 8px;
+}
+#overviewUrl {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+#overviewUrl:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+    <button class="reload-button" onclick="location.reload()">Reload</button>
+    <button id="moveButton1" onclick="moveLocation(destination1)">中央移動</button>
+    <button id="moveButton2" onclick="moveLocation(destination2)">北側移動</button>
+    <button id="moveButton3" onclick="moveLocation(destination3)">南側移動</button>
+    <button id="showButton" onclick="showAll()">全部表示</button>
+    <button id="hideButton" onclick="hideAll()">全非表示</button>
+    <button id="overviewButton">概要表示</button>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="overviewTitle"></div>
+        <div id="overviewSubtitle"></div>
+        <div id="overviewDescription"></div>
+        <img id="overviewImage" src="" alt="Overview Image">
+        <a id="overviewUrl" href="#" target="_blank">詳細を見る</a>
+      </div>
+    </div>
+
+    <script>
+      // locations.csvのパス
+      const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
+
+      // CSVファイルを取得する関数
+      async function fetchLocations() {
+          try {
+              const response = await fetch(locationsFilePath);
+              const data = await response.text();
+              const locations = parseCSV(data);
+              createModal(locations);
+          } catch (error) {
+              console.error('Error fetching locations:', error);
+          }
+      }
+
+      // CSVパース関数
+      function parseCSV(csvData) {
+          const lines = csvData.split('\n');
+          const result = [];
+          const headers = lines[0].split(',');
+          for (let i = 1; i < lines.length; i++) {
+              if (lines[i].trim() === '') {
+                  continue;
+              }
+              const obj = {};
+              const currentline = lines[i].split(',');
+              for (let j = 0; j < headers.length; j++) {
+                  obj[headers[j].trim()] = currentline[j].trim();
+              }
+              result.push(obj);
+          }
+          return result;
+      }
+
+      // createModal関数を修正してselectedLocationを受け取る
+      function createModal(locations) {
+          // モデルに関連する情報を表示
+          document.getElementById('overviewButton').addEventListener('click', function() {
+              const selectedLocation = locations[0];
+              document.getElementById('overviewTitle').innerText = selectedLocation.title;
+              document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
+              document.getElementById('overviewDescription').innerText = selectedLocation.description;
+              document.getElementById('overviewImage').src = selectedLocation.image;
+              document.getElementById('overviewUrl').href = selectedLocation.url;
+          });
+      }
+
+      fetchLocations();
+
+      // ボタンをクリックしたらモーダルを表示する処理
+      document.getElementById("overviewButton").addEventListener("click", function() {
+        document.getElementById("modal").style.display = "block";
+      });
+
+      // モーダルの閉じるボタンをクリックしたらモーダルを非表示にする処理
+      document.getElementsByClassName("close")[0].addEventListener("click", function() {
+        document.getElementById("modal").style.display = "none";
+      });
+
+      // モーダル外をクリックしたらモーダルを非表示にする処理
+      window.addEventListener("click", function(event) {
+        if (event.target == document.getElementById("modal")) {
+          document.getElementById("modal").style.display = "none";
+        }
+      });
+
+      let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+      let imageAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+
+      const sizeMultiplier = 12;
+
+      function spawnImageOnly(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
+          const existingImage = document.querySelector(`.spawned-image${i}`);
+          const lineElement = document.getElementById(`line${i}`);
+
+          if (!imageAdded[i]) {
+              // 画像を追加
+              spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
+              imageAdded[i] = true;
+              const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
+              const clickablePosition = clickableElement.getAttribute('position');
+              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
+              // 線の始点と終点の座標を設定
+              setTimeout(() => {
+                  lineElement.setAttribute('line', {
+                      start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
+                      end: `${clickablePosition.x + finalPositionImage.x/sizeMultiplier} ${clickablePosition.y + finalPositionImage.y/sizeMultiplier - finalScaleImage.y/(2 * sizeMultiplier)} ${clickablePosition.z + finalPositionImage.z/sizeMultiplier}`
+                  });
+              }, 2000);
+          } else {
+              // 画像を削除
+              if (existingImage) {
+                  existingImage.parentNode.removeChild(existingImage);
+              }
+              // 線の始点と終点の削除
+              if (lineElement) {
+                  lineElement.removeAttribute('line');
+              }
+              imageAdded[i] = false;
+          }
+      }
+
+      function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, inv, imageUrl) {
+          const existingModel = document.querySelector(`.spawned-model${i}`);
+          const existingImage = document.querySelector(`.spawned-image${i}`);
+          const lineElement = document.getElementById(`line${i}`);
+
+          if (!modelAdded[i] && !imageAdded[i]) {
+              // モデルを追加
+              spawnModel(i, finalScaleModel);
+              modelAdded[i] = true;
+          } else if (modelAdded[i] && !imageAdded[i]) {
+              // 画像を追加
+              spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
+              imageAdded[i] = true;
+              const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
+              const clickablePosition = clickableElement.getAttribute('position');
+              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
+              // 線の始点と終点の座標を設定
+              setTimeout(() => {
+                  lineElement.setAttribute('line', {
+                      start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
+                      end: `${clickablePosition.x + finalPositionImage.x/sizeMultiplier} ${clickablePosition.y + finalPositionImage.y/sizeMultiplier - finalScaleImage.y/(2 * sizeMultiplier)} ${clickablePosition.z + finalPositionImage.z/sizeMultiplier}`
+                  });
+              }, 2000);
+          } else {
+              // モデルを削除
+              if (existingModel) {
+                  existingModel.parentNode.removeChild(existingModel);
+              }
+              // 画像を削除
+              if (existingImage) {
+                  existingImage.parentNode.removeChild(existingImage);
+              }
+              // 線の始点と終点の削除
+              if (lineElement) {
+                  lineElement.removeAttribute('line');
+              }
+              modelAdded[i] = false;
+              imageAdded[i] = false;
+          }
+      }
+
+      function spawnBoxImage(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
+          const existingModel = document.querySelector(`.spawned-model${i}`);
+          const existingImage = document.querySelector(`.spawned-image${i}`);
+          const boxElement = document.getElementById(`box${i}`);
+          const boxtextElement = document.getElementById(`boxtext${i}`);
+          const lineElement = document.getElementById(`line${i}`);
+
+          if (!modelAdded[i] && !imageAdded[i]) {
+              // Boxを追加
+              spawnBox(i);
+              modelAdded[i] = true;
+          } else if (modelAdded[i] && !imageAdded[i]) {
+              // 画像を追加
+              spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
+              imageAdded[i] = true;
+              const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
+              const clickablePosition = clickableElement.getAttribute('position');
+              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
+              // 線の始点と終点の座標を設定
+              setTimeout(() => {
+                  lineElement.setAttribute('line', {
+                      start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
+                      end: `${clickablePosition.x + finalPositionImage.x/sizeMultiplier} ${clickablePosition.y + finalPositionImage.y/sizeMultiplier - finalScaleImage.y/(2 * sizeMultiplier)} ${clickablePosition.z + finalPositionImage.z/sizeMultiplier}`
+                  });
+              }, 2000);
+          } else {
+              // Boxを削除
+              if (existingModel) {
+                  boxElement.setAttribute('visible', 'false');
+                  boxtextElement.setAttribute('visible', 'false');
+              }
+              // 画像を削除
+              if (existingImage) {
+                  existingImage.parentNode.removeChild(existingImage);
+              }
+              // 線の始点と終点の削除
+              if (lineElement) {
+                  lineElement.removeAttribute('line');
+              }
+              modelAdded[i] = false;
+              imageAdded[i] = false;
+          }
+      }
+
+      function spawnImage(i, finalPosition, finalScale, inv, imageUrl) {
+          const existingImage = document.querySelector(`.spawned-image${i}`);
+          if (existingImage) {
+              existingImage.parentNode.removeChild(existingImage);
+              return;
+          }
+
+          // 親要素を作成
+          const parentEntity = document.createElement('a-entity');
+          
+          // 画像を作成
+          const image = document.createElement('a-image');
+          image.classList.add(`spawned-image${i}`);
+          image.setAttribute('src', imageUrl);
+          if (inv == 0 ){
+            image.setAttribute('rotation', '0 0 0');
+          } else if (inv == 90) {
+            image.setAttribute('rotation', '0 90 0');
+          } else if (inv == -90) {
+            image.setAttribute('rotation', '0 -90 0');
+          } else {
+            image.setAttribute('rotation', '0 180 0');
+          }
+          image.setAttribute('animation__position', `property: position; to: ${finalPosition.x} ${finalPosition.y} ${finalPosition.z}; dur: 2000; easing: easeInOutQuad`);
+          image.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
+
+          // 親子関係を設定
+          parentEntity.appendChild(image);
+
+          // 画像を追加する場所を決定
+          const clickableElements = document.querySelectorAll('.clickable');
+          if (clickableElements[i - 1]) {
+              clickableElements[i - 1].appendChild(parentEntity);
+          } else {
+              console.error('Clickable element not found for image');
+          }
+      }
+
+      function spawnModel(i, finalScale) {
+        const model = document.createElement('a-entity');
+        model.classList.add(`spawned-model${i}`);
+        model.setAttribute('gltf-model', `#model-asset${i}`);
+        model.setAttribute('animation__position', 'property: position; to: 0 5 0; dur: 2000; easing: easeInOutQuad');
+        model.setAttribute('scale', '0 0 0');
+        model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
+        model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
+
+        const clickableElements = document.querySelectorAll('.clickable');
+        if (clickableElements[i - 1]) {
+          clickableElements[i - 1].appendChild(model);
+        } else {
+          console.error('Clickable element not found for model');
+        }
+      }
+
+      function spawnBox(i) {
+        const boxElement = document.getElementById(`box${i}`);
+        const boxtextElement = document.getElementById(`boxtext${i}`);
+        boxElement.classList.add(`spawned-model${i}`);
+        boxElement.setAttribute('visible', 'true');
+        boxtextElement.setAttribute('visible', 'true');
+      }
+
+      for (let i = 1; i <= 16; i++) {
+        AFRAME.registerComponent(`spawn-sphere${i}`, {
+          init: function () {
+            this.el.addEventListener('click', () => {
+              window[`Spawn${i}`]();
+            });
+          }
+        });
+      }
+
+      const baseUrl = "https://echizencity.github.io/opendata/kokufuhakkutsu/";
+
+      function Spawn1(){spawnBoxImage(1, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20100_kokufuhakkutsu.png");}
+      function Spawn2(){spawnModelImage(2, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 1.2 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "20200_kokufuhakkutsu.png");}
+      function Spawn3(){spawnBoxImage(3, { x: 0.3 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20300_kokufuhakkutsu.png");}
+      function Spawn4(){spawnModelImage(4, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: -0.2 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "20400_kokufuhakkutsu.png");}
+      function Spawn5(){spawnImageOnly(5, { x: -0.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20500_kokufuhakkutsu.png");}
+      function Spawn6(){spawnImageOnly(6, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20600_kokufuhakkutsu.png");}
+      function Spawn7(){spawnImageOnly(7, { x: 0.7 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -3.3 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "20700_kokufuhakkutsu.png");}
+      function Spawn8(){spawnImageOnly(8, { x: 1.4 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -1.5 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, -90, baseUrl + "20800_kokufuhakkutsu.png");}
+      function Spawn9(){spawnModelImage(9, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 2 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, -90, baseUrl + "20900_kokufuhakkutsu.png");}
+      function Spawn10(){spawnImageOnly(10, { x: -1 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -0.7 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 90, baseUrl + "21000_kokufuhakkutsu.png");}
+      function Spawn11(){spawnModelImage(11, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 0.8 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21100_kokufuhakkutsu.png");}
+      function Spawn12(){spawnModelImage(12, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: 1.05 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21200_kokufuhakkutsu.png");}
+      function Spawn13(){spawnImageOnly(13, { x: 2 * sizeMultiplier, y: 1.25 * sizeMultiplier, z: 1.55 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21300_kokufuhakkutsu.png");}
+      function Spawn14(){spawnModelImage(14, { x: 2 * sizeMultiplier, y: 2 * sizeMultiplier, z: 2 * sizeMultiplier }, { x: 0.5 * sizeMultiplier, y: 1.1 * sizeMultiplier, z: 1.55 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 180, baseUrl + "21400_kokufuhakkutsu.png");}
+      function Spawn15(){spawnImageOnly(15, { x: 0 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -0.7 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0,  baseUrl + "21500_kokufuhakkutsu.png");}
+      function Spawn16(){spawnImageOnly(16, { x: -0.9 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "21600_kokufuhakkutsu.png");}
+
+    </script>
+
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false">
+      <a-entity id="container" position="-2 -0.5 -15" rotation="0 -90 0" visible="false">
+
+        <!-- ui element -->
+        <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.8 2.2" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" position="-3.3 0.8 0" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" position="2 0.8 0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" position="7.1 0.8 1.7" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" position="-7.1 0.8 3.1" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" position="-6.65 0.8 2.45" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" position="5.2 0.75 1.45" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" position="5.2 0.9 1.45" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" position="7.6 0.8 -0.8" material="color: white"></a-entity>
+        <script>
+          const sphereScale = (1 / sizeMultiplier) + " " + (1 / sizeMultiplier) + " " + (1 / sizeMultiplier);
+          document.querySelectorAll('.clickable').forEach((element, index) => {
+            element.setAttribute('scale', sphereScale);
+          });
+        </script>
+
+        <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+
+        <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.8 -0.5" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.8 2.2" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.8 -0.9" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset6" scale="0.15 0.15 0.15" position="-2.8 0.8 0" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset7" scale="0.15 0.15 0.15" position="2.8 0.8 0.5" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset8" scale="0.15 0.15 0.15" position="7.1 0.8 2.1" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="6.1 0.8 2.0" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.8 2.9" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.8 2.7" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.0 0.8 2.45" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.75 1.35" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.9 1.55" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
+
+        <script>
+          for (let i = 1; i <= 16; i++) {
+            document.write(`<a-entity id="line${i}"></a-entity>`);
+          }
+        </script>
+
+        <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 1.5 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+        <a-entity id="boxtext1" gltf-model="#text-asset1" position="1.9 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 1.5 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+        <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+        <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+
+
+        <!-- 固有データ -->
+        <a-entity class="collision" position="0 0.5 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity>
+
+        <a-entity id="destination1" position="-3 0 -15" rotation="0 0 0"></a-entity>
+        <a-entity id="destination2" position="-3 0 -23" rotation="0 0 0"></a-entity>
+        <a-entity id="destination3" position="-3 0 -7" rotation="0 0 0"></a-entity>
+      </a-entity>
+
+      <!-- scene geometry -->
+      <a-assets>
+          <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+          <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
+          <a-asset-item id="text-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+          <a-asset-item id="text-asset3" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text03.glb"></a-asset-item>
+          <a-asset-item id="text-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text04.glb"></a-asset-item>
+          <a-asset-item id="text-asset5" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
+          <a-asset-item id="text-asset6" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
+          <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
+          <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
+          <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+          <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
+          <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
+          <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+          <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
+          <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
+          <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+          <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+
+          <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02.glb"></a-asset-item>
+          <a-asset-item id="model-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model04.glb"></a-asset-item>
+          <a-asset-item id="model-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model09.glb"></a-asset-item>
+          <a-asset-item id="model-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model11.glb"></a-asset-item>
+          <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12.glb"></a-asset-item>
+          <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- player -->
+      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
+        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity>
+
+        <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> -->
+        <a-entity
+          laser-controls="hand: left"
+          raycaster="objects: .clickable; far: 100"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+        <a-entity
+          laser-controls="hand: right"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+      </a-entity>
+    </a-scene>
+
+    <script>
+    const cameraRig = document.getElementById('cameraRig');
+    const move = document.getElementById('move');
+    const destination = document.getElementById('destination');
+    const modelsToSpawn1 = [1, 2, 3, 4, 9, 11, 12, 14];
+    const modelsToSpawn2 = [5, 6, 7, 8, 10, 13, 15, 16];
+
+    function moveLocation(destination) {
+      const cursorTeleport = cameraRig.components['cursor-teleport'];
+      cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion); 
+    }
+
+    function showAll() {
+        modelsToSpawn1.forEach(index => {
+            if (!modelAdded[index] || !imageAdded[index]) {
+                window[`Spawn${index}`]();
+                if (!imageAdded[index]) {
+                    window[`Spawn${index}`]();
+                }
+            }
+        });
+        modelsToSpawn2.forEach(index => {
+            if (!imageAdded[index]) {
+                window[`Spawn${index}`]();
+            }
+        });
+    }
+
+    function hideAll() {
+        modelsToSpawn1.forEach(index => {
+            if (modelAdded[index] && !imageAdded[index]) {
+                window[`Spawn${index}`]();
+                window[`Spawn${index}`]();
+            } else if (imageAdded[index]) {
+                window[`Spawn${index}`]();
+            }
+        });
+        modelsToSpawn2.forEach(index => {
+            if (imageAdded[index]) {
+                window[`Spawn${index}`]();
+            }
+        });
+    }
+    </script>
+
+    <script>
+    const init = () => {
+        var lastTouchEnd = 0;
+        var lastTouchStart = 0;
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd, false);
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    };
+
+    let isTwoFingerTouch = false; // 2本指でタッチしているかどうかのフラグ
+
+    function onTouchStart(event) {
+        // if (isModalVisible) {
+        //     return;
+        // }
+        var now = (new Date()).getTime(); // タッチが開始された時間を取得
+        lastTouchStart = now; // 最後のタッチ開始時間を更新
+        if (event.touches.length == 1) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        }
+        else if (event.touches.length == 2) {
+            isTwoFingerTouch = true;
+            var touch1 = event.touches[0];
+            var touch2 = event.touches[1];
+            initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+            initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+        }
+    }
+
+    function onTouchEnd(event) {
+        if (event.touches.length == 0) {
+            isTwoFingerTouch = false; // 2本指でのタッチを解除
+        }
+    }
+
+    function onTouchMove(event) {
+        // if (isModalVisible) {
+        //     return;
+        // }
+
+        const cameraRig = document.getElementById('cameraRig');
+
+        if (event.touches.length == 1 && !isTwoFingerTouch) {
+            event.preventDefault();
+            
+            var touchX = event.touches[0].clientX;
+            var touchY = event.touches[0].clientY;
+
+            var deltaX = touchX - touchStartX;
+            var deltaY = touchY - touchStartY;
+
+            let rad = 0;
+            rad = parseInt(currentrotation) * Math.PI / 180;
+          
+            const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
+            const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+
+            cameraRig.object3D.position.x -= newX * 0.005;
+            cameraRig.object3D.position.z -= newY * 0.005;
+
+            touchStartX = touchX;
+            touchStartY = touchY;
+        }
+        else if (event.touches.length == 2) {
+            event.preventDefault();
+
+            var touch1 = event.touches[0];
+            var touch2 = event.touches[1];
+            var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+            var distanceDiff = currentDistance - initialDistance;
+
+            if (currentDistance > initialDistance) {
+                cameraRig.object3D.position.y -= 0.01;
+            } else if (currentDistance < initialDistance) {
+                cameraRig.object3D.position.y += 0.01;
+            }
+
+            initialDistance = currentDistance;
+        }
+    }
+
+    init();
+
+    let alphaStart = null; // 初期のalpha値を保持する変数
+    let currentrotation
+
+    window.addEventListener('deviceorientation', function(event) {
+        if (alphaStart === null) {
+            alphaStart = event.alpha;
+        }
+        currentrotation = event.alpha - alphaStart;
+
+    });
+
+    window.addEventListener('deviceorientation', function(event) {
+        currentrotation = event.alpha - alphaStart;
+    });
+
+    </script>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showModel);
+            }
+        }
+
+        function showModel(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            
+            // Check if coordinates are within the specified range
+            var inRange = checkRange(latitude, longitude);
+            if (inRange) {
+              document.getElementById("container").setAttribute("visible", "true");
+            } else {
+              document.getElementById("container").setAttribute("visible", "false");
+            }
+        }
+
+        function checkRange(lat, lon) {
+            var targetLat = 35.905512;
+            var targetLon = 136.166730;
+            var range = 1.0005; // Adjust this value for your desired range
+
+            if (Math.abs(lat - targetLat) <= range && Math.abs(lon - targetLon) <= range) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        getLocation();
+    </script>
+</body>
+</html>
