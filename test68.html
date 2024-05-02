@@ -160,9 +160,9 @@
             var distanceDiff = currentDistance - initialDistance;
 
             if (currentDistance > initialDistance) {
-                cameraRig.object3D.position.y -= 0.005;
+                cameraRig.object3D.position.y -= 0.01;
             } else if (currentDistance < initialDistance) {
-                cameraRig.object3D.position.y += 0.005;
+                cameraRig.object3D.position.y += 0.01;
             }
 
             initialDistance = currentDistance;
