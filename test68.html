@@ -147,7 +147,7 @@ function onTouchMove(event) {
         var deltaY = touchY - touchStartY;
 
         let rad = 0;
-        // rad = parseInt(degrees) * Math.PI / 180;
+        rad = parseInt(currentrotation) * Math.PI / 180;
       
         const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
         const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
@@ -177,6 +177,21 @@ function onTouchMove(event) {
 }
 
 init();
+
+let alphaStart = null; // 初期のalpha値を保持する変数
+let currentrotation
+
+window.addEventListener('deviceorientation', function(event) {
+    if (alphaStart === null) {
+        alphaStart = event.alpha;
+    }
+    currentrotation = event.alpha - alphaStart;
+
+});
+
+window.addEventListener('deviceorientation', function(event) {
+    currentrotation = event.alpha - alphaStart;
+});
 
 // OS識別
 let os;
@@ -215,7 +230,7 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + parseInt(degrees);
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + parseInt(degrees) + " : " + parseInt(currentrotation) + " : " + parseInt(alphaStart);
 }
 
 function compassHeading(alpha) {
