@@ -8,21 +8,11 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
     <style>
-      #compassHeadingDisplay {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        /*color: white;*/
-        z-index: 10000;
-      }
+
     </style>
   </head>
 
   <body>
-    <div id="compassHeadingDisplay">
-        <span id="direction"></span>
-    </div>
-
     <script>
       AFRAME.registerComponent('color-change', {
         init: function(){
@@ -197,7 +187,6 @@
 
     window.addEventListener('deviceorientation', function(event) {
         currentrotation = event.alpha - alphaStart;
-        document.querySelector("#direction").innerHTML = "【確認用】" + parseInt(currentrotation);
     });
 
     </script>
