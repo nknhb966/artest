@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -149,8 +148,8 @@ function onTouchMove(event) {
         let rad = 0;
         rad = parseInt(currentrotation) * Math.PI / 180;
       
-        const newX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad);
-        const newY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+        const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
+        const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
         cameraRig.object3D.position.x -= newX * 0.012;
         cameraRig.object3D.position.z -= newY * 0.012;
@@ -230,7 +229,7 @@ function handleOrientation(event) {
   else {
       orientation = 0;
   }
-  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + parseInt(degrees) + " : " + parseInt(currentrotation) + " : " + parseInt(alphaStart);
+  document.querySelector("#direction").innerHTML = "【確認用】" + os + " : " + parseInt(degrees) + " : " + parseInt(currentrotation);
 }
 
 function compassHeading(alpha) {
