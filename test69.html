@@ -683,8 +683,8 @@ body {
             const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
             const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
 
-            cameraRig.object3D.position.x -= newX * 0.0025;
-            cameraRig.object3D.position.z -= newY * 0.0025;
+            cameraRig.object3D.position.x -= newX * 0.002;
+            cameraRig.object3D.position.z -= newY * 0.002;
 
             touchStartX = touchX;
             touchStartY = touchY;
@@ -698,9 +698,9 @@ body {
             var distanceDiff = currentDistance - initialDistance;
 
             if (currentDistance > initialDistance) {
-                cameraRig.object3D.position.y -= 0.01;
+                cameraRig.object3D.position.y -= 0.005;
             } else if (currentDistance < initialDistance) {
-                cameraRig.object3D.position.y += 0.01;
+                cameraRig.object3D.position.y += 0.005;
             }
 
             initialDistance = currentDistance;
