@@ -86,7 +86,7 @@ body {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 10001;
   left: 0;
   top: 0;
   width: 100%;
@@ -202,20 +202,36 @@ body {
 
       fetchLocations();
 
+      // モーダルが表示されているかどうかを追跡するフラグ
+      let isModalVisible = false;
+
+      // モーダルを表示する関数
+      function showModal() {
+          isModalVisible = true;
+      }
+
+      // モーダルを非表示にする関数
+      function hideModal() {
+          isModalVisible = false;
+      }
+
       // ボタンをクリックしたらモーダルを表示する処理
       document.getElementById("overviewButton").addEventListener("click", function() {
         document.getElementById("modal").style.display = "block";
+        showModal();
       });
 
       // モーダルの閉じるボタンをクリックしたらモーダルを非表示にする処理
       document.getElementsByClassName("close")[0].addEventListener("click", function() {
         document.getElementById("modal").style.display = "none";
+        hideModal();
       });
 
       // モーダル外をクリックしたらモーダルを非表示にする処理
       window.addEventListener("click", function(event) {
         if (event.target == document.getElementById("modal")) {
           document.getElementById("modal").style.display = "none";
+          hideModal();
         }
       });
 
@@ -620,9 +636,9 @@ body {
     let isTwoFingerTouch = false; // 2本指でタッチしているかどうかのフラグ
 
     function onTouchStart(event) {
-        // if (isModalVisible) {
-        //     return;
-        // }
+        if (isModalVisible) {
+            return;
+        }
         var now = (new Date()).getTime(); // タッチが開始された時間を取得
         lastTouchStart = now; // 最後のタッチ開始時間を更新
         if (event.touches.length == 1) {
@@ -645,10 +661,9 @@ body {
     }
 
     function onTouchMove(event) {
-        // if (isModalVisible) {
-        //     return;
-        // }
-
+        if (isModalVisible) {
+            return;
+        }
         const cameraRig = document.getElementById('cameraRig');
 
         if (event.touches.length == 1 && !isTwoFingerTouch) {
