@@ -31,11 +31,6 @@ body {
   cursor: pointer;
   text-align: center;
 }
-.container-circle {
-  position: relative;
-  height: 100%;
-  z-index: 10000;
-}
 .circle {
   width: 40px;
   height: 40px;
@@ -49,6 +44,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
+  z-index: 10000;
 }
 .circle.num1 {
   top: 25%;
@@ -115,11 +111,9 @@ body {
       <div class="box" onclick="location.reload()">Reload</div>
     </div>
 
-    <div class="container-circle">
-      <div class="circle num1" onclick="moveLocation(destination2)">北</div>
-      <div class="circle num2" onclick="moveLocation(destination1)">中</div>
-      <div class="circle num3" onclick="moveLocation(destination3)">南</div>
-    </div>
+    <div class="circle num1" onclick="moveLocation(destination2)">北</div>
+    <div class="circle num2" onclick="moveLocation(destination1)">中</div>
+    <div class="circle num3" onclick="moveLocation(destination3)">南</div>
 
     <div id="modal" class="modal">
       <div class="modal-content">
