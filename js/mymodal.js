@@ -1,5 +1,5 @@
 // CSVデータのURL
-const csvURL = "https://echizencity.github.io/opendata/kokufuhakkutsu/contents.csv";
+const csvURL = "https://echizencity.github.io/opendata/kokufuhakkutsu/10000_contents.csv";
 
 // CSVファイルからデータを読み込む関数
 async function fetchData() {
