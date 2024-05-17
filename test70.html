@@ -121,6 +121,22 @@ body {
 // モデルの場所を設定
 const targetPosition = `
     <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
+        <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.8 2.2" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" position="-3.3 0.8 0" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" position="2 0.8 0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" position="7.1 0.8 1.7" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" position="-7.1 0.8 3.1" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" position="-6.65 0.8 2.45" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" position="5.2 0.65 1.45" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" position="5.2 0.8 1.45" material="color: aqua"></a-entity>
+        <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
+        <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" position="7.6 0.8 -0.8" material="color: white"></a-entity>
     <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
                            animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
     <a-entity id="arrow2" gltf-model="#arrow-asset" position="3.1 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
@@ -156,6 +172,13 @@ modelEntity.setAttribute("gps-entity-place", `latitude: 35.921642001219794; long
 // シーンに新しいa-entityを追加します。
 document.querySelector('a-scene').appendChild(modelEntity);
 
+
+    const sizeMultiplier = 9;
+
+    const sphereScale = (1 / sizeMultiplier) + " " + (1 / sizeMultiplier) + " " + (1 / sizeMultiplier);
+    document.querySelectorAll('.clickable').forEach((element, index) => {
+      element.setAttribute('scale', sphereScale);
+    });
 
       // locations.csvのパス
       const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
