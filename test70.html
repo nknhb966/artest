@@ -7,6 +7,8 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/mymodal.js"></script>
+    <link rel="stylesheet" href="css/common.css">
+
 <style>
 body {
   margin: 0;
@@ -31,7 +33,7 @@ body {
   text-align: center;
   user-select: none;
 }
-.modal {
+/*.modal {
   display: none;
   position: fixed;
   z-index: 10001;
@@ -76,7 +78,7 @@ body {
 }
 #overviewUrl:hover {
   text-decoration: underline;
-}
+}*/
 </style>
 
   </head>
@@ -190,7 +192,7 @@ const targetPosition = `
               const response = await fetch(locationsFilePath);
               const data = await response.text();
               const locations = parseCSV(data);
-              createModal(locations);
+              createModalDescription(locations);
           } catch (error) {
               console.error('Error fetching locations:', error);
           }
@@ -215,8 +217,7 @@ const targetPosition = `
           return result;
       }
 
-      // createModal関数を修正してselectedLocationを受け取る
-      function createModal(locations) {
+      function createModalDescription(locations) {
           // モデルに関連する情報を表示
           document.getElementById('overviewButton').addEventListener('click', function() {
               const selectedLocation = locations[0];
