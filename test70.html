@@ -103,22 +103,6 @@ body {
         <a-assets>
             <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
             <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
-            <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
-            <a-asset-item id="text-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-            <a-asset-item id="text-asset3" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text03.glb"></a-asset-item>
-            <a-asset-item id="text-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text04.glb"></a-asset-item>
-            <a-asset-item id="text-asset5" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
-            <a-asset-item id="text-asset6" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
-            <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
-            <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
-            <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-            <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
-            <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
-            <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-            <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
-            <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
-            <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
-            <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
         </a-assets>
 <!--         <a-entity
           id="model"
@@ -136,7 +120,7 @@ body {
 
 // モデルの場所を設定
 const targetPosition = `
-    <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+    <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
     <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
                            animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
     <a-entity id="arrow2" gltf-model="#arrow-asset" position="3.1 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
@@ -157,24 +141,6 @@ const targetPosition = `
                            animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
     <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
                            animation="property: position; to: 7.8 0.7 -0.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.8 -0.5" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.8 2.2" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.8 -0.9" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset6" scale="0.15 0.15 0.15" position="-2.8 0.8 0" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset7" scale="0.15 0.15 0.15" position="2.8 0.8 0.5" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset8" scale="0.15 0.15 0.15" position="7.1 0.8 2.1" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="6.1 0.8 2.0" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.8 2.9" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.8 2.7" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.0 0.8 2.45" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.65 1.35" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.8 1.55" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 180 0"></a-entity>
-    <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
-    <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
     `
 
 // 新しいa-entity要素を作成します。
