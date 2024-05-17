@@ -30,6 +30,52 @@ body {
   text-align: center;
   user-select: none;
 }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#overviewTitle {
+  font-weight: bold;  
+}
+#overviewImage {
+  width: 100%;
+  height: auto;
+  padding-top: 8px;
+}
+#overviewUrl {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+#overviewUrl:hover {
+  text-decoration: underline;
+}
 </style>
 
   </head>
@@ -37,9 +83,20 @@ body {
 <body style="margin: 0; overflow: hidden;">
 
     <div class="container-box">
-      <div class="box" >概要</div>
+      <div class="box" id="overviewButton">概要</div>
       <div class="box" onclick="init()">始める</div>
       <div class="box" onclick="location.reload()">再読み込み</div>
+    </div>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="overviewTitle"></div>
+        <div id="overviewSubtitle"></div>
+        <div id="overviewDescription"></div>
+        <img id="overviewImage" src="" alt="Overview Image">
+        <a id="overviewUrl" href="#" target="_blank">詳細を見る</a>
+      </div>
     </div>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false" >
@@ -60,8 +117,87 @@ body {
 
     <script>
 
+      // locations.csvのパス
+      const locationsFilePath = 'https://echizencity.github.io/opendata/kokufuhakkutsu/locations.csv';
+
+      // CSVファイルを取得する関数
+      async function fetchLocations() {
+          try {
+              const response = await fetch(locationsFilePath);
+              const data = await response.text();
+              const locations = parseCSV(data);
+              createModal(locations);
+          } catch (error) {
+              console.error('Error fetching locations:', error);
+          }
+      }
+
+      // CSVパース関数
+      function parseCSV(csvData) {
+          const lines = csvData.split('\n');
+          const result = [];
+          const headers = lines[0].split(',');
+          for (let i = 1; i < lines.length; i++) {
+              if (lines[i].trim() === '') {
+                  continue;
+              }
+              const obj = {};
+              const currentline = lines[i].split(',');
+              for (let j = 0; j < headers.length; j++) {
+                  obj[headers[j].trim()] = currentline[j].trim();
+              }
+              result.push(obj);
+          }
+          return result;
+      }
+
+      // createModal関数を修正してselectedLocationを受け取る
+      function createModal(locations) {
+          // モデルに関連する情報を表示
+          document.getElementById('overviewButton').addEventListener('click', function() {
+              const selectedLocation = locations[0];
+              document.getElementById('overviewTitle').innerText = selectedLocation.title;
+              document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
+              document.getElementById('overviewDescription').innerText = selectedLocation.description;
+              document.getElementById('overviewImage').src = selectedLocation.image;
+              document.getElementById('overviewUrl').href = selectedLocation.url;
+          });
+      }
+
+      fetchLocations();
+
       // モーダルが表示されているかどうかを追跡するフラグ
       let isModalVisible = false;
+
+      // モーダルを表示する関数
+      function showModal() {
+          isModalVisible = true;
+      }
+
+      // モーダルを非表示にする関数
+      function hideModal() {
+          isModalVisible = false;
+      }
+
+      // ボタンをクリックしたらモーダルを表示する処理
+      document.getElementById("overviewButton").addEventListener("click", function() {
+        document.getElementById("modal").style.display = "block";
+        showModal();
+      });
+
+      // モーダルの閉じるボタンをクリックしたらモーダルを非表示にする処理
+      document.getElementsByClassName("close")[0].addEventListener("click", function() {
+        document.getElementById("modal").style.display = "none";
+        hideModal();
+      });
+
+      // モーダル外をクリックしたらモーダルを非表示にする処理
+      window.addEventListener("click", function(event) {
+        if (event.target == document.getElementById("modal")) {
+          document.getElementById("modal").style.display = "none";
+          hideModal();
+        }
+      });
 
       const init = () => {
           var lastTouchEnd = 0;
