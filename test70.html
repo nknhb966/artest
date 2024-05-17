@@ -312,7 +312,7 @@ function parseCSVmodal(csvData) {
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false" >
         <a-assets>
             <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
-            <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+            <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02.glb"></a-asset-item>
         </a-assets>
 <!--         <a-entity
           id="model"
@@ -331,6 +331,7 @@ function parseCSVmodal(csvData) {
 // モデルの場所を設定
 const targetPosition = `
     <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+    <a-entity gltf-model="#model-asset2" scale="1 1 1" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
         <a-entity class="clickable" id="sphere1" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white" ></a-entity>
         <a-entity class="clickable" id="sphere2" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
         <a-entity class="clickable" id="sphere3" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
