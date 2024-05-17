@@ -199,7 +199,22 @@ body {
         }
       });
 
+      let alphaStart = null;
+      let currentrotation
+
+
       const init = () => {
+          window.addEventListener('deviceorientation', function(event) {
+              if (alphaStart === null) {
+                  alphaStart = event.alpha;
+              }
+              currentrotation = event.alpha - alphaStart;
+
+          });
+          window.addEventListener('deviceorientation', function(event) {
+              currentrotation = event.alpha - alphaStart;
+          });
+
           var lastTouchEnd = 0;
           document.addEventListener('touchstart', onTouchStart, { passive: false });
           document.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -289,20 +304,7 @@ body {
           }
       }
 
-      let alphaStart = null;
-      let currentrotation
 
-      window.addEventListener('deviceorientation', function(event) {
-          if (alphaStart === null) {
-              alphaStart = event.alpha;
-          }
-          currentrotation = event.alpha - alphaStart;
-
-      });
-
-      window.addEventListener('deviceorientation', function(event) {
-          currentrotation = event.alpha - alphaStart;
-      });
 
 
     </script>
