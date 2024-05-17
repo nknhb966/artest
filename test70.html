@@ -103,6 +103,7 @@ body {
         <a-assets>
             <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
             <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+            <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
         </a-assets>
 <!--         <a-entity
           id="model"
@@ -141,6 +142,7 @@ const targetPosition = `
                            animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
     <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
                            animation="property: position; to: 7.8 0.7 -0.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
     `
 
 // 新しいa-entity要素を作成します。
