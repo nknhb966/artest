@@ -145,6 +145,7 @@ const targetPosition = `
 
 // 新しいa-entity要素を作成します。
 const modelEntity = document.createElement('a-entity');
+modelEntity.setAttribute('id', 'model');
 
 // HTML文字列をmodelEntityにセットします。
 modelEntity.innerHTML = targetPosition;
