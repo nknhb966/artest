@@ -5,7 +5,9 @@
 <title>越前国府発掘プロジェクトAR</title>
 <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
+<script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+<script type="module" src="https://code4fukui.github.io/glb-viewer/mc-controls.js"></script>
+
 <style>
 body {
   margin: 0;
@@ -440,6 +442,10 @@ body {
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false">
 
+            <a-assets>
+                <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
+            </a-assets>
+
       <!-- scene geometry -->
       <a-assets>
           <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
@@ -469,31 +475,27 @@ body {
       </a-assets>
 
       <!-- player -->
-      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
-        <a-entity id="head" position="0 1. 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity>
-
-        <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> -->
-        <a-entity
-          laser-controls="hand: left"
-          raycaster="objects: .clickable; far: 100"
-          line="color: red; opacity: 0.75"
-          blink-controls="
-            collisionEntities: .collision;
-            cameraRig: #cameraRig;
-            teleportOrigin: #head;
-            curveShootingSpeed: 6"></a-entity>
-        <a-entity
-          laser-controls="hand: right"
-          raycaster="objects: .clickable"
-          line="color: red; opacity: 0.75"
-          blink-controls="
-            collisionEntities: .collision;
-            cameraRig: #cameraRig;
-            teleportOrigin: #head;
-            curveShootingSpeed: 6"></a-entity>
-      </a-entity>
+  <a-entity id="cameraRig" position="0 0 0" rotation="0 0 0">
+    <a-entity id="head" camera position="-0.12 1.7 27.0" x-mc-controls x-look-controls>
+      <a-entity cursor="rayOrigin: mouse"></a-entity>
+    </a-entity>
+    <a-entity oculus-touch-controls="hand:left" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
+    <a-entity oculus-touch-controls="hand:right" teleport-controls="button:trigger; collisionEntities:.collidable; cameraRig:#cameraRig; teleportOrigin:#head;"></a-entity>
+  </a-entity>
 
       <a-entity id="container" position="-0.5 -0.5 -15" rotation="0 -90 0" visible="false">
+
+  <a-entity id="arrow" gltf-model="#arrow-asset" position="0 15 10" scale="2 2 2" rotation="0 0 180"
+    animation="property: position; to: 0 14 10; dur: 500; easing: easeInSine; loop: true; dir: alternate"
+  ></a-entity>
+
+  <a-entity id="arrow2" gltf-model="#arrow-asset" position="-32 15 -55" scale="2 2 2" rotation="0 0 180"
+    animation="property: position; to: -32 14 -55; dur: 500; easing: easeInSine; loop: true; dir: alternate"
+  ></a-entity>
+
+  <a-entity id="arrow3" gltf-model="#arrow-asset" position="14 10 -22" scale="2 2 2" rotation="0 0 180"
+  animation="property: position; to: 14 9 -22; dur: 500; easing: easeInSine; loop: true; dir: alternate"
+  ></a-entity>
 
         <!-- ui element -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
@@ -564,6 +566,74 @@ body {
 
     </a-scene>
 
+<script type="module">
+
+import { sleep } from "https://js.sabae.cc/sleep.js";
+
+const distance = (p1, p2) => {
+  const dx = p1.x - p2.x;
+  const dy = p1.y - p2.y;
+  const dz = p1.z - p2.z;
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+};
+const easeCos = (x) => (Math.sin(x * Math.PI - Math.PI / 2) + 1) / 2;
+const easeLinear = (x) => x;
+let moving = false;
+const move = async (pos, rot) => {
+  if (moving) return;
+  moving = true;
+  const p = head.getAttribute("position");
+  const orgp = { x: p.x, y: p.y, z: p.z };
+  const r = head.getAttribute("rotation");
+  const orgr = { x: r.x, y: r.y, z: r.z };
+  const len = distance(orgp, pos);
+  //const frames = Math.floor(len * 1.5);
+  const frames = 60 * 1.5;
+  //console.log(frames);
+  const ease = easeCos;
+  //const ease = easeLinear;
+  for (let i = 1; i <= frames; i++) {
+    await sleep(1000 / 60);
+    const t = ease(i / frames);
+    //console.log(i / frames, t);
+    const px = orgp.x + (pos.x - orgp.x) * t;
+    const py = orgp.y + (pos.y - orgp.y) * t;
+    const pz = orgp.z + (pos.z - orgp.z) * t;
+    const rx = orgr.x + (rot.x - orgr.x) * t;
+    const ry = orgr.y + (rot.y - orgr.y) * t;
+    const rz = orgr.z + (rot.z - orgr.z) * t;
+    head.setAttribute("position", { x: px, y: py, z: pz });
+    head.setAttribute("rotation", { x: rx, y: ry, z: rz });
+  }
+  moving = false;
+};
+arrow.onclick = () => {
+  move(
+    {x: -0.12, y: 1.7, z: 27.0 },
+    {x: 0, y: 0, z: 0}
+  );
+  console.log("1");
+};
+arrow2.onclick = () => {
+  move(
+    {x: -53.14113748689668, y: 20.901519976103835, z: -65.5521762111108},
+    {x: -26.012283898939383, y: 232.3916817050599, z: 0},
+  );
+  console.log("2");
+};
+arrow3.onclick = () => {
+  move(
+    {x: 40.26300009190443, y: 21.27414736277575, z: -25.482015503172747},
+    {x: -29.10625599264584, y: 79.52654196415833, z: 0},
+  );
+  console.log("3");
+};
+document.body.onkeydown = (e) => {
+  if (e.keyCode == 13) {
+    console.log(head.getAttribute("position"), head.getAttribute("rotation"))
+  }
+};
+</script>
     <script>
     const cameraRig = document.getElementById('cameraRig');
     const move = document.getElementById('move');
