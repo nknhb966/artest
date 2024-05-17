@@ -119,6 +119,13 @@ body {
             <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
             <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
             <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+
+            <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02.glb"></a-asset-item>
+            <a-asset-item id="model-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model04.glb"></a-asset-item>
+            <a-asset-item id="model-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model09.glb"></a-asset-item>
+            <a-asset-item id="model-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model11.glb"></a-asset-item>
+            <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12.glb"></a-asset-item>
+            <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14.glb"></a-asset-item>
         </a-assets>
 <!--         <a-entity
           id="model"
@@ -192,10 +199,10 @@ const targetPosition = `
     <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
     <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
 
-        <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 1.5 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="true"></a-entity>
-        <a-entity id="boxtext1" gltf-model="#text-asset1" position="1.9 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 1.5 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
-        <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
-        <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+    <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 1.5 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+    <a-entity id="boxtext1" gltf-model="#text-asset1" position="1.9 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 1.5 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+    <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
+    <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
     `
 
 // 新しいa-entity要素を作成します。
@@ -389,7 +396,7 @@ document.querySelector('a-scene').appendChild(modelEntity);
               imageAdded[i] = true;
               const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
               const clickablePosition = clickableElement.getAttribute('position');
-              lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
+              // lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
               // 線の始点と終点の座標を設定
               setTimeout(() => {
                   lineElement.setAttribute('line', {
