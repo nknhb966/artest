@@ -1,0 +1,143 @@
+<html>
+  <head>
+    <title>TEST1</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+<body style="margin: 0; overflow: hidden;">
+
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false" >
+        <a-camera gps-new-camera="gpsMinDistance:0.5;" rotation-reader look-controls="touchEnabled: false; mouseEnabled: false"></a-camera>
+        <a-assets>
+            <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
+        </a-assets>
+        <a-entity
+          id="model"
+          gltf-model="#kokufu"
+          scale="1 1 1"
+          position="0 0 0"
+          rotation="0 20 0"
+          gps-new-entity-place="latitude: 35.921642001219794; longitude: 136.1851286177769;"
+        >
+        </a-entity>
+    </a-scene>
+
+    <script>
+
+      // モーダルが表示されているかどうかを追跡するフラグ
+      let isModalVisible = false;
+
+      const init = () => {
+          var lastTouchEnd = 0;
+          document.addEventListener('touchstart', onTouchStart, { passive: false });
+          document.addEventListener('touchmove', onTouchMove, { passive: false });
+          document.addEventListener('touchend', onTouchEnd, false);
+          document.addEventListener('touchend', function (event) {
+              var now = (new Date()).getTime();
+              if (now - lastTouchEnd <= 300) {
+                  event.preventDefault();
+              }
+              lastTouchEnd = now;
+          }, false);
+      };
+
+      let isTwoFingerTouch = false;
+
+      function onTouchStart(event) {
+          if (isModalVisible) {
+              return;
+          }
+          if (event.touches.length == 1) {
+              touchStartX = event.touches[0].clientX;
+              touchStartY = event.touches[0].clientY;
+          }
+          else if (event.touches.length == 2) {
+              isTwoFingerTouch = true;
+              var touch1 = event.touches[0];
+              var touch2 = event.touches[1];
+              initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+              initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+          }
+      }
+
+      function onTouchEnd(event) {
+          if (event.touches.length == 0) {
+              isTwoFingerTouch = false; // 2本指でのタッチを解除
+          }
+      }
+
+      function onTouchMove(event) {
+          if (isModalVisible) {
+              return;
+          }
+          var model = document.getElementById('model');
+
+          if (event.touches.length == 1 && !isTwoFingerTouch) {
+              event.preventDefault();
+              
+              var touchX = event.touches[0].clientX;
+              var touchY = event.touches[0].clientY;
+
+              var deltaX = touchX - touchStartX;
+              var deltaY = touchY - touchStartY;
+
+              let rad = 0;
+              rad = parseInt(currentrotation) * Math.PI / 180;
+            
+              const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
+              const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+
+              model.object3D.position.x += newX * 0.006;
+              model.object3D.position.z += newY * 0.006;
+
+              touchStartX = touchX;
+              touchStartY = touchY;
+          }
+          else if (event.touches.length == 2) {
+              event.preventDefault();
+
+              var touch1 = event.touches[0];
+              var touch2 = event.touches[1];
+              var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+              var distanceDiff = currentDistance - initialDistance;
+              var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+
+
+              if (currentDistance > initialDistance) {
+                  model.object3D.position.y += 0.015;
+              } else if (currentDistance < initialDistance) {
+                  model.object3D.position.y -= 0.015;
+              }
+
+              var angleChange = currentAngle - initialAngle;
+              model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
+  
+              initialDistance = currentDistance;
+              initialAngle = currentAngle;
+          }
+      }
+
+      init();
+
+      let alphaStart = null;
+      let currentrotation
+
+      window.addEventListener('deviceorientation', function(event) {
+          if (alphaStart === null) {
+              alphaStart = event.alpha;
+          }
+          currentrotation = event.alpha - alphaStart;
+
+      });
+
+      window.addEventListener('deviceorientation', function(event) {
+          currentrotation = event.alpha - alphaStart;
+      });
+
+
+    </script>
+</body>
+</html>
