@@ -150,7 +150,7 @@ const modelEntity = document.createElement('a-entity');
 modelEntity.innerHTML = targetPosition;
 
 // 緯度と経度をセットします。
-modelEntity.setAttribute("gps-new-entity-place", `latitude: 35.921642001219794; longitude: 136.1851286177769;`);
+modelEntity.setAttribute("gps-entity-place", `latitude: 35.921642001219794; longitude: 136.1851286177769;`);
 
 // シーンに新しいa-entityを追加します。
 document.querySelector('a-scene').appendChild(modelEntity);
