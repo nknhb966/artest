@@ -13,16 +13,16 @@
         <a-assets>
             <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
         </a-assets>
-        <a-camera gps-new-camera="gpsMinDistance:1;" rotation-reader look-controls="touchEnabled: false; mouseEnabled: false"></a-camera>
         <a-entity
           id="model"
           gltf-model="#kokufu"
           scale="1 1 1"
           position="0 0 0"
           rotation="0 20 0"
-          gps-new-entity-place="latitude: 35.921642001219794; longitude: 136.1851286177769;"
+          gps-entity-place="latitude: 35.921642001219794; longitude: 136.1851286177769;"
         >
         </a-entity>
+        <a-camera gps-camera="gpsMinDistance:1;" rotation-reader look-controls="touchEnabled: false; mouseEnabled: false"></a-camera>
     </a-scene>
 
     <script>
