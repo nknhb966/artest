@@ -10,10 +10,10 @@
 <body style="margin: 0; overflow: hidden;">
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false" >
-        <a-camera gps-new-camera="gpsMinDistance:0.5;" rotation-reader look-controls="touchEnabled: false; mouseEnabled: false"></a-camera>
         <a-assets>
             <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
         </a-assets>
+        <a-camera gps-new-camera="gpsMinDistance:1;" rotation-reader look-controls="touchEnabled: false; mouseEnabled: false"></a-camera>
         <a-entity
           id="model"
           gltf-model="#kokufu"
