@@ -741,11 +741,12 @@ body {
             var longitude = position.coords.longitude;
             
             var inRange = checkRange(latitude, longitude);
-            if (inRange) {
               document.getElementById("container").setAttribute("visible", "true");
-            } else {
-              document.getElementById("container").setAttribute("visible", "false");
-            }
+            // if (inRange) {
+            //   document.getElementById("container").setAttribute("visible", "true");
+            // } else {
+            //   document.getElementById("container").setAttribute("visible", "false");
+            // }
         }
 
         function checkRange(lat, lon) {
