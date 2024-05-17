@@ -6,7 +6,6 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./js/mymodal.js"></script>
     <link rel="stylesheet" href="css/common.css">
 
 <style>
@@ -33,55 +32,261 @@ body {
   text-align: center;
   user-select: none;
 }
-/*.modal {
-  display: none;
-  position: fixed;
-  z-index: 10001;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-}
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-#overviewTitle {
-  font-weight: bold;  
-}
-#overviewImage {
-  width: 100%;
-  height: auto;
-  padding-top: 8px;
-}
-#overviewUrl {
-  display: block;
-  margin-top: 10px;
-  text-decoration: none;
-}
-#overviewUrl:hover {
-  text-decoration: underline;
-}*/
 </style>
 
   </head>
+
+<script>
+// CSVデータのURL
+const csvURL = "https://echizencity.github.io/opendata/kokufuhakkutsu/20000_contents.csv";
+
+// CSVファイルからデータを読み込む関数
+async function fetchData() {
+  const response = await fetch(csvURL);
+  const data = await response.text();
+  return data;
+}
+
+// モーダルを作成する関数
+function createModal(id, title, images, descriptions) {
+  const modalContainer = document.getElementById('modalContainer');
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" onclick="closeModal(${id})">&times;</span>
+      ${title ? `<p>${title}</p>` : ''}
+      ${createSlides(images, descriptions)}
+      ${images.length > 1 ? createSlideNavigation(id) : ''}
+      ${images.length > 1 ? createSlideButtons(images.length, id) : ''}
+    </div>
+  `;
+  modalContainer.appendChild(modal);
+
+  // モーダルの背景をクリックしたらモーダルを閉じる
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      closeModal(id);
+    }
+  });
+}
+
+// スライドを作成する関数
+function createSlides(images, descriptions) {
+  let slides = '';
+  for (let i = 0; i < images.length; i++) {
+    slides += `
+      <div class="slide">
+        <div style="text-align:center"><img src="https://echizencity.github.io/opendata/kokufuhakkutsu/${images[i]}" alt="Slide ${i + 1}"></div>
+        ${descriptions[i] ? `<p>${descriptions[i]}</p>` : ''}
+      </div>
+    `;
+  }
+  return slides;
+}
+
+// スライドボタンを作成する関数
+function createSlideButtons(numSlides, modalIndex) {
+  let buttons = '';
+  for (let i = 0; i < numSlides; i++) {
+    buttons += `<span class="dot" onclick="currentSlide(${i + 1}, ${modalIndex})"></span>`;
+  }
+  buttons = `<div style="text-align:center">` + buttons + `</div>`
+  return buttons;
+}
+
+// ナビゲーションボタンを作成する関数
+function createSlideNavigation(id) {
+  return `
+    <div>
+      <button class="prev" onclick="plusSlides(-1, ${id})">&#10094;</button>
+      <button class="next" onclick="plusSlides(1, ${id})">&#10095;</button>
+    </div>
+  `;
+}
+
+var touchstartX2 = 0;
+var touchendX2 = 0;
+
+var touchStartHandler;
+var touchEndHandler;
+
+// モーダルの読み込み完了までのフラグ
+let modalLoaded = false;
+
+// モーダルが表示されているかどうかを追跡するフラグ
+let modalShown = false;
+
+// モーダルを開く関数
+function openModal(id) {
+  // モーダルが読み込み完了していない場合は何もしない
+  if (!modalLoaded) {
+      return;
+  }
+  // モーダルが表示されている場合は、処理を終了する
+  if (modalShown) {
+      return;
+  }
+
+  const modal = document.querySelectorAll('.modal')[id - 1];
+  modal.style.display = 'block';
+
+  showModal();
+  modalShown = true;
+
+  // 一定時間後にフラグをリセットする
+  setTimeout(function() {
+      modalShown = false;
+  }, 1500);
+
+  slideIndex = 1;
+  showSlides(1, id);
+
+  // モーダルを開いたときにイベントリスナーを追加する
+  modal.addEventListener('touchstart', touchStartHandler = function(event) {
+    touchstartX2 = event.touches[0].clientX;
+  }, false);
+
+  modal.addEventListener('touchend', touchEndHandler = function(event) {
+    touchendX2 = event.changedTouches[0].clientX;
+    if (touchstartX2 !== 0) {
+      handleGesture(id);
+    }
+    // タッチ座標をクリアする
+    touchstartX2 = 0;
+    touchendX2 = 0;    
+  }, false);
+}
+
+function handleGesture(modalIndex) {
+  const deltaX = touchendX2 - touchstartX2;
+  if (deltaX < -75) {
+    plusSlides(1, modalIndex); // 左方向へのスワイプ
+  } else if (deltaX > 75) {
+    plusSlides(-1, modalIndex); // 右方向へのスワイプ
+  }
+}
+
+// モーダルを閉じる関数
+function closeModal(id) {
+  const modal = document.querySelectorAll('.modal')[id - 1];
+  modal.style.display = 'none';
+  // モーダルを閉じたときにイベントリスナーを削除する
+  modal.removeEventListener('touchstart', touchStartHandler, false);
+  modal.removeEventListener('touchend', touchEndHandler, false);
+  // モーダルを閉じたときにタッチ座標をクリアする
+  touchstartX2 = 0;
+  touchendX2 = 0;
+  hideModal();
+}
+
+// スライドのインデックスを定義
+let slideIndex;
+
+// スライド操作関数
+function showSlides(n, modalIndex) {
+  const modal = document.querySelectorAll('.modal')[modalIndex - 1];
+  const slides = modal ? modal.getElementsByClassName("slide") : [];
+  const dots = modal ? modal.getElementsByClassName("dot") : [];
+  
+  // スライドのインデックスを更新
+  slideIndex = n;
+
+  // スライドのインデックスがスライドの範囲外にならないようにする
+  if (slideIndex > slides.length) {
+    slideIndex = 1;
+  } else if (slideIndex < 1) {
+    slideIndex = slides.length;
+  }
+
+  // スライドを表示するために正しいインデックスを使用する
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  if (slides[slideIndex - 1]) {
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+  }
+}
+
+// スライドを切り替える関数
+function currentSlide(n, modalIndex) {
+  showSlides(n, modalIndex);
+}
+
+// スライドショーの前後に移動する関数
+function plusSlides(n, modalIndex) {
+  const modal = document.querySelectorAll('.modal')[modalIndex - 1];
+  const slides = modal ? modal.getElementsByClassName("slide") : [];
+  if (slides.length === 0) return;
+
+  slideIndex += n;
+  if (slideIndex > slides.length) {
+    slideIndex = 1;
+  } else if (slideIndex < 1) {
+    slideIndex = slides.length;
+  }
+  showSlides(slideIndex, modalIndex);
+}
+
+// 初期化関数
+async function initializemodal() {
+  const csvData = await fetchData();
+  const rows = parseCSVmodal(csvData);
+
+  rows.forEach(row => {
+    const [id, title, description, image, glbtext, glbtextexpression, glbmodel] = row;
+    const images = [image].filter(Boolean); // 空の画像をフィルタリング
+    const descriptions = [description].filter(Boolean); // 空の説明文をフィルタリング
+    createModal(id, title, images, descriptions);
+
+    const model = document.getElementById(`sphere${id}`);
+    model.addEventListener('click', () => openModal(id));
+  });
+
+  // モーダル読み込み完了のフラグを設定
+  modalLoaded = true;
+}
+
+
+// CSVデータをパースする関数
+function parseCSVmodal(csvData) {
+  const lines = csvData.split("\n");
+  const result = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const fields = lines[i].split(",");
+    const record = [];
+    let field = "";
+
+    for (let j = 0; j < fields.length; j++) {
+      field += fields[j].trim();
+
+      if (field.charAt(0) === '"' && field.charAt(field.length - 1) === '"') {
+        field = field.substr(1, field.length - 2);
+      }
+
+      if ((field.match(/"/g) || []).length % 2 === 0) {
+        record.push(field);
+        field = "";
+      } else {
+        field += ",";
+      }
+    }
+
+    if (fields.length === 1) {
+      break;
+    }
+    result.push(record);
+  }
+
+  return result;
+}
+
+</script>
 
 <body style="margin: 0; overflow: hidden;">
 
@@ -125,43 +330,23 @@ body {
 
 // モデルの場所を設定
 const targetPosition = `
-    <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -1.5 0" rotation="0 20 0"></a-entity>
-        <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
-        <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.8 2.2" material="color: aqua"></a-entity>
-        <a-entity class="clickable" spawn-sphere5 geometry="primitive: sphere" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere6 geometry="primitive: sphere" position="-3.3 0.8 0" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere7 geometry="primitive: sphere" position="2 0.8 0.5" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere8 geometry="primitive: sphere" position="7.1 0.8 1.7" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere9 geometry="primitive: sphere" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
-        <a-entity class="clickable" spawn-sphere10 geometry="primitive: sphere" position="-7.1 0.8 3.1" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere11 geometry="primitive: sphere" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
-        <a-entity class="clickable" spawn-sphere12 geometry="primitive: sphere" position="-6.65 0.8 2.45" material="color: aqua"></a-entity>
-        <a-entity class="clickable" spawn-sphere13 geometry="primitive: sphere" position="5.2 0.65 1.45" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere14 geometry="primitive: sphere" position="5.2 0.8 1.45" material="color: aqua"></a-entity>
-        <a-entity class="clickable" spawn-sphere15 geometry="primitive: sphere" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
-        <a-entity class="clickable" spawn-sphere16 geometry="primitive: sphere" position="7.6 0.8 -0.8" material="color: white"></a-entity>
-    <a-entity id="arrow1" gltf-model="#arrow-asset" position="1.5 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: 1.5 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow2" gltf-model="#arrow-asset" position="3.1 0.8 -2.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: 3.1 0.7 -2.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow3" gltf-model="#arrow-asset" position="-0.5 0.8 -0.5" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: -0.5 0.7 -0.5; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow4" gltf-model="#arrow-asset" position="-3.3 0.8 0" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: -3.3 0.7 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow5" gltf-model="#arrow-asset" position="2 0.8 1" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: 2 0.7 1; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow6" gltf-model="#arrow-asset" position="6.5 0.8 1.8" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: 6.5 0.7 1.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow7" gltf-model="#arrow-asset" position="-7 0.8 3" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: -7 0.7 3; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow8" gltf-model="#arrow-asset" position="5.2 0.8 1.45" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: 5.2 0.7 1.45; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow9" gltf-model="#arrow-asset" position="-7.2 0.8 0.2" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: -7.2 0.7 0.2; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-    <a-entity id="arrow10" gltf-model="#arrow-asset" position="7.8 0.8 -0.8" scale="0.25 0.25 0.25" rotation="0 0 180"
-                           animation="property: position; to: 7.8 0.7 -0.8; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
+    <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
+        <a-entity class="clickable" id="sphere1" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white" ></a-entity>
+        <a-entity class="clickable" id="sphere2" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
+        <a-entity class="clickable" id="sphere3" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere4" spawn-sphere4 geometry="primitive: sphere" position="4.3 0.8 2.2" material="color: aqua"></a-entity>
+        <a-entity class="clickable" id="sphere5" spawn-sphere5 geometry="primitive: sphere" position="-0.5 0.8 -0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere6" spawn-sphere6 geometry="primitive: sphere" position="-3.3 0.8 0" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere7" spawn-sphere7 geometry="primitive: sphere" position="2 0.8 0.5" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere8" spawn-sphere8 geometry="primitive: sphere" position="7.1 0.8 1.7" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere9" spawn-sphere9 geometry="primitive: sphere" position="6.5 0.8 1.8" material="color: aqua"></a-entity>
+        <a-entity class="clickable" id="sphere10" spawn-sphere10 geometry="primitive: sphere" position="-7.1 0.8 3.1" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere11" spawn-sphere11 geometry="primitive: sphere" position="-6.9 0.8 2.7" material="color: aqua"></a-entity>
+        <a-entity class="clickable" id="sphere12" spawn-sphere12 geometry="primitive: sphere" position="-6.65 0.8 2.45" material="color: aqua"></a-entity>
+        <a-entity class="clickable" id="sphere13" spawn-sphere13 geometry="primitive: sphere" position="5.2 0.65 1.45" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere14" spawn-sphere14 geometry="primitive: sphere" position="5.2 0.8 1.45" material="color: aqua"></a-entity>
+        <a-entity class="clickable" id="sphere15" spawn-sphere15 geometry="primitive: sphere" position="-6.1 0.8 -2.1" material="color: white"></a-entity>
+        <a-entity class="clickable" id="sphere16" spawn-sphere16 geometry="primitive: sphere" position="7.6 0.8 -0.8" material="color: white"></a-entity>
     `
 
     // 新しいa-entity要素を作成します。
@@ -354,20 +539,16 @@ const targetPosition = `
               var distanceDiff = currentDistance - initialDistance;
               var currentAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
 
-              var pinchThreshold = 2;
+              var pinchThreshold = 4;
               if (currentDistance - pinchThreshold > initialDistance) {
-                  model.object3D.position.y += 0.015;
+                  model.object3D.position.y += 0.05;
+                  console.log("aa");
               } else if (currentDistance + pinchThreshold < initialDistance) {
-                  model.object3D.position.y -= 0.015;
+                  model.object3D.position.y -= 0.05;
               }
 
               var angleChange = currentAngle - initialAngle;
-              var angleThreshold = 0.5;
-              if (currentAngle - angleThreshold > initialAngle) {
-                  model.object3D.rotation.y -= Math.PI / 180 * 1;
-              } else if (currentAngle + angleThreshold < initialAngle) {
-                  model.object3D.rotation.y += Math.PI / 180 * 1;
-              }
+              model.object3D.rotation.y -= angleChange * Math.PI / 180 * 1;
   
               initialDistance = currentDistance;
               initialAngle = currentAngle;
