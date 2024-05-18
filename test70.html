@@ -532,7 +532,7 @@ const targetPosition = `
               var deltaY = touchY - touchStartY;
 
               let rad = 0;
-              rad = parseInt(currentrotation) * Math.PI / 180;
+              rad = 90 + parseInt(currentrotation) * Math.PI / 180;
             
               const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
               const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
