@@ -16,13 +16,8 @@
     pointer-events: none;
   }
 
-  .hotspot[slot="hotspot-hand"] {
-    --min-hotspot-opacity: 0;
-    background-color: red;
-  }
-
-  .hotspot[slot="hotspot-foot"]:not([data-visible]) {
-    background-color: transparent;
+  .hotspot[slot="hotspot-description"]:not([data-visible]) {
+    /*--min-hotspot-opacity: 0;*/
     border: 3px solid blue;
   }
 
@@ -32,6 +27,7 @@
     transform: translate(10px, 10px);
     border-radius: 10px;
     padding: 10px;
+    width: 100px;
   }
 
   /* This keeps child nodes hidden while the element loads */
@@ -57,22 +53,23 @@
 </head>
 <body>
 
-<!-- <model-viewer id="hotspot-demo" ar ar-modes="webxr" camera-controls touch-action="pan-y" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" ios-src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb" poster="../../assets/poster-astronaut.webp" shadow-intensity="1" alt="A 3D model of an astronaut."> -->
 <model-viewer
   ar
   ar-modes="scene-viewer webxr quick-look"
-  src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"
+  src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12.glb"
   alt="Your Model"
   camera-controls
   autoplay
 >
+  <!-- src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb" -->
+
   <!-- 追加されたhotspotsとannotation -->
-  <button class="hotspot" slot="hotspot-visor" data-position="0 1.75 0.35" data-normal="0 0 1"></button>
-  <button class="hotspot" slot="hotspot-hand" data-position="-0.54 0.93 0.1" data-normal="-0.73 0.05 0.69">
-    <div class="annotation">This hotspot disappears completely</div>
+  <div class="annotation" style="top: 50px; left: 50px; width:200px;">越前国府発掘プロジェクト</div>
+
+  <button class="hotspot" slot="hotspot-description" data-position="0 0.05 -0.075" data-normal="-0.73 0.05 0.69">
+    <div class="annotation">＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠</div>
   </button>
-  <button class="hotspot" slot="hotspot-foot" data-position="0.16 0.1 0.17" data-normal="-0.07 0.97 0.23" data-visibility-attribute="visible"></button>
-  <div class="annotation" style="top: 50px; left: 50px;">This annotation is fixed in screen-space</div>
+
 </model-viewer>
 
 </body>
