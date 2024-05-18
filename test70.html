@@ -337,7 +337,7 @@ function parseCSVmodal(csvData) {
 
 // モデルの場所を設定
 const targetPosition = `
-    <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 0 0"></a-entity>
+    <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
     <a-entity class="clickable" id="sphere1" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white" ></a-entity>
     <a-entity class="clickable" id="sphere2" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
     <a-entity class="clickable" id="sphere3" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
@@ -532,7 +532,7 @@ const targetPosition = `
               var deltaY = touchY - touchStartY;
 
               let rad = 0;
-              rad = 90 + parseInt(currentrotation) * Math.PI / 180;
+              rad = parseInt(currentrotation) * Math.PI / 180;
             
               const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
               const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
