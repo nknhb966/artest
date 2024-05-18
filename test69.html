@@ -13,6 +13,15 @@ body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
+#message {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  display: none;
+}
 .container-box {
   display: flex;
   justify-content: space-between;
@@ -129,6 +138,8 @@ body {
 </head>
 
 <body>
+    <div id="message"></div>
+
     <div class="container-box">
       <div class="box" id="overviewButton">概要</div>
       <div class="box" id="Showing">全部表示</div>
@@ -486,7 +497,6 @@ body {
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
         <a-entity id="head" position="0 1. 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity>
 
-        <!-- <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> -->
         <a-entity
           laser-controls="hand: left"
           raycaster="objects: .clickable; far: 100"
@@ -565,10 +575,6 @@ body {
         <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
         <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
 
-
-        <!-- 固有データ -->
-        <!-- <a-entity class="collision" position="0 0.5 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: white; opacity: 0."></a-entity> -->
-
         <a-entity id="destination0" position="-0.5 0 -6.51"></a-entity>
         <a-entity id="destination1" position="-0.5 0 -22"></a-entity>
         <a-entity id="destination2" position="-0.5 0 -15"></a-entity>
@@ -581,174 +587,174 @@ body {
     </a-scene>
 
     <script>
-    const cameraRig = document.getElementById('cameraRig');
-    const move = document.getElementById('move');
-    const destination = document.getElementById('destination');
-    const modelsToSpawn1 = [1, 2, 3, 4, 9, 11, 12, 14];
-    const modelsToSpawn2 = [5, 6, 7, 8, 10, 13, 15, 16];
+        const cameraRig = document.getElementById('cameraRig');
+        const move = document.getElementById('move');
+        const destination = document.getElementById('destination');
+        const modelsToSpawn1 = [1, 2, 3, 4, 9, 11, 12, 14];
+        const modelsToSpawn2 = [5, 6, 7, 8, 10, 13, 15, 16];
 
-    function moveLocation(destination) {
-      const cursorTeleport = cameraRig.components['cursor-teleport'];
-      cursorTeleport.teleportTo(destination.object3D.position, null); 
-    }
+        function moveLocation(destination) {
+          const cursorTeleport = cameraRig.components['cursor-teleport'];
+          cursorTeleport.teleportTo(destination.object3D.position, null); 
+        }
 
-    function showAll() {
-        modelsToSpawn1.forEach(index => {
-            if (!modelAdded[index] || !imageAdded[index]) {
-                window[`Spawn${index}`]();
+        function showAll() {
+            modelsToSpawn1.forEach(index => {
+                if (!modelAdded[index] || !imageAdded[index]) {
+                    window[`Spawn${index}`]();
+                    if (!imageAdded[index]) {
+                        window[`Spawn${index}`]();
+                    }
+                }
+            });
+            modelsToSpawn2.forEach(index => {
                 if (!imageAdded[index]) {
                     window[`Spawn${index}`]();
                 }
-            }
-        });
-        modelsToSpawn2.forEach(index => {
-            if (!imageAdded[index]) {
-                window[`Spawn${index}`]();
-            }
-        });
-    }
-
-    function hideAll() {
-        modelsToSpawn1.forEach(index => {
-            if (modelAdded[index] && !imageAdded[index]) {
-                window[`Spawn${index}`]();
-                window[`Spawn${index}`]();
-            } else if (imageAdded[index]) {
-                window[`Spawn${index}`]();
-            }
-        });
-        modelsToSpawn2.forEach(index => {
-            if (imageAdded[index]) {
-                window[`Spawn${index}`]();
-            }
-        });
-    }
-
-
-    let isShowing = false;
-
-    document.getElementById("Showing").addEventListener("click", function() {
-        if (isShowing) {
-            hideAll();
-            isShowing = false;
-            document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-        } else {
-            showAll();
-            isShowing = true;
-            document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+            });
         }
-    });
 
+        function hideAll() {
+            modelsToSpawn1.forEach(index => {
+                if (modelAdded[index] && !imageAdded[index]) {
+                    window[`Spawn${index}`]();
+                    window[`Spawn${index}`]();
+                } else if (imageAdded[index]) {
+                    window[`Spawn${index}`]();
+                }
+            });
+            modelsToSpawn2.forEach(index => {
+                if (imageAdded[index]) {
+                    window[`Spawn${index}`]();
+                }
+            });
+        }
+
+
+        let isShowing = false;
+
+        document.getElementById("Showing").addEventListener("click", function() {
+            if (isShowing) {
+                hideAll();
+                isShowing = false;
+                document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+            } else {
+                showAll();
+                isShowing = true;
+                document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+            }
+        });
     </script>
 
     <script>
-    const init = () => {
-        var lastTouchEnd = 0;
-        document.addEventListener('touchstart', onTouchStart, { passive: false });
-        document.addEventListener('touchmove', onTouchMove, { passive: false });
-        document.addEventListener('touchend', onTouchEnd, false);
-        document.addEventListener('touchend', function (event) {
-            var now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
+        const init = () => {
+            var lastTouchEnd = 0;
+            document.addEventListener('touchstart', onTouchStart, { passive: false });
+            document.addEventListener('touchmove', onTouchMove, { passive: false });
+            document.addEventListener('touchend', onTouchEnd, false);
+            document.addEventListener('touchend', function (event) {
+                var now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        };
+
+        let isTwoFingerTouch = false;
+
+        function onTouchStart(event) {
+            if (isModalVisible) {
+                return;
+            }
+            if (event.touches.length == 1) {
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+            }
+            else if (event.touches.length == 2) {
+                isTwoFingerTouch = true;
+                var touch1 = event.touches[0];
+                var touch2 = event.touches[1];
+                initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
+            }
+        }
+
+        function onTouchEnd(event) {
+            if (event.touches.length == 0) {
+                isTwoFingerTouch = false; // 2本指でのタッチを解除
+            }
+        }
+
+        function onTouchMove(event) {
+            if (isModalVisible) {
+                return;
+            }
+            const cameraRig = document.getElementById('cameraRig');
+
+            if (event.touches.length == 1 && !isTwoFingerTouch) {
                 event.preventDefault();
+                
+                var touchX = event.touches[0].clientX;
+                var touchY = event.touches[0].clientY;
+
+                var deltaX = touchX - touchStartX;
+                var deltaY = touchY - touchStartY;
+
+                let rad = 0;
+                rad = parseInt(currentrotation) * Math.PI / 180;
+              
+                const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
+                const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
+
+                cameraRig.object3D.position.x -= newX * 0.006;
+                cameraRig.object3D.position.z -= newY * 0.006;
+
+                touchStartX = touchX;
+                touchStartY = touchY;
             }
-            lastTouchEnd = now;
-        }, false);
-    };
+            else if (event.touches.length == 2) {
+                event.preventDefault();
 
-    let isTwoFingerTouch = false;
+                var touch1 = event.touches[0];
+                var touch2 = event.touches[1];
+                var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                var distanceDiff = currentDistance - initialDistance;
 
-    function onTouchStart(event) {
-        if (isModalVisible) {
-            return;
-        }
-        if (event.touches.length == 1) {
-            touchStartX = event.touches[0].clientX;
-            touchStartY = event.touches[0].clientY;
-        }
-        else if (event.touches.length == 2) {
-            isTwoFingerTouch = true;
-            var touch1 = event.touches[0];
-            var touch2 = event.touches[1];
-            initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-            initialAngle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * 180 / Math.PI;
-        }
-    }
+                if (currentDistance > initialDistance) {
+                    cameraRig.object3D.position.y -= 0.015;
+                } else if (currentDistance < initialDistance) {
+                    cameraRig.object3D.position.y += 0.015;
+                }
 
-    function onTouchEnd(event) {
-        if (event.touches.length == 0) {
-            isTwoFingerTouch = false; // 2本指でのタッチを解除
-        }
-    }
-
-    function onTouchMove(event) {
-        if (isModalVisible) {
-            return;
-        }
-        const cameraRig = document.getElementById('cameraRig');
-
-        if (event.touches.length == 1 && !isTwoFingerTouch) {
-            event.preventDefault();
-            
-            var touchX = event.touches[0].clientX;
-            var touchY = event.touches[0].clientY;
-
-            var deltaX = touchX - touchStartX;
-            var deltaY = touchY - touchStartY;
-
-            let rad = 0;
-            rad = parseInt(currentrotation) * Math.PI / 180;
-          
-            const newX = deltaX * Math.cos(rad) + deltaY * Math.sin(rad);
-            const newY = - deltaX * Math.sin(rad) + deltaY * Math.cos(rad);
-
-            cameraRig.object3D.position.x -= newX * 0.006;
-            cameraRig.object3D.position.z -= newY * 0.006;
-
-            touchStartX = touchX;
-            touchStartY = touchY;
-        }
-        else if (event.touches.length == 2) {
-            event.preventDefault();
-
-            var touch1 = event.touches[0];
-            var touch2 = event.touches[1];
-            var currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-            var distanceDiff = currentDistance - initialDistance;
-
-            if (currentDistance > initialDistance) {
-                cameraRig.object3D.position.y -= 0.015;
-            } else if (currentDistance < initialDistance) {
-                cameraRig.object3D.position.y += 0.015;
+                initialDistance = currentDistance;
             }
-
-            initialDistance = currentDistance;
         }
-    }
 
-    init();
+        init();
 
-    let alphaStart = null;
-    let currentrotation
+        let alphaStart = null;
+        let currentrotation
 
-    window.addEventListener('deviceorientation', function(event) {
-        if (alphaStart === null) {
-            alphaStart = event.alpha;
-        }
-        currentrotation = event.alpha - alphaStart;
+        window.addEventListener('deviceorientation', function(event) {
+            if (alphaStart === null) {
+                alphaStart = event.alpha;
+            }
+            currentrotation = event.alpha - alphaStart;
 
-    });
+        });
 
-    window.addEventListener('deviceorientation', function(event) {
-        currentrotation = event.alpha - alphaStart;
-    });
-
+        window.addEventListener('deviceorientation', function(event) {
+            currentrotation = event.alpha - alphaStart;
+        });
     </script>
 
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showModel);
+                navigator.geolocation.getCurrentPosition(showModel, showError);
+            } else {
+                showError({ code: 0 });
             }
         }
 
@@ -757,17 +763,22 @@ body {
             var longitude = position.coords.longitude;
             
             var inRange = checkRange(latitude, longitude);
+            var messageElement = document.getElementById("message");
+            
             if (inRange) {
-              document.getElementById("container").setAttribute("visible", "true");
+                document.getElementById("container").setAttribute("visible", "true");
+                messageElement.style.display = "none";
             } else {
-              document.getElementById("container").setAttribute("visible", "false");
+                document.getElementById("container").setAttribute("visible", "false");
+        messageElement.textContent = "表示エリアから離れています。";
+        messageElement.style.display = "block";
             }
         }
 
         function checkRange(lat, lon) {
             var targetLat = 35.905512;
             var targetLon = 136.166730;
-            var range = 1.5005;
+            var range = 0.001;
 
             if (Math.abs(lat - targetLat) <= range && Math.abs(lon - targetLon) <= range) {
                 return true;
@@ -776,7 +787,29 @@ body {
             }
         }
 
+        function showError(error) {
+            var messageElement = document.getElementById("message");
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    messageElement.textContent = "位置情報の取得がユーザーによって拒否されました。ブラウザの設定で位置情報のアクセスを許可してください。";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    messageElement.textContent = "位置情報の取得が利用できません。ブラウザやデバイスの位置情報サービスを有効にしてください。";
+                    break;
+                case error.TIMEOUT:
+                    messageElement.textContent = "位置情報の取得がタイムアウトしました。インターネット接続を確認してください。";
+                    break;
+                case error.UNKNOWN_ERROR:
+                default:
+                    messageElement.textContent = "位置情報の取得中に未知のエラーが発生しました。";
+                    break;
+            }
+            messageElement.style.display = "block";
+        }
+
+        // HTMLページ読み込み時にgetLocationを呼び出す
         getLocation();
+
     </script>
 </body>
 </html>
