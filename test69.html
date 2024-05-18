@@ -22,6 +22,9 @@ body {
   z-index: 1000;
   display: none;
 }
+#container-circle {
+  display: none;
+}
 .container-box {
   display: flex;
   justify-content: space-between;
@@ -146,13 +149,15 @@ body {
       <div class="box" onclick="location.reload()">再読み込み</div>
     </div>
 
-    <div class="circle num0" onclick="moveLocation(destination0)">Start</div>
-    <div class="circle num1" onclick="moveLocation(destination1)">北</div>
-    <div class="circle num2" onclick="moveLocation(destination2)"></div>
-    <div class="circle num3" onclick="moveLocation(destination3)">南</div>
-    <div class="circle num4" onclick="moveLocation(destination4)"></div>
-    <div class="circle num5" onclick="moveLocation(destination5)"></div>
-    <div class="circle top" onclick="moveLocation(destinationtop)">上空</div>
+    <div id="container-circle">
+      <div class="circle num0" onclick="moveLocation(destination0)">Start</div>
+      <div class="circle num1" onclick="moveLocation(destination1)">北</div>
+      <div class="circle num2" onclick="moveLocation(destination2)"></div>
+      <div class="circle num3" onclick="moveLocation(destination3)">南</div>
+      <div class="circle num4" onclick="moveLocation(destination4)"></div>
+      <div class="circle num5" onclick="moveLocation(destination5)"></div>
+      <div class="circle top" onclick="moveLocation(destinationtop)">上空</div>
+    </div>
 
     <div id="modal" class="modal">
       <div class="modal-content">
@@ -764,14 +769,17 @@ body {
             
             var inRange = checkRange(latitude, longitude);
             var messageElement = document.getElementById("message");
+            var containerElement = document.getElementById("container-circle");
             
             if (inRange) {
                 document.getElementById("container").setAttribute("visible", "true");
+                containerElement.style.display = "block";
                 messageElement.style.display = "none";
             } else {
                 document.getElementById("container").setAttribute("visible", "false");
-        messageElement.textContent = "表示エリアから離れています。";
-        messageElement.style.display = "block";
+                messageElement.textContent = "表示エリアから離れています。";
+                containerElement.style.display = "none";
+                messageElement.style.display = "block";
             }
         }
 
@@ -789,6 +797,7 @@ body {
 
         function showError(error) {
             var messageElement = document.getElementById("message");
+            var containerElement = document.getElementById("container-circle");
             switch(error.code) {
                 case error.PERMISSION_DENIED:
                     messageElement.textContent = "位置情報の取得がユーザーによって拒否されました。ブラウザの設定で位置情報のアクセスを許可してください。";
@@ -804,6 +813,7 @@ body {
                     messageElement.textContent = "位置情報の取得中に未知のエラーが発生しました。";
                     break;
             }
+            containerElement.style.display = "none";
             messageElement.style.display = "block";
         }
 
