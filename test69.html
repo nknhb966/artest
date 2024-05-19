@@ -302,50 +302,6 @@ body {
           }
       }
 
-      // function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, inv, imageUrl) {
-      //     const existingModel = document.querySelector(`.spawned-model${i}`);
-      //     const existingImage = document.querySelector(`.spawned-image${i}`);
-      //     const lineElement = document.getElementById(`line${i}`);
-
-      //     console.log(existingModel);
-      //     console.log(existingImage);
-
-      //     if (!modelAdded[i] && !imageAdded[i]) {
-      //         // モデルを追加
-      //         spawnModel(i, finalScaleModel);
-      //         modelAdded[i] = true;
-      //         console.log(modelAdded[i]);
-      //     } else if (modelAdded[i] && !imageAdded[i]) {
-      //         // 画像を追加
-      //         spawnImage(i, finalPositionImage, finalScaleImage, inv, imageUrl);
-      //         imageAdded[i] = true;
-      //         const clickableElement = document.querySelector(`.clickable:nth-child(${i})`);
-      //         const clickablePosition = clickableElement.getAttribute('position');
-      //         lineElement.setAttribute('line', 'color: white; opacity: 0.8;');
-      //         // 線の始点と終点の座標を設定
-      //         setTimeout(() => {
-      //             lineElement.setAttribute('line', {
-      //                 start: `${clickablePosition.x} ${clickablePosition.y} ${clickablePosition.z}`,
-      //                 end: `${clickablePosition.x + finalPositionImage.x/sizeMultiplier} ${clickablePosition.y + finalPositionImage.y/sizeMultiplier - finalScaleImage.y/(2 * sizeMultiplier)} ${clickablePosition.z + finalPositionImage.z/sizeMultiplier}`
-      //             });
-      //         }, 2000);
-      //     } else {
-      //         // モデルを削除
-      //         if (existingModel) {
-      //             existingModel.parentNode.removeChild(existingModel);
-      //         }
-      //         // 画像を削除
-      //         if (existingImage) {
-      //             existingImage.parentNode.removeChild(existingImage);
-      //         }
-      //         // 線の始点と終点の削除
-      //         if (lineElement) {
-      //             lineElement.removeAttribute('line');
-      //         }
-      //         modelAdded[i] = false;
-      //         imageAdded[i] = false;
-      //     }
-      // }
       function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingModel = document.querySelector(`.spawned-model${i}`);
           const existingImage = document.querySelector(`.spawned-image${i}`);
@@ -468,19 +424,19 @@ body {
       function spawnModel(i, finalScale) {
           const model = document.createElement('a-entity');
           model.classList.add(`spawned-model${i}`);
-          model.classList.add('clickable');
+          // model.classList.add('clickable');
           model.setAttribute('gltf-model', `#model-asset${i}`);
           model.setAttribute('animation__position', 'property: position; to: 0 5 0; dur: 2000; easing: easeInOutQuad');
           model.setAttribute('scale', '0 0 0');
           model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
           model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
 
-          model.addEventListener('click', function(event) {
-              event.preventDefault();
-              event.stopPropagation();
-              const targetURL = `./model${i}.html`;
-              window.open(targetURL, '_blank');
-          });
+          // model.addEventListener('click', function(event) {
+          //     event.preventDefault();
+          //     event.stopPropagation();
+          //     const targetURL = `./model${i}.html`;
+          //     window.open(targetURL, '_blank');
+          // });
 
           const parentEntity = document.createElement('a-entity');
           parentEntity.appendChild(model);
