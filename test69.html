@@ -15,6 +15,17 @@ body {
 }
 #message {
   position: absolute;
+  top: 30%;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  display: none;
+}
+#messageURL {
+  position: absolute;
+  top: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   margin: 10px;
   padding: 10px;
@@ -142,6 +153,7 @@ body {
 
 <body>
     <div id="message"></div>
+    <a href="#" id="messageURL"></a>
 
     <div class="container-box">
       <div class="box" id="overviewButton">概要</div>
@@ -770,17 +782,22 @@ body {
             
             var inRange = checkRange(latitude, longitude);
             var messageElement = document.getElementById("message");
+            var messageURLElement = document.getElementById("messageURL");
             var containerElement = document.getElementById("container-circle");
             
             if (inRange) {
                 document.getElementById("container").setAttribute("visible", "true");
                 containerElement.style.display = "block";
                 messageElement.style.display = "none";
+                messageURLElement.style.display = "none";
             } else {
                 document.getElementById("container").setAttribute("visible", "false");
                 messageElement.textContent = "表示エリアから離れています。";
+                messageURLElement.href = "./model0.html";
+                messageURLElement.textContent = "どうしても表示されない場合は、こちらの遺構モデルをご覧ください。";
                 containerElement.style.display = "none";
                 messageElement.style.display = "block";
+                messageURLElement.style.display = "block";
             }
         }
 
@@ -798,24 +815,34 @@ body {
 
         function showError(error) {
             var messageElement = document.getElementById("message");
+            var messageURLElement = document.getElementById("messageURL");
             var containerElement = document.getElementById("container-circle");
             switch(error.code) {
                 case error.PERMISSION_DENIED:
                     messageElement.textContent = "位置情報の取得がユーザーによって拒否されました。ブラウザの設定で位置情報のアクセスを許可してください。";
+                    messageURLElement.href = "./model0.html";
+                    messageURLElement.textContent = "どうしても表示されない場合は、こちらの遺構モデルをご覧ください。";
                     break;
                 case error.POSITION_UNAVAILABLE:
                     messageElement.textContent = "位置情報の取得が利用できません。ブラウザやデバイスの位置情報サービスを有効にしてください。";
+                    messageURLElement.href = "./model0.html";
+                    messageURLElement.textContent = "どうしても表示されない場合は、こちらの遺構モデルをご覧ください。";
                     break;
                 case error.TIMEOUT:
                     messageElement.textContent = "位置情報の取得がタイムアウトしました。インターネット接続を確認してください。";
+                    messageURLElement.href = "./model0.html";
+                    messageURLElement.textContent = "どうしても表示されない場合は、こちらの遺構モデルをご覧ください。";
                     break;
                 case error.UNKNOWN_ERROR:
                 default:
                     messageElement.textContent = "位置情報の取得中に未知のエラーが発生しました。";
+                    messageURLElement.href = "./model0.html";
+                    messageURLElement.textContent = "どうしても表示されない場合は、こちらの遺構モデルをご覧ください。";
                     break;
             }
             containerElement.style.display = "none";
             messageElement.style.display = "block";
+            messageURLElement.style.display = "block";
         }
 
         // HTMLページ読み込み時にgetLocationを呼び出す
