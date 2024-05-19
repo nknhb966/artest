@@ -570,7 +570,7 @@ body {
         <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
 
         <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
-        <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
+        <a-entity class="clickable" cursor-listener2 gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.8 -0.5" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.8 2.2" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.8 -0.9" rotation="0 0 0"></a-entity>
@@ -589,6 +589,16 @@ body {
         <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
 
         <script>
+AFRAME.registerComponent('cursor-listener2', {
+  init: function () {
+    var el = this.el;
+    el.addEventListener('click', function () {
+      // リンク先のURLに遷移する
+      const targetURL = `./model2.html`;
+      window.open(targetURL, '_blank');
+    });
+  }
+});
           for (let i = 1; i <= 16; i++) {
             document.write(`<a-entity id="line${i}"></a-entity>`);
           }
