@@ -424,19 +424,11 @@ body {
       function spawnModel(i, finalScale) {
           const model = document.createElement('a-entity');
           model.classList.add(`spawned-model${i}`);
-          // model.classList.add('clickable');
           model.setAttribute('gltf-model', `#model-asset${i}`);
           model.setAttribute('animation__position', 'property: position; to: 0 5 0; dur: 2000; easing: easeInOutQuad');
           model.setAttribute('scale', '0 0 0');
           model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
           model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
-
-          // model.addEventListener('click', function(event) {
-          //     event.preventDefault();
-          //     event.stopPropagation();
-          //     const targetURL = `./model${i}.html`;
-          //     window.open(targetURL, '_blank');
-          // });
 
           const parentEntity = document.createElement('a-entity');
           parentEntity.appendChild(model);
@@ -541,7 +533,8 @@ body {
             curveShootingSpeed: 6"></a-entity>
       </a-entity>
 
-      <a-entity id="container" position="-0.5 -0.5 -15" rotation="0 -90 0" visible="false">
+      <a-entity id="container" position="0 -0.5 0" rotation="0 -90 0" visible="false">
+      <!-- <a-entity id="container" position="-0.5 -0.5 -15" rotation="0 -90 0" visible="false"> -->
 
         <!-- ui element -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
@@ -570,35 +563,59 @@ body {
         <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
 
         <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
-        <a-entity class="clickable" cursor-listener2 gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
+        <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
+        <a-box data-url="./model2.html" class="clickable blinking" cursor-listener position="1.8 0.8 1.8" scale="0.5 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.8 -0.5" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.8 2.2" rotation="0 180 0"></a-entity>
+        <a-box data-url="./model4.html" class="clickable blinking" cursor-listener position="3.8 0.8 2.2" scale="0.6 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.8 -0.9" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset6" scale="0.15 0.15 0.15" position="-2.8 0.8 0" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset7" scale="0.15 0.15 0.15" position="2.8 0.8 0.5" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset8" scale="0.15 0.15 0.15" position="7.1 0.8 2.1" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="6.1 0.8 2.0" rotation="0 180 0"></a-entity>
+        <a-box data-url="./model9.html" class="clickable blinking" cursor-listener position="6.1 0.8 2.0" scale="0.5 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.8 2.9" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.8 2.7" rotation="0 180 0"></a-entity>
+        <a-box data-url="./model11.html" class="clickable blinking" cursor-listener position="-7.25 0.8 2.7" scale="0.5 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.0 0.8 2.45" rotation="0 180 0"></a-entity>
+        <a-box data-url="./model12.html" class="clickable blinking" cursor-listener position="-7.0 0.8 2.45" scale="0.5 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.65 1.35" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.8 1.55" rotation="0 180 0"></a-entity>
+        <a-box data-url="./model14.html" class="clickable blinking" cursor-listener position="4.8 0.8 1.55" scale="0.5 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
 
+        
         <script>
-AFRAME.registerComponent('cursor-listener2', {
-  init: function () {
-    var el = this.el;
-    el.addEventListener('click', function () {
-      // リンク先のURLに遷移する
-      const targetURL = `./model2.html`;
-      window.open(targetURL, '_blank');
-    });
-  }
-});
+          setInterval(function() {
+            var boxes = document.querySelectorAll('.blinking');
+            boxes.forEach(function(box) {
+              if (box.getAttribute('opacity') === '0') {
+                box.setAttribute('opacity', '0.4');
+              } else {
+                box.setAttribute('opacity', '0');
+              }
+            });
+          }, 1500);
+        </script>
+
+        <script>
+          AFRAME.registerComponent('cursor-listener', {
+            init: function () {
+              var el = this.el;
+              el.addEventListener('click', function () {
+                var targetURL = el.getAttribute('data-url');
+                if (targetURL) {
+                  window.open(targetURL, '_blank');
+                }
+              });
+            }
+          });
+        </script>
+
+        <script>
           for (let i = 1; i <= 16; i++) {
             document.write(`<a-entity id="line${i}"></a-entity>`);
           }
