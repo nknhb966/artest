@@ -604,7 +604,8 @@ body {
               el.addEventListener('click', function () {
                 var targetURL = el.getAttribute('data-url');
                 if (targetURL) {
-                  window.open(targetURL, '_blank');
+                  window.location.href = targetURL;
+                  // window.open(targetURL, '_blank');
                 }
               });
             }
