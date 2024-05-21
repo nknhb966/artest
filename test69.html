@@ -13,10 +13,37 @@ body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
+#rotateMessageContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 9999;
+  display: none;
+}
+#rotateMessage {
+  color: white;
+  font-size: 20px;
+  margin-top: 20px;
+}
+#rotateImage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 70%;
+  max-height: 70vh;
+  margin-top: 20px;
+}
 #message {
   position: absolute;
   top: 30%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   margin: 10px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -26,7 +53,7 @@ body {
 #messageURL {
   position: absolute;
   top: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   margin: 10px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -95,16 +122,19 @@ body {
   height: 50px;
   top: 80%;
   right: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
   animation: growShrink 1s infinite alternate;
 }
 @keyframes growShrink {
   0% {
     width: 50px;
     height: 50px;
+    background-color: rgba(255, 255, 255, 0.8);
   }
   100% {
     width: 70px;
     height: 70px;
+    background-color: rgba(255, 255, 255, 1);
   }
 }
 .circle.top {
@@ -163,6 +193,11 @@ body {
 </head>
 
 <body>
+    <div id="rotateMessageContainer">
+      <div id="rotateMessage">Rotate Your Phone</div>
+      <img id="rotateImage" src="./image/00.png">
+    </div>
+
     <div id="message"></div>
     <a href="#" id="messageURL"></a>
 
@@ -247,8 +282,6 @@ body {
       function fixSize() {
         var circle = document.querySelector('.circle.num0');
         circle.style.animation = 'none';
-        circle.style.width = '50px';
-        circle.style.height = '50px';
       }
       
       // モーダルが表示されているかどうかを追跡するフラグ
@@ -892,6 +925,36 @@ body {
 
         getLocation();
 
+        let orientation = 0;
+
+        function checkOrientation() {
+            var orientation;
+            if(window.orientation !== undefined) {
+                orientation = window.orientation;
+            } else {
+                orientation = 0;
+            }
+
+            if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
+                document.getElementById('rotateMessageContainer').style.display = 'none';
+                document.getElementById('contentWrapper').style.display = 'block';
+            } else {
+                document.getElementById('rotateMessageContainer').style.display = 'block';
+                document.getElementById('contentWrapper').style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', function() {
+            checkOrientation();
+        });
+
+        window.addEventListener('orientationchange', function() {
+            checkOrientation();
+        });
+
+        window.addEventListener('resize', function() {
+            checkOrientation();
+        });
     </script>
 </body>
 </html>
