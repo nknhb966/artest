@@ -878,6 +878,7 @@ body {
                 document.getElementById("container").setAttribute("visible", "false");
                 messageElement.textContent = "表示エリアから離れています。再読込みしてください。";
                 messageURLElement.href = "./model0.html";
+                messageURLElement.target = "_blank";
                 messageURLElement.textContent = "エリア内でも表示されない場合は、こちらの遺構モデルをご覧ください。";
                 containerElement.style.display = "none";
                 messageElement.style.display = "block";
@@ -921,6 +922,7 @@ body {
 
             messageElement.textContent = message;
             messageURLElement.href = "./model0.html";
+            messageURLElement.target = "_blank";
             messageURLElement.textContent = "どうしても表示されない場合は、こちらの遺構モデルをご覧ください。";
 
             containerElement.style.display = "none";
