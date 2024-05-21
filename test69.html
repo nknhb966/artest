@@ -23,10 +23,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  z-index: 9999;
+  z-index: 10002;
   display: none;
 }
 #rotateMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: white;
   font-size: 20px;
   margin-top: 20px;
@@ -938,10 +942,8 @@ body {
 
             if (window.matchMedia("(min-width: 1000px)").matches || Math.abs(window.orientation) === 0) {
                 document.getElementById('rotateMessageContainer').style.display = 'none';
-                document.getElementById('contentWrapper').style.display = 'block';
             } else {
                 document.getElementById('rotateMessageContainer').style.display = 'block';
-                document.getElementById('contentWrapper').style.display = 'none';
             }
         }
 
