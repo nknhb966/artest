@@ -158,7 +158,7 @@ body {
     <div class="container-box">
       <div class="box" id="overviewButton">概要</div>
       <div class="box" id="Showing">全部表示</div>
-      <div class="box" onclick="location.href='./model0.html'">遺構表示</div>
+      <div class="box" onclick="window.open('./model0.html', '_blank')">遺構表示</div>
       <div class="box" onclick="location.reload()">再読込み</div>
     </div>
 
@@ -604,9 +604,7 @@ body {
               el.addEventListener('click', function () {
                 var targetURL = el.getAttribute('data-url');
                 if (targetURL) {
-                  // window.location.href = targetURL;
-                  window.open(targetURL, '_self');
-                  // window.open(targetURL, '_blank');
+                  window.open(targetURL, '_blank');
                 }
               });
             }
