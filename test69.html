@@ -174,7 +174,7 @@ body {
     </div>
 
     <div id="container-circle">
-      <div class="circle num0" onclick="fixSize(); moveLocation(destination0)">Start</div>
+      <div class="circle num0" onclick="moveLocation(destination0); fixSize()">Start</div>
       <div class="circle num1" onclick="moveLocation(destination1)">北</div>
       <div class="circle num2" onclick="moveLocation(destination2)"></div>
       <div class="circle num3" onclick="moveLocation(destination3)">南</div>
@@ -245,7 +245,7 @@ body {
       fetchLocations();
 
       function fixSize() {
-        var circle = document.querySelector('.circle num0');
+        var circle = document.querySelector('.circle.num0');
         circle.style.animation = 'none';
         circle.style.width = '50px';
         circle.style.height = '50px';
