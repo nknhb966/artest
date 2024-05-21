@@ -99,12 +99,12 @@ body {
 }
 @keyframes growShrink {
   0% {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
   }
   100% {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
 }
 .circle.top {
@@ -174,7 +174,7 @@ body {
     </div>
 
     <div id="container-circle">
-      <div class="circle num0" onclick="moveLocation(destination0)">Start</div>
+      <div class="circle num0" onclick="fixSize(); moveLocation(destination0)">Start</div>
       <div class="circle num1" onclick="moveLocation(destination1)">北</div>
       <div class="circle num2" onclick="moveLocation(destination2)"></div>
       <div class="circle num3" onclick="moveLocation(destination3)">南</div>
@@ -244,6 +244,13 @@ body {
 
       fetchLocations();
 
+      function fixSize() {
+        var circle = document.querySelector('.circle num0');
+        circle.style.animation = 'none';
+        circle.style.width = '50px';
+        circle.style.height = '50px';
+      }
+      
       // モーダルが表示されているかどうかを追跡するフラグ
       let isModalVisible = false;
 
