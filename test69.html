@@ -930,6 +930,31 @@ body {
 
         getLocation();
 
+        // OS識別
+        let os;
+
+        window.addEventListener("DOMContentLoaded", initOS);
+
+        function initOS() {
+            os = detectOSSimply();
+        }
+
+        function detectOSSimply() {
+            let ret;
+            if (
+                navigator.userAgent.indexOf("iPhone") > 0 ||
+                navigator.userAgent.indexOf("iPad") > 0 ||
+                navigator.userAgent.indexOf("iPod") > 0
+            ) {
+                ret = "iphone";
+            } else if (navigator.userAgent.indexOf("Android") > 0) {
+                ret = "android";
+            } else {
+                ret = "pc";
+            }
+            return ret;
+        }
+
         let orientation = 0;
 
         function checkOrientation() {
@@ -952,10 +977,16 @@ body {
         });
 
         window.addEventListener('orientationchange', function() {
+            if (os == "iphone") {
+              location.reload();
+            }
             checkOrientation();
         });
 
         window.addEventListener('resize', function() {
+            if (os == "iphone") {
+              location.reload();
+            }
             checkOrientation();
         });
     </script>
