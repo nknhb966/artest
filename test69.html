@@ -537,8 +537,8 @@ window.console.log = text => {
             this.el.addEventListener('click', () => {
             if (isOneFingerTouch) {
               window[`Spawn${i}`]();
-              isOneFingerTouch = false;
-              console.log(isOneFingerTouch);
+              // isOneFingerTouch = false;
+              // console.log(isOneFingerTouch);
             }
             });
           }
@@ -789,7 +789,7 @@ window.console.log = text => {
             document.addEventListener('touchend', onTouchEnd, false);
             // document.addEventListener('touchend', function (event) {
             //     var now = (new Date()).getTime();
-            //     if (now - lastTouchEnd <= 300) {
+            //     if (now - lastTouchEnd <= 2000) {
             //         event.preventDefault();
             //     }
             //     lastTouchEnd = now;
@@ -820,8 +820,8 @@ window.console.log = text => {
 
         function onTouchEnd(event) {
             if (event.touches.length == 0) {
-                // isOneFingerTouch = false;
-                // console.log(isOneFingerTouch);
+                isOneFingerTouch = false;
+                console.log(isOneFingerTouch);
                 isTwoFingerTouch = false;
             }
         }
