@@ -67,6 +67,9 @@ body {
 #container-circle {
   display: none;
 }
+#waiting-message {
+  display: block;
+}
 .container-box {
   display: flex;
   justify-content: space-between;
@@ -204,6 +207,8 @@ body {
 
     <div id="message"></div>
     <a href="#" id="messageURL"></a>
+
+    <div id="waiting-message">ロード中…しばらくお待ちください</div>
 
     <div class="container-box">
       <div class="box" id="overviewButton">概要</div>
@@ -864,6 +869,7 @@ body {
             var inRange = checkRange(latitude, longitude);
             var messageElement = document.getElementById("message");
             var messageURLElement = document.getElementById("messageURL");
+            var messageWaitElement = document.getElementById("waiting-message");
             var containerElement = document.getElementById("container-circle");
             
             if (inRange) {
@@ -871,6 +877,7 @@ body {
                 containerElement.style.display = "block";
                 messageElement.style.display = "none";
                 messageURLElement.style.display = "none";
+                messageWaitElement.style.display = "none";
             } else {
                 document.getElementById("container").setAttribute("visible", "false");
                 messageElement.textContent = "表示エリアから離れています。再読込みしてください。";
@@ -880,6 +887,7 @@ body {
                 containerElement.style.display = "none";
                 messageElement.style.display = "block";
                 messageURLElement.style.display = "block";
+                messageWaitElement.style.display = "none";
             }
         }
 
@@ -898,6 +906,7 @@ body {
         function showError(error) {
             var messageElement = document.getElementById("message");
             var messageURLElement = document.getElementById("messageURL");
+            var messageWaitElement = document.getElementById("waiting-message");
             var containerElement = document.getElementById("container-circle");
 
             var message = "";
@@ -925,6 +934,7 @@ body {
             containerElement.style.display = "none";
             messageElement.style.display = "block";
             messageURLElement.style.display = "block";
+            messageWaitElement.style.display = "none";
         }
 
         getLocation();
