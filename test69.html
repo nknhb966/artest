@@ -208,7 +208,7 @@ window.console.log = text => {
      .appendTo($('body'))
      .css({
       position: 'fixed',
-      bottom: 0,
+      bottom: 30,
       left: 0,
       width: '100%',
       height: '100px',
@@ -537,7 +537,7 @@ window.console.log = text => {
             this.el.addEventListener('click', () => {
             if (isOneFingerTouch) {
               window[`Spawn${i}`]();
-              // isOneFingerTouch = false;
+              isOneFingerTouch = false;
               console.log(isOneFingerTouch);
             }
             });
@@ -820,8 +820,8 @@ window.console.log = text => {
 
         function onTouchEnd(event) {
             if (event.touches.length == 0) {
-                isOneFingerTouch = false;
-                console.log(isOneFingerTouch);
+                // isOneFingerTouch = false;
+                // console.log(isOneFingerTouch);
                 isTwoFingerTouch = false;
             }
         }
