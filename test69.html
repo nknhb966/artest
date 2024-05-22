@@ -534,13 +534,13 @@ window.console.log = text => {
       for (let i = 1; i <= 16; i++) {
         AFRAME.registerComponent(`spawn-sphere${i}`, {
           init: function () {
-            // if (isOneFingerTouch) {
             this.el.addEventListener('click', () => {
+            if (isOneFingerTouch) {
               window[`Spawn${i}`]();
-              isOneFingerTouch = false;
+              // isOneFingerTouch = false;
               console.log(isOneFingerTouch);
+            }
             });
-            // }
           }
         });
       }
@@ -820,8 +820,8 @@ window.console.log = text => {
 
         function onTouchEnd(event) {
             if (event.touches.length == 0) {
-                // isOneFingerTouch = false;
-                // console.log(isOneFingerTouch);
+                isOneFingerTouch = false;
+                console.log(isOneFingerTouch);
                 isTwoFingerTouch = false;
             }
         }
