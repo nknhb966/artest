@@ -1,0 +1,35 @@
+const makeTable = (d) => {
+  const cr = (tag) => document.createElement(tag);
+  const tbl = cr("table");
+  for (const name in d) {
+    const val = d[name];
+    const tr = cr("tr");
+    tbl.appendChild(tr);
+    const th = cr("th");
+    th.textContent = name;
+    th.style.whiteSpace = "nowrap";
+    tr.appendChild(th);
+    const td = cr("td");
+    td.style.minWidth = "8em";
+    td.style.wordBreak = "break-all";
+
+    const n = val.match(/<a href=(.+)>(.+)<\/a>/);
+    if (n) {
+      const url = n[1];
+      const cap = n[2];
+      td.innerHTML = `<a href=${url}>${cap}</a>`;
+    } else if (val.startsWith("https://") || val.startsWith("http://")) {
+      td.innerHTML = `<a href=${val}>詳細</a>`;
+    } else if (val.endsWith(".jpg") || val.endsWith(".png")) {
+      const img = cr("img");
+      img.src = `./images/${val}`;
+      img.alt = val;
+      img.style.maxWidth = "100px"; // 画像の最大幅を指定
+      td.appendChild(img);
+    } else {
+      td.textContent = val;
+    }
+    tr.appendChild(td);
+  }
+  return tbl;
+};
