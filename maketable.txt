@@ -2,6 +2,7 @@ const makeTable = (d) => {
   const cr = (tag) => document.createElement(tag);
   const tbl = cr("table");
   for (const name in d) {
+    if (name === "icon") continue; // ヘッダーが'icon'の場合はスキップ
     const val = d[name];
     const tr = cr("tr");
     tbl.appendChild(tr);
@@ -33,3 +34,4 @@ const makeTable = (d) => {
   }
   return tbl;
 };
+s
