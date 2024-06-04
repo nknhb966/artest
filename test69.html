@@ -594,7 +594,7 @@ body {
             curveShootingSpeed: 6"></a-entity>
       </a-entity>
 
-      <a-entity id="container" position="-0.5 -0.25 -15" rotation="0 -90 0" visible="false">
+      <a-entity id="container" position="-0.5 -0.3 -15" rotation="0 -90 0" visible="false">
       <!-- <a-entity id="container" position="0 -0.5 0" rotation="0 -90 0" visible="false"> -->
 
         <!-- ui element -->
@@ -828,9 +828,9 @@ body {
                 var distanceDiff = currentDistance - initialDistance;
 
                 if (currentDistance > initialDistance) {
-                    cameraRig.object3D.position.y -= 0.015;
+                    cameraRig.object3D.position.y -= 0.005;
                 } else if (currentDistance < initialDistance) {
-                    cameraRig.object3D.position.y += 0.015;
+                    cameraRig.object3D.position.y += 0.005;
                 }
 
                 initialDistance = currentDistance;
