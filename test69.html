@@ -649,6 +649,12 @@ body {
         <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
         
         <script>
+          for (let i = 1; i <= 16; i++) {
+            document.write(`<a-entity id="line${i}"></a-entity>`);
+          }
+        </script>
+
+        <script>
           setInterval(function() {
             var boxes = document.querySelectorAll('.blinking');
             boxes.forEach(function(box) {
@@ -673,12 +679,6 @@ body {
               });
             }
           });
-        </script>
-
-        <script>
-          for (let i = 1; i <= 16; i++) {
-            document.write(`<a-entity id="line${i}"></a-entity>`);
-          }
         </script>
 
         <a-entity id="box1" geometry="primitive: box" material="color: white; opacity: 0.8" position="1.9 0 3.1" scale="1.5 1.5 0" animation="property: position; to: 1.5 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
