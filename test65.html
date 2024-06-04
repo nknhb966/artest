@@ -222,6 +222,57 @@
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
 
+      <!-- scene geometry -->
+      <a-assets>
+        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
+        <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
+        <a-asset-item id="text-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+        <a-asset-item id="text-asset3" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text03.glb"></a-asset-item>
+        <a-asset-item id="text-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text04.glb"></a-asset-item>
+        <a-asset-item id="text-asset5" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
+        <a-asset-item id="text-asset6" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
+        <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
+        <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
+        <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+        <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
+        <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
+        <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+        <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
+        <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
+        <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+        <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+
+        <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model04_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model09_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model11_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14_small.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- player -->
+      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
+        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity>
+        <a-entity
+          laser-controls="hand: left"
+          raycaster="objects: .clickable; far: 100"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+        <a-entity
+          laser-controls="hand: right"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+      </a-entity>
+
       <a-entity id="container" position="-7 0 -0.5" rotation="0 0 0">
 
         <!-- ui element -->
@@ -295,57 +346,6 @@
         <!-- <a-entity id="destination" position="3 10 0" rotation="0 90 0"></a-entity> -->
         <a-entity id="destination" position="-15 0 0" rotation="0 -90 0"></a-entity>
         <a-entity id="destination2" position="0 0 0" rotation="0 90 0"></a-entity>
-      </a-entity>
-
-      <!-- scene geometry -->
-      <a-assets>
-        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
-        <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
-        <a-asset-item id="text-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-        <a-asset-item id="text-asset3" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text03.glb"></a-asset-item>
-        <a-asset-item id="text-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text04.glb"></a-asset-item>
-        <a-asset-item id="text-asset5" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
-        <a-asset-item id="text-asset6" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
-        <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
-        <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
-        <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-        <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
-        <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
-        <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-        <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
-        <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
-        <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
-        <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
-
-        <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02_small.glb"></a-asset-item>
-        <a-asset-item id="model-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model04_small.glb"></a-asset-item>
-        <a-asset-item id="model-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model09_small.glb"></a-asset-item>
-        <a-asset-item id="model-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model11_small.glb"></a-asset-item>
-        <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12_small.glb"></a-asset-item>
-        <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14_small.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- player -->
-      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
-        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity>
-        <a-entity
-          laser-controls="hand: left"
-          raycaster="objects: .clickable; far: 100"
-          line="color: red; opacity: 0.75"
-          blink-controls="
-            collisionEntities: .collision;
-            cameraRig: #cameraRig;
-            teleportOrigin: #head;
-            curveShootingSpeed: 6"></a-entity>
-        <a-entity
-          laser-controls="hand: right"
-          raycaster="objects: .clickable"
-          line="color: red; opacity: 0.75"
-          blink-controls="
-            collisionEntities: .collision;
-            cameraRig: #cameraRig;
-            teleportOrigin: #head;
-            curveShootingSpeed: 6"></a-entity>
       </a-entity>
     </a-scene>
 
