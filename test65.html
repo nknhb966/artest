@@ -330,14 +330,13 @@
         </script>
 
         <a-entity id="move" class="clickable" gltf-model="#arrow-asset" position="0 1.5 0" scale="0.5 0.25 0.5" rotation="0 0 0" animation="property: position; to: 0 1.6 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-
         <a-entity id="move2" class="clickable" gltf-model="#arrow-asset" position="0 10 0" scale="0.5 0.25 0.5" rotation="180 0 0" animation="property: position; to: 0 10.1 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
 
-        <a-entity position="4 3.5 0.5">
+        <a-entity id="panel1" position="4 3.5 0.5">
           <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 -90 0">
           </a-image>
         </a-entity>
-        <a-entity position="-4 3.5 0.5">
+        <a-entity id="panel2" position="-4 3.5 0.5">
           <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 90 0">
           </a-image>
         </a-entity>
@@ -400,7 +399,8 @@
       }
 
       move.addEventListener('click', () => {
-          document.querySelector('#move').setAttribute('visible', 'false');
+          document.querySelector('#panel1').setAttribute('visible', 'false');
+          document.querySelector('#panel2').setAttribute('visible', 'false');
           moveLocation(destination1);
           setTimeout(() => {
               showAll();
@@ -411,7 +411,8 @@
           moveLocation(destination2);
           hideAll();
           setTimeout(() => {
-            document.querySelector('#move').setAttribute('visible', 'true');
+            document.querySelector('#panel1').setAttribute('visible', 'true');
+            document.querySelector('#panel2').setAttribute('visible', 'true');
           }, 2000);
       });
 
