@@ -400,8 +400,7 @@
       }
 
       move.addEventListener('click', () => {
-          // const image = document.querySelector('#move');
-          // image.setAttribute('visible', 'false');
+          document.querySelector('#move').setAttribute('visible', 'false');
           moveLocation(destination1);
           setTimeout(() => {
               showAll();
@@ -412,8 +411,7 @@
           moveLocation(destination2);
           hideAll();
           setTimeout(() => {
-            // const image = document.querySelector('#move');
-            // image.setAttribute('visible', 'true');
+            document.querySelector('#move').setAttribute('visible', 'true');
           }, 2000);
       });
 
