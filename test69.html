@@ -714,7 +714,7 @@
       
 function moveLocation(destination) {
   const cursorTeleport = cameraRig.components['cursor-teleport'];
-  cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion); 
+  cursorTeleport.teleportTo(destination.object3D.position, null); 
 }
 
       function showAll() {
