@@ -10,11 +10,11 @@
 
   <body>
     <script>
+      const sizeMultiplier = 15;
+      
       let numberOfModels = 16;
       let modelAdded = Array(numberOfModels).fill(false);
       let imageAdded = Array(numberOfModels).fill(false);
-
-      const sizeMultiplier = 15;
 
       function spawnImageOnly(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingImage = document.querySelector(`.spawned-image${i}`);
