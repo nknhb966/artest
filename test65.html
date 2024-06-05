@@ -344,8 +344,8 @@
         <!-- 固有データ -->
         <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: aqua; opacity: 0."></a-entity>
 
-<!--         <a-entity id="destination1" position="-15 0 0" rotation="0 -90 0"></a-entity> -->
-        <a-entity id="destination1" position="3 10 0" rotation="0 90 0"></a-entity>
+        <a-entity id="destination1" position="-15 0 0" rotation="0 -90 0"></a-entity>
+        <!-- <a-entity id="destination1" position="3 10 0" rotation="0 90 0"></a-entity> -->
         <a-entity id="destination2" position="0 0 0" rotation="0 90 0"></a-entity>
       </a-entity>
     </a-scene>
@@ -393,21 +393,21 @@
           });
       }
 
-      move2.addEventListener('click', () => {
-          const image = document.querySelector('#move');
-          image.setAttribute('visible', 'false');
+      move.addEventListener('click', () => {
+          // const image = document.querySelector('#move');
+          // image.setAttribute('visible', 'false');
           moveLocation(destination1);
           setTimeout(() => {
               showAll();
           }, 2000);
       });
 
-      move.addEventListener('click', () => {
+      move2.addEventListener('click', () => {
           moveLocation(destination2);
           hideAll();
           setTimeout(() => {
-            const image = document.querySelector('#move');
-            image.setAttribute('visible', 'true');
+            // const image = document.querySelector('#move');
+            // image.setAttribute('visible', 'true');
           }, 2000);
       });
 
