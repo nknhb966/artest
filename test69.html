@@ -542,37 +542,6 @@
       function Spawn14(){spawnModelImage(14, { x: 1, y: 1, z: 1 }, { x: 0.5, y: 1.2, z: 1.55 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21400_kokufuhakkutsu.png");}
       function Spawn15(){spawnImageOnly(15, { x: 0, y: 1.2, z: -0.7 }, { x: 1.5, y: 1.5, z: 0 }, 0,  baseUrl + "21500_kokufuhakkutsu.png");}
       function Spawn16(){spawnImageOnly(16, { x: -0.9, y: 1.2, z: -2.0 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "21600_kokufuhakkutsu.png");}
-
-      document.addEventListener("DOMContentLoaded", function() {
-        function addAsset(id, filename) {
-          const asset = document.createElement("a-asset-item");
-          asset.setAttribute("id", id);
-          asset.setAttribute("src", `${baseUrl}${filename}`);
-          document.querySelector("a-assets").appendChild(asset);
-        }
-        addAsset("text-asset1", "text01.glb");
-        addAsset("text-asset2", "text02.glb");
-        addAsset("text-asset3", "text03.glb");
-        addAsset("text-asset4", "text04.glb");
-        addAsset("text-asset5", "text05.glb");
-        addAsset("text-asset6", "text05.glb");
-        addAsset("text-asset7", "text07.glb");
-        addAsset("text-asset8", "text08.glb");
-        addAsset("text-asset9", "text02.glb");
-        addAsset("text-asset10", "text07.glb");
-        addAsset("text-asset11", "text11.glb");
-        addAsset("text-asset12", "text02.glb");
-        addAsset("text-asset13", "text13.glb");
-        addAsset("text-asset14", "text11.glb");
-        addAsset("text-asset15", "text15.glb");
-        addAsset("text-asset16", "text15.glb");
-        addAsset("model-asset2", "model02_small.glb");
-        addAsset("model-asset4", "model04_small.glb");
-        addAsset("model-asset9", "model09_small.glb");
-        addAsset("model-asset11", "model11_small.glb");
-        addAsset("model-asset12", "model12_small.glb");
-        addAsset("model-asset14", "model14_small.glb");
-      });
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false"> <!-- VRとARで異なる -->
@@ -581,6 +550,38 @@
       <a-assets>
         <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item> <!-- ARは軽量版を使用 -->
       </a-assets>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          function addAsset(id, filename) {
+            const asset = document.createElement("a-asset-item");
+            asset.setAttribute("id", id);
+            asset.setAttribute("src", `${baseUrl}${filename}`);
+            document.querySelector("a-assets").appendChild(asset);
+          }
+          addAsset("text-asset1", "text01.glb");
+          addAsset("text-asset2", "text02.glb");
+          addAsset("text-asset3", "text03.glb");
+          addAsset("text-asset4", "text04.glb");
+          addAsset("text-asset5", "text05.glb");
+          addAsset("text-asset6", "text05.glb");
+          addAsset("text-asset7", "text07.glb");
+          addAsset("text-asset8", "text08.glb");
+          addAsset("text-asset9", "text02.glb");
+          addAsset("text-asset10", "text07.glb");
+          addAsset("text-asset11", "text11.glb");
+          addAsset("text-asset12", "text02.glb");
+          addAsset("text-asset13", "text13.glb");
+          addAsset("text-asset14", "text11.glb");
+          addAsset("text-asset15", "text15.glb");
+          addAsset("text-asset16", "text15.glb");
+          addAsset("model-asset2", "model02_small.glb");
+          addAsset("model-asset4", "model04_small.glb");
+          addAsset("model-asset9", "model09_small.glb");
+          addAsset("model-asset11", "model11_small.glb");
+          addAsset("model-asset12", "model12_small.glb");
+          addAsset("model-asset14", "model14_small.glb");
+        });
+      </script>
 
       <!-- player -->
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
