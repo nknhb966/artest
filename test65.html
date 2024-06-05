@@ -11,8 +11,9 @@
 
   <body>
     <script>
-      let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-      let imageAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+      let numberOfModels = 16;
+      let modelAdded = Array(numberOfModels).fill(false);
+      let imageAdded = Array(numberOfModels).fill(false);
 
       const sizeMultiplier = 15;
 
@@ -189,7 +190,7 @@
         boxtextElement.setAttribute('visible', 'true');
       }
 
-      for (let i = 1; i <= 16; i++) {
+      for (let i = 1; i <= numberOfModels; i++) {
         AFRAME.registerComponent(`spawn-sphere${i}`, {
           init: function () {
             this.el.addEventListener('click', () => {
@@ -321,7 +322,7 @@
         <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
 
         <script>
-          for (let i = 1; i <= 16; i++) {
+          for (let i = 1; i <= numberOfModels; i++) {
             document.write(`<a-entity id="line${i}"></a-entity>`);
           }
         </script>
