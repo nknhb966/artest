@@ -1,213 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>越前国府発掘プロジェクトAR</title>
-<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
-<style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-}
-#rotateMessageContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 1);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  z-index: 10002;
-  display: none;
-}
-#rotateMessage {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 20px;
-  margin-top: 20px;
-}
-#rotateImage {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 70%;
-  max-height: 70vh;
-  margin-top: 20px;
-}
-#message {
-  position: absolute;
-  top: 30%;
-  background-color: rgba(255, 255, 255, 0.8);
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  z-index: 1000;
-  display: none;
-}
-#messageURL {
-  position: absolute;
-  top: 50%;
-  background-color: rgba(255, 255, 255, 0.8);
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  z-index: 1000;
-  display: none;
-}
-#container-circle {
-  display: none;
-}
-#waiting-message {
-  position: fixed;
-  top: 40%;
-  width: 100%;
-  text-align: center;
-  transform: translate(0%, -50%);
-  background-color: rgba(255, 255, 255, 1);
-  padding: 10px 0px;
-  display: block;
-  z-index: 10001;
-}
-.container-box {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  z-index: 10001;
-}
-.box {
-  flex: 1;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 10px;
-  margin: 0.5px;
-  cursor: pointer;
-  text-align: center;
-  user-select: none;
-}
-.circle {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  right: 10%;
-  transform: translate(50%, -50%);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  z-index: 10000;
-  user-select: none;
-}
-.circle.num1 {
-  top: 20%;
-}
-.circle.num2 {
-  width: 25px;
-  height: 25px;
-  top: 50%;
-}
-.circle.num3 {
-  top: 80%;
-}
-.circle.num4 {
-  width: 25px;
-  height: 25px;
-  top: 35%;
-}
-.circle.num5 {
-  width: 25px;
-  height: 25px;
-  top: 65%;
-}
-.circle.num0 {
-  width: 50px;
-  height: 50px;
-  top: 70%;
-  right: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  animation: growShrink 1s infinite alternate;
-}
-@keyframes growShrink {
-  0% {
-    width: 50px;
-    height: 50px;
-    background-color: rgba(0, 255, 255, 0.8);
-  }
-  100% {
-    width: 70px;
-    height: 70px;
-    background-color: rgba(0, 255, 255, 1);
-  }
-}
-.circle.top {
-  width: 50px;
-  height: 50px;
-  top: 10%;
-  right: 50%;
-}
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 10001;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-}
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-#overviewTitle {
-  font-weight: bold;  
-}
-#overviewImage {
-  width: 100%;
-  height: auto;
-  padding-top: 8px;
-}
-#overviewUrl {
-  display: block;
-  margin-top: 10px;
-  text-decoration: none;
-}
-#overviewUrl:hover {
-  text-decoration: underline;
-}
-</style>
-</head>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>越前国府発掘プロジェクトAR</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+      }
+      #rotateMessageContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 1);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        z-index: 10002;
+        display: none;
+      }
+      #rotateMessage {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 20px;
+        margin-top: 20px;
+      }
+      #rotateImage {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 70%;
+        max-height: 70vh;
+        margin-top: 20px;
+      }
+      #message {
+        position: absolute;
+        top: 30%;
+        background-color: rgba(255, 255, 255, 0.8);
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        z-index: 1000;
+        display: none;
+      }
+      #messageURL {
+        position: absolute;
+        top: 50%;
+        background-color: rgba(255, 255, 255, 0.8);
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        z-index: 1000;
+        display: none;
+      }
+      #container-circle {
+        display: none;
+      }
+      #waiting-message {
+        position: fixed;
+        top: 40%;
+        width: 100%;
+        text-align: center;
+        transform: translate(0%, -50%);
+        background-color: rgba(255, 255, 255, 1);
+        padding: 10px 0px;
+        display: block;
+        z-index: 10001;
+      }
+      .container-box {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        z-index: 10001;
+      }
+      .box {
+        flex: 1;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 10px;
+        margin: 0.5px;
+        cursor: pointer;
+        text-align: center;
+        user-select: none;
+      }
+      .circle {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        position: absolute;
+        right: 10%;
+        transform: translate(50%, -50%);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 10000;
+        user-select: none;
+      }
+      .circle.num1 {
+        top: 20%;
+      }
+      .circle.num2 {
+        width: 25px;
+        height: 25px;
+        top: 50%;
+      }
+      .circle.num3 {
+        top: 80%;
+      }
+      .circle.num4 {
+        width: 25px;
+        height: 25px;
+        top: 35%;
+      }
+      .circle.num5 {
+        width: 25px;
+        height: 25px;
+        top: 65%;
+      }
+      .circle.num0 {
+        width: 50px;
+        height: 50px;
+        top: 70%;
+        right: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        animation: growShrink 1s infinite alternate;
+      }
+      @keyframes growShrink {
+        0% {
+          width: 50px;
+          height: 50px;
+          background-color: rgba(0, 255, 255, 0.8);
+        }
+        100% {
+          width: 70px;
+          height: 70px;
+          background-color: rgba(0, 255, 255, 1);
+        }
+      }
+      .circle.top {
+        width: 50px;
+        height: 50px;
+        top: 10%;
+        right: 50%;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      #overviewTitle {
+        font-weight: bold;  
+      }
+      #overviewImage {
+        width: 100%;
+        height: auto;
+        padding-top: 8px;
+      }
+      #overviewUrl {
+        display: block;
+        margin-top: 10px;
+        text-decoration: none;
+      }
+      #overviewUrl:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
     <div id="rotateMessageContainer">
       <div id="rotateMessage">Rotate Your Phone</div>
       <img id="rotateImage" src="./image/00.png">
@@ -226,7 +226,7 @@ body {
     </div>
 
     <div id="container-circle">
-      <div class="circle num0" onclick="moveLocation(destination0); fixSize()">Start</div>
+      <div class="circle num0" onclick="moveLocation(destination0); fixStart()">Start</div>
       <div class="circle num1" onclick="moveLocation(destination1)">北</div>
       <div class="circle num2" onclick="moveLocation(destination2)"></div>
       <div class="circle num3" onclick="moveLocation(destination3)">南</div>
@@ -252,51 +252,52 @@ body {
 
       // CSVファイルを取得する関数
       async function fetchLocations() {
-          try {
-              const response = await fetch(locationsFilePath);
-              const data = await response.text();
-              const locations = parseCSV(data);
-              createModal(locations);
-          } catch (error) {
-              console.error('Error fetching locations:', error);
-          }
+        try {
+          const response = await fetch(locationsFilePath);
+          const data = await response.text();
+          const locations = parseCSV(data);
+          createModal(locations);
+        } catch (error) {
+          console.error('Error fetching locations:', error);
+        }
       }
 
       // CSVパース関数
       function parseCSV(csvData) {
-          const lines = csvData.split('\n');
-          const result = [];
-          const headers = lines[0].split(',');
-          for (let i = 1; i < lines.length; i++) {
-              if (lines[i].trim() === '') {
-                  continue;
-              }
-              const obj = {};
-              const currentline = lines[i].split(',');
-              for (let j = 0; j < headers.length; j++) {
-                  obj[headers[j].trim()] = currentline[j].trim();
-              }
-              result.push(obj);
+        const lines = csvData.split('\n');
+        const result = [];
+        const headers = lines[0].split(',');
+        for (let i = 1; i < lines.length; i++) {
+          if (lines[i].trim() === '') {
+            continue;
           }
-          return result;
+          const obj = {};
+          const currentline = lines[i].split(',');
+          for (let j = 0; j < headers.length; j++) {
+            obj[headers[j].trim()] = currentline[j].trim();
+          }
+          result.push(obj);
+        }
+        return result;
       }
 
       // createModal関数を修正してselectedLocationを受け取る
       function createModal(locations) {
-          // モデルに関連する情報を表示
-          document.getElementById('overviewButton').addEventListener('click', function() {
-              const selectedLocation = locations[0];
-              document.getElementById('overviewTitle').innerText = selectedLocation.title;
-              document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
-              document.getElementById('overviewDescription').innerText = selectedLocation.description;
-              document.getElementById('overviewImage').src = selectedLocation.image;
-              document.getElementById('overviewUrl').href = selectedLocation.url;
-          });
+        document.getElementById('overviewButton').addEventListener('click', function() {
+          const selectedLocation = locations[0];
+          document.getElementById('overviewTitle').innerText = selectedLocation.title;
+          document.getElementById('overviewSubtitle').innerText = selectedLocation.subtitle;
+          document.getElementById('overviewDescription').innerText = selectedLocation.description;
+          document.getElementById('overviewImage').src = selectedLocation.image;
+          document.getElementById('overviewUrl').href = selectedLocation.url;
+        });
       }
 
+      // fetchLocationsを実行
       fetchLocations();
 
-      function fixSize() {
+      // スタートをクリックしたら行う処理
+      function fixStart() {
         var circle = document.querySelector('.circle.num0');
         circle.style.display = 'none';
       }
@@ -306,12 +307,12 @@ body {
 
       // モーダルを表示する関数
       function showModal() {
-          isModalVisible = true;
+        isModalVisible = true;
       }
 
       // モーダルを非表示にする関数
       function hideModal() {
-          isModalVisible = false;
+        isModalVisible = false;
       }
 
       // ボタンをクリックしたらモーダルを表示する処理
@@ -333,11 +334,14 @@ body {
           hideModal();
         }
       });
+    </script>
 
-      let modelAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-      let imageAdded = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-
+    <script>
       const sizeMultiplier = 9;
+      
+      let numberOfModels = 16;
+      let modelAdded = Array(numberOfModels).fill(false);
+      let imageAdded = Array(numberOfModels).fill(false);
 
       function spawnImageOnly(i, finalPositionImage, finalScaleImage, inv, imageUrl) {
           const existingImage = document.querySelector(`.spawned-image${i}`);
@@ -484,13 +488,13 @@ body {
       }
 
       function spawnModel(i, finalScale) {
-          const model = document.createElement('a-entity');
-          model.classList.add(`spawned-model${i}`);
-          model.setAttribute('gltf-model', `#model-asset${i}`);
-          model.setAttribute('animation__position', 'property: position; to: 0 3 0; dur: 2000; easing: easeInOutQuad');
-          model.setAttribute('scale', '0 0 0');
-          model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
-          model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
+        const model = document.createElement('a-entity');
+        model.classList.add(`spawned-model${i}`);
+        model.setAttribute('gltf-model', `#model-asset${i}`);
+        model.setAttribute('animation__position', 'property: position; to: 0 3 0; dur: 2000; easing: easeInOutQuad');
+        model.setAttribute('scale', '0 0 0');
+        model.setAttribute('animation__scale', `property: scale; to: ${finalScale.x} ${finalScale.y} ${finalScale.z}; dur: 2000; easing: easeInOutQuad`);
+        model.setAttribute('animation__rotation', 'property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear');
 
         const clickableElements = document.querySelectorAll('.clickable');
         if (clickableElements[i - 1]) {
@@ -508,13 +512,13 @@ body {
         boxtextElement.setAttribute('visible', 'true');
       }
 
-      for (let i = 1; i <= 16; i++) {
+      for (let i = 1; i <= numberOfModels; i++) {
         AFRAME.registerComponent(`spawn-sphere${i}`, {
           init: function () {
             this.el.addEventListener('click', () => {
-              if (isOneFingerTouch) {
+              if (isOneFingerTouch) { // この行はAR独自
                 window[`Spawn${i}`]();
-              }
+              } // この行はAR独自
             });
           }
         });
@@ -540,40 +544,39 @@ body {
       function Spawn16(){spawnImageOnly(16, { x: -0.9 * sizeMultiplier, y: 1.2 * sizeMultiplier, z: -2.0 * sizeMultiplier }, { x: 1.5 * sizeMultiplier, y: 1.5 * sizeMultiplier, z: 0 }, 0, baseUrl + "21600_kokufuhakkutsu.png");}
     </script>
 
-    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false">
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" arjs="sourceType: webcam; videoTexture: true;" renderer="colorManagement: true;" vr-mode-ui="enabled: false"> <!-- VRとARで異なる -->
 
       <!-- scene geometry -->
       <a-assets>
-          <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item>
-          <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
-          <a-asset-item id="text-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-          <a-asset-item id="text-asset3" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text03.glb"></a-asset-item>
-          <a-asset-item id="text-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text04.glb"></a-asset-item>
-          <a-asset-item id="text-asset5" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
-          <a-asset-item id="text-asset6" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
-          <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
-          <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
-          <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-          <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
-          <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
-          <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
-          <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
-          <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
-          <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
-          <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+        <a-asset-item id="kokufu" src="https://echizencity.github.io/opendata/kokufuhakkutsu/00101_kokufuhakkutsu_small.glb"></a-asset-item> <!-- ARは軽量版を使用 -->
+        <a-asset-item id="text-asset1" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text01.glb"></a-asset-item>
+        <a-asset-item id="text-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+        <a-asset-item id="text-asset3" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text03.glb"></a-asset-item>
+        <a-asset-item id="text-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text04.glb"></a-asset-item>
+        <a-asset-item id="text-asset5" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
+        <a-asset-item id="text-asset6" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text05.glb"></a-asset-item>
+        <a-asset-item id="text-asset7" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
+        <a-asset-item id="text-asset8" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text08.glb"></a-asset-item>
+        <a-asset-item id="text-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+        <a-asset-item id="text-asset10" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text07.glb"></a-asset-item>
+        <a-asset-item id="text-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
+        <a-asset-item id="text-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text02.glb"></a-asset-item>
+        <a-asset-item id="text-asset13" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text13.glb"></a-asset-item>
+        <a-asset-item id="text-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text11.glb"></a-asset-item>
+        <a-asset-item id="text-asset15" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
+        <a-asset-item id="text-asset16" src="https://echizencity.github.io/opendata/kokufuhakkutsu/text15.glb"></a-asset-item>
 
-          <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02_small.glb"></a-asset-item>
-          <a-asset-item id="model-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model04_small.glb"></a-asset-item>
-          <a-asset-item id="model-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model09_small.glb"></a-asset-item>
-          <a-asset-item id="model-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model11_small.glb"></a-asset-item>
-          <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12_small.glb"></a-asset-item>
-          <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset2" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model02_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset4" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model04_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset9" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model09_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset11" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model11_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset12" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model12_small.glb"></a-asset-item>
+        <a-asset-item id="model-asset14" src="https://echizencity.github.io/opendata/kokufuhakkutsu/model14_small.glb"></a-asset-item>
       </a-assets>
 
       <!-- player -->
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
-        <a-entity id="head" position="0 1.27 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity>
-
+        <a-entity id="head" position="0 1.27 0" camera look-controls="reverseMouseDrag: true; touchEnabled: false; mouseEnabled: false"></a-entity> <!-- VRとARで異なる -->
         <a-entity
           laser-controls="hand: left"
           raycaster="objects: .clickable; far: 100"
@@ -594,10 +597,8 @@ body {
             curveShootingSpeed: 6"></a-entity>
       </a-entity>
 
-      <a-entity id="container" position="-0.5 0 -15" rotation="0 -90 0" visible="false">
-      <!-- <a-entity id="container" position="0 -0.5 0" rotation="0 -90 0" visible="false"> -->
-
-        <!-- ui element -->
+      <!-- ui element -->
+      <a-entity id="container" position="-0.5 0 -15" rotation="0 -90 0" visible="false"> <!-- 初期位置の設定、VRとARで異なる -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
         <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
         <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
@@ -625,35 +626,36 @@ body {
 
         <a-entity gltf-model="#text-asset1" scale="0.15 0.15 0.15" position="1.9 0.8 -0.5" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset2" scale="0.15 0.15 0.15" position="1.8 0.8 1.8" rotation="0 180 0"></a-entity>
-        <a-box data-url="./model2.html" class="clickable blinking" cursor-listener position="1.8 0.8 1.8" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset3" scale="0.15 0.15 0.15" position="4.3 0.8 -0.5" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset4" scale="0.15 0.15 0.15" position="3.8 0.8 2.2" rotation="0 180 0"></a-entity>
-        <a-box data-url="./model4.html" class="clickable blinking" cursor-listener position="3.8 0.8 2.2" scale="0.6 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset5" scale="0.15 0.15 0.15" position="-0.5 0.8 -0.9" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset6" scale="0.15 0.15 0.15" position="-2.8 0.8 0" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset7" scale="0.15 0.15 0.15" position="2.8 0.8 0.5" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset8" scale="0.15 0.15 0.15" position="7.1 0.8 2.1" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset9" scale="0.15 0.15 0.15" position="6.1 0.8 2.0" rotation="0 180 0"></a-entity>
-        <a-box data-url="./model9.html" class="clickable blinking" cursor-listener position="6.1 0.8 2.0" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset10" scale="0.15 0.15 0.15" position="-7.6 0.8 2.9" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset11" scale="0.15 0.15 0.15" position="-7.25 0.8 2.7" rotation="0 180 0"></a-entity>
-        <a-box data-url="./model11.html" class="clickable blinking" cursor-listener position="-7.25 0.8 2.7" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset12" scale="0.15 0.15 0.15" position="-7.0 0.8 2.45" rotation="0 180 0"></a-entity>
-        <a-box data-url="./model12.html" class="clickable blinking" cursor-listener position="-7.0 0.8 2.45" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset13" scale="0.15 0.15 0.15" position="4.5 0.65 1.35" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset14" scale="0.15 0.15 0.15" position="4.8 0.8 1.55" rotation="0 180 0"></a-entity>
-        <a-box data-url="./model14.html" class="clickable blinking" cursor-listener position="4.8 0.8 1.55" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.9 0.8 0.2" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-5.4 0.8 2.9" rotation="0 180 0"></a-entity>
         <a-entity gltf-model="#text-asset15" scale="0.15 0.15 0.15" position="-6.4 0.8 -2.1" rotation="0 0 0"></a-entity>
         <a-entity gltf-model="#text-asset16" scale="0.15 0.15 0.15" position="7.3 0.8 -0.8" rotation="0 0 0"></a-entity>
         
         <script>
-          for (let i = 1; i <= 16; i++) {
+          for (let i = 1; i <= numberOfModels; i++) {
             document.write(`<a-entity id="line${i}"></a-entity>`);
           }
         </script>
 
+        <!-- ARのみ設定（textに設定する各モデルへのリンク） -->
+        <a-box data-url="./model2.html" class="clickable blinking" cursor-listener position="1.8 0.8 1.8" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
+        <a-box data-url="./model4.html" class="clickable blinking" cursor-listener position="3.8 0.8 2.2" scale="0.6 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
+        <a-box data-url="./model9.html" class="clickable blinking" cursor-listener position="6.1 0.8 2.0" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
+        <a-box data-url="./model11.html" class="clickable blinking" cursor-listener position="-7.25 0.8 2.7" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
+        <a-box data-url="./model12.html" class="clickable blinking" cursor-listener position="-7.0 0.8 2.45" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
+        <a-box data-url="./model14.html" class="clickable blinking" cursor-listener position="4.8 0.8 1.55" scale="0.45 0.001 0.15" rotation="0 0 0" color="white" opacity="0"></a-box>
         <script>
           setInterval(function() {
             var boxes = document.querySelectorAll('.blinking');
@@ -665,9 +667,7 @@ body {
               }
             });
           }, 1500);
-        </script>
 
-        <script>
           AFRAME.registerComponent('cursor-listener', {
             init: function () {
               var el = this.el;
@@ -686,6 +686,7 @@ body {
         <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
         <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
 
+        <!-- VRとARで異なる -->
         <a-entity id="destination0" position="-0.5 0 -6.51"></a-entity>
         <a-entity id="destination1" position="-0.5 0 -22"></a-entity>
         <a-entity id="destination2" position="-0.5 0 -15"></a-entity>
@@ -694,65 +695,64 @@ body {
         <a-entity id="destination5" position="-0.5 0 -11.5"></a-entity>
         <a-entity id="destinationtop" position="-0.5 5 -5"></a-entity>
       </a-entity>
-
     </a-scene>
 
     <script>
-        const cameraRig = document.getElementById('cameraRig');
-        const modelsToSpawn1 = [1, 2, 3, 4, 9, 11, 12, 14];
-        const modelsToSpawn2 = [5, 6, 7, 8, 10, 13, 15, 16];
+      const cameraRig = document.getElementById('cameraRig');
+      const modelsToSpawn1 = [1, 2, 3, 4, 9, 11, 12, 14];
+      const modelsToSpawn2 = [5, 6, 7, 8, 10, 13, 15, 16];
+      
+      function moveLocation(destination) {
+        const cursorTeleport = cameraRig.components['cursor-teleport'];
+        const rotation = destination.object3D.quaternion || null;
+        cursorTeleport.teleportTo(destination.object3D.position, rotation); 
+      }
 
-        function moveLocation(destination) {
-          const cursorTeleport = cameraRig.components['cursor-teleport'];
-          const rotation = destination.object3D.quaternion || null;
-          cursorTeleport.teleportTo(destination.object3D.position, rotation); 
-        }
-
-        function showAll() {
-            modelsToSpawn1.forEach(index => {
-                if (!modelAdded[index] || !imageAdded[index]) {
-                    window[`Spawn${index}`]();
-                    if (!imageAdded[index]) {
-                        window[`Spawn${index}`]();
-                    }
-                }
-            });
-            modelsToSpawn2.forEach(index => {
-                if (!imageAdded[index]) {
-                    window[`Spawn${index}`]();
-                }
-            });
-        }
-
-        function hideAll() {
-            modelsToSpawn1.forEach(index => {
-                if (modelAdded[index] && !imageAdded[index]) {
-                    window[`Spawn${index}`]();
-                    window[`Spawn${index}`]();
-                } else if (imageAdded[index]) {
-                    window[`Spawn${index}`]();
-                }
-            });
-            modelsToSpawn2.forEach(index => {
-                if (imageAdded[index]) {
-                    window[`Spawn${index}`]();
-                }
-            });
-        }
-
-        let isShowing = false;
-
-        document.getElementById("Showing").addEventListener("click", function() {
-            if (isShowing) {
-                hideAll();
-                isShowing = false;
-                document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-            } else {
-                showAll();
-                isShowing = true;
-                document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+      function showAll() {
+        modelsToSpawn1.forEach(index => {
+          if (!modelAdded[index] || !imageAdded[index]) {
+            window[`Spawn${index}`]();
+            if (!imageAdded[index]) {
+              window[`Spawn${index}`]();
             }
+          }
         });
+        modelsToSpawn2.forEach(index => {
+          if (!imageAdded[index]) {
+            window[`Spawn${index}`]();
+          }
+        });
+      }
+
+      function hideAll() {
+        modelsToSpawn1.forEach(index => {
+          if (modelAdded[index] && !imageAdded[index]) {
+            window[`Spawn${index}`]();
+            window[`Spawn${index}`]();
+          } else if (imageAdded[index]) {
+            window[`Spawn${index}`]();
+          }
+        });
+        modelsToSpawn2.forEach(index => {
+          if (imageAdded[index]) {
+            window[`Spawn${index}`]();
+          }
+        });
+      }
+
+      let isShowing = false;
+
+      document.getElementById("Showing").addEventListener("click", function() {
+        if (isShowing) {
+          hideAll();
+          isShowing = false;
+          document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+        } else {
+          showAll();
+          isShowing = true;
+          document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+        }
+      });
     </script>
 
     <script>
@@ -994,11 +994,8 @@ body {
         });
 
         window.addEventListener('resize', function() {
-            if (os == "iphone") {
-              // location.reload();
-            }
             checkOrientation();
         });
     </script>
-</body>
+  </body>
 </html>
