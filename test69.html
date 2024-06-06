@@ -296,12 +296,6 @@
       // fetchLocationsを実行
       fetchLocations();
 
-      // スタートをクリックしたら行う処理
-      function fixStart() {
-        var circle = document.querySelector('.circle.num0');
-        circle.style.display = 'none';
-      }
-      
       // モーダルが表示されているかどうかを追跡するフラグ
       let isModalVisible = false;
 
@@ -334,6 +328,12 @@
           hideModal();
         }
       });
+
+      // スタートをクリックしたら行う処理
+      function fixStart() {
+        var circle = document.querySelector('.circle.num0');
+        circle.style.display = 'none';
+      }
     </script>
 
     <script>
