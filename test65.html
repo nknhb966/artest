@@ -279,7 +279,7 @@
       </a-entity>
 
       <!-- ui element -->
-      <a-entity id="container" position="0 0 -0.5" rotation="0 0 0"> <!-- 初期位置の設定、VRとARで異なる -->
+      <a-entity id="container" position="0 0 -0.5" rotation="0 0 0"> <!-- 初期位置の設定、VRとARで異なる position="-7 0 -0.5" -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
         <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
         <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
@@ -337,6 +337,7 @@
 
         <!-- VRとARで異なる -->
         <a-entity id="destination1" position="10 10 0" rotation="0 90 0"></a-entity> 
+        <!-- <a-entity id="destination1" position="3 10 0" rotation="0 90 0"></a-entity>  -->
         <a-entity id="destination2" position="0 0 0" rotation="0 90 0"></a-entity>
 
         <!-- VRのみ設定（テレポート系） -->
