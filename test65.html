@@ -45,7 +45,7 @@
           }
       }
 
-      function spawnModelImage(i, finalScaleModel, finalPositionImage, finalScaleImage, inv, imageUrl) {
+      function spawnModelImage(i, finalPositionImage, finalScaleImage, inv, imageUrl, finalScaleModel) {
           const existingModel = document.querySelector(`.spawned-model${i}`);
           const existingImage = document.querySelector(`.spawned-image${i}`);
           const lineElement = document.getElementById(`line${i}`);
@@ -198,19 +198,19 @@
       const baseUrl = "https://echizencity.github.io/opendata/kokufuhakkutsu/";
 
       function Spawn1(){spawnBoxImage(1, { x: -0.5, y: 1.2, z: -2.3 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "20100_kokufuhakkutsu.png");}
-      function Spawn2(){spawnModelImage(2, { x: 1, y: 1, z: 1 }, { x: -0.5, y: 1.2, z: 1.2 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "20200_kokufuhakkutsu.png");}
+      function Spawn2(){spawnModelImage(2, { x: -0.5, y: 1.2, z: 1.2 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "20200_kokufuhakkutsu.png", { x: 1, y: 1, z: 1 });}
       function Spawn3(){spawnBoxImage(3, { x: 0.3, y: 1.2, z: -2.3 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "20300_kokufuhakkutsu.png");}
-      function Spawn4(){spawnModelImage(4, { x: 1, y: 1, z: 1 }, { x: -0.2, y: 1.2, z: 0.8 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "20400_kokufuhakkutsu.png");}
+      function Spawn4(){spawnModelImage(4, { x: -0.2, y: 1.2, z: 0.8 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "20400_kokufuhakkutsu.png", { x: 1, y: 1, z: 1 });}
       function Spawn5(){spawnImageOnly(5, { x: -0.5, y: 1.2, z: -2.3 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "20500_kokufuhakkutsu.png");}
       function Spawn6(){spawnImageOnly(6, { x: 0 , y: 1.2, z: -2.8 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "20600_kokufuhakkutsu.png");}
       function Spawn7(){spawnImageOnly(7, { x: 0.7, y: 1.2, z: -3.3 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "20700_kokufuhakkutsu.png");}
       function Spawn8(){spawnImageOnly(8, { x: 1.4, y: 1.2, z: -1.5 }, { x: 1.5, y: 1.5, z: 0 }, -90, baseUrl + "20800_kokufuhakkutsu.png");}
-      function Spawn9(){spawnModelImage(9, { x: 1, y: 1, z: 1 }, { x: 2, y: 1.2, z: 0 }, { x: 1.5, y: 1.5, z: 0 }, -90, baseUrl + "20900_kokufuhakkutsu.png");}
+      function Spawn9(){spawnModelImage(9, { x: 2, y: 1.2, z: 0 }, { x: 1.5, y: 1.5, z: 0 }, -90, baseUrl + "20900_kokufuhakkutsu.png", { x: 1, y: 1, z: 1 });}
       function Spawn10(){spawnImageOnly(10, { x: -1, y: 1.2, z: -0.7 }, { x: 1.5, y: 1.5, z: 0 }, 90, baseUrl + "21000_kokufuhakkutsu.png");}
-      function Spawn11(){spawnModelImage(11, { x: 1, y: 1, z: 1 }, { x: 0, y: 1.2, z: 0.8 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21100_kokufuhakkutsu.png");}
-      function Spawn12(){spawnModelImage(12, { x: 1, y: 1, z: 1 }, { x: 1.5, y: 1.2, z: 1.05 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21200_kokufuhakkutsu.png");}
+      function Spawn11(){spawnModelImage(11, { x: 0, y: 1.2, z: 0.8 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21100_kokufuhakkutsu.png", { x: 1, y: 1, z: 1 });}
+      function Spawn12(){spawnModelImage(12, { x: 1.5, y: 1.2, z: 1.05 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21200_kokufuhakkutsu.png", { x: 1, y: 1, z: 1 });}
       function Spawn13(){spawnImageOnly(13, { x: 2, y: 1.35, z: 1.55 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21300_kokufuhakkutsu.png");}
-      function Spawn14(){spawnModelImage(14, { x: 1, y: 1, z: 1 }, { x: 0.5, y: 1.2, z: 1.55 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21400_kokufuhakkutsu.png");}
+      function Spawn14(){spawnModelImage(14, { x: 0.5, y: 1.2, z: 1.55 }, { x: 1.5, y: 1.5, z: 0 }, 180, baseUrl + "21400_kokufuhakkutsu.png", { x: 1, y: 1, z: 1 });}
       function Spawn15(){spawnImageOnly(15, { x: 0, y: 1.2, z: -0.7 }, { x: 1.5, y: 1.5, z: 0 }, 0,  baseUrl + "21500_kokufuhakkutsu.png");}
       function Spawn16(){spawnImageOnly(16, { x: -0.9, y: 1.2, z: -2.0 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "21600_kokufuhakkutsu.png");}
     </script>
