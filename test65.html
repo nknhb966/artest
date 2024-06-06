@@ -401,17 +401,18 @@
         moveLocation(destination1);
         document.querySelector('#panel1').setAttribute('visible', 'false');
         document.querySelector('#panel2').setAttribute('visible', 'false');
+        hideAll();
         setTimeout(() => {
-          showAll();
+          
         }, 2000);
       });
 
       move2.addEventListener('click', () => {
         moveLocation(destination2);
-        hideAll();
         setTimeout(() => {
           document.querySelector('#panel1').setAttribute('visible', 'true');
           document.querySelector('#panel2').setAttribute('visible', 'true');
+          showAll();
         }, 2000);
       });
     </script>
