@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>モデル内移動0</title>
+    <title>モデル内移動</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
@@ -53,27 +53,28 @@
           return;
         }
       
-        // 速度の制御
+        // 速度の減衰、最大速度の制御など
         if (velocity.x > 0) {
-          velocity.x -= acceleration;
-          if (velocity.x < 0) {
-            velocity.x = 0;
-          }
-        } else if (velocity.x < 0) {
-          velocity.x += acceleration;
-          if (velocity.x > 0) {
+          velocity.x -= deceleration;
+          if (velocity.x < deceleration) {
             velocity.x = 0;
           }
         }
-      
+        if (velocity.x < 0) {
+          velocity.x += deceleration;
+          if (velocity.x > -deceleration) {
+            velocity.x = 0;
+          }
+        }
         if (velocity.z > 0) {
-          velocity.z -= acceleration;
-          if (velocity.z < 0) {
+          velocity.z -= deceleration;
+          if (velocity.z < deceleration) {
             velocity.z = 0;
           }
-        } else if (velocity.z < 0) {
-          velocity.z += acceleration;
-          if (velocity.z > 0) {
+        }
+        if (velocity.z < 0) {
+          velocity.z += deceleration;
+          if (velocity.z > -deceleration) {
             velocity.z = 0;
           }
         }
