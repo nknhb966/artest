@@ -261,7 +261,8 @@
           id="ctlL"
           laser-controls="hand: left"
           raycaster="objects: .clickable"
-          line="color: red; opacity: 0.75"></a-entity>
+          line="color: red; opacity: 0.75"
+          thumbstick-logging></a-entity>
         <a-entity
           id="ctlR"
           laser-controls="hand: right"
@@ -428,6 +429,66 @@
         toggleLocations();
       });
 
+      var velocity = {x: 0, y: 0, z: 0};
+      var acceleration = 0.004;
+      var deceleration = 0.002;
+
+      var maxVelocity = 0.008;
+
+      var shouldStop = true;
+
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function () {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+
+          logThumbstick: function (event) {
+            if (event.detail.x == 0) {
+              if (velocity.x > 0) {
+                velocity.x -= deceleration;
+                if (velocity.x < deceleration) {
+                  velocity.x = 0;
+                }
+                shouldStop = false;
+              }
+              if (velocity.x < 0) {
+                velocity.x += deceleration;
+                if (velocity.x > -deceleration) {
+                  velocity.x = 0;
+                }
+                shouldStop = false;
+              }
+            } else if (event.detail.x > 0.9) {
+              velocity.x -= acceleration;
+              shouldStop = false;
+            } else if (event.detail.x < -0.9) {
+              velocity.x += acceleration;
+              shouldStop = false;
+            }
+            if (event.detail.y == 0) {
+              if (velocity.z > 0) {
+                velocity.z -= deceleration;
+                if (velocity.z < deceleration) {
+                  velocity.z = 0;
+                }
+                shouldStop = false;
+              }
+              if (velocity.z < 0) {
+                velocity.z += deceleration;
+                if (velocity.z > -deceleration) {
+                  velocity.z = 0;
+                }
+                shouldStop = false;
+              }
+            } else if (event.detail.y > 0.9) {
+              velocity.z -= acceleration;
+              shouldStop = false;
+            } else if (event.detail.y < -0.9) {
+              velocity.z += acceleration;
+              shouldStop = false;
+            }
+          }
+      });      
     </script>
   </body>
 </html>
