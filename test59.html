@@ -53,28 +53,27 @@
           return;
         }
       
-        // 速度の減衰、最大速度の制御など
+        // 速度の制御
         if (velocity.x > 0) {
-          velocity.x -= deceleration;
-          if (velocity.x < deceleration) {
+          velocity.x -= acceleration;
+          if (velocity.x < 0) {
+            velocity.x = 0;
+          }
+        } else if (velocity.x < 0) {
+          velocity.x += acceleration;
+          if (velocity.x > 0) {
             velocity.x = 0;
           }
         }
-        if (velocity.x < 0) {
-          velocity.x += deceleration;
-          if (velocity.x > -deceleration) {
-            velocity.x = 0;
-          }
-        }
+      
         if (velocity.z > 0) {
-          velocity.z -= deceleration;
-          if (velocity.z < deceleration) {
+          velocity.z -= acceleration;
+          if (velocity.z < 0) {
             velocity.z = 0;
           }
-        }
-        if (velocity.z < 0) {
-          velocity.z += deceleration;
-          if (velocity.z > -deceleration) {
+        } else if (velocity.z < 0) {
+          velocity.z += acceleration;
+          if (velocity.z > 0) {
             velocity.z = 0;
           }
         }
