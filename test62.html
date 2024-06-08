@@ -214,6 +214,108 @@
       function Spawn15(){spawnImageOnly(15, { x: 0, y: 1.2, z: -0.7 }, { x: 1.5, y: 1.5, z: 0 }, 0,  baseUrl + "21500_kokufuhakkutsu.png");}
       function Spawn16(){spawnImageOnly(16, { x: -0.9, y: 1.2, z: -2.0 }, { x: 1.5, y: 1.5, z: 0 }, 0, baseUrl + "21600_kokufuhakkutsu.png");}
     </script>
+
+
+    <script>
+        var velocity = {x: 0, y: 0, z: 0};
+        var acceleration = 0.004;
+        var deceleration = 0.002;
+        var maxVelocity = 0.008;
+        var shouldStop = true;
+  
+        AFRAME.registerComponent('thumbstick-logging', {
+          init: function () {
+            this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+          },
+  
+          logThumbstick: function (event) {
+            if (event.detail.x == 0) {
+              velocity.x = 0;
+              shouldStop = true;
+            } else if (event.detail.x > 0.9) {
+              velocity.x -= acceleration;
+              shouldStop = false;
+            } else if (event.detail.x < -0.9) {
+              velocity.x += acceleration;
+              shouldStop = false;
+            }
+            if (event.detail.y == 0) {
+              velocity.z = 0;
+              shouldStop = true;
+            } else if (event.detail.y > 0.9) {
+              velocity.z -= acceleration;
+              shouldStop = false;
+            } else if (event.detail.y < -0.9) {
+              velocity.z += acceleration;
+              shouldStop = false;
+            }
+          }
+        });
+  
+        function updateModelMovement() {
+          var model = document.getElementById('container');
+          var currentPosition = model.getAttribute('position');
+        
+          if (shouldStop) {
+            velocity = {x: 0, y: 0, z: 0};
+            model.setAttribute('position', currentPosition);
+            return;
+          }
+        
+          // 速度の減衰、最大速度の制御など
+          if (velocity.x > 0) {
+            velocity.x -= deceleration;
+            if (velocity.x < deceleration) {
+              velocity.x = 0;
+            }
+          }
+          if (velocity.x < 0) {
+            velocity.x += deceleration;
+            if (velocity.x > -deceleration) {
+              velocity.x = 0;
+            }
+          }
+          if (velocity.z > 0) {
+            velocity.z -= deceleration;
+            if (velocity.z < deceleration) {
+              velocity.z = 0;
+            }
+          }
+          if (velocity.z < 0) {
+            velocity.z += deceleration;
+            if (velocity.z > -deceleration) {
+              velocity.z = 0;
+            }
+          }
+          
+          // 速度が最大速度を超えないように制御
+          var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+          if (speed > maxVelocity) {
+            var ratio = maxVelocity / speed;
+            velocity.x *= ratio;
+            velocity.z *= ratio;
+          }
+        
+          // 位置の更新
+          model.setAttribute('position', {
+            x: currentPosition.x + velocity.x,
+            y: currentPosition.y + velocity.y,
+            z: currentPosition.z + velocity.z
+          });
+
+          // 速度の表示を更新
+          var velocityText = document.getElementById('velocityText');
+          velocityText.setAttribute('text', 'value', 'Velocity: ' + velocity.x.toFixed(4) + ', ' + velocity.y.toFixed(4) + ', ' + velocity.z.toFixed(4));
+        }
+  
+        // フレームごとにモデルの移動を更新
+        AFRAME.registerComponent('move-model', {
+          tick: function () {
+            updateModelMovement();
+          }
+        });
+    </script>
+
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         function addAsset(id, filename) {
@@ -430,106 +532,6 @@
       ctlR.addEventListener('bbuttondown', function (event) {
         toggleLocations();
       });
-    </script>
-
-    <script>
-        var velocity = {x: 0, y: 0, z: 0};
-        var acceleration = 0.004;
-        var deceleration = 0.002;
-        var maxVelocity = 0.008;
-        var shouldStop = true;
-  
-        AFRAME.registerComponent('thumbstick-logging', {
-          init: function () {
-            this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-          },
-  
-          logThumbstick: function (event) {
-            if (event.detail.x == 0) {
-              velocity.x = 0;
-              shouldStop = true;
-            } else if (event.detail.x > 0.9) {
-              velocity.x -= acceleration;
-              shouldStop = false;
-            } else if (event.detail.x < -0.9) {
-              velocity.x += acceleration;
-              shouldStop = false;
-            }
-            if (event.detail.y == 0) {
-              velocity.z = 0;
-              shouldStop = true;
-            } else if (event.detail.y > 0.9) {
-              velocity.z -= acceleration;
-              shouldStop = false;
-            } else if (event.detail.y < -0.9) {
-              velocity.z += acceleration;
-              shouldStop = false;
-            }
-          }
-        });
-  
-        function updateModelMovement() {
-          var model = document.getElementById('container');
-          var currentPosition = model.getAttribute('position');
-        
-          if (shouldStop) {
-            velocity = {x: 0, y: 0, z: 0};
-            model.setAttribute('position', currentPosition);
-            return;
-          }
-        
-          // 速度の減衰、最大速度の制御など
-          if (velocity.x > 0) {
-            velocity.x -= deceleration;
-            if (velocity.x < deceleration) {
-              velocity.x = 0;
-            }
-          }
-          if (velocity.x < 0) {
-            velocity.x += deceleration;
-            if (velocity.x > -deceleration) {
-              velocity.x = 0;
-            }
-          }
-          if (velocity.z > 0) {
-            velocity.z -= deceleration;
-            if (velocity.z < deceleration) {
-              velocity.z = 0;
-            }
-          }
-          if (velocity.z < 0) {
-            velocity.z += deceleration;
-            if (velocity.z > -deceleration) {
-              velocity.z = 0;
-            }
-          }
-          
-          // 速度が最大速度を超えないように制御
-          var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-          if (speed > maxVelocity) {
-            var ratio = maxVelocity / speed;
-            velocity.x *= ratio;
-            velocity.z *= ratio;
-          }
-        
-          // 位置の更新
-          model.setAttribute('position', {
-            x: currentPosition.x + velocity.x,
-            y: currentPosition.y + velocity.y,
-            z: currentPosition.z + velocity.z
-          });
-
-          // 速度の表示を更新
-          var velocityText = document.getElementById('velocityText');
-          velocityText.setAttribute('text', 'value', 'Velocity: ' + velocity.x.toFixed(4) + ', ' + velocity.y.toFixed(4) + ', ' + velocity.z.toFixed(4));
-        }
-  
-        // フレームごとにモデルの移動を更新
-        AFRAME.registerComponent('move-model', {
-          tick: function () {
-            updateModelMovement();
-          }
-        });
     </script>
   </body>
 </html>
