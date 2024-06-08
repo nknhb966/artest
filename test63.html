@@ -268,6 +268,7 @@
             teleportOrigin: #head;
             curveShootingSpeed: 6"></a-entity>
         <a-entity
+          id="ctlR"
           laser-controls="hand: right"
           raycaster="objects: .clickable"
           line="color: red; opacity: 0.75"
@@ -275,8 +276,7 @@
             collisionEntities: .collision;
             cameraRig: #cameraRig;
             teleportOrigin: #head;
-            curveShootingSpeed: 6"
-          buttondown="button: A"></a-entity>
+            curveShootingSpeed: 6"></a-entity>
       </a-entity>
 
       <!-- ui element -->
@@ -413,29 +413,12 @@
           showAll();
         }, 2000);
       });
-AFRAME.registerComponent('buttondown', {
-  init: function () {
-    var button = this.data.button;
-    var el = this.el;
 
-    el.addEventListener('buttondown', function (evt) {
-      if (evt.detail.id === button) {
-        toggleVisibility();
-      }
-    });
-  }
-});
+      const ctlR = document.getElementById("ctlR");
+      ctlR.addEventListener('abuttondown', function (event) {
+        showAll();
+      });
 
-var isAllVisible = false;
-
-function toggleVisibility() {
-  if (isAllVisible) {
-    hideAll();
-  } else {
-    showAll();
-  }
-  isAllVisible = !isAllVisible;
-}
     </script>
   </body>
 </html>
