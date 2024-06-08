@@ -1,50 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>A-Frame VR Position Display</title>
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <!-- Camera Rig -->
-      <a-entity id="cameraRig" position="0 0 0">
-        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity>
-        <a-entity id="ctlL" laser-controls="hand: left" raycaster="objects: .clickable" line="color: red; opacity: 0.75"></a-entity>
-        <a-entity id="ctlR" laser-controls="hand: right" raycaster="objects: .clickable" line="color: red; opacity: 0.75"></a-entity>
-      </a-entity>
+<head>
+  <meta charset="UTF-8">
+  <title>A-Frame VR Position Display</title>
+  <script src="https://aframe.io/releases/latest/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Camera Rig -->
+    <a-entity id="cameraRig" position="0 0 0">
+      <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity>
+      <a-entity id="ctlL" laser-controls="hand: left" raycaster="objects: .clickable" line="color: red; opacity: 0.75"></a-entity>
+      <a-entity id="ctlR" laser-controls="hand: right" raycaster="objects: .clickable" line="color: red; opacity: 0.75"></a-entity>
+    </a-entity>
 
-      <!-- Text Entity for Displaying Position -->
-      <a-entity id="positionText" position="0 2 -3" text="value: Loading...; color: white;"></a-entity>
+    <!-- Text Entity for Displaying Position -->
+    <a-entity id="positionText" position="0 2 -3" text="value: Loading...; color: white;"></a-entity>
 
-      <!-- Add script to update text position -->
-      <script>
-        AFRAME.registerComponent('update-position-text', {
-          tick: function () {
-            var head = document.querySelector('#head');
-            var positionText = document.querySelector('#positionText');
-
-            // Get the position of the head (camera)
-            var position = head.getAttribute('position');
-            var positionTextValue = `Position: ${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)}`;
-
-            // Update the text entity's value
-            positionText.setAttribute('text', 'value', positionTextValue);
-          }
-        });
-
-        const ctlR = document.getElementById("ctlR");
-
-        ctlR.addEventListener('abuttondown', function (event) {
+    <!-- Add script to update text position -->
+    <script>
+      AFRAME.registerComponent('update-position-text', {
+        tick: function () {
           var head = document.querySelector('#head');
-          var position = head.getAttribute('position');
-          position.x += 1; // Increment x position by 1
-          head.setAttribute('position', position);
-        });
+          var positionText = document.querySelector('#positionText');
 
-        // Attach the component to the scene
-        document.querySelector('a-scene').setAttribute('update-position-text', '');
-      </script>
-    </a-scene>
-  </body>
+          // Get the position of the head (camera)
+          var position = head.getAttribute('position');
+          var positionTextValue = `Position: ${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)}`;
+
+          // Update the text entity's value
+          positionText.setAttribute('text', 'value', positionTextValue);
+        }
+      });
+
+      const ctlR = document.getElementById("ctlR");
+
+      ctlR.addEventListener('abuttondown', function (event) {
+        console.log('A button pressed');
+        var head = document.querySelector('#head');
+        var position = head.getAttribute('position');
+        position.x += 1; // Increment x position by 1
+        head.setAttribute('position', { x: position.x, y: position.y, z: position.z });
+
+        // Update the text entity's value with the additional message
+        var positionText = document.querySelector('#positionText');
+        var currentText = positionText.getAttribute('text').value;
+        positionText.setAttribute('text', 'value', currentText + ' AbuttonPressed');
+      });
+
+      // Attach the component to the scene
+      document.querySelector('a-scene').setAttribute('update-position-text', '');
+    </script>
+  </a-scene>
+</body>
 </html>
