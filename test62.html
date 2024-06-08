@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script> <!-- VRとARで異なる -->
   </head>
-  <script>
+    <script>
       var velocity = {x: 0, y: 0, z: 0};
       var acceleration = 0.004;
       var deceleration = 0.002;
@@ -94,18 +94,13 @@
           z: currentPosition.z + velocity.z
         });
 
-        // 速度の表示を更新
-        var velocityText = document.getElementById('velocityText');
-        velocityText.setAttribute('text', 'value', 'Velocity: ' + velocity.x.toFixed(4) + ', ' + velocity.y.toFixed(4) + ', ' + velocity.z.toFixed(4));
-      }
-
-      // フレームごとにモデルの移動を更新
-      AFRAME.registerComponent('move-model', {
-        tick: function () {
-          updateModelMovement();
-        }
-      });
-  </script>
+        // フレームごとにモデルの移動を更新
+        AFRAME.registerComponent('move-model', {
+          tick: function () {
+            updateModelMovement();
+          }
+        });
+    </script>
 
   <body>
     <script>
@@ -352,8 +347,6 @@
       <a-assets>
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item> <!-- VRはオリジナル版を使用 -->
       </a-assets>
-      
-      <a-entity id="velocityText" position="0 1.5 -3" text="value: Velocity: 0, 0, 0; color: white;"></a-entity>
 
       <!-- ui element -->
       <a-entity id="container" position="-7 0 -0." rotation="0 0 0" move-model> <!-- 初期位置の設定、VRとARで異なる　初期設定時：position="0 0 0"が望ましい -->
