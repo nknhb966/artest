@@ -749,18 +749,17 @@
         });
       }
 
-      let isShowing = false;
+      let isAllVisible = false;
 
       document.getElementById("Showing").addEventListener("click", function() {
-        if (isShowing) {
+        if (isAllVisible) {
           hideAll();
-          isShowing = false;
           document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.5)";
         } else {
           showAll();
-          isShowing = true;
           document.getElementById("Showing").style.backgroundColor = "rgba(255, 255, 255, 0.8)";
         }
+        isAllVisible = !isAllVisible;
       });
     </script>
 
