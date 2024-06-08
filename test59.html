@@ -21,8 +21,8 @@
 
         logThumbstick: function (event) {
           if (event.detail.x == 0) {
-            velocity.x = 0; // 速度を即座に0に設定
-            shouldStop = true; // 移動停止フラグを立てる
+            velocity.x = 0;
+            shouldStop = true;
           } else if (event.detail.x > 0.9) {
             velocity.x -= acceleration;
             shouldStop = false;
@@ -30,10 +30,9 @@
             velocity.x += acceleration;
             shouldStop = false;
           }
-          // y軸方向の速度についても同様に修正
           if (event.detail.y == 0) {
-            velocity.z = 0; // 速度を即座に0に設定
-            shouldStop = true; // 移動停止フラグを立てる
+            velocity.z = 0;
+            shouldStop = true;
           } else if (event.detail.y > 0.9) {
             velocity.z -= acceleration;
             shouldStop = false;
