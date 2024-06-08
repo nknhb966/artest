@@ -396,18 +396,7 @@
         });
       }
 
-      const ctlR = document.getElementById("ctlR");
-
-      ctlR.addEventListener('abuttondown', function (event) {
-        toggleVisibility();
-      });
-
-      ctlR.addEventListener('bbuttondown', function (event) {
-        toggleLocations();
-      });
-
       var isAllVisible = false;
-      var isLocationSwitch = false;
 
       function toggleVisibility() {
         if (isAllVisible) {
@@ -417,6 +406,8 @@
         }
         isAllVisible = !isAllVisible;
       }
+
+      var isLocationSwitch = false;
 
       function toggleLocations() {
         if (isLocationSwitch) {
@@ -430,6 +421,17 @@
         }
         isLocationSwitch = !isLocationSwitch;
       }
+
+      const ctlR = document.getElementById("ctlR");
+
+      ctlR.addEventListener('abuttondown', function (event) {
+        toggleVisibility();
+      });
+
+      ctlR.addEventListener('bbuttondown', function (event) {
+        toggleLocations();
+      });
+
     </script>
   </body>
 </html>
