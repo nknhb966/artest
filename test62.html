@@ -44,7 +44,7 @@
       });
 
       function updateModelMovement() {
-        var model = document.getElementById('modelContainer');
+        var model = document.getElementById('container');
         var currentPosition = model.getAttribute('position');
       
         if (shouldStop) {
@@ -116,11 +116,17 @@
       
       <a-entity id="velocityText" position="0 1.5 -3" text="value: Velocity: 0, 0, 0; color: white;"></a-entity>
 
-      <a-entity id="modelContainer" position="0 0 0" move-model>
+      <a-entity id="container" position="0 0 0" move-model>
 
         <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="model" collidable></a-entity>
 
-        <a-sphere id="sphere" color="#222" scale="0.2 0.2 0.2" position="0 1 0" class="collidable"></a-sphere>
+        <!-- VRのみ設定（上部概要） -->
+        <a-entity id="panel1" position="4 3.5 0.5">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 -90 0"></a-image>
+        </a-entity>
+        <a-entity id="panel2" position="-4 3.5 0.5">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 90 0"></a-image>
+        </a-entity>
       </a-entity>
 
       <!-- player -->
