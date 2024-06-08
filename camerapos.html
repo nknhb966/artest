@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>A-Frame VR Controller Button</title>
+    <title>A-Frame VR Position Display</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   </head>
   <body>
@@ -17,7 +17,7 @@
       <!-- Text Entity for Displaying Position -->
       <a-entity id="positionText" position="0 2 -3" text="value: Loading...; color: white;"></a-entity>
 
-      <!-- Add script to update text position and handle button press -->
+      <!-- Add script to update text position -->
       <script>
         AFRAME.registerComponent('update-position-text', {
           tick: function () {
@@ -33,21 +33,17 @@
           }
         });
 
-        AFRAME.registerComponent('move-head-on-a-button', {
-          init: function () {
-            var rightController = document.querySelector('#ctlR');
-            rightController.addEventListener('abuttondown', () => {
-              var head = document.querySelector('#head');
-              var position = head.getAttribute('position');
-              position.x += 1; // Increment x position by 1
-              head.setAttribute('position', position);
-            });
-          }
+        const ctlR = document.getElementById("ctlR");
+
+        ctlR.addEventListener('abuttondown', function (event) {
+          var head = document.querySelector('#head');
+          var position = head.getAttribute('position');
+          position.x += 1; // Increment x position by 1
+          head.setAttribute('position', position);
         });
 
-        // Attach the components to the scene and cameraRig
+        // Attach the component to the scene
         document.querySelector('a-scene').setAttribute('update-position-text', '');
-        document.querySelector('#cameraRig').setAttribute('move-head-on-a-button', '');
       </script>
     </a-scene>
   </body>
