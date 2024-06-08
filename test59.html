@@ -55,26 +55,14 @@
         // 速度の制御
         if (velocity.x > 0) {
           velocity.x -= acceleration;
-          if (velocity.x < 0) {
-            velocity.x = 0;
-          }
         } else if (velocity.x < 0) {
           velocity.x += acceleration;
-          if (velocity.x > 0) {
-            velocity.x = 0;
-          }
         }
       
         if (velocity.z > 0) {
           velocity.z -= acceleration;
-          if (velocity.z < 0) {
-            velocity.z = 0;
-          }
         } else if (velocity.z < 0) {
           velocity.z += acceleration;
-          if (velocity.z > 0) {
-            velocity.z = 0;
-          }
         }
         
         // 速度が最大速度を超えないように制御
