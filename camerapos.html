@@ -39,8 +39,12 @@
         console.log('A button pressed');
         var head = document.querySelector('#head');
         var position = head.getAttribute('position');
-        position.x += 1; // Increment x position by 1
-        head.setAttribute('position', { x: position.x, y: position.y, z: position.z });
+        var newPosition = {
+          x: position.x + 1,
+          y: position.y,
+          z: position.z
+        };
+        head.setAttribute('position', newPosition);
 
         // Update the text entity's value with the additional message
         var positionText = document.querySelector('#positionText');
