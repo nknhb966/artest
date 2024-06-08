@@ -260,9 +260,9 @@
         <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> <!-- VRとARで異なる -->
         <a-entity
           laser-controls="hand: left"
-          raycaster="objects: .clickable; far: 100"
+          raycaster="objects: .clickable"
           line="color: red; opacity: 0.75"
-          movement-controls></a-entity>
+          thumbstick-logging></a-entity>
         <a-entity
           laser-controls="hand: right"
           raycaster="objects: .clickable"
@@ -409,83 +409,67 @@
         }, 2000);
       });
     </script>
+
     <script>
-      AFRAME.registerComponent('movement-controls', {
-        schema: {
-          acceleration: {type: 'number', default: 0.1},
-          deceleration: {type: 'number', default: 0.05}
-        },
-    
+      var velocity = {x: 0, y: 0, z: 0};
+      var acceleration = 0.004;
+      var deceleration = 0.002;
+
+      var maxVelocity = 0.008; // 最大速度を定義
+
+      var shouldStop = true;
+
+      AFRAME.registerComponent('thumbstick-logging', {
         init: function () {
-          this.velocity = new THREE.Vector3();
-          this.shouldStop = true;
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
         },
-    
-        tick: function (time, timeDelta) {
-          if (!this.shouldStop) {
-            let direction = new THREE.Vector3();
-            this.el.object3D.getWorldDirection(direction);
-            direction.y = 0;
-            direction.normalize();
-    
-            let moveVector = direction.clone().multiplyScalar(this.velocity.z);
-            moveVector.add(this.el.object3D.getWorldDirection(new THREE.Vector3(1, 0, 0)).multiplyScalar(this.velocity.x));
-    
-            this.el.object3D.position.add(moveVector.multiplyScalar(timeDelta / 1000));
+
+          logThumbstick: function (event) {
+            if (event.detail.x == 0) {
+              if (velocity.x > 0) {
+                velocity.x -= deceleration;
+                if (velocity.x < deceleration) {
+                  velocity.x = 0;
+                }
+                shouldStop = false;
+              }
+              if (velocity.x < 0) {
+                velocity.x += deceleration;
+                if (velocity.x > -deceleration) {
+                  velocity.x = 0;
+                }
+                shouldStop = false;
+              }
+            } else if (event.detail.x > 0.9) {
+              velocity.x -= acceleration;
+              shouldStop = false;
+            } else if (event.detail.x < -0.9) {
+              velocity.x += acceleration;
+              shouldStop = false;
+            }
+            if (event.detail.y == 0) {
+              if (velocity.z > 0) {
+                velocity.z -= deceleration;
+                if (velocity.z < deceleration) {
+                  velocity.z = 0;
+                }
+                shouldStop = false;
+              }
+              if (velocity.z < 0) {
+                velocity.z += deceleration;
+                if (velocity.z > -deceleration) {
+                  velocity.z = 0;
+                }
+                shouldStop = false;
+              }
+            } else if (event.detail.y > 0.9) {
+              velocity.z -= acceleration;
+              shouldStop = false;
+            } else if (event.detail.y < -0.9) {
+              velocity.z += acceleration;
+              shouldStop = false;
+            }
           }
-        },
-    
-        logThumbstick: function (event) {
-          const acceleration = this.data.acceleration;
-          const deceleration = this.data.deceleration;
-    
-          if (event.detail.x == 0) {
-            if (this.velocity.x > 0) {
-              this.velocity.x -= deceleration;
-              if (this.velocity.x < deceleration) {
-                this.velocity.x = 0;
-              }
-              this.shouldStop = false;
-            }
-            if (this.velocity.x < 0) {
-              this.velocity.x += deceleration;
-              if (this.velocity.x > -deceleration) {
-                this.velocity.x = 0;
-              }
-              this.shouldStop = false;
-            }
-          } else if (event.detail.x > 0.9) {
-            this.velocity.x -= acceleration;
-            this.shouldStop = false;
-          } else if (event.detail.x < -0.9) {
-            this.velocity.x += acceleration;
-            this.shouldStop = false;
-          }
-    
-          if (event.detail.y == 0) {
-            if (this.velocity.z > 0) {
-              this.velocity.z -= deceleration;
-              if (this.velocity.z < deceleration) {
-                this.velocity.z = 0;
-              }
-              this.shouldStop = false;
-            }
-            if (this.velocity.z < 0) {
-              this.velocity.z += deceleration;
-              if (this.velocity.z > -deceleration) {
-                this.velocity.z = 0;
-              }
-              this.shouldStop = false;
-            }
-          } else if (event.detail.y > 0.9) {
-            this.velocity.z -= acceleration;
-            this.shouldStop = false;
-          } else if (event.detail.y < -0.9) {
-            this.velocity.z += acceleration;
-            this.shouldStop = false;
-          }
-        }
       });
     </script>
   </body>
