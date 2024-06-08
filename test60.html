@@ -26,103 +26,63 @@
 
       var shouldStop = true;
 
-      AFRAME.registerComponent('left-thumbstick-logging', {
-        init: function () {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
-          this.el.addEventListener('buttondown', this.onButtonDown.bind(this));
-        },
-      
-        logThumbstick: function (event) {
-          // サムスティックの処理
-          if (event.detail.x == 0) {
-            if (velocity.x > 0) {
-              velocity.x -= deceleration;
-              if (velocity.x < deceleration) {
-                velocity.x = 0;
-              }
-              shouldStop = false;
-            }
-            if (velocity.x < 0) {
-              velocity.x += deceleration;
-              if (velocity.x > -deceleration) {
-                velocity.x = 0;
-              }
-              shouldStop = false;
-            }
-          } else if (event.detail.x > 0.9) {
-            velocity.x -= acceleration;
-            shouldStop = false;
-          } else if (event.detail.x < -0.9) {
-            velocity.x += acceleration;
-            shouldStop = false;
-          }
-          if (event.detail.y == 0) {
-            if (velocity.z > 0) {
-              velocity.z -= deceleration;
-              if (velocity.z < deceleration) {
-                velocity.z = 0;
-              }
-              shouldStop = false;
-            }
-            if (velocity.z < 0) {
-              velocity.z += deceleration;
-              if (velocity.z > -deceleration) {
-                velocity.z = 0;
-              }
-              shouldStop = false;
-            }
-          } else if (event.detail.y > 0.9) {
-            velocity.z -= acceleration;
-            shouldStop = false;
-          } else if (event.detail.y < -0.9) {
-            velocity.z += acceleration;
-            shouldStop = false;
-          }
-        },
-      
-        onButtonDown: function (event) {
-          switch (event.detail.id) {
-            case 0: // Aボタン
-              this.handleAButtonPress();
-              break;
-            case 1: // Bボタン
-              this.handleBButtonPress();
-              break;
-            case 2: // Xボタン
-              this.handleXButtonPress();
-              break;
-            case 3: // Yボタン
-              this.handleYButtonPress();
-              break;
-            default:
-              console.log('未対応のボタンが押されました: ', event.detail.id);
-          }
-        },
-      
-        handleAButtonPress: function () {
-          // Aボタンが押されたときに実行する処理
-          console.log('Aボタンが押されました');
-          // ここに任意の処理を追加してください
-        },
-      
-        handleBButtonPress: function () {
-          // Bボタンが押されたときに実行する処理
-          console.log('Bボタンが押されました');
-          // ここに任意の処理を追加してください
-        },
-      
-        handleXButtonPress: function () {
-          // Xボタンが押されたときに実行する処理
-          console.log('Xボタンが押されました');
-          // ここに任意の処理を追加してください
-        },
-      
-        handleYButtonPress: function () {
-          // Yボタンが押されたときに実行する処理
-          console.log('Yボタンが押されました');
-          // ここに任意の処理を追加してください
+AFRAME.registerComponent('thumbstick-logging', {
+  init: function () {
+    this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+  },
+
+  logThumbstick: function (event) {
+    const deadZone = 0.1; // スティックのデッドゾーンを設定
+    const maxInput = 0.9; // 最大入力範囲
+
+    // X方向の速度調整
+    if (Math.abs(event.detail.x) < deadZone) {
+      if (velocity.x > 0) {
+        velocity.x -= deceleration;
+        if (velocity.x < 0) {
+          velocity.x = 0;
         }
-      });
+      } else if (velocity.x < 0) {
+        velocity.x += deceleration;
+        if (velocity.x > 0) {
+          velocity.x = 0;
+        }
+      }
+    } else {
+      velocity.x += event.detail.x * acceleration;
+      if (velocity.x > maxInput) {
+        velocity.x = maxInput;
+      } else if (velocity.x < -maxInput) {
+        velocity.x = -maxInput;
+      }
+    }
+
+    // Y方向の速度調整
+    if (Math.abs(event.detail.y) < deadZone) {
+      if (velocity.z > 0) {
+        velocity.z -= deceleration;
+        if (velocity.z < 0) {
+          velocity.z = 0;
+        }
+      } else if (velocity.z < 0) {
+        velocity.z += deceleration;
+        if (velocity.z > 0) {
+          velocity.z = 0;
+        }
+      }
+    } else {
+      velocity.z += event.detail.y * acceleration;
+      if (velocity.z > maxInput) {
+        velocity.z = maxInput;
+      } else if (velocity.z < -maxInput) {
+        velocity.z = -maxInput;
+      }
+    }
+
+    shouldStop = (velocity.x === 0 && velocity.z === 0);
+  }
+});
+
 
       function updateModelMovement() {
         var model = document.getElementById('modelContainer');
@@ -400,7 +360,7 @@
       <a-entity id="cameraRig">
           <a-entity id="head" camera wasd-controls look-controls position="0 1.6 0" raycaster="objects: .collidable; far: 1.5;" collider-check>
           </a-entity>
-          <a-entity hand-controls="left" left-thumbstick-logging>
+          <a-entity id="ctlL" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" input-listener>
               <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nX: Teleport" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
           </a-entity>
           <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" thumbstick-logging>
