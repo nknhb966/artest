@@ -259,7 +259,14 @@
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
         <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> <!-- VRとARで異なる -->
         <a-entity
-          raycaster="objects: .collidable; far:1.2;" laser-controls="hand: left" thumbstick-logging></a-entity>
+          laser-controls="hand: left"
+          raycaster="objects: .clickable; far: 100"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
         <a-entity
           laser-controls="hand: right"
           raycaster="objects: .clickable"
@@ -404,69 +411,6 @@
           document.querySelector('#panel2').setAttribute('visible', 'true');
           showAll();
         }, 2000);
-      });
-    </script>
-
-    <script>
-      var velocity = {x: 0, y: 0, z: 0};
-      var acceleration = 0.004;
-      var deceleration = 0.002;
-
-      var maxVelocity = 0.008; // 最大速度を定義
-
-      var shouldStop = true;
-
-      AFRAME.registerComponent('thumbstick-logging', {
-        init: function () {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-        },
-
-          logThumbstick: function (event) {
-            if (event.detail.x == 0) {
-              if (velocity.x > 0) {
-                velocity.x -= deceleration;
-                if (velocity.x < deceleration) {
-                  velocity.x = 0;
-                }
-                shouldStop = false;
-              }
-              if (velocity.x < 0) {
-                velocity.x += deceleration;
-                if (velocity.x > -deceleration) {
-                  velocity.x = 0;
-                }
-                shouldStop = false;
-              }
-            } else if (event.detail.x > 0.9) {
-              velocity.x -= acceleration;
-              shouldStop = false;
-            } else if (event.detail.x < -0.9) {
-              velocity.x += acceleration;
-              shouldStop = false;
-            }
-            if (event.detail.y == 0) {
-              if (velocity.z > 0) {
-                velocity.z -= deceleration;
-                if (velocity.z < deceleration) {
-                  velocity.z = 0;
-                }
-                shouldStop = false;
-              }
-              if (velocity.z < 0) {
-                velocity.z += deceleration;
-                if (velocity.z > -deceleration) {
-                  velocity.z = 0;
-                }
-                shouldStop = false;
-              }
-            } else if (event.detail.y > 0.9) {
-              velocity.z -= acceleration;
-              shouldStop = false;
-            } else if (event.detail.y < -0.9) {
-              velocity.z += acceleration;
-              shouldStop = false;
-            }
-          }
       });
     </script>
   </body>
