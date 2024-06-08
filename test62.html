@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -109,11 +108,11 @@
   </script>
 
   <body>
+<!--     <a-scene renderer="colorManagement: false" vr-mode-ui="enabled: true" arjs="sourceType: webcam; debugUIEnabled: false"> -->
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
 
-      <!-- scene geometry -->
       <a-assets>
-        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item> <!-- VRはオリジナル版を使用 -->
+        <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
       </a-assets>
       
       <a-entity id="velocityText" position="0 1.5 -3" text="value: Velocity: 0, 0, 0; color: white;"></a-entity>
@@ -125,14 +124,106 @@
         <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="model" collidable></a-entity>
 
         <a-sphere id="sphere" color="#222" scale="0.2 0.2 0.2" position="0 1 0" class="collidable"></a-sphere>
-        <!-- VRのみ設定（上部概要） -->
-        <a-entity id="panel1" position="4 3.5 0.5">
-          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 -90 0"></a-image>
+
+        <!-- 説明作成No.0 -->
+        <a-entity position="-4 3.5 0.5">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 90 0">
+          </a-image>
         </a-entity>
-        <a-entity id="panel2" position="-4 3.5 0.5">
-          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 90 0"></a-image>
+        <a-entity position="4 3.5 0.5">
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 4 0" rotation="70 -90 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.1 -->
+        <a-entity position="1 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20100_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.2 -->
+        <a-entity position="4 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 0 -2 0; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20200_kokufuhakkutsu.png" scale="3 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.3 -->
+        <a-entity position="-1.75 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 1.25 -1.5 1.75; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20300_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.4 -->
+        <a-entity position="-3.5 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 0 -1.5 2.5; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20400_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.5 -->
+        <a-entity position="1 2 3">
+          <a-entity line="start: 0 -0.75 0; end: 1 -1.8 -2; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20500_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.6 -->
+        <a-entity position="6 2 3">
+          <a-entity line="start: 0 -0.75 0; end: 1 -1.5 -1.3; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20600_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.7 -->
+        <a-entity position="-5 2 3.7">
+          <a-entity line="start: 0 -0.75 0; end: -2 -1.5 -1; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20700_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.8 -->
+        <a-entity position="3.5 2 3">
+          <a-entity line="start: 0 -0.75 0; end: 1.7 -1.5 -1.5; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20800_kokufuhakkutsu.png" scale="2 1.5 0" rotation="0 180 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.9 -->
+        <a-entity position="-5.3 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: -2 -1.3 2.7; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20900_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
+        </a-entity>
+
+        <!-- 説明作成No.10 -->
+        <a-entity position="6.5 2 -2.5">
+          <a-entity line="start: 0 -0.75 0; end: 1.2 -1.3 1.8; color: white;" opacity="0.8"></a-entity>
+          <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/21000_kokufuhakkutsu.png" scale="1 1.5 0" rotation="0 0 0">
+          </a-image>
         </a-entity>
       </a-entity>
-    </a-scene>
+
+      <!-- player -->
+      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
+        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> <!-- VRとARで異なる -->
+        <a-entity
+          id="ctlL"
+          laser-controls="hand: left"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+        <a-entity id="ctlR" raycaster="objects: .collidable; far:1.2;" laser-controls="hand: right" thumbstick-logging>
+            <a-text value="Trigger: shoot a ball\nGrip: Grab large object\nA: Remove small balls" position="0 0.05 0" rotation="-90 0 0" scale="0.1 0.1 0.1" align="center" color="#FFFFFF"></a-text>
+        </a-entity>
+      </a-entity>      
+
+      </a-scene>
   </body>
 </html>
