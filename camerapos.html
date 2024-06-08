@@ -33,8 +33,6 @@
         }
       });
 
-      const ctlR = document.getElementById("ctlR");
-
       const updatePosition = function() {
         console.log('Position update triggered');
         var head = document.querySelector('#head');
@@ -56,8 +54,10 @@
         positionText.setAttribute('text', 'value', `${currentText} AbuttonPressed`);
       };
 
+      const ctlR = document.getElementById("ctlR");
       ctlR.addEventListener('abuttondown', updatePosition);
 
+      // キーボードのAキーを押したときに位置を更新
       window.addEventListener('keydown', function (event) {
         if (event.key === 'a' || event.key === 'A') {
           updatePosition();
