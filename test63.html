@@ -262,11 +262,7 @@
           laser-controls="hand: left"
           raycaster="objects: .clickable; far: 100"
           line="color: red; opacity: 0.75"
-          blink-controls="
-            collisionEntities: .collision;
-            cameraRig: #cameraRig;
-            teleportOrigin: #head;
-            curveShootingSpeed: 6"></a-entity>
+          movement-controls></a-entity>
         <a-entity
           laser-controls="hand: right"
           raycaster="objects: .clickable"
@@ -411,6 +407,85 @@
           document.querySelector('#panel2').setAttribute('visible', 'true');
           showAll();
         }, 2000);
+      });
+    </script>
+    <script>
+      AFRAME.registerComponent('movement-controls', {
+        schema: {
+          acceleration: {type: 'number', default: 0.1},
+          deceleration: {type: 'number', default: 0.05}
+        },
+    
+        init: function () {
+          this.velocity = new THREE.Vector3();
+          this.shouldStop = true;
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
+        },
+    
+        tick: function (time, timeDelta) {
+          if (!this.shouldStop) {
+            let direction = new THREE.Vector3();
+            this.el.object3D.getWorldDirection(direction);
+            direction.y = 0;
+            direction.normalize();
+    
+            let moveVector = direction.clone().multiplyScalar(this.velocity.z);
+            moveVector.add(this.el.object3D.getWorldDirection(new THREE.Vector3(1, 0, 0)).multiplyScalar(this.velocity.x));
+    
+            this.el.object3D.position.add(moveVector.multiplyScalar(timeDelta / 1000));
+          }
+        },
+    
+        logThumbstick: function (event) {
+          const acceleration = this.data.acceleration;
+          const deceleration = this.data.deceleration;
+    
+          if (event.detail.x == 0) {
+            if (this.velocity.x > 0) {
+              this.velocity.x -= deceleration;
+              if (this.velocity.x < deceleration) {
+                this.velocity.x = 0;
+              }
+              this.shouldStop = false;
+            }
+            if (this.velocity.x < 0) {
+              this.velocity.x += deceleration;
+              if (this.velocity.x > -deceleration) {
+                this.velocity.x = 0;
+              }
+              this.shouldStop = false;
+            }
+          } else if (event.detail.x > 0.9) {
+            this.velocity.x -= acceleration;
+            this.shouldStop = false;
+          } else if (event.detail.x < -0.9) {
+            this.velocity.x += acceleration;
+            this.shouldStop = false;
+          }
+    
+          if (event.detail.y == 0) {
+            if (this.velocity.z > 0) {
+              this.velocity.z -= deceleration;
+              if (this.velocity.z < deceleration) {
+                this.velocity.z = 0;
+              }
+              this.shouldStop = false;
+            }
+            if (this.velocity.z < 0) {
+              this.velocity.z += deceleration;
+              if (this.velocity.z > -deceleration) {
+                this.velocity.z = 0;
+              }
+              this.shouldStop = false;
+            }
+          } else if (event.detail.y > 0.9) {
+            this.velocity.z -= acceleration;
+            this.shouldStop = false;
+          } else if (event.detail.y < -0.9) {
+            this.velocity.z += acceleration;
+            this.shouldStop = false;
+          }
+        }
       });
     </script>
   </body>
