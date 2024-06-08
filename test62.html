@@ -2,107 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>越前国府発掘プロジェクトVR</title>
+    <title>1越前国府発掘プロジェクトVR</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script> <!-- VRとARでバージョン異なる -->
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script> <!-- VRとARで異なる -->
   </head>
-    <script>
-      var velocity = {x: 0, y: 0, z: 0};
-      var acceleration = 0.005;
-      var deceleration = 0.002;
-      var maxVelocity = 0.010;
-      var shouldStop = true;
-
-      AFRAME.registerComponent('thumbstick-logging', {
-        init: function () {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-        },
-
-        logThumbstick: function (event) {
-          if (event.detail.x == 0) {
-            velocity.x = 0;
-            shouldStop = true;
-          } else if (event.detail.x > 0.9) {
-            velocity.x -= acceleration;
-            shouldStop = false;
-          } else if (event.detail.x < -0.9) {
-            velocity.x += acceleration;
-            shouldStop = false;
-          }
-          if (event.detail.y == 0) {
-            velocity.z = 0;
-            shouldStop = true;
-          } else if (event.detail.y > 0.9) {
-            velocity.z -= acceleration;
-            shouldStop = false;
-          } else if (event.detail.y < -0.9) {
-            velocity.z += acceleration;
-            shouldStop = false;
-          }
-        }
-      });
-
-      function updateModelMovement() {
-        var model = document.getElementById('container');
-        var currentPosition = model.getAttribute('position');
-      
-        if (shouldStop) {
-          velocity = {x: 0, y: 0, z: 0};
-          model.setAttribute('position', currentPosition);
-          return;
-        }
-      
-        // 速度の減衰、最大速度の制御など
-        if (velocity.x > 0) {
-          velocity.x -= deceleration;
-          if (velocity.x < deceleration) {
-            velocity.x = 0;
-          }
-        }
-        if (velocity.x < 0) {
-          velocity.x += deceleration;
-          if (velocity.x > -deceleration) {
-            velocity.x = 0;
-          }
-        }
-        if (velocity.z > 0) {
-          velocity.z -= deceleration;
-          if (velocity.z < deceleration) {
-            velocity.z = 0;
-          }
-        }
-        if (velocity.z < 0) {
-          velocity.z += deceleration;
-          if (velocity.z > -deceleration) {
-            velocity.z = 0;
-          }
-        }
-        
-        // 速度が最大速度を超えないように制御
-        var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-        if (speed > maxVelocity) {
-          var ratio = maxVelocity / speed;
-          velocity.x *= ratio;
-          velocity.z *= ratio;
-        }
-      
-        // 位置の更新
-        model.setAttribute('position', {
-          x: currentPosition.x + velocity.x,
-          y: currentPosition.y + velocity.y,
-          z: currentPosition.z + velocity.z
-        });
-      }
-
-      // フレームごとにモデルの移動を更新
-      AFRAME.registerComponent('move-model', {
-        tick: function () {
-          updateModelMovement();
-        }
-      });
-    </script>
-
+ 
   <body>
     <script>
       const sizeMultiplier = 15; // VRとARで異なる
@@ -349,6 +254,27 @@
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item> <!-- VRはオリジナル版を使用 -->
       </a-assets>
 
+      <!-- player -->
+      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
+        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> <!-- VRとARで異なる -->
+        <a-entity
+          id="ctlL"
+          laser-controls="hand: left"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.75"
+          blink-controls="
+            collisionEntities: .collision;
+            cameraRig: #cameraRig;
+            teleportOrigin: #head;
+            curveShootingSpeed: 6"></a-entity>
+        <a-entity
+          id="ctlR"
+          laser-controls="hand: right"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.75"
+          thumbstick-logging></a-entity>
+      </a-entity>
+
       <!-- ui element -->
       <a-entity id="container" position="-7 0 -0." rotation="0 0 0" move-model> <!-- 初期位置の設定、VRとARで異なる　初期設定時：position="0 0 0"が望ましい -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
@@ -420,27 +346,6 @@
         <a-entity id="panel2" position="-4 3.5 0.5">
           <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 90 0"></a-image>
         </a-entity>
-      </a-entity>
-
-      <!-- player -->
-      <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
-        <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> <!-- VRとARで異なる -->
-        <a-entity
-          id="ctlL"
-          laser-controls="hand: left"
-          raycaster="objects: .clickable"
-          line="color: red; opacity: 0.75"
-          blink-controls="
-            collisionEntities: .collision;
-            cameraRig: #cameraRig;
-            teleportOrigin: #head;
-            curveShootingSpeed: 6"></a-entity>
-        <a-entity
-          id="ctlR"
-          laser-controls="hand: right"
-          raycaster="objects: .clickable"
-          line="color: red; opacity: 0.75"
-          thumbstick-logging></a-entity>
       </a-entity>
     </a-scene>
 
@@ -522,6 +427,102 @@
 
       ctlR.addEventListener('bbuttondown', function (event) {
         toggleLocations();
+      });
+    </script>
+
+    <script>
+      var velocity = {x: 0, y: 0, z: 0};
+      var acceleration = 0.005;
+      var deceleration = 0.002;
+      var maxVelocity = 0.010;
+      var shouldStop = true;
+
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function () {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+
+        logThumbstick: function (event) {
+          if (event.detail.x == 0) {
+            velocity.x = 0;
+            shouldStop = true;
+          } else if (event.detail.x > 0.9) {
+            velocity.x -= acceleration;
+            shouldStop = false;
+          } else if (event.detail.x < -0.9) {
+            velocity.x += acceleration;
+            shouldStop = false;
+          }
+          if (event.detail.y == 0) {
+            velocity.z = 0;
+            shouldStop = true;
+          } else if (event.detail.y > 0.9) {
+            velocity.z -= acceleration;
+            shouldStop = false;
+          } else if (event.detail.y < -0.9) {
+            velocity.z += acceleration;
+            shouldStop = false;
+          }
+        }
+      });
+
+      function updateModelMovement() {
+        var model = document.getElementById('container');
+        var currentPosition = model.getAttribute('position');
+      
+        if (shouldStop) {
+          velocity = {x: 0, y: 0, z: 0};
+          model.setAttribute('position', currentPosition);
+          return;
+        }
+      
+        // 速度の減衰、最大速度の制御など
+        if (velocity.x > 0) {
+          velocity.x -= deceleration;
+          if (velocity.x < deceleration) {
+            velocity.x = 0;
+          }
+        }
+        if (velocity.x < 0) {
+          velocity.x += deceleration;
+          if (velocity.x > -deceleration) {
+            velocity.x = 0;
+          }
+        }
+        if (velocity.z > 0) {
+          velocity.z -= deceleration;
+          if (velocity.z < deceleration) {
+            velocity.z = 0;
+          }
+        }
+        if (velocity.z < 0) {
+          velocity.z += deceleration;
+          if (velocity.z > -deceleration) {
+            velocity.z = 0;
+          }
+        }
+        
+        // 速度が最大速度を超えないように制御
+        var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+        if (speed > maxVelocity) {
+          var ratio = maxVelocity / speed;
+          velocity.x *= ratio;
+          velocity.z *= ratio;
+        }
+      
+        // 位置の更新
+        model.setAttribute('position', {
+          x: currentPosition.x + velocity.x,
+          y: currentPosition.y + velocity.y,
+          z: currentPosition.z + velocity.z
+        });
+      }
+
+      // フレームごとにモデルの移動を更新
+      AFRAME.registerComponent('move-model', {
+        tick: function () {
+          updateModelMovement();
+        }
       });
     </script>
   </body>
