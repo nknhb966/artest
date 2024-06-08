@@ -418,13 +418,13 @@
 
       function toggleLocations() {
         if (isLocationSwitch) {
-          moveLocation(destination1);
-          document.querySelector('#panel1').setAttribute('visible', 'false');
-          document.querySelector('#panel2').setAttribute('visible', 'false');
-        } else {
           moveLocation(destination2);
           document.querySelector('#panel1').setAttribute('visible', 'true');
           document.querySelector('#panel2').setAttribute('visible', 'true');
+        } else {
+          moveLocation(destination1);
+          document.querySelector('#panel1').setAttribute('visible', 'false');
+          document.querySelector('#panel2').setAttribute('visible', 'false');
         }
         isLocationSwitch = !isLocationSwitch;
       }
