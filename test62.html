@@ -120,10 +120,11 @@
       <!-- モデルをmodelContainerに格納 -->
       <a-entity id="modelContainer" position="0 0 0" move-model>
 
-        <!-- モデルをmodelContainerに追加 -->
-        <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0" class="model" collidable></a-entity>
+        <a-entity gltf-model="#kokufu" scale="1 1 1" position="0 -0.5 0" rotation="0 20 0"></a-entity>
 
-        <a-sphere id="sphere" color="#222" scale="0.2 0.2 0.2" position="0 1 0" class="collidable"></a-sphere>
+        <!-- VRのみ設定（テレポート系） -->
+        <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: aqua; opacity: 0."></a-entity>
+
         <!-- VRのみ設定（上部概要） -->
         <a-entity id="panel1" position="4 3.5 0.5">
           <a-image src="https://echizencity.github.io/opendata/kokufuhakkutsu/20000_kokufuhakkutsu.png" scale="4 5 0" rotation="70 -90 0"></a-image>
