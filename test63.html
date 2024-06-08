@@ -259,6 +259,7 @@
       <a-entity id="cameraRig" position="0 0 0" cursor-teleport="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
         <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity> <!-- VRとARで異なる -->
         <a-entity
+          id="ctlL"
           laser-controls="hand: left"
           raycaster="objects: .clickable"
           line="color: red; opacity: 0.75"
@@ -416,9 +417,19 @@
 
       const ctlR = document.getElementById("ctlR");
       ctlR.addEventListener('abuttondown', function (event) {
-        showAll();
+        toggleVisibility();
       });
 
+      var isAllVisible = false;
+      
+      function toggleVisibility() {
+        if (isAllVisible) {
+          hideAll();
+        } else {
+          showAll();
+        }
+        isAllVisible = !isAllVisible;
+      }
     </script>
   </body>
 </html>
