@@ -276,7 +276,7 @@
           cameraRig: #cameraRig;
           teleportOrigin: #head;
           curveShootingSpeed: 6"
-        abuttondown="button: A"></a-entity>
+        buttondown="button: A"></a-entity>
       </a-entity>
 
       <!-- ui element -->
@@ -413,12 +413,12 @@
           showAll();
         }, 2000);
       });
-AFRAME.registerComponent('abuttondown', {
+AFRAME.registerComponent('buttondown', {
   init: function () {
     var button = this.data.button;
     var el = this.el;
 
-    el.addEventListener('abuttondown', function (evt) {
+    el.addEventListener('buttondown', function (evt) {
       if (evt.detail.id === button) {
         toggleVisibility();
       }
