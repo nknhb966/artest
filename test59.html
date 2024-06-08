@@ -46,36 +46,36 @@
       function updateModelMovement() {
         var model = document.getElementById('modelContainer');
         var currentPosition = model.getAttribute('position');
-
-        // 速度の減衰（加速度の反対方向に進む場合）
-        if (!shouldStop) {
-          if (velocity.x > 0) {
-            velocity.x -= deceleration;
-            if (velocity.x < deceleration) {
-              velocity.x = 0;
-            }
-            shouldStop = false;
+      
+        if (shouldStop) {
+          velocity = {x: 0, y: 0, z: 0};
+          model.setAttribute('position', currentPosition);
+          return;
+        }
+      
+        // 速度の減衰、最大速度の制御など
+        if (velocity.x > 0) {
+          velocity.x -= deceleration;
+          if (velocity.x < deceleration) {
+            velocity.x = 0;
           }
-          if (velocity.x < 0) {
-            velocity.x += deceleration;
-            if (velocity.x > -deceleration) {
-              velocity.x = 0;
-            }
-            shouldStop = false;
+        }
+        if (velocity.x < 0) {
+          velocity.x += deceleration;
+          if (velocity.x > -deceleration) {
+            velocity.x = 0;
           }
-          if (velocity.z > 0) {
-            velocity.z -= deceleration;
-            if (velocity.z < deceleration) {
-              velocity.z = 0;
-            }
-            shouldStop = false;
+        }
+        if (velocity.z > 0) {
+          velocity.z -= deceleration;
+          if (velocity.z < deceleration) {
+            velocity.z = 0;
           }
-          if (velocity.z < 0) {
-            velocity.z += deceleration;
-            if (velocity.z > -deceleration) {
-              velocity.z = 0;
-            }
-            shouldStop = false;
+        }
+        if (velocity.z < 0) {
+          velocity.z += deceleration;
+          if (velocity.z > -deceleration) {
+            velocity.z = 0;
           }
         }
         
@@ -86,21 +86,16 @@
           velocity.x *= ratio;
           velocity.z *= ratio;
         }
-
-        if (shouldStop) {
-          velocity = {x: 0, y: 0, z: 0};
-        }
-
-        if (!shouldStop) {
-          model.setAttribute('position', {
-            x: currentPosition.x + velocity.x,
-            y: currentPosition.y + velocity.y,
-            z: currentPosition.z + velocity.z
-          });
-        }
+      
+        // 位置の更新
+        model.setAttribute('position', {
+          x: currentPosition.x + velocity.x,
+          y: currentPosition.y + velocity.y,
+          z: currentPosition.z + velocity.z
+        });
       }
 
-    // フレームごとにモデルの移動を更新
+      // フレームごとにモデルの移動を更新
       AFRAME.registerComponent('move-model', {
         tick: function () {
           updateModelMovement();
