@@ -428,36 +428,24 @@
       ctlR.addEventListener('bbuttondown', function (event) {
         toggleLocations();
       });
+    </script>
 
-      var velocity = {x: 0, y: 0, z: 0};
-      var acceleration = 0.004;
-      var deceleration = 0.002;
-
-      var maxVelocity = 0.008;
-
-      var shouldStop = true;
-
-      AFRAME.registerComponent('thumbstick-logging', {
-        init: function () {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-        },
-
+    <script>
+        var velocity = {x: 0, y: 0, z: 0};
+        var acceleration = 0.004;
+        var deceleration = 0.002;
+        var maxVelocity = 0.008;
+        var shouldStop = true;
+  
+        AFRAME.registerComponent('thumbstick-logging', {
+          init: function () {
+            this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+          },
+  
           logThumbstick: function (event) {
             if (event.detail.x == 0) {
-              if (velocity.x > 0) {
-                velocity.x -= deceleration;
-                if (velocity.x < deceleration) {
-                  velocity.x = 0;
-                }
-                shouldStop = false;
-              }
-              if (velocity.x < 0) {
-                velocity.x += deceleration;
-                if (velocity.x > -deceleration) {
-                  velocity.x = 0;
-                }
-                shouldStop = false;
-              }
+              velocity.x = 0;
+              shouldStop = true;
             } else if (event.detail.x > 0.9) {
               velocity.x -= acceleration;
               shouldStop = false;
@@ -466,20 +454,8 @@
               shouldStop = false;
             }
             if (event.detail.y == 0) {
-              if (velocity.z > 0) {
-                velocity.z -= deceleration;
-                if (velocity.z < deceleration) {
-                  velocity.z = 0;
-                }
-                shouldStop = false;
-              }
-              if (velocity.z < 0) {
-                velocity.z += deceleration;
-                if (velocity.z > -deceleration) {
-                  velocity.z = 0;
-                }
-                shouldStop = false;
-              }
+              velocity.z = 0;
+              shouldStop = true;
             } else if (event.detail.y > 0.9) {
               velocity.z -= acceleration;
               shouldStop = false;
@@ -488,7 +464,66 @@
               shouldStop = false;
             }
           }
-      });      
+        });
+  
+        function updateModelMovement() {
+          var model = document.getElementById('container');
+          var currentPosition = model.getAttribute('position');
+        
+          if (shouldStop) {
+            velocity = {x: 0, y: 0, z: 0};
+            model.setAttribute('position', currentPosition);
+            return;
+          }
+        
+          // 速度の減衰、最大速度の制御など
+          if (velocity.x > 0) {
+            velocity.x -= deceleration;
+            if (velocity.x < deceleration) {
+              velocity.x = 0;
+            }
+          }
+          if (velocity.x < 0) {
+            velocity.x += deceleration;
+            if (velocity.x > -deceleration) {
+              velocity.x = 0;
+            }
+          }
+          if (velocity.z > 0) {
+            velocity.z -= deceleration;
+            if (velocity.z < deceleration) {
+              velocity.z = 0;
+            }
+          }
+          if (velocity.z < 0) {
+            velocity.z += deceleration;
+            if (velocity.z > -deceleration) {
+              velocity.z = 0;
+            }
+          }
+          
+          // 速度が最大速度を超えないように制御
+          var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+          if (speed > maxVelocity) {
+            var ratio = maxVelocity / speed;
+            velocity.x *= ratio;
+            velocity.z *= ratio;
+          }
+        
+          // 位置の更新
+          model.setAttribute('position', {
+            x: currentPosition.x + velocity.x,
+            y: currentPosition.y + velocity.y,
+            z: currentPosition.z + velocity.z
+          });
+        }
+  
+        // フレームごとにモデルの移動を更新
+        AFRAME.registerComponent('move-model', {
+          tick: function () {
+            updateModelMovement();
+          }
+        });
     </script>
   </body>
 </html>
