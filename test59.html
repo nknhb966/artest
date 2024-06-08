@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>test</title>
     <meta name="description" content="Oculus Quest Input">
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
   </head>
@@ -92,91 +92,6 @@
           });
         }
       }
-
-      // フレームごとにモデルの移動を更新
-      AFRAME.registerComponent('move-model', {
-        tick: function () {
-          updateModelMovement();
-        }
-      });
-
-      AFRAME.registerComponent('input-listener', {
-          init:
-              function () {
-                  //コントローラのグリップボタンを押しているかどうかを保持
-                  this.el.grip = false;
-
-                  //xボタンを押した時 
-                  this.el.addEventListener('xbuttondown', function (e) {
-                      //行き先をポインティング  
-                      this.emit('teleportstart');
-                  });
-
-                  //Xボタンを離した時 
-                  this.el.addEventListener('xbuttonup', function (e) {
-                      //ポイントした場所にジャンプ
-                      this.emit('teleportend');
-                  });
-              },
-          //毎フレーム呼ばれる
-          tick:
-              function () {
-                  if (!this.el.selectedObj) { return; }
-                  if (!this.el.grip) { return; }
-                  //レイキャスターの向きを取得 (this.elはコントローラを示す)
-                  var ray = this.el.getAttribute("raycaster").direction;
-                  //レイキャスターの先端の位置を1.2m手前とし、そのワールド座標を計算 
-                  var p = new THREE.Vector3(ray.x, ray.y, ray.z);
-                  p.normalize();
-                  p.multiplyScalar(1.2);
-                  this.el.object3D.localToWorld(p);
-                  //レイキャスターの先端に、選択中のオブジェクトを追従させる。
-                  this.el.selectedObj.object3D.position.set(p.x, p.y, p.z);
-              }
-      });
-  </script>
-
-  <script type="module">
-    AFRAME.registerComponent('collider-check', {
-        dependencies: ['raycaster'],
-        init: function () {
-            var el = this.el; // レイキャスターがアタッチされているエンティティ
-    
-            el.addEventListener('raycaster-intersection', function () {
-                // 衝突が検出された場合のアクション
-                el.emit('collideStart');
-            });
-    
-            el.addEventListener('raycaster-intersection-cleared', function () {
-                // 衝突が解除された場合のアクション
-                el.emit('collideEnd');
-            });
-    
-            el.addEventListener('collideStart', function () {
-                // 衝突開始時のアニメーション
-                var sphere = document.getElementById('sphere'); // アニメーションを適用する球体の要素
-    
-                // 上昇アニメーションの開始
-                sphere.setAttribute('animation', {
-                    property: 'position',
-                    to: '0 2 0', // 上昇後の位置
-                    dur: 1000 // アニメーションの時間（1秒）
-                });
-            });
-    
-            el.addEventListener('collideEnd', function () {
-                // 衝突解除時のアニメーション
-                var sphere = document.getElementById('sphere'); // アニメーションを適用する球体の要素
-    
-                // 下降アニメーションの開始
-                sphere.setAttribute('animation', {
-                    property: 'position',
-                    to: '0 1 0', // 下降後の位置
-                    dur: 1000 // アニメーションの時間（1秒）
-                });
-            });
-        }
-    });
   </script>
 
   <body>
