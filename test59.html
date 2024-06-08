@@ -72,6 +72,38 @@
         var model = document.getElementById('modelContainer');
         var currentPosition = model.getAttribute('position');
 
+        // 速度の減衰（加速度の反対方向に進む場合）
+        if (!shouldStop) {
+          if (velocity.x > 0) {
+            velocity.x -= deceleration;
+            if (velocity.x < deceleration) {
+              velocity.x = 0;
+            }
+            shouldStop = false;
+          }
+          if (velocity.x < 0) {
+            velocity.x += deceleration;
+            if (velocity.x > -deceleration) {
+              velocity.x = 0;
+            }
+            shouldStop = false;
+          }
+          if (velocity.z > 0) {
+            velocity.z -= deceleration;
+            if (velocity.z < deceleration) {
+              velocity.z = 0;
+            }
+            shouldStop = false;
+          }
+          if (velocity.z < 0) {
+            velocity.z += deceleration;
+            if (velocity.z > -deceleration) {
+              velocity.z = 0;
+            }
+            shouldStop = false;
+          }
+        }
+        
         // 速度が最大速度を超えないように制御
         var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
         if (speed > maxVelocity) {
