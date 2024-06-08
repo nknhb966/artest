@@ -93,6 +93,10 @@
           y: currentPosition.y + velocity.y,
           z: currentPosition.z + velocity.z
         });
+
+        // 速度の表示を更新
+        var velocityText = document.getElementById('velocityText');
+        velocityText.setAttribute('text', 'value', 'Velocity: ' + velocity.x.toFixed(4) + ', ' + velocity.y.toFixed(4) + ', ' + velocity.z.toFixed(4));
       }
 
       // フレームごとにモデルの移動を更新
@@ -110,6 +114,8 @@
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item>
       </a-assets>
       
+      <a-entity id="velocityText" position="0 1.5 -3" text="value: Velocity: 0, 0, 0; color: white;"></a-entity>
+
       <!-- モデルをmodelContainerに格納 -->
       <a-entity id="modelContainer" position="0 0 0" move-model>
 
