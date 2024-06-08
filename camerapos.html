@@ -35,25 +35,39 @@
 
       const ctlR = document.getElementById("ctlR");
 
-      ctlR.addEventListener('abuttondown', function (event) {
-        console.log('A button pressed');
+      const updatePosition = function() {
+        console.log('Position update triggered');
         var head = document.querySelector('#head');
         var position = head.getAttribute('position');
+        console.log('Current position:', position); // デバッグ用ログ
+
+        // 新しい位置を設定
         var newPosition = {
           x: position.x + 1,
           y: position.y,
           z: position.z
         };
         head.setAttribute('position', newPosition);
+        console.log('New position:', newPosition); // デバッグ用ログ
 
         // Update the text entity's value with the additional message
         var positionText = document.querySelector('#positionText');
         var currentText = positionText.getAttribute('text').value;
-        positionText.setAttribute('text', 'value', currentText + ' AbuttonPressed');
+        positionText.setAttribute('text', 'value', `${currentText} AbuttonPressed`);
+      };
+
+      ctlR.addEventListener('abuttondown', updatePosition);
+
+      window.addEventListener('keydown', function (event) {
+        if (event.key === 'a' || event.key === 'A') {
+          updatePosition();
+        }
       });
 
       // Attach the component to the scene
-      document.querySelector('a-scene').setAttribute('update-position-text', '');
+      document.querySelector('a-scene').addEventListener('loaded', () => {
+        document.querySelector('a-scene').setAttribute('update-position-text', '');
+      });
     </script>
   </a-scene>
 </body>
