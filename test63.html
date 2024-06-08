@@ -252,7 +252,6 @@
       <!-- scene geometry -->
       <a-assets>
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item> <!-- VRはオリジナル版を使用 -->
-        <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item> <!-- VRのみ使用 -->
       </a-assets>
 
       <!-- player -->
@@ -343,8 +342,6 @@
 
         <!-- VRのみ設定（テレポート系） -->
         <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: aqua; opacity: 0."></a-entity>
-        <a-entity id="move1" class="clickable" gltf-model="#arrow-asset" position="0 1. 2." scale="0.2 0.1 0.2" rotation="0 0 0" animation="property: position; to: 0 1.1 2.; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
-        <a-entity id="move2" class="clickable" gltf-model="#arrow-asset" position="5 11. 0" scale="0.4 0.2 0.4" rotation="180 0 0" animation="property: position; to: 5 11.1 0; dur: 500; easing: easeInSine; loop: true; dir: alternate"></a-entity>
 
         <!-- VRのみ設定（上部概要） -->
         <a-entity id="panel1" position="4 3.5 0.5">
@@ -399,29 +396,17 @@
         });
       }
 
-      move1.addEventListener('click', () => {
-        moveLocation(destination1);
-        document.querySelector('#panel1').setAttribute('visible', 'false');
-        document.querySelector('#panel2').setAttribute('visible', 'false');
-        hideAll();
-      });
-
-      move2.addEventListener('click', () => {
-        moveLocation(destination2);
-        setTimeout(() => {
-          document.querySelector('#panel1').setAttribute('visible', 'true');
-          document.querySelector('#panel2').setAttribute('visible', 'true');
-          showAll();
-        }, 2000);
-      });
-
       const ctlR = document.getElementById("ctlR");
       ctlR.addEventListener('abuttondown', function (event) {
         toggleVisibility();
       });
+      ctlR.addEventListener('bbuttondown', function (event) {
+        toggleLocations();
+      });
 
       var isAllVisible = false;
-      
+      var isLocationSwitch = false;
+
       function toggleVisibility() {
         if (isAllVisible) {
           hideAll();
@@ -429,6 +414,19 @@
           showAll();
         }
         isAllVisible = !isAllVisible;
+      }
+
+      function toggleLocations() {
+        if (isLocationSwitch) {
+          moveLocation(destination1);
+          document.querySelector('#panel1').setAttribute('visible', 'false');
+          document.querySelector('#panel2').setAttribute('visible', 'false');
+        } else {
+          moveLocation(destination2);
+          document.querySelector('#panel1').setAttribute('visible', 'true');
+          document.querySelector('#panel2').setAttribute('visible', 'true');
+        }
+        isLocationSwitch = !isLocationSwitch;
       }
     </script>
   </body>
