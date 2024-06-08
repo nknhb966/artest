@@ -92,6 +92,13 @@
           });
         }
       }
+
+    // フレームごとにモデルの移動を更新
+      AFRAME.registerComponent('move-model', {
+        tick: function () {
+          updateModelMovement();
+        }
+      });
   </script>
 
   <body>
