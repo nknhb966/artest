@@ -248,9 +248,6 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
-      <!-- ボタンの状態を表示するテキスト要素 -->
-      <a-text id="gripStatus" value="Grip Button: Up" position="-1 1.5 -1" color="#FFF"></a-text>
-      <a-text id="bButtonStatus" value="B Button: Up" position="1 1.5 -1" color="#FFF"></a-text>
 
       <!-- scene geometry -->
       <a-assets>
@@ -431,39 +428,27 @@
       let gripButtonPressed = false;
       let bButtonPressed = false;
 
-      const gripStatusText = document.getElementById('gripStatus');
-      const bButtonStatusText = document.getElementById('bButtonStatus');
-
       ctlR.addEventListener('gripdown', function (event) {
         gripButtonPressed = true;
-        updateStatus();
         checkButtons();
       });
 
       ctlR.addEventListener('gripup', function (event) {
         gripButtonPressed = false;
-        updateStatus();
       });
       
       ctlR.addEventListener('bbuttondown', function (event) {
         bButtonPressed = true;
-        updateStatus();
         checkButtons();
       });
       
       ctlR.addEventListener('bbuttonup', function (event) {
         bButtonPressed = false;
-        updateStatus();
       });
-
-      function updateStatus() {
-        gripStatusText.setAttribute('value', `Grip Button: ${gripButtonPressed ? 'Down' : 'Up'}`);
-        bButtonStatusText.setAttribute('value', `B Button: ${bButtonPressed ? 'Down' : 'Up'}`);
-      }
 
       function checkButtons() {
         if (gripButtonPressed && bButtonPressed) {
-          toggleVisibility();
+          toggleLocations();
         }
       }
     </script>
