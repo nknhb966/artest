@@ -248,7 +248,9 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
-
+  <a-entity id="initialRotationDisplay" position="0 1.6 -1" text="value: Initial Rotation: ; color: black;"></a-entity>
+  <a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
+  
       <!-- scene geometry -->
       <a-assets>
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item> <!-- VRはオリジナル版を使用 -->
@@ -276,7 +278,7 @@
       </a-entity>
 
       <!-- ui element -->
-      <a-entity id="container" position="-7 0 -0." rotation="0 0 0" move-model> <!-- 初期位置の設定、VRとARで異なる　初期設定時：position="0 0 0"が望ましい -->
+      <a-entity id="container" position="0 0 -7.3" rotation="0 -90 0" move-model> <!-- 初期位置の設定、VRとARで異なる　初期設定時：position="0 0 0"が望ましい -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
         <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
         <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
@@ -397,7 +399,7 @@
       let isLocationSwitch = false;
       let gripButtonPressed = false;
       let bButtonPressed = false;
-      var initialPosition = {x: -7, y: 0, z: 0};
+      var initialPosition = {x: 0, y: 0, z: -7.3};
 
       const ctlR = document.getElementById("ctlR");
 
@@ -461,127 +463,141 @@
     </script>
 
     <script>
-var velocity = {x: 0, y: 0, z: 0};
-var acceleration = 0.01;
-var deceleration = 0.004;
-var maxVelocity = 0.020;
-var shouldStop = true;
-var initialRotation = {x: 0, y: 0, z: 0};
-var currentRotation = {x: 0, y: 0, z: 0};
+      var velocity = {x: 0, y: 0, z: 0};
+      var acceleration = 0.01;
+      var deceleration = 0.004;
+      var maxVelocity = 0.020;
+      var shouldStop = true;
+      var initialRotation = {x: 0, y: 0, z: 0};
+      var currentRotation = {x: 0, y: 0, z: 0};
 
-AFRAME.registerComponent('thumbstick-logging', {
-  init: function () {
-    this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function () {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
+          
+          // ロード時にinitialRotationを取得
+          var head = document.getElementById('head');
+          if (head) {
+            initialRotation = head.getAttribute('rotation');
+      this.updateDisplay();
+          }
+        },
+
+        logThumbstick: function (event) {
+          // 現在の回転を取得
+          var head = document.getElementById('head');
+          if (head) {
+            currentRotation = head.getAttribute('rotation');
+          }
+
+          if (event.detail.x == 0 && event.detail.y == 0) {
+            velocity = {x: 0, y: 0, z: 0};
+            shouldStop = true;
+          } else {
+            shouldStop = false;
+
+            // X軸のスティック入力に基づいて移動速度を設定
+            if (event.detail.x > 0.1 || event.detail.x < -0.1) {
+              velocity.x = event.detail.x * acceleration;
+            } else {
+              velocity.x = 0;
+            }
+
+            // Y軸のスティック入力に基づいて移動速度を設定
+            if (event.detail.y > 0.1 || event.detail.y < -0.1) {
+              velocity.z = event.detail.y * acceleration;
+            } else {
+              velocity.z = 0;
+            }
+          }
+    this.updateDisplay();
+        },
+
+  updateDisplay: function() {
+    var initialRotationDisplay = document.getElementById('initialRotationDisplay');
+    var currentRotationDisplay = document.getElementById('currentRotationDisplay');
     
-    // ロード時にinitialRotationを取得
-    var head = document.getElementById('head');
-    if (head) {
-      initialRotation = head.getAttribute('rotation');
-    }
-  },
-
-  logThumbstick: function (event) {
-    // 現在の回転を取得
-    var head = document.getElementById('head');
-    if (head) {
-      currentRotation = head.getAttribute('rotation');
+    if (initialRotationDisplay) {
+      initialRotationDisplay.setAttribute('text', 'value', `Initial Rotation: x=${initialRotation.x.toFixed(2)}, y=${initialRotation.y.toFixed(2)}, z=${initialRotation.z.toFixed(2)}`);
     }
 
-    if (event.detail.x == 0 && event.detail.y == 0) {
-      velocity = {x: 0, y: 0, z: 0};
-      shouldStop = true;
-    } else {
-      shouldStop = false;
+    if (currentRotationDisplay) {
+      currentRotationDisplay.setAttribute('text', 'value', `Current Rotation: x=${currentRotation.x.toFixed(2)}, y=${currentRotation.y.toFixed(2)}, z=${currentRotation.z.toFixed(2)}`);
+    }
+  }
+      });
 
-      // X軸のスティック入力に基づいて移動速度を設定
-      if (event.detail.x > 0.1 || event.detail.x < -0.1) {
-        velocity.x = event.detail.x * acceleration;
-      } else {
-        velocity.x = 0;
+      function updateModelMovement() {
+        var model = document.getElementById('container');
+        var currentPosition = model.getAttribute('position');
+        var head = document.getElementById('head');
+        
+        // 現在の回転を取得
+        if (head) {
+          currentRotation = head.getAttribute('rotation');
+        }
+
+        if (shouldStop) {
+          velocity = {x: 0, y: 0, z: 0};
+          model.setAttribute('position', currentPosition);
+          return;
+        }
+
+        // 速度の減衰、最大速度の制御など
+        if (velocity.x > 0) {
+          velocity.x -= deceleration;
+          if (velocity.x < deceleration) {
+            velocity.x = 0;
+          }
+        }
+        if (velocity.x < 0) {
+          velocity.x += deceleration;
+          if (velocity.x > -deceleration) {
+            velocity.x = 0;
+          }
+        }
+        if (velocity.z > 0) {
+          velocity.z -= deceleration;
+          if (velocity.z < deceleration) {
+            velocity.z = 0;
+          }
+        }
+        if (velocity.z < 0) {
+          velocity.z += deceleration;
+          if (velocity.z > -deceleration) {
+            velocity.z = 0;
+          }
+        }
+
+        // 速度が最大速度を超えないように制御
+        var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+        if (speed > maxVelocity) {
+          var ratio = maxVelocity / speed;
+          velocity.x *= ratio;
+          velocity.z *= ratio;
+        }
+
+        // 現在の回転をラジアンに変換
+        var rad = currentRotation.y * Math.PI / 180;
+
+        // currentRotationの向きに基づいて進行方向を計算
+        var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
+        var directionZ = -velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
+
+        // 位置の更新
+        model.setAttribute('position', {
+          x: currentPosition.x + directionX,
+          y: currentPosition.y,
+          z: currentPosition.z + directionZ
+        });
       }
 
-      // Y軸のスティック入力に基づいて移動速度を設定
-      if (event.detail.y > 0.1 || event.detail.y < -0.1) {
-        velocity.z = event.detail.y * acceleration;
-      } else {
-        velocity.z = 0;
-      }
-    }
-  }
-});
-
-function updateModelMovement() {
-  var model = document.getElementById('container');
-  var currentPosition = model.getAttribute('position');
-  var head = document.getElementById('head');
-  
-  // 現在の回転を取得
-  if (head) {
-    currentRotation = head.getAttribute('rotation');
-  }
-
-  if (shouldStop) {
-    velocity = {x: 0, y: 0, z: 0};
-    model.setAttribute('position', currentPosition);
-    return;
-  }
-
-  // 速度の減衰、最大速度の制御など
-  if (velocity.x > 0) {
-    velocity.x -= deceleration;
-    if (velocity.x < deceleration) {
-      velocity.x = 0;
-    }
-  }
-  if (velocity.x < 0) {
-    velocity.x += deceleration;
-    if (velocity.x > -deceleration) {
-      velocity.x = 0;
-    }
-  }
-  if (velocity.z > 0) {
-    velocity.z -= deceleration;
-    if (velocity.z < deceleration) {
-      velocity.z = 0;
-    }
-  }
-  if (velocity.z < 0) {
-    velocity.z += deceleration;
-    if (velocity.z > -deceleration) {
-      velocity.z = 0;
-    }
-  }
-
-  // 速度が最大速度を超えないように制御
-  var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-  if (speed > maxVelocity) {
-    var ratio = maxVelocity / speed;
-    velocity.x *= ratio;
-    velocity.z *= ratio;
-  }
-
-  // 現在の回転をラジアンに変換
-  var rad = currentRotation.y * Math.PI / 180;
-
-  // currentRotationの向きに基づいて進行方向を計算
-  var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
-  var directionZ = -velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
-
-  // 位置の更新
-  model.setAttribute('position', {
-    x: currentPosition.x + directionX,
-    y: currentPosition.y,
-    z: currentPosition.z + directionZ
-  });
-}
-
-// フレームごとにモデルの移動を更新
-AFRAME.registerComponent('move-model', {
-  tick: function () {
-    updateModelMovement();
-  }
-});
-
+      // フレームごとにモデルの移動を更新
+      AFRAME.registerComponent('move-model', {
+        tick: function () {
+          updateModelMovement();
+        }
+      });
     </script>
   </body>
 </html>
