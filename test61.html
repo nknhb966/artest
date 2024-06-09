@@ -561,11 +561,11 @@ function updateModelMovement() {
   }
 
   // 現在の回転をラジアンに変換
-  var rad = currentRotation.y * Math.PI / 180;
+  var rad = -currentRotation.y * Math.PI / 180;
 
   // currentRotationの向きに基づいて進行方向を計算
-  var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
-  var directionZ = -velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
+  var directionX = velocity.x * Math.cos(rad) - velocity.z * Math.sin(rad);
+  var directionZ = velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
 
   // 位置の更新
   model.setAttribute('position', {
