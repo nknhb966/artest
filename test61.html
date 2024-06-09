@@ -526,13 +526,13 @@
 
         // 速度の減衰、最大速度の制御など
         if (velocity.x > 0) {
-          velocity.x -= deceleration;
+          velocity.x += deceleration;
           if (velocity.x < deceleration) {
             velocity.x = 0;
           }
         }
         if (velocity.x < 0) {
-          velocity.x += deceleration;
+          velocity.x -= deceleration;
           if (velocity.x > -deceleration) {
             velocity.x = 0;
           }
