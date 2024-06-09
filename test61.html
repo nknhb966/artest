@@ -248,10 +248,7 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
-  <a-entity id="deltaRotationDisplay" position="0 1.6 -1" text="value: deltaRotation: ; color: black;"></a-entity>
-  <a-entity id="bButtonRotationDisplay" position="0 1.5 -1" text="value: bButtonRotation: ; color: black;"></a-entity>
-  <a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
-  
+
       <!-- scene geometry -->
       <a-assets>
         <a-asset-item id="kokufu" src="https://www.city.echizen.lg.jp/office/030/021/open-data-echizen_d/fil/00101_kokufuhakkutsu.glb"></a-asset-item> <!-- VRはオリジナル版を使用 -->
@@ -401,8 +398,8 @@
       let gripButtonPressed = false;
       let bButtonPressed = false;
       var initialPosition = {x: 0, y: 0, z: -7.3};
-var deltaRotation = {x: 0, y: 0, z: 0};
-var bButtonRotation = {x: 0, y: 0, z: 0};
+      var deltaRotation = {x: 0, y: 0, z: 0};
+      var bButtonRotation = {x: 0, y: 0, z: 0};
 
       const ctlR = document.getElementById("ctlR");
 
@@ -427,11 +424,10 @@ var bButtonRotation = {x: 0, y: 0, z: 0};
         } else {
           moveLocation(destination2);
           model.setAttribute('position', initialPosition);
-        // Bボタンが押されたときの回転を取得
-        var head = document.getElementById('head');
-        if (head) {
-            bButtonRotation = Object.assign({}, head.getAttribute('rotation')); // 参照ではなく値をコピー
-        }
+          var head = document.getElementById('head');
+          if (head) {
+              bButtonRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
         }
       });
 
@@ -484,7 +480,6 @@ var bButtonRotation = {x: 0, y: 0, z: 0};
         },
 
         logThumbstick: function (event) {
-          // 現在の回転を取得
           var head = document.getElementById('head');
           if (head) {
             currentRotation = head.getAttribute('rotation');
@@ -510,24 +505,7 @@ var bButtonRotation = {x: 0, y: 0, z: 0};
               velocity.z = 0;
             }
           }
-    this.updateDisplay();
-        },
-
-  updateDisplay: function() {
-    var deltaRotationDisplay = document.getElementById('deltaRotationDisplay');
-    var bButtonRotationDisplay = document.getElementById('bButtonRotationDisplay');
-    var currentRotationDisplay = document.getElementById('currentRotationDisplay');
-    
-    if (deltaRotationDisplay) {
-      deltaRotationDisplay.setAttribute('text', 'value', `deltaRotation: x=${deltaRotation.x.toFixed(2)}, y=${deltaRotation.y.toFixed(2)}, z=${deltaRotation.z.toFixed(2)}`);
-    }
-    if (bButtonRotationDisplay) {
-      bButtonRotationDisplay.setAttribute('text', 'value', `bButtonRotation: x=${bButtonRotation.x.toFixed(2)}, y=${bButtonRotation.y.toFixed(2)}, z=${bButtonRotation.z.toFixed(2)}`);
-    }
-    if (currentRotationDisplay) {
-      currentRotationDisplay.setAttribute('text', 'value', `Current Rotation: x=${currentRotation.x.toFixed(2)}, y=${currentRotation.y.toFixed(2)}, z=${currentRotation.z.toFixed(2)}`);
-    }
-  }
+        }
       });
 
       function updateModelMovement() {
@@ -580,11 +558,11 @@ var bButtonRotation = {x: 0, y: 0, z: 0};
           velocity.z *= ratio;
         }
 
-      // deltaRotationを計算
-      deltaRotation.x = currentRotation.x - bButtonRotation.x;
-      deltaRotation.y = currentRotation.y - bButtonRotation.y;
-      deltaRotation.z = currentRotation.z - bButtonRotation.z;
-        
+        // deltaRotationを計算
+        deltaRotation.x = currentRotation.x - bButtonRotation.x;
+        deltaRotation.y = currentRotation.y - bButtonRotation.y;
+        deltaRotation.z = currentRotation.z - bButtonRotation.z;
+          
         // 現在の回転をラジアンに変換
         var rad = deltaRotation.y * Math.PI / 180;
 
