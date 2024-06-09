@@ -249,6 +249,7 @@
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
   <a-entity id="deltaRotationDisplay" position="0 1.6 -1" text="value: deltaRotation: ; color: black;"></a-entity>
+  <a-entity id="bButtonRotationDisplay" position="0 1.5 -1" text="value: bButtonRotation: ; color: black;"></a-entity>
   <a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
   
       <!-- scene geometry -->
@@ -431,10 +432,6 @@ var bButtonRotation = {x: 0, y: 0, z: 0};  // 新たに追加
     if (head) {
       bButtonRotation = head.getAttribute('rotation');
 
-      // deltaRotationを計算
-      deltaRotation.x = bButtonRotation.x - currentRotation.x;
-      deltaRotation.y = bButtonRotation.y - currentRotation.y;
-      deltaRotation.z = bButtonRotation.z - currentRotation.z;
     }
         }
       });
@@ -527,12 +524,15 @@ var bButtonRotation = {x: 0, y: 0, z: 0};  // 新たに追加
 
   updateDisplay: function() {
     var deltaRotationDisplay = document.getElementById('deltaRotationDisplay');
+    var bButtonRotationDisplay = document.getElementById('bButtonRotationDisplay');
     var currentRotationDisplay = document.getElementById('currentRotationDisplay');
     
     if (deltaRotationDisplay) {
       deltaRotationDisplay.setAttribute('text', 'value', `deltaRotation: x=${deltaRotation.x.toFixed(2)}, y=${deltaRotation.y.toFixed(2)}, z=${deltaRotation.z.toFixed(2)}`);
     }
-
+    if (bButtonRotationDisplay) {
+      bButtonRotationDisplay.setAttribute('text', 'value', `bButtonRotation: x=${bButtonRotation.x.toFixed(2)}, y=${bButtonRotation.y.toFixed(2)}, z=${bButtonRotation.z.toFixed(2)}`);
+    }
     if (currentRotationDisplay) {
       currentRotationDisplay.setAttribute('text', 'value', `Current Rotation: x=${currentRotation.x.toFixed(2)}, y=${currentRotation.y.toFixed(2)}, z=${currentRotation.z.toFixed(2)}`);
     }
@@ -589,6 +589,11 @@ var bButtonRotation = {x: 0, y: 0, z: 0};  // 新たに追加
           velocity.z *= ratio;
         }
 
+      // deltaRotationを計算
+      deltaRotation.x = bButtonRotation.x - currentRotation.x;
+      deltaRotation.y = bButtonRotation.y - currentRotation.y;
+      deltaRotation.z = bButtonRotation.z - currentRotation.z;
+        
         // 現在の回転をラジアンに変換
         var rad = deltaRotation.y * Math.PI / 180;
 
