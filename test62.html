@@ -439,7 +439,10 @@
       
       ctlR.addEventListener('bbuttondown', function (event) {
         bButtonPressed = true;
-        checkButtons();
+        if (gripButtonPressed) {
+          checkButtons();
+        } else {
+          moveLocation(destination2);
       });
       
       ctlR.addEventListener('bbuttonup', function (event) {
