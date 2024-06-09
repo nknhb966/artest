@@ -392,9 +392,43 @@
         });
       }
 
-      let isAllVisible = false;
-
       // 以下、VRとARで異なる
+      let isAllVisible = false;
+      let isLocationSwitch = false;
+      let gripButtonPressed = false;
+      let bButtonPressed = false;
+      var initialPosition = {x: -7, y: 0, z: 0};
+
+      const ctlR = document.getElementById("ctlR");
+
+      ctlR.addEventListener('abuttondown', function (event) {
+        toggleVisibility();
+      });
+
+      ctlR.addEventListener('gripdown', function (event) {
+        gripButtonPressed = true;
+        checkButtons();
+      });
+
+      ctlR.addEventListener('gripup', function (event) {
+        gripButtonPressed = false;
+      });
+
+      ctlR.addEventListener('bbuttondown', function (event) {
+        var model = document.getElementById('container');
+        bButtonPressed = true;
+        if (gripButtonPressed) {
+          checkButtons();
+        } else {
+          moveLocation(destination2);
+          model.setAttribute('position', initialPosition);
+        }
+      });
+
+      ctlR.addEventListener('bbuttonup', function (event) {
+        bButtonPressed = false;
+      });
+
       function toggleVisibility() {
         if (isAllVisible) {
           hideAll();
@@ -404,7 +438,11 @@
         isAllVisible = !isAllVisible;
       }
 
-      let isLocationSwitch = false;
+      function checkButtons() {
+        if (gripButtonPressed && bButtonPressed) {
+          toggleLocations();
+        }
+      }
 
       function toggleLocations() {
         if (isLocationSwitch) {
@@ -418,45 +456,6 @@
         }
         isLocationSwitch = !isLocationSwitch;
       }
-
-      const ctlR = document.getElementById("ctlR");
-
-      ctlR.addEventListener('abuttondown', function (event) {
-        toggleVisibility();
-      });
-
-      let gripButtonPressed = false;
-      let bButtonPressed = false;
-
-      ctlR.addEventListener('gripdown', function (event) {
-        gripButtonPressed = true;
-        checkButtons();
-      });
-
-      ctlR.addEventListener('gripup', function (event) {
-        gripButtonPressed = false;
-      });
-      
-      ctlR.addEventListener('bbuttondown', function (event) {
-        var model = document.getElementById('container');
-        bButtonPressed = true;
-        if (gripButtonPressed) {
-          checkButtons();
-        } else {
-          moveLocation(destination2);
-          model.setAttribute('position', initialPosition);
-        }
-      });
-      
-      ctlR.addEventListener('bbuttonup', function (event) {
-        bButtonPressed = false;
-      });
-
-      function checkButtons() {
-        if (gripButtonPressed && bButtonPressed) {
-          toggleLocations();
-        }
-      }
     </script>
 
     <script>
@@ -465,7 +464,6 @@
       var deceleration = 0.002;
       var maxVelocity = 0.010;
       var shouldStop = true;
-      var initialPosition = {x: -7, y: 0, z: 0};
 
       AFRAME.registerComponent('thumbstick-logging', {
         init: function () {
