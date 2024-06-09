@@ -425,9 +425,32 @@
         toggleVisibility();
       });
 
-      ctlR.addEventListener('bbuttondown', function (event) {
-        toggleLocations();
+      let gripButtonPressed = false;
+      let bButtonPressed = false;
+
+      ctlR.addEventListener('gripbuttondown', function (event) {
+        gripButtonPressed = true;
+        checkButtons();
       });
+
+      ctlR.addEventListener('gripbuttonup', function (event) {
+        gripButtonPressed = false;
+      });
+      
+      ctlR.addEventListener('bbuttondown', function (event) {
+        bButtonPressed = true;
+        checkButtons();
+      });
+      
+      ctlR.addEventListener('bbuttonup', function (event) {
+        bButtonPressed = false;
+      });
+
+      function checkButtons() {
+        if (gripButtonPressed && bButtonPressed) {
+          toggleVisibility();
+        }
+      }
     </script>
 
     <script>
