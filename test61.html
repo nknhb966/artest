@@ -445,15 +445,17 @@
       }
 
       function toggleLocations() {
+        const panel1 = document.querySelector('#panel1');
+        const panel2 = document.querySelector('#panel2');
         if (isLocationSwitch) {
           moveLocation(destination2);
-          document.querySelector('#panel1').setAttribute('visible', 'true');
-          document.querySelector('#panel2').setAttribute('visible', 'true');
+          if (panel1) panel1.setAttribute('visible', 'true');
+          if (panel2) panel2.setAttribute('visible', 'true');
         } else {
           moveLocation(destination1);
-          document.querySelector('#panel1').setAttribute('visible', 'false');
-          document.querySelector('#panel2').setAttribute('visible', 'false');
-        }
+          if (panel1) panel1.setAttribute('visible', 'false');
+          if (panel2) panel2.setAttribute('visible', 'false');
+        }      
         isLocationSwitch = !isLocationSwitch;
       }
     </script>
