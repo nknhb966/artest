@@ -486,7 +486,7 @@ AFRAME.registerComponent('thumbstick-logging', {
     if (head) {
       currentRotation = head.getAttribute('rotation');
     }
-    
+
     if (event.detail.x == 0 && event.detail.y == 0) {
       velocity = {x: 0, y: 0, z: 0};
       shouldStop = true;
@@ -495,11 +495,9 @@ AFRAME.registerComponent('thumbstick-logging', {
       
       // Y軸のスティック入力に基づいて移動速度を設定
       if (event.detail.y > 0.1 || event.detail.y < -0.1) {
-        var angle = currentRotation.y * (Math.PI / 180); // ラジアンに変換
-        var directionX = Math.sin(angle);
-        var directionZ = -Math.cos(angle);
-        velocity.x = event.detail.y * acceleration * directionX;
-        velocity.z = event.detail.y * acceleration * directionZ;
+        velocity.z = event.detail.y * acceleration;
+      } else {
+        velocity.z = 0;
       }
     }
   }
@@ -508,7 +506,13 @@ AFRAME.registerComponent('thumbstick-logging', {
 function updateModelMovement() {
   var model = document.getElementById('container');
   var currentPosition = model.getAttribute('position');
+  var head = document.getElementById('head');
   
+  // 現在の回転を取得
+  if (head) {
+    currentRotation = head.getAttribute('rotation');
+  }
+
   if (shouldStop) {
     velocity = {x: 0, y: 0, z: 0};
     model.setAttribute('position', currentPosition);
@@ -516,18 +520,6 @@ function updateModelMovement() {
   }
 
   // 速度の減衰、最大速度の制御など
-  if (velocity.x > 0) {
-    velocity.x -= deceleration;
-    if (velocity.x < deceleration) {
-      velocity.x = 0;
-    }
-  }
-  if (velocity.x < 0) {
-    velocity.x += deceleration;
-    if (velocity.x > -deceleration) {
-      velocity.x = 0;
-    }
-  }
   if (velocity.z > 0) {
     velocity.z -= deceleration;
     if (velocity.z < deceleration) {
@@ -540,20 +532,25 @@ function updateModelMovement() {
       velocity.z = 0;
     }
   }
-  
+
   // 速度が最大速度を超えないように制御
-  var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+  var speed = Math.abs(velocity.z);
   if (speed > maxVelocity) {
-    var ratio = maxVelocity / speed;
-    velocity.x *= ratio;
-    velocity.z *= ratio;
+    velocity.z = (velocity.z / speed) * maxVelocity;
   }
+
+  // 現在の回転をラジアンに変換
+  var rad = currentRotation.y * Math.PI / 180;
+
+  // currentRotationの向きに基づいて進行方向を計算
+  var directionX = velocity.z * Math.sin(rad);
+  var directionZ = -velocity.z * Math.cos(rad);
 
   // 位置の更新
   model.setAttribute('position', {
-    x: currentPosition.x + velocity.x,
-    y: currentPosition.y + velocity.y,
-    z: currentPosition.z + velocity.z
+    x: currentPosition.x + directionX,
+    y: currentPosition.y,
+    z: currentPosition.z + directionZ
   });
 }
 
@@ -563,6 +560,7 @@ AFRAME.registerComponent('move-model', {
     updateModelMovement();
   }
 });
+
     </script>
   </body>
 </html>
