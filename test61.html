@@ -401,8 +401,8 @@
       let gripButtonPressed = false;
       let bButtonPressed = false;
       var initialPosition = {x: 0, y: 0, z: -7.3};
-var deltaRotation = {x: 0, y: 0, z: 0};  // 新たに追加
-var bButtonRotation = {x: 0, y: 0, z: 0};  // 新たに追加
+var deltaRotation = {x: 0, y: 0, z: 0};
+var bButtonRotation = {x: 0, y: 0, z: 0};
 
       const ctlR = document.getElementById("ctlR");
 
@@ -477,19 +477,11 @@ var bButtonRotation = {x: 0, y: 0, z: 0};  // 新たに追加
       var deceleration = 0.004;
       var maxVelocity = 0.020;
       var shouldStop = true;
-      var initialRotation = {x: 0, y: 0, z: 0};
       var currentRotation = {x: 0, y: 0, z: 0};
 
       AFRAME.registerComponent('thumbstick-logging', {
         init: function () {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
-          
-          // ロード時にinitialRotationを取得
-          var head = document.getElementById('head');
-          if (head) {
-            initialRotation = head.getAttribute('rotation');
-      this.updateDisplay();
-          }
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));       
         },
 
         logThumbstick: function (event) {
