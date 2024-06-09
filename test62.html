@@ -434,13 +434,13 @@
       const gripStatusText = document.getElementById('gripStatus');
       const bButtonStatusText = document.getElementById('bButtonStatus');
 
-      ctlR.addEventListener('gripbuttondown', function (event) {
+      ctlR.addEventListener('gripdown', function (event) {
         gripButtonPressed = true;
         updateStatus();
         checkButtons();
       });
 
-      ctlR.addEventListener('gripbuttonup', function (event) {
+      ctlR.addEventListener('gripup', function (event) {
         gripButtonPressed = false;
         updateStatus();
       });
