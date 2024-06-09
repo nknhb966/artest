@@ -248,7 +248,7 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
-  <a-entity id="initialRotationDisplay" position="0 1.6 -1" text="value: Initial Rotation: ; color: black;"></a-entity>
+  <a-entity id="deltaRotationDisplay" position="0 1.6 -1" text="value: deltaRotation: ; color: black;"></a-entity>
   <a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
   
       <!-- scene geometry -->
@@ -400,6 +400,8 @@
       let gripButtonPressed = false;
       let bButtonPressed = false;
       var initialPosition = {x: 0, y: 0, z: -7.3};
+var deltaRotation = {x: 0, y: 0, z: 0};  // 新たに追加
+var bButtonRotation = {x: 0, y: 0, z: 0};  // 新たに追加
 
       const ctlR = document.getElementById("ctlR");
 
@@ -424,6 +426,16 @@
         } else {
           moveLocation(destination2);
           model.setAttribute('position', initialPosition);
+    // Bボタンが押されたときの回転を取得
+    var head = document.getElementById('head');
+    if (head) {
+      bButtonRotation = head.getAttribute('rotation');
+
+      // deltaRotationを計算
+      deltaRotation.x = bButtonRotation.x - currentRotation.x;
+      deltaRotation.y = bButtonRotation.y - currentRotation.y;
+      deltaRotation.z = bButtonRotation.z - currentRotation.z;
+    }
         }
       });
 
@@ -514,11 +526,11 @@
         },
 
   updateDisplay: function() {
-    var initialRotationDisplay = document.getElementById('initialRotationDisplay');
+    var deltaRotationDisplay = document.getElementById('deltaRotationDisplay');
     var currentRotationDisplay = document.getElementById('currentRotationDisplay');
     
-    if (initialRotationDisplay) {
-      initialRotationDisplay.setAttribute('text', 'value', `Initial Rotation: x=${initialRotation.x.toFixed(2)}, y=${initialRotation.y.toFixed(2)}, z=${initialRotation.z.toFixed(2)}`);
+    if (deltaRotationDisplay) {
+      deltaRotationDisplay.setAttribute('text', 'value', `deltaRotation: x=${deltaRotation.x.toFixed(2)}, y=${deltaRotation.y.toFixed(2)}, z=${deltaRotation.z.toFixed(2)}`);
     }
 
     if (currentRotationDisplay) {
@@ -578,7 +590,7 @@
         }
 
         // 現在の回転をラジアンに変換
-        var rad = currentRotation.y * Math.PI / 180;
+        var rad = deltaRotation.y * Math.PI / 180;
 
         // currentRotationの向きに基づいて進行方向を計算
         var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
