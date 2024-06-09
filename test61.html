@@ -492,7 +492,14 @@ AFRAME.registerComponent('thumbstick-logging', {
       shouldStop = true;
     } else {
       shouldStop = false;
-      
+
+      // X軸のスティック入力に基づいて移動速度を設定
+      if (event.detail.x > 0.1 || event.detail.x < -0.1) {
+        velocity.x = event.detail.x * acceleration;
+      } else {
+        velocity.x = 0;
+      }
+
       // Y軸のスティック入力に基づいて移動速度を設定
       if (event.detail.y > 0.1 || event.detail.y < -0.1) {
         velocity.z = event.detail.y * acceleration;
@@ -520,6 +527,18 @@ function updateModelMovement() {
   }
 
   // 速度の減衰、最大速度の制御など
+  if (velocity.x > 0) {
+    velocity.x -= deceleration;
+    if (velocity.x < deceleration) {
+      velocity.x = 0;
+    }
+  }
+  if (velocity.x < 0) {
+    velocity.x += deceleration;
+    if (velocity.x > -deceleration) {
+      velocity.x = 0;
+    }
+  }
   if (velocity.z > 0) {
     velocity.z -= deceleration;
     if (velocity.z < deceleration) {
@@ -534,17 +553,19 @@ function updateModelMovement() {
   }
 
   // 速度が最大速度を超えないように制御
-  var speed = Math.abs(velocity.z);
+  var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
   if (speed > maxVelocity) {
-    velocity.z = (velocity.z / speed) * maxVelocity;
+    var ratio = maxVelocity / speed;
+    velocity.x *= ratio;
+    velocity.z *= ratio;
   }
 
   // 現在の回転をラジアンに変換
   var rad = -currentRotation.y * Math.PI / 180;
 
   // currentRotationの向きに基づいて進行方向を計算
-  var directionX = velocity.z * Math.sin(rad);
-  var directionZ = -velocity.z * Math.cos(rad);
+  var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
+  var directionZ = -velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
 
   // 位置の更新
   model.setAttribute('position', {
