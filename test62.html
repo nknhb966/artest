@@ -471,23 +471,23 @@
 
         logThumbstick: function (event) {
           if (event.detail.x == 0) {
-            velocity.x = 0;
+            velocity.z = 0;
             shouldStop = true;
-          } else if (event.detail.x > 0.9) {
-            velocity.x -= acceleration;
+          } else if (event.detail.x > 0.8) {
+            velocity.z -= acceleration;
             shouldStop = false;
-          } else if (event.detail.x < -0.9) {
-            velocity.x += acceleration;
+          } else if (event.detail.x < -0.8) {
+            velocity.z += acceleration;
             shouldStop = false;
           }
           if (event.detail.y == 0) {
-            velocity.z = 0;
+            velocity.x = 0;
             shouldStop = true;
-          } else if (event.detail.y > 0.9) {
-            velocity.z -= acceleration;
+          } else if (event.detail.y > 0.8) {
+            velocity.x -= acceleration;
             shouldStop = false;
-          } else if (event.detail.y < -0.9) {
-            velocity.z += acceleration;
+          } else if (event.detail.y < -0.8) {
+            velocity.x += acceleration;
             shouldStop = false;
           }
         }
