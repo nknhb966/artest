@@ -427,12 +427,11 @@ var bButtonRotation = {x: 0, y: 0, z: 0};
         } else {
           moveLocation(destination2);
           model.setAttribute('position', initialPosition);
-    // Bボタンが押されたときの回転を取得
-    var head = document.getElementById('head');
-    if (head) {
-      bButtonRotation = head.getAttribute('rotation');
-
-    }
+        // Bボタンが押されたときの回転を取得
+        var head = document.getElementById('head');
+        if (head) {
+            bButtonRotation = Object.assign({}, head.getAttribute('rotation')); // 参照ではなく値をコピー
+        }
         }
       });
 
