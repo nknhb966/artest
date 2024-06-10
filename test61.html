@@ -500,7 +500,7 @@
 
             // Y軸のスティック入力に基づいて移動速度を設定
             if (event.detail.y > 0.1 || event.detail.y < -0.1) {
-              velocity.z = event.detail.y * acceleration;
+              velocity.z = - event.detail.y * acceleration;
             } else {
               velocity.z = 0;
             }
