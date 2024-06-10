@@ -433,7 +433,9 @@
       
       ctlR.addEventListener('bbuttondown', function (event) {
         bButtonPressedR = true;
-        if (gripButtonPressedR) {
+        if (!gripButtonPressedR) {
+          // Bボタンのみ処理なし
+        } else {
           moveLocation(destination2);
           document.getElementById('container').setAttribute('position', initialPosition);
           var head = document.getElementById('head');
@@ -471,7 +473,9 @@
       
       ctlL.addEventListener('ybuttondown', function (event) {
         yButtonPressedL = true;
-        if (gripButtonPressedL) {
+        if (!gripButtonPressedL) {
+          // Yボタンのみ処理なし
+        } else {
           moveLocation(destination2);
           document.getElementById('container').setAttribute('position', initialPosition);
           var head = document.getElementById('head');
