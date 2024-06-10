@@ -493,7 +493,7 @@
 
             // X軸のスティック入力に基づいて移動速度を設定
             if (event.detail.x > 0.1 || event.detail.x < -0.1) {
-              velocity.x = event.detail.x * acceleration;
+              velocity.x = - event.detail.x * acceleration;
             } else {
               velocity.x = 0;
             }
@@ -567,8 +567,8 @@
         var rad = deltaRotation.y * Math.PI / 180;
 
         // currentRotationの向きに基づいて進行方向を計算
-        var directionX = velocity.x * Math.cos(rad) - velocity.z * Math.sin(rad);
-        var directionZ = velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
+        var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
+        var directionZ = - velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
 
         // 位置の更新
         model.setAttribute('position', {
