@@ -425,7 +425,7 @@
         if (!gripButtonPressed) {
           toggleVisibility();
         } else {
-          switchLocations();
+          toggleLocations();
         }
       });
 
@@ -458,12 +458,6 @@
           showAll();
         }
         isAllVisible = !isAllVisible;
-      }
-
-      function switchLocations() {
-        if (gripButtonPressed && bButtonPressed) {
-          toggleLocations();
-        }
       }
 
       function toggleLocations() {
