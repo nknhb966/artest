@@ -395,63 +395,96 @@
       // 以下、VRとARで異なる
       let isAllVisible = false;
       let isLocationSwitch = false;
-      let gripButtonPressed = false;
-      let aButtonPressed = false;
-      let bButtonPressed = false;
+      let gripButtonPressedR = false;
+      let aButtonPressedR = false;
+      let bButtonPressedR = false;
+      let gripButtonPressedL = false;
+      let xButtonPressedL = false;
+      let yButtonPressedL = false;
       var initialPosition = {x: 0, y: 0, z: -7.3};
       var currentRotation = {x: 0, y: 0, z: 0};
-      var bButtonRotation = {x: 0, y: 0, z: 0};
+      var RestartRotation = {x: 0, y: 0, z: 0};
       var deltaRotation = {x: 0, y: 0, z: 0};
-
+      
       const ctlR = document.getElementById("ctlR");
-
+      const ctlL = document.getElementById("ctlL");
+      
+      // 右手コントローラーイベントリスナー
       ctlR.addEventListener('gripdown', function (event) {
-        gripButtonPressed = true;
+        gripButtonPressedR = true;
       });
-
+      
       ctlR.addEventListener('gripup', function (event) {
-        gripButtonPressed = false;
+        gripButtonPressedR = false;
       });
-
+      
       ctlR.addEventListener('abuttondown', function (event) {
-        aButtonPressed = true;
-      });
-
-      ctlR.addEventListener('abuttonup', function (event) {
-        aButtonPressed = false;
-      });
-
-      ctlR.addEventListener('abuttondown', function (event) {
-        aButtonPressed = true;
-        if (!gripButtonPressed) {
+        aButtonPressedR = true;
+        if (!gripButtonPressedR) {
           toggleVisibility();
         } else {
           toggleLocations();
         }
       });
-
+      
       ctlR.addEventListener('abuttonup', function (event) {
-        aButtonPressed = false;
+        aButtonPressedR = false;
       });
-
+      
       ctlR.addEventListener('bbuttondown', function (event) {
-        bButtonPressed = true;
-        if (!gripButtonPressed) {
-
-        } else {
+        bButtonPressedR = true;
+        if (gripButtonPressedR) {
           moveLocation(destination2);
           document.getElementById('container').setAttribute('position', initialPosition);
           var head = document.getElementById('head');
           if (head) {
-            bButtonRotation = Object.assign({}, head.getAttribute('rotation'));
+            RestartRotation = Object.assign({}, head.getAttribute('rotation'));
           }
         }
       });
-
+      
       ctlR.addEventListener('bbuttonup', function (event) {
-        bButtonPressed = false;
+        bButtonPressedR = false;
       });
-
+      
+      // 左手コントローラーイベントリスナー
+      ctlL.addEventListener('gripdown', function (event) {
+        gripButtonPressedL = true;
+      });
+      
+      ctlL.addEventListener('gripup', function (event) {
+        gripButtonPressedL = false;
+      });
+      
+      ctlL.addEventListener('xbuttondown', function (event) {
+        xButtonPressedL = true;
+        if (!gripButtonPressedL) {
+          toggleVisibility();
+        } else {
+          toggleLocations();
+        }
+      });
+      
+      ctlL.addEventListener('xbuttonup', function (event) {
+        xButtonPressedL = false;
+      });
+      
+      ctlL.addEventListener('ybuttondown', function (event) {
+        yButtonPressedL = true;
+        if (gripButtonPressedL) {
+          moveLocation(destination2);
+          document.getElementById('container').setAttribute('position', initialPosition);
+          var head = document.getElementById('head');
+          if (head) {
+            RestartRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
+        }
+      });
+      
+      ctlL.addEventListener('ybuttonup', function (event) {
+        yButtonPressedL = false;
+      });
+      
       function toggleVisibility() {
         if (isAllVisible) {
           hideAll();
@@ -460,7 +493,7 @@
         }
         isAllVisible = !isAllVisible;
       }
-
+      
       function toggleLocations() {
         const panel1 = document.querySelector('#panel1');
         const panel2 = document.querySelector('#panel2');
@@ -472,7 +505,7 @@
           moveLocation(destination1);
           if (panel1) panel1.setAttribute('visible', 'false');
           if (panel2) panel2.setAttribute('visible', 'false');
-        }      
+        }
         isLocationSwitch = !isLocationSwitch;
       }
     </script>
@@ -569,9 +602,9 @@
         }
 
         // deltaRotationを計算
-        deltaRotation.x = currentRotation.x - bButtonRotation.x;
-        deltaRotation.y = currentRotation.y - bButtonRotation.y;
-        deltaRotation.z = currentRotation.z - bButtonRotation.z;
+        deltaRotation.x = currentRotation.x - RestartRotation.x;
+        deltaRotation.y = currentRotation.y - RestartRotation.y;
+        deltaRotation.z = currentRotation.z - RestartRotation.z;
           
         // 現在の回転をラジアンに変換
         var rad = deltaRotation.y * Math.PI / 180;
