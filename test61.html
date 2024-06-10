@@ -248,9 +248,6 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
-<a-entity id="deltaRotationDisplay" position="0 1.6 -1" text="value: deltaRotation: ; color: black;"></a-entity>
-<a-entity id="RestartRotationDisplay" position="0 1.5 -1" text="value: RestartRotation: ; color: black;"></a-entity>
-<a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
 
       <!-- scene geometry -->
       <a-assets>
@@ -551,23 +548,7 @@
               velocity.z = 0;
             }
           }
-    this.updateDisplay();
-        },
-  updateDisplay: function() {
-    var deltaRotationDisplay = document.getElementById('deltaRotationDisplay');
-    var RestartRotationDisplay = document.getElementById('RestartRotationDisplay');
-    var currentRotationDisplay = document.getElementById('currentRotationDisplay');
-
-    if (deltaRotationDisplay) {
-      deltaRotationDisplay.setAttribute('text', 'value', `deltaRotation: x=${deltaRotation.x.toFixed(2)}, y=${deltaRotation.y.toFixed(2)}, z=${deltaRotation.z.toFixed(2)}`);
-    }
-    if (RestartRotationDisplay) {
-      RestartRotationDisplay.setAttribute('text', 'value', `RestartRotation: x=${RestartRotation.x.toFixed(2)}, y=${RestartRotation.y.toFixed(2)}, z=${RestartRotation.z.toFixed(2)}`);
-    }
-    if (currentRotationDisplay) {
-      currentRotationDisplay.setAttribute('text', 'value', `Current Rotation: x=${currentRotation.x.toFixed(2)}, y=${currentRotation.y.toFixed(2)}, z=${currentRotation.z.toFixed(2)}`);
-    }
-  }
+        }
       });
 
       function updateModelMovement() {
