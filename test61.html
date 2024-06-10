@@ -396,6 +396,7 @@
       let isAllVisible = false;
       let isLocationSwitch = false;
       let gripButtonPressed = false;
+      let aButtonPressed = false;
       let bButtonPressed = false;
       var initialPosition = {x: 0, y: 0, z: -7.3};
       var deltaRotation = {x: 0, y: 0, z: 0};
@@ -403,30 +404,45 @@
 
       const ctlR = document.getElementById("ctlR");
 
-      ctlR.addEventListener('abuttondown', function (event) {
-        toggleVisibility();
-      });
-
       ctlR.addEventListener('gripdown', function (event) {
         gripButtonPressed = true;
-        checkButtons();
       });
 
       ctlR.addEventListener('gripup', function (event) {
         gripButtonPressed = false;
       });
 
+      ctlR.addEventListener('abuttondown', function (event) {
+        aButtonPressed = true;
+      });
+
+      ctlR.addEventListener('abuttonup', function (event) {
+        aButtonPressed = false;
+      });
+
+      ctlR.addEventListener('abuttondown', function (event) {
+        aButtonPressed = true;
+        if (!gripButtonPressed) {
+          toggleVisibility();
+        } else {
+          switchLocations();
+        }
+      });
+
+      ctlR.addEventListener('abuttonup', function (event) {
+        aButtonPressed = false;
+      });
+
       ctlR.addEventListener('bbuttondown', function (event) {
-        var model = document.getElementById('container');
         bButtonPressed = true;
-        if (gripButtonPressed) {
-          checkButtons();
+        if (!gripButtonPressed) {
+
         } else {
           moveLocation(destination2);
-          model.setAttribute('position', initialPosition);
+          document.getElementById('container').setAttribute('position', initialPosition);
           var head = document.getElementById('head');
           if (head) {
-              bButtonRotation = Object.assign({}, head.getAttribute('rotation'));
+            bButtonRotation = Object.assign({}, head.getAttribute('rotation'));
           }
         }
       });
@@ -444,7 +460,7 @@
         isAllVisible = !isAllVisible;
       }
 
-      function checkButtons() {
+      function switchLocations() {
         if (gripButtonPressed && bButtonPressed) {
           toggleLocations();
         }
