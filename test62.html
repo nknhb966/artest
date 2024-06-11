@@ -248,9 +248,6 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
-<a-entity id="deltaRotationDisplay" position="0 1.6 -1" text="value: deltaRotation: ; color: black;"></a-entity>
-<a-entity id="restartRotationDisplay" position="0 1.5 -1" text="value: restartRotation: ; color: black;"></a-entity>
-<a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
 
       <!-- scene geometry -->
       <a-assets>
@@ -336,7 +333,7 @@
         <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
 
         <!-- VRとARで異なる -->
-        <a-entity id="destination1" position="0 0 -10" rotation="0 180 0"></a-entity> 
+        <a-entity id="destination1" position="0 10 0" rotation="0 0 0"></a-entity> 
         <a-entity id="destination2" position="0 0 0" rotation="0 0 0"></a-entity>
 
         <!-- VRのみ設定（テレポート系） -->
@@ -563,23 +560,7 @@
               velocity.z = 0;
             }
           }
-this.updateDisplay();
-        },
-  updateDisplay: function() {
-    var deltaRotationDisplay = document.getElementById('deltaRotationDisplay');
-    var restartRotationDisplay = document.getElementById('restartRotationDisplay');
-    var currentRotationDisplay = document.getElementById('currentRotationDisplay');
-    
-    if (deltaRotationDisplay) {
-      deltaRotationDisplay.setAttribute('text', 'value', `deltaRotation: x=${deltaRotation.x.toFixed(2)}, y=${deltaRotation.y.toFixed(2)}, z=${deltaRotation.z.toFixed(2)}`);
-    }
-    if (restartRotationDisplay) {
-      restartRotationDisplay.setAttribute('text', 'value', `restartRotation: x=${restartRotation.x.toFixed(2)}, y=${restartRotation.y.toFixed(2)}, z=${restartRotation.z.toFixed(2)}`);
-    }
-    if (currentRotationDisplay) {
-      currentRotationDisplay.setAttribute('text', 'value', `Current Rotation: x=${currentRotation.x.toFixed(2)}, y=${currentRotation.y.toFixed(2)}, z=${currentRotation.z.toFixed(2)}`);
-    }
-  }
+        }
       });
 
       function updateModelMovement() {
