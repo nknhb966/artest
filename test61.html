@@ -464,6 +464,10 @@
           toggleVisibility();
         } else {
           toggleLocations();
+          var head = document.getElementById('head');
+          if (head) {
+            restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
         }
       });
       
