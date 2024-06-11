@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>越前国府発掘プロジェクトVR</title>
+    <title>1越前国府発掘プロジェクトVR</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script> <!-- VRとARでバージョン異なる -->
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script> <!-- VRとARで異なる -->
@@ -361,6 +361,11 @@
       function moveLocation(destination) {
         const cursorTeleport = cameraRig.components['cursor-teleport'];
         cursorTeleport.teleportTo(destination.object3D.position, destination.object3D.quaternion); 
+        var head = document.getElementById('head');
+        if (head) {
+          restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          restartRotation.y += destination.object3D.rotation.y;
+        }
       }
 
       function showAll() {
@@ -445,10 +450,6 @@
         } else {
           moveLocation(destination2);
           document.getElementById('container').setAttribute('position', initialPosition);
-          var head = document.getElementById('head');
-          if (head) {
-            restartRotation = Object.assign({}, head.getAttribute('rotation'));
-          }
         }
       });
       
@@ -471,10 +472,6 @@
           toggleVisibility();
         } else {
           toggleLocations();
-          var head = document.getElementById('head');
-          if (head) {
-            restartRotation = Object.assign({}, head.getAttribute('rotation'));
-          }
         }
       });
       
@@ -489,10 +486,6 @@
         } else {
           moveLocation(destination2);
           document.getElementById('container').setAttribute('position', initialPosition);
-          var head = document.getElementById('head');
-          if (head) {
-            restartRotation = Object.assign({}, head.getAttribute('rotation'));
-          }
         }
       });
       
