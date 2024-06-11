@@ -6,9 +6,36 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script> <!-- VRとARでバージョン異なる -->
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-cursor-teleport@1.5.0/dist/aframe-cursor-teleport-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script> <!-- VRとARで異なる -->
+    <style>
+      .circle {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        position: absolute;
+        right: 10%;
+        transform: translate(50%, -50%);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 10000;
+        user-select: none;
+      }
+      .circle.num0 {
+        top: 20%;
+      }
+    </style>
   </head>
  
   <body>
+
+
+    <div id="container-circle">
+      <div class="circle num0" onclick="toggleLocations()">Start</div>
+    </div>
+
     <script>
       const sizeMultiplier = 15; // VRとARで異なる
       
@@ -364,7 +391,7 @@
         var head = document.getElementById('head');
         if (head) {
           restartRotation = Object.assign({}, head.getAttribute('rotation'));
-          restartRotation.y += destination.object3D.quaternion.y;
+          restartRotation.y += destination.object3D.rotation.y * 180 / Math.PI;
         }
       }
 
