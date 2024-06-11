@@ -391,7 +391,10 @@
         var head = document.getElementById('head');
         if (head) {
           restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          console.log(restartRotation.y);
           restartRotation.y += destination.object3D.rotation.y * 180 / Math.PI;
+          console.log(destination.object3D.rotation.y * 180 / Math.PI);
+          console.log(restartRotation.y);
         }
       }
 
