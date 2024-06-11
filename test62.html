@@ -248,6 +248,9 @@
     </script>
 
     <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;">
+<a-entity id="deltaRotationDisplay" position="0 1.6 -1" text="value: deltaRotation: ; color: black;"></a-entity>
+<a-entity id="restartRotationDisplay" position="0 1.5 -1" text="value: restartRotation: ; color: black;"></a-entity>
+<a-entity id="currentRotationDisplay" position="0 1.4 -1" text="value: Current Rotation: ; color: black;"></a-entity>
 
       <!-- scene geometry -->
       <a-assets>
@@ -276,7 +279,7 @@
       </a-entity>
 
       <!-- ui element -->
-      <a-entity id="container" position="-7 0 -0." rotation="0 0 0" move-model> <!-- 初期位置の設定、VRとARで異なる　初期設定時：position="0 0 0"が望ましい -->
+      <a-entity id="container" position="0 0 -7.3" rotation="0 -90 0" move-model> <!-- 初期位置の設定、VRとARで異なる　初期設定時：position="0 0 0" rotation="0 0 0"が望ましい -->
         <a-entity class="clickable" spawn-sphere1 geometry="primitive: sphere" position="1.5 0.8 -0.5" material="color: white"></a-entity>
         <a-entity class="clickable" spawn-sphere2 geometry="primitive: sphere" position="2.2 0.8 1.8" material="color: aqua"></a-entity>
         <a-entity class="clickable" spawn-sphere3 geometry="primitive: sphere" position="4.1 0.8 -0.5" material="color: white"></a-entity>
@@ -332,9 +335,9 @@
         <a-entity id="box3" geometry="primitive: box" material="color: white; opacity: 0.8" position="4 0 3.1" scale="0.75 1.5 0" animation="property: position; to: 4 0 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
         <a-entity id="boxtext3" gltf-model="#text-asset3" position="4 0.9 3.1" scale="0.15 0.15 0.15" animation="property: position; to: 4 0.9 -2.7; dur: 5000; easing: linear; dir: alternate; loop: true" visible="false"></a-entity>
 
-        <!-- VRとARで異なる　初期設定時：destination1はposition="10 10 0"が望ましい -->
-        <a-entity id="destination1" position="3 10 0" rotation="0 90 0"></a-entity> 
-        <a-entity id="destination2" position="0 0 0" rotation="0 90 0"></a-entity>
+        <!-- VRとARで異なる -->
+        <a-entity id="destination1" position="0 0 -10" rotation="0 180 0"></a-entity> 
+        <a-entity id="destination2" position="0 0 0" rotation="0 0 0"></a-entity>
 
         <!-- VRのみ設定（テレポート系） -->
         <a-entity class="collision" position="0 0 0" rotation="-90 0 0" geometry="primitive: plane; width: 18; height: 8" material="color: aqua; opacity: 0."></a-entity>
@@ -392,9 +395,111 @@
         });
       }
 
-      let isAllVisible = false;
-
       // 以下、VRとARで異なる
+      let isAllVisible = false;
+      let isLocationSwitch = false;
+      let gripButtonPressedR = false;
+      let aButtonPressedR = false;
+      let bButtonPressedR = false;
+      let gripButtonPressedL = false;
+      let xButtonPressedL = false;
+      let yButtonPressedL = false;
+      var initialPosition = {x: 0, y: 0, z: -7.3};
+      var currentRotation = {x: 0, y: 0, z: 0};
+      var restartRotation = {x: 0, y: 0, z: 0};
+      var deltaRotation = {x: 0, y: 0, z: 0};
+      
+      const ctlR = document.getElementById("ctlR");
+      const ctlL = document.getElementById("ctlL");
+      
+      // 右手コントローラーイベントリスナー
+      ctlR.addEventListener('gripdown', function (event) {
+        gripButtonPressedR = true;
+      });
+      
+      ctlR.addEventListener('gripup', function (event) {
+        gripButtonPressedR = false;
+      });
+      
+      ctlR.addEventListener('abuttondown', function (event) {
+        aButtonPressedR = true;
+        if (!gripButtonPressedR) {
+          toggleVisibility();
+        } else {
+          toggleLocations();
+          var head = document.getElementById('head');
+          if (head) {
+            restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
+        }
+      });
+      
+      ctlR.addEventListener('abuttonup', function (event) {
+        aButtonPressedR = false;
+      });
+      
+      ctlR.addEventListener('bbuttondown', function (event) {
+        bButtonPressedR = true;
+        if (!gripButtonPressedR) {
+          // Bボタンのみ処理なし
+        } else {
+          moveLocation(destination2);
+          document.getElementById('container').setAttribute('position', initialPosition);
+          var head = document.getElementById('head');
+          if (head) {
+            restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
+        }
+      });
+      
+      ctlR.addEventListener('bbuttonup', function (event) {
+        bButtonPressedR = false;
+      });
+      
+      // 左手コントローラーイベントリスナー
+      ctlL.addEventListener('gripdown', function (event) {
+        gripButtonPressedL = true;
+      });
+      
+      ctlL.addEventListener('gripup', function (event) {
+        gripButtonPressedL = false;
+      });
+      
+      ctlL.addEventListener('xbuttondown', function (event) {
+        xButtonPressedL = true;
+        if (!gripButtonPressedL) {
+          toggleVisibility();
+        } else {
+          toggleLocations();
+          var head = document.getElementById('head');
+          if (head) {
+            restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
+        }
+      });
+      
+      ctlL.addEventListener('xbuttonup', function (event) {
+        xButtonPressedL = false;
+      });
+      
+      ctlL.addEventListener('ybuttondown', function (event) {
+        yButtonPressedL = true;
+        if (!gripButtonPressedL) {
+          // Yボタンのみ処理なし
+        } else {
+          moveLocation(destination2);
+          document.getElementById('container').setAttribute('position', initialPosition);
+          var head = document.getElementById('head');
+          if (head) {
+            restartRotation = Object.assign({}, head.getAttribute('rotation'));
+          }
+        }
+      });
+      
+      ctlL.addEventListener('ybuttonup', function (event) {
+        yButtonPressedL = false;
+      });
+      
       function toggleVisibility() {
         if (isAllVisible) {
           hideAll();
@@ -403,109 +508,96 @@
         }
         isAllVisible = !isAllVisible;
       }
-
-      let isLocationSwitch = false;
-
+      
       function toggleLocations() {
+        const panel1 = document.querySelector('#panel1');
+        const panel2 = document.querySelector('#panel2');
         if (isLocationSwitch) {
           moveLocation(destination2);
-          document.querySelector('#panel1').setAttribute('visible', 'true');
-          document.querySelector('#panel2').setAttribute('visible', 'true');
+          if (panel1) panel1.setAttribute('visible', 'true');
+          if (panel2) panel2.setAttribute('visible', 'true');
         } else {
           moveLocation(destination1);
-          document.querySelector('#panel1').setAttribute('visible', 'false');
-          document.querySelector('#panel2').setAttribute('visible', 'false');
+          if (panel1) panel1.setAttribute('visible', 'false');
+          if (panel2) panel2.setAttribute('visible', 'false');
         }
         isLocationSwitch = !isLocationSwitch;
-      }
-
-      const ctlR = document.getElementById("ctlR");
-
-      ctlR.addEventListener('abuttondown', function (event) {
-        toggleVisibility();
-      });
-
-      let gripButtonPressed = false;
-      let bButtonPressed = false;
-
-      ctlR.addEventListener('gripdown', function (event) {
-        gripButtonPressed = true;
-        checkButtons();
-      });
-
-      ctlR.addEventListener('gripup', function (event) {
-        gripButtonPressed = false;
-      });
-      
-      ctlR.addEventListener('bbuttondown', function (event) {
-        var model = document.getElementById('container');
-        bButtonPressed = true;
-        if (gripButtonPressed) {
-          checkButtons();
-        } else {
-          moveLocation(destination2);
-          model.setAttribute('position', initialPosition);
-        }
-      });
-      
-      ctlR.addEventListener('bbuttonup', function (event) {
-        bButtonPressed = false;
-      });
-
-      function checkButtons() {
-        if (gripButtonPressed && bButtonPressed) {
-          toggleLocations();
-        }
       }
     </script>
 
     <script>
       var velocity = {x: 0, y: 0, z: 0};
-      var acceleration = 0.005;
-      var deceleration = 0.002;
-      var maxVelocity = 0.010;
+      var acceleration = 0.02;
+      var deceleration = 0.008;
+      var maxVelocity = 0.040;
       var shouldStop = true;
-      var initialPosition = {x: -7, y: 0, z: 0};
 
       AFRAME.registerComponent('thumbstick-logging', {
         init: function () {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));       
         },
 
         logThumbstick: function (event) {
-          if (event.detail.x == 0) {
-            velocity.z = 0;
-            shouldStop = true;
-          } else if (event.detail.x > 0.8) {
-            velocity.z += acceleration;
-            shouldStop = false;
-          } else if (event.detail.x < -0.8) {
-            velocity.z -= acceleration;
-            shouldStop = false;
+          var head = document.getElementById('head');
+          if (head) {
+            currentRotation = head.getAttribute('rotation');
           }
-          if (event.detail.y == 0) {
-            velocity.x = 0;
+
+          if (event.detail.x == 0 && event.detail.y == 0) {
+            velocity = {x: 0, y: 0, z: 0};
             shouldStop = true;
-          } else if (event.detail.y > 0.8) {
-            velocity.x -= acceleration;
+          } else {
             shouldStop = false;
-          } else if (event.detail.y < -0.8) {
-            velocity.x += acceleration;
-            shouldStop = false;
+
+            // X軸のスティック入力に基づいて移動速度を設定
+            if (event.detail.x > 0.1 || event.detail.x < -0.1) {
+              velocity.x = - event.detail.x * acceleration;
+            } else {
+              velocity.x = 0;
+            }
+
+            // Y軸のスティック入力に基づいて移動速度を設定
+            if (event.detail.y > 0.1 || event.detail.y < -0.1) {
+              velocity.z = - event.detail.y * acceleration;
+            } else {
+              velocity.z = 0;
+            }
           }
-        }
+this.updateDisplay();
+        },
+  updateDisplay: function() {
+    var deltaRotationDisplay = document.getElementById('deltaRotationDisplay');
+    var restartRotationDisplay = document.getElementById('restartRotationDisplay');
+    var currentRotationDisplay = document.getElementById('currentRotationDisplay');
+    
+    if (deltaRotationDisplay) {
+      deltaRotationDisplay.setAttribute('text', 'value', `deltaRotation: x=${deltaRotation.x.toFixed(2)}, y=${deltaRotation.y.toFixed(2)}, z=${deltaRotation.z.toFixed(2)}`);
+    }
+    if (restartRotationDisplay) {
+      restartRotationDisplay.setAttribute('text', 'value', `restartRotation: x=${restartRotation.x.toFixed(2)}, y=${restartRotation.y.toFixed(2)}, z=${restartRotation.z.toFixed(2)}`);
+    }
+    if (currentRotationDisplay) {
+      currentRotationDisplay.setAttribute('text', 'value', `Current Rotation: x=${currentRotation.x.toFixed(2)}, y=${currentRotation.y.toFixed(2)}, z=${currentRotation.z.toFixed(2)}`);
+    }
+  }
       });
 
       function updateModelMovement() {
         var model = document.getElementById('container');
         var currentPosition = model.getAttribute('position');
-      
+        var head = document.getElementById('head');
+        
+        // 現在の回転を取得
+        if (head) {
+          currentRotation = head.getAttribute('rotation');
+        }
+
         if (shouldStop) {
           velocity = {x: 0, y: 0, z: 0};
           model.setAttribute('position', currentPosition);
           return;
         }
-      
+
         // 速度の減衰、最大速度の制御など
         if (velocity.x > 0) {
           velocity.x -= deceleration;
@@ -531,7 +623,7 @@
             velocity.z = 0;
           }
         }
-        
+
         // 速度が最大速度を超えないように制御
         var speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
         if (speed > maxVelocity) {
@@ -539,12 +631,24 @@
           velocity.x *= ratio;
           velocity.z *= ratio;
         }
-      
+
+        // deltaRotationを計算
+        deltaRotation.x = currentRotation.x - restartRotation.x;
+        deltaRotation.y = currentRotation.y - restartRotation.y;
+        deltaRotation.z = currentRotation.z - restartRotation.z;
+          
+        // 現在の回転をラジアンに変換
+        var rad = deltaRotation.y * Math.PI / 180;
+
+        // currentRotationの向きに基づいて進行方向を計算
+        var directionX = velocity.x * Math.cos(rad) + velocity.z * Math.sin(rad);
+        var directionZ = - velocity.x * Math.sin(rad) + velocity.z * Math.cos(rad);
+
         // 位置の更新
         model.setAttribute('position', {
-          x: currentPosition.x + velocity.x,
-          y: currentPosition.y + velocity.y,
-          z: currentPosition.z + velocity.z
+          x: currentPosition.x + directionX,
+          y: currentPosition.y,
+          z: currentPosition.z + directionZ
         });
       }
 
