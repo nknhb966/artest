@@ -1,9 +1,9 @@
+
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ロケーションベースTest7</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -121,7 +121,7 @@
             <a-asset-item id="arrow-asset" src="https://code4fukui.github.io/vr-dinosaur-museum/arrow.glb"></a-asset-item>
         </a-assets>
         <a-entity id="modelContainer">
-          <a-camera gps-new-camera rotation-reader></a-camera>
+          <a-camera gps-camera rotation-reader></a-camera>
           <a-entity cursor="rayOrigin: mouse"></a-entity>
         </a-entity>
     </a-scene>
@@ -265,19 +265,19 @@ const targetPosition2 = `
           if (selectedIndex === -1) {
               selectedLocation = locationsSet[locationsSet.length - 1];
               if (currentLatitude !== null && currentLongitude !== null) {
-                  modelEntity.setAttribute("gps-new-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
+                  modelEntity.setAttribute("gps-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
               } else {
                   // 現在の位置情報がまだ取得されていない場合は、再度取得する
                   navigator.geolocation.getCurrentPosition(position => {
                       currentLatitude = position.coords.latitude;
                       currentLongitude = position.coords.longitude;
-                      modelEntity.setAttribute("gps-new-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
+                      modelEntity.setAttribute("gps-entity-place", `latitude: ${currentLatitude}; longitude: ${currentLongitude};`);
                   });
               }
           } else {
               // 選択されたモデルを追加
               selectedLocation = locationsSet[selectedIndex];
-              modelEntity.setAttribute('gps-new-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
+              modelEntity.setAttribute('gps-entity-place', `latitude: ${selectedLocation.latitude}; longitude: ${selectedLocation.longitude};`);
           }
           if (os === "iphone") {
               modelEntity.innerHTML = targetPosition1;
